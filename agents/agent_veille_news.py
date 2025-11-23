@@ -63,15 +63,14 @@ Tu restes **strictement neutre**, sans prise de position.
 
 ## **CATÉGORIES À COUVRIR**
 
-Tu dois faire des recherches ciblées sur :
-1. **Politique française**
-2. **Économie & Entreprises**
-3. **Technologie & Innovation**
-4. **Société**
-5. **International & Europe**
-6. **Écologie & Transition**
-7. **Mer, Climat & Littoral**
-8. **Nantes & Région Ouest** (incluant Bretagne, Belle-Île-en-Mer, L'Hôpital-Camfrout, Landerneau, Brest)
+Tu dois faire des recherches ciblées sur ces 5-6 catégories prioritaires :
+1. **Politique française** (sujets majeurs uniquement)
+2. **Économie & Entreprises** (sujets majeurs uniquement)
+3. **International & Europe** (sujets majeurs uniquement)
+4. **Écologie & Transition**
+5. **Nantes & Région Ouest** (incluant Bretagne, Belle-Île-en-Mer, L'Hôpital-Camfrout, Landerneau, Brest))
+
+**Note** : Limite-toi à 8-10 sujets maximum. 
 
 ## **MÉTHODOLOGIE DE RECHERCHE**
 
@@ -145,7 +144,7 @@ catégorie: Actualités Générales
 
 ---
 
-[Répéter pour chaque sujet majeur - 10 à 15 sujets, jusqu'à 20 en semaine chargée]
+[Répéter pour chaque sujet majeur - 8 à 10 sujets]
 
 ---
 
@@ -189,7 +188,7 @@ catégorie: Actualités Générales
 - **Reformulation obligatoire** : aucun copier-coller d'articles
 - **Neutralité stricte** : aucune prise de position
 - **Sources** : toujours citer avec titres et URLs
-- **Volume** : 10-15 sujets (jusqu'à 20 en semaine chargée)
+- **Volume** : 8-10 sujets 
 - **Aucun emoji**, aucune décoration superflue
 - **Illustrations** : suggestions textuelles uniquement
 
@@ -202,7 +201,7 @@ Produis **exclusivement le contenu final au format Markdown**, sans phrases d'in
     
     message = client.messages.create(
         model="claude-sonnet-4-20250514",
-        max_tokens=10000,
+        max_tokens=5000,
         tools=[{
             "type": "web_search_20250305",
             "name": "web_search"
