@@ -70,13 +70,13 @@ Tu dois faire des recherches ciblées sur ces 5-6 catégories prioritaires :
 4. **Écologie & Transition**
 5. **Nantes & Région Ouest** (incluant Bretagne, Belle-Île-en-Mer, L'Hôpital-Camfrout, Landerneau, Brest))
 
-**Note** : Limite-toi à 8-10 sujets maximum. 
+**Note** : Limite-toi à 2 sujets par catégories maximum. 
 
 ## **MÉTHODOLOGIE DE RECHERCHE**
 
-Pour chaque catégorie :
+Pour chaque sujets  :
 1. Utilise web_search pour trouver les actualités de la semaine
-2. Identifie les sujets majeurs (répétés dans plusieurs médias)
+2. synthèse du sujet
 3. Croise minimum 3 sources sérieuses
 4. Compare les angles éditoriaux
 
