@@ -1,6 +1,12 @@
 {
-  "semaine_actuelle": 1,
-  "cycle": ["layout", "couleurs", "typographie", "visualisation", "animations"],
+  "semaine_actuelle": 2,
+  "cycle": [
+    "layout",
+    "couleurs",
+    "typographie",
+    "visualisation",
+    "animations"
+  ],
   "preferences": {
     "j_aime": [],
     "rejete": [],

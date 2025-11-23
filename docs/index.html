@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veille Hebdomadaire - Édition Atlantique & Tensor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #0066cc;
+            --secondary-purple: #6366f1;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --bg-hover: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --gradient-1: linear-gradient(135deg, var(--primary-blue), var(--secondary-purple));
+            --gradient-2: linear-gradient(135deg, var(--accent-green), var(--primary-blue));
+            --gradient-3: linear-gradient(135deg, var(--accent-orange), var(--accent-green));
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .test-banner {
+            background: var(--gradient-1);
+            padding: 8px 0;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            padding: 60px 0 40px;
+            text-align: center;
+            background: radial-gradient(ellipse at top, rgba(99, 102, 241, 0.1), transparent);
+        }
+
+        .header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .week-info {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--bg-card);
+            padding: 12px 24px;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+            margin-top: 20px;
+        }
+
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .tabs {
+            display: flex;
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .tab {
+            padding: 12px 32px;
+            border: none;
+            background: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab.active {
+            background: var(--gradient-1);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        .tab:hover:not(.active) {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .content {
+            margin: 40px 0;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .masonry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+
+        .section-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .section-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .section-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--secondary-purple);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .card-subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .card-summary {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .card-footer {
+            padding: 20px 24px;
+            background: rgba(99, 102, 241, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sources-count {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .expand-indicator {
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .expand-indicator:hover {
+            transform: scale(1.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: var(--bg-dark);
+            max-width: 900px;
+            margin: 40px auto;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            position: relative;
+            animation: modalSlideIn 0.4s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(50px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .modal-header {
+            padding: 32px;
+            border-bottom: 1px solid var(--border);
+            background: var(--gradient-1);
+            color: white;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .modal-body {
+            padding: 32px;
+            color: var(--text-primary);
+        }
+
+        .modal-body h3 {
+            color: var(--secondary-purple);
+            margin: 24px 0 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .modal-body h4 {
+            color: var(--accent-green);
+            margin: 20px 0 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .modal-body p {
+            margin: 16px 0;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .modal-body ul {
+            margin: 16px 0;
+            padding-left: 20px;
+        }
+
+        .modal-body li {
+            margin: 8px 0;
+            color: var(--text-secondary);
+        }
+
+        .modal-body strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .modal-body a {
+            color: var(--accent-green);
+            text-decoration: none;
+            word-break: break-all;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        .modal-body a:hover {
+            text-decoration: underline;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .intro-section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 40px 0;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intro-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-2);
+        }
+
+        .intro-section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .intro-section p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        @media (max-width: 768px) {
+            .masonry-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tabs {
+                width: 100%;
+            }
+            
+            .tab {
+                flex: 1;
+                text-align: center;
+                padding: 12px 16px;
+            }
+
+            .modal {
+                padding: 10px;
+            }
+
+            .modal-content {
+                margin: 20px auto;
+            }
+
+            .modal-header, .modal-body {
+                padding: 20px;
+            }
+        }
+
+        .highlight-box {
+            background: rgba(99, 102, 241, 0.1);
+            border-left: 4px solid var(--secondary-purple);
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .source-box {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid var(--border);
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--gradient-3);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin: 4px 4px 4px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-banner">
+        🎨 Test de cette semaine : LAYOUT - Masonry Grid & Modal Design
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1>Veille Hebdomadaire</h1>
+            <p>Semaine du 16/11/2025 au 23/11/2025</p>
+            <div class="week-info">
+                <span>📅 Semaine n°1</span>
+                <span>•</span>
+                <span>🧪 Test LAYOUT</span>
+            </div>
+        </header>
+
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('veille-ia')">
+                    🤖 Veille IA
+                </button>
+                <button class="tab" onclick="switchTab('veille-actualites')">
+                    📰 Veille Actualités
+                </button>
+            </div>
+        </div>
+
+        <div class="content">
+            <div id="veille-ia" class="tab-content active">
+                <div class="intro-section">
+                    <h2>🔮 Édition Tensor</h2>
+                    <p>Cette semaine marque un tournant décisif avec l'arrivée de Gemini 3 de Google, le lancement des modèles de sécurité GPT-OSS-SafeGuard d'OpenAI et l'annonce de l'assouplissement de l'AI Act européen. Parallèlement, l'acquisition de NeuralFabric par Cisco illustre la consolidation du marché des LLM d'entreprise, tandis que des recherches révèlent les limites cognitives des chatbots actuels.</p>
+                </div>
+
+                <div class="masonry-grid" id="ia-grid">
+                    <!-- Les sections IA seront insérées ici par JavaScript -->
+                </div>
+            </div>
+
+            <div id="veille-actualites" class="tab-content">
+                <div class="intro-section">
+                    <h2>🌊 Édition Atlantique</h2>
+                    <p>Cette semaine du 16 au 23 novembre s'est révélée particulièrement dense en événements structurants. Le gouvernement français fait face à une crise budgétaire majeure avec le rejet sans précédent du projet de loi de finances par l'Assemblée, tandis que les entreprises tentent de se mobiliser pour la compétitivité à travers la Semaine de l'industrie et le sommet Choose France.</p>
+                </div>
+
+                <div class="masonry-grid" id="actu-grid">
+                    <!-- Les sections actualités seront insérées ici par JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">×</button>
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title"></h2>
+                <p class="modal-subtitle" id="modal-subtitle"></p>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+        const veilleIA = {
+            sections: [
+                {
+                    title: "Gemini 3 révolutionne l'expérience utilisateur",
+                    category: "Nouveautés technologiques & nouvelles approches",
+                    summary: "Google a lancé Gemini 3 le 18 novembre 2025, son modèle le plus intelligent combinant toutes les capacités Gemini en un système unifié avec des interfaces génératives révolutionnaires.",
+                    sources: 3,
+                    content: `
+# **Nouveautés technologiques & nouvelles approches – Gemini 3 révolutionne l'expérience utilisateur**
+
+## **Résumé**
+Google a lancé Gemini 3 le 18 novembre 2025, son modèle le plus intelligent combinant toutes les capacités Gemini en un système unifié. Gemini 3 Pro est immédiatement disponible dans l'application Gemini et les produits Google, marquant une approche radicalement différente des concurrents avec des "interfaces génératives" présentant les réponses sous forme de magazines numériques colorés avec images, tableaux et grilles.
+
+## **Points de vue croisés**
+
+**Source 1 – TechCrunch**
+TechCrunch souligne que Gemini 3 est le modèle le plus capable de Google et un concurrent immédiat pour l'outil IA le plus performant du marché, rappelant que la sortie intervient moins d'une semaine après GPT 5.1 d'OpenAI.
+
+**Source 2 – CNBC**
+CNBC met l'accent sur l'aspect utilisateur, notant que le nouveau modèle permettra d'obtenir de meilleures réponses à des questions complexes "avec moins de sollicitation" et qu'il est "construit pour saisir la profondeur et les nuances".
+
+**Source 3 – InfoQ**
+InfoQ adopte une perspective technique, précisant que Gemini 3 fixe de nouveaux standards pour l'IA multimodale avec des scores state-of-the-art sur de nombreux benchmarks publics, y compris les tâches de raisonnement scientifique.
+
+## **Fiabilité & signaux faibles**
+- Le mode Gemini 3 Deepthink ne sera disponible qu'après des tests de sécurité supplémentaires
+- Google Antigravity, la plateforme de développement agentic, transforme l'assistance IA d'un outil en partenaire actif avec accès direct à l'éditeur, terminal et navigateur
+- La stratégie d'intégration immédiate dans la recherche Google pourrait redéfinir le SEO
+
+## **Sources**
+- Gemini 3: Introducing the latest Gemini AI model from Google – https://blog.google/products/gemini/gemini-3/
+- Google launches Gemini 3 with new coding app and record benchmark scores – https://techcrunch.com/2025/11/18/google-launches-gemini-3-with-new-coding-app-and-record-benchmark-scores/
+- Google Announces Gemini 3 - InfoQ – https://www.infoq.com/news/2025/11/google-gemini-3/
+                    `
+                },
+                {
+                    title: "OpenAI dévoile ses modèles de sécurité open source",
+                    category: "Modèles & Publications LLM",
+                    summary: "OpenAI a publié GPT-OSS-SafeGuard, des modèles de raisonnement open-weight pour les tâches de classification de sécurité, disponibles en versions 120b et 20b sous licence Apache 2.0 permissive.",
+                    sources: 3,
+                    content: `
+# **Modèles & Publications LLM – OpenAI dévoile ses modèles de sécurité open source**
+
+## **Résumé** 
+OpenAI a publié GPT-OSS-SafeGuard, des modèles de raisonnement open-weight pour les tâches de classification de sécurité, disponibles en versions 120b et 20b sous licence Apache 2.0 permissive. Ces modèles utilisent le raisonnement pour interpréter directement une politique fournie par le développeur au moment de l'inférence, permettant aux développeurs de définir leurs propres politiques de sécurité.
+
+## **Points de vue croisés**
+
+**Source 1 – OpenAI Blog**
+OpenAI positionne cette approche basée sur le raisonnement comme particulièrement efficace dans les situations où les dommages potentiels évoluent rapidement et où les domaines sont très nuancés, difficiles à gérer pour des classificateurs plus petits.
+
+**Source 2 – Fortune**
+Fortune adopte un ton plus critique, soulignant que les experts en sécurité estiment que ces outils pourraient donner un faux sentiment de sécurité car OpenAI a rendu les classificateurs open source, partageant ainsi les "plans" de ces portes de sécurité.
+
+**Source 3 – MarkTechPost**
+MarkTechPost révèle que GPT-OSS-SafeGuard est une implémentation open-weight du Safety Reasoner utilisé en interne par OpenAI dans des systèmes comme GPT 5, ChatGPT Agent et Sora 2.
+
+## **Fiabilité & signaux faibles**
+- En production, OpenAI utilise des filtres à haute sensibilité d'abord, puis escalade les éléments incertains vers un modèle de raisonnement, avec jusqu'à 16% du calcul total consacré au raisonnement de sécurité dans les récents lancements
+- Risque que l'open-sourcing permette aux attaquants d'étudier et contourner ces protections, rendant potentiellement tous les modèles IA moins sécurisés
+- Première fois qu'OpenAI publie ses mécanismes internes de sécurité
+
+## **Sources**
+- Introducing gpt-oss-safeguard – https://openai.com/index/introducing-gpt-oss-safeguard/
+- OpenAI's new AI safety tools could give a false sense of security – https://fortune.com/2025/11/05/openai-open-source-safety-classifiers-enterprise-ai-false-sense-security/
+- OpenAI Releases Research Preview of 'gpt-oss-safeguard' – https://www.marktechpost.com/2025/10/31/openai-releases-research-preview-of-gpt-oss-safeguard-two-open-weight-reasoning-models-for-safety-classification-tasks/
+                    `
+                },
+                {
+                    title: "DeepSeek maintient son leadership",
+                    category: "Open Source & Écosystèmes",
+                    summary: "DeepSeek a publié plusieurs mises à jour majeures incluant DeepSeek-V3-0324 et DeepSeek-R1-0528, culminant avec DeepSeek V3.1 en août 2025, un modèle hybride de 671B paramètres.",
+                    sources: 3,
+                    content: `
+# **Open Source & Écosystèmes – DeepSeek maintient son leadership avec de nouvelles versions**
+
+## **Résumé**
+DeepSeek a publié en mars 2025 DeepSeek-V3-0324, une mise à jour puissante utilisant le même modèle de base que DeepSeek-V3 mais avec un pipeline de post-entraînement amélioré, tirant les leçons des techniques RL de DeepSeek-R1. En mai, DeepSeek-R1-0528 a été lancé comme une mise à niveau significative du modèle R1 original, poussant plus loin les capacités de raisonnement et d'inférence.
+
+## **Points de vue croisés**
+
+**Source 1 – BentoML**
+BentoML présente DeepSeek-V3.1 d'août 2025 comme une mise à jour majeure combinant les forces de V3 et R1 en un modèle hybride unique de 671B paramètres avec support de contextes jusqu'à 128K.
+
+**Source 2 – Wikipedia**
+Wikipedia confirme la sortie de DeepSeek V3.1 le 21 août 2025 avec une architecture hybride et des modes de pensée, surpassant les modèles précédents de plus de 40% sur certains benchmarks comme SWE-bench et Terminal-bench.
+
+**Source 3 – MIT Technology Review**
+MIT Technology Review rapporte que des physiciens quantiques de Multiverse Computing ont créé DeepSeek R1 Slim, une version 55% plus petite mais avec des performances quasi-identiques, tout en éliminant la censure chinoise officielle du modèle.
+
+## **Fiabilité & signaux faibles**
+- V3.1 peut basculer entre mode "thinking" (raisonnement chain-of-thought comme R1) et "non-thinking" (réponses directes comme V3) simplement en changeant le template de chat
+- Intérêt croissant pour supprimer la censure des modèles chinois, avec Perplexity qui a publié sa propre variante non-censurée nommée R1 1776
+- Tension entre performance technique et contraintes géopolitiques
+
+## **Sources**
+- The Complete Guide to DeepSeek Models: V3, R1, V3.1, V3.2 and Beyond – https://www.bentoml.com/blog/the-complete-guide-to-deepseek-models-from-v3-to-r1-and-beyond
+- DeepSeek - Wikipedia – https://en.wikipedia.org/wiki/DeepSeek
+- Quantum physicists have shrunk and "de-censored" DeepSeek R1 – https://www.technologyreview.com/2025/11/19/1128119/quantum-physicists-compress-and-deconsor-deepseekr1/
+                    `
+                },
+                {
+                    title: "Les limites cognitives des LLM révélées",
+                    category: "Recherche scientifique & papers",
+                    summary: "Une étude publiée dans PNAS Nexus révèle que les personnes utilisant un moteur de recherche traditionnel développent une connaissance plus profonde que celles qui se fient aux chatbots IA.",
+                    sources: 2,
+                    content: `
+# **Recherche scientifique & papers – Les limites cognitives des LLM révélées**
+
+## **Résumé**
+Une étude publiée dans PNAS Nexus révèle que les personnes utilisant un moteur de recherche traditionnel développent une connaissance plus profonde que celles qui se fient aux chatbots IA, même lorsque ChatGPT fournit des liens optionnels vers les sources originales. Parallèlement, OpenAI a développé un LLM expérimental transparent qui expose les mécanismes internes d'IA, aidant les chercheurs à comprendre pourquoi les modèles hallucinent et déraillent.
+
+## **Points de vue croisés**
+
+**Source 1 – Science News**
+Science News cite Shiri Melumad de l'Université de Pennsylvanie expliquant que "les LLM changent fondamentalement non seulement notre façon d'acquérir des informations mais notre façon de développer des connaissances", avec une facilité qui coûte le développement d'une connaissance plus profonde.
+
+**Source 2 – MIT Technology Review**
+MIT Technology Review présente le modèle weight-sparse transformer d'OpenAI comme bien moins capable que GPT-5 mais plus transparent, permettant de relier les neurones à des concepts et fonctions spécifiques.
+
+**Source 3 – Carnegie Mellon (via Science News)**
+Daniel Oppenheimer de Carnegie Mellon recadre le débat, suggérant que "les LLM réduisent la motivation pour que les gens fassent leur propre réflexion" plutôt que d'affirmer directement un apprentissage plus superficiel.
+
+## **Fiabilité & signaux faibles**
+- Seulement environ un quart des 800 participants de l'expérience "ChatGPT avec liens" étaient motivés à cliquer sur au moins un lien
+- Le nouveau modèle d'OpenAI permet de suivre les étapes exactes que le modèle prend, révélant des circuits qui correspondent exactement aux algorithmes qu'on implémenterait manuellement
+- Début d'une meilleure compréhension des mécanismes internes de l'IA
+
+## **Sources**
+- Chatbots may make learning feel easy — but it's superficial – https://www.sciencenews.org/article/ai-chatbots-learning-superficial-llm
+- OpenAI's new LLM exposes the secrets of how AI really works – https://www.technologyreview.com/2025/11/13/1127914/openais-new-llm-exposes-the-secrets-of-how-ai-really-works/
+                    `
+                },
+                {
+                    title: "L'UE assouplit l'AI Act face aux pressions",
+                    category: "Régulation & Gouvernance",
+                    summary: "Le 19 novembre 2025, la Commission européenne a publié son Digital Omnibus on AI, un paquet législatif conçu pour affiner et réaligner certaines dispositions de l'AI Act.",
+                    sources: 3,
+                    content: `
+# **Régulation & Gouvernance – L'UE assouplit l'AI Act face aux pressions**
+
+## **Résumé**
+Le 19 novembre 2025, la Commission européenne a publié son "Digital Omnibus on AI", un paquet législatif conçu pour affiner, simplifier et réaligner certaines dispositions de l'AI Act, visant à réduire
