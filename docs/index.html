@@ -3,227 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veille Semaine #2 - Style Comics</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers:wght@400&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <title>Veille NLI - Style Comics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
-            font-family: 'Comic Neue', cursive;
-            background: linear-gradient(45deg, #FFE066, #FF6B35, #F7931E, #FFE066);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            overflow-x: hidden;
         }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
+        
+        /* Menu latéral */
         .sidebar {
             position: fixed;
             left: 0;
             top: 0;
             width: 40px;
             height: 100vh;
-            background: linear-gradient(180deg, #1a1a2e, #16213e, #0f3460);
-            z-index: 1000;
+            background: #1a1a2e;
             display: flex;
             flex-direction: column;
-            border-right: 3px solid #FFD700;
+            align-items: center;
+            padding-top: 20px;
+            gap: 20px;
+            z-index: 1000;
         }
-
+        
         .sidebar-btn {
-            flex: 1;
-            background: none;
+            width: 35px;
+            height: 80px;
+            background: #e94560;
             border: none;
-            color: #FFD700;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
             writing-mode: vertical-rl;
             text-orientation: mixed;
-            font-family: 'Bangers', cursive;
-            font-size: 14px;
-            letter-spacing: 2px;
-            border-bottom: 2px solid #FFD700;
+            color: white;
+            font-weight: bold;
+            font-size: 10px;
+            padding: 5px;
         }
-
+        
         .sidebar-btn:hover {
-            background: #FFD700;
-            color: #1a1a2e;
+            background: #ff6b6b;
             transform: scale(1.05);
         }
-
+        
         .sidebar-btn.active {
-            background: #FF6B35;
-            color: white;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            background: #4ecdc4;
         }
-
-        .main-content {
+        
+        /* Container principal */
+        .container {
             margin-left: 50px;
             padding: 20px;
-            min-height: 100vh;
+            max-width: 1400px;
         }
-
+        
+        /* Header */
         .header {
-            text-align: center;
-            margin-bottom: 30px;
-            transform: rotate(-2deg);
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
-
+        
         .header h1 {
             font-family: 'Bangers', cursive;
-            font-size: 3.5rem;
+            font-size: 2em;
             color: #1a1a2e;
-            text-shadow: 4px 4px 0px #FFD700, 8px 8px 0px #FF6B35;
-            margin-bottom: 10px;
-            animation: bounce 2s infinite;
+            margin-bottom: 5px;
         }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0) rotate(-2deg); }
-            40% { transform: translateY(-10px) rotate(-2deg); }
-            60% { transform: translateY(-5px) rotate(-2deg); }
+        
+        .style-info {
+            font-size: 0.9em;
+            color: #666;
         }
-
-        .header .subtitle {
-            font-family: 'Comic Neue', cursive;
-            font-size: 1.2rem;
-            color: #1a1a2e;
-            font-weight: bold;
-            background: white;
-            padding: 8px 16px;
-            border-radius: 25px;
-            display: inline-block;
-            border: 3px solid #FF6B35;
-            transform: rotate(1deg);
-        }
-
-        .comics-grid {
+        
+        /* Grille de cases */
+        .grid {
             display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            grid-template-rows: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            min-height: 600px;
+            margin-bottom: 30px;
         }
-
-        .comic-panel {
+        
+        /* Case type BD */
+        .card {
             background: white;
             border: 4px solid #1a1a2e;
             border-radius: 15px;
             padding: 20px;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.2);
+            transition: all 0.3s;
             cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 8px 8px 0px #FFD700;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-
-        .comic-panel:hover {
-            transform: scale(1.05) rotate(2deg);
-            box-shadow: 12px 12px 0px #FF6B35;
-            animation: shake 0.5s infinite;
+        
+        .card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 12px 12px 0 rgba(0,0,0,0.3);
         }
-
-        @keyframes shake {
-            0%, 100% { transform: scale(1.05) rotate(2deg); }
-            25% { transform: scale(1.05) rotate(1deg); }
-            75% { transform: scale(1.05) rotate(3deg); }
+        
+        .card-icon {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 10px;
         }
-
-        .comic-panel:nth-child(1) { transform: rotate(-1deg); }
-        .comic-panel:nth-child(2) { transform: rotate(2deg); grid-row: span 2; }
-        .comic-panel:nth-child(3) { transform: rotate(1deg); }
-        .comic-panel:nth-child(4) { transform: rotate(-2deg); grid-row: span 2; }
-        .comic-panel:nth-child(5) { transform: rotate(2deg); }
-        .comic-panel:nth-child(6) { transform: rotate(-1deg); }
-
-        .panel-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            display: block;
-            filter: drop-shadow(2px 2px 0px #FFD700);
-        }
-
-        .panel-title {
+        
+        .card-title {
             font-family: 'Bangers', cursive;
-            font-size: 1.4rem;
+            font-size: 1.3em;
             color: #1a1a2e;
+            text-align: center;
             margin-bottom: 15px;
             line-height: 1.2;
-            text-shadow: 1px 1px 0px #FFD700;
         }
-
-        .read-more {
-            background: linear-gradient(45deg, #FF6B35, #F7931E);
+        
+        .card-btn {
+            background: #e94560;
             color: white;
             border: none;
             padding: 10px 20px;
-            border-radius: 25px;
-            font-family: 'Bangers', cursive;
-            font-size: 1.1rem;
+            border-radius: 5px;
+            font-weight: bold;
             cursor: pointer;
-            position: absolute;
-            bottom: 15px;
-            right: 15px;
-            border: 3px solid #1a1a2e;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
+            font-size: 1em;
         }
-
-        .read-more:hover {
-            transform: scale(1.1);
-            background: linear-gradient(45deg, #1a1a2e, #16213e);
+        
+        .card-btn:hover {
+            background: #ff6b6b;
+            transform: scale(1.05);
         }
-
+        
+        /* Section Points Clés */
         .key-points {
-            background: #1a1a2e;
-            color: white;
-            padding: 30px;
-            margin: 40px 0;
-            border-radius: 20px;
-            border: 4px solid #FFD700;
-            transform: rotate(-1deg);
+            background: white;
+            border: 4px solid #1a1a2e;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.2);
         }
-
+        
         .key-points h2 {
             font-family: 'Bangers', cursive;
-            font-size: 2rem;
-            color: #FFD700;
-            margin-bottom: 20px;
-            text-align: center;
+            font-size: 1.8em;
+            color: #1a1a2e;
+            margin-bottom: 15px;
         }
-
+        
         .key-points ul {
             list-style: none;
-            padding: 0;
+            padding-left: 0;
         }
-
+        
         .key-points li {
-            background: #FF6B35;
-            margin: 10px 0;
-            padding: 15px;
-            border-radius: 10px;
+            padding: 10px 0;
+            padding-left: 30px;
             position: relative;
-            font-weight: bold;
-            border: 2px solid #FFD700;
+            font-size: 1.1em;
+            line-height: 1.6;
         }
-
+        
         .key-points li:before {
-            content: "💥";
-            margin-right: 10px;
-            font-size: 1.2rem;
+            content: "📌";
+            position: absolute;
+            left: 0;
         }
-
+        
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -232,363 +191,361 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(26, 26, 46, 0.9);
+            background: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
         }
-
+        
+        .modal.active {
+            display: flex;
+        }
+        
         .modal-content {
             background: white;
-            margin: 5% auto;
             padding: 30px;
-            border: 4px solid #FFD700;
-            border-radius: 20px;
-            width: 90%;
+            border-radius: 15px;
             max-width: 800px;
             max-height: 80vh;
             overflow-y: auto;
             position: relative;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            border: 4px solid #1a1a2e;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
         }
-
-        .close-btn {
+        
+        .modal-close {
             position: absolute;
             top: 15px;
-            right: 20px;
-            font-size: 2rem;
-            background: #FF6B35;
+            right: 15px;
+            background: #e94560;
             color: white;
             border: none;
             width: 40px;
             height: 40px;
             border-radius: 50%;
+            font-size: 1.5em;
             cursor: pointer;
-            font-family: 'Bangers', cursive;
-            border: 3px solid #1a1a2e;
+            font-weight: bold;
         }
-
-        .close-btn:hover {
-            background: #1a1a2e;
-            transform: scale(1.1);
+        
+        .modal-close:hover {
+            background: #ff6b6b;
         }
-
+        
         .modal-content h2 {
             font-family: 'Bangers', cursive;
-            font-size: 2rem;
-            color: #FF6B35;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 0px #FFD700;
-        }
-
-        .modal-content h3 {
-            font-family: 'Bangers', cursive;
+            font-size: 2em;
             color: #1a1a2e;
-            margin: 20px 0 10px;
-            font-size: 1.3rem;
+            margin-bottom: 20px;
         }
-
+        
         .modal-content p {
-            line-height: 1.6;
+            line-height: 1.8;
             margin-bottom: 15px;
             color: #333;
         }
-
-        .modal-content strong {
-            color: #FF6B35;
+        
+        .modal-content h3 {
             font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #1a1a2e;
         }
-
+        
         .hidden {
-            display: none !important;
-        }
-
-        @media (max-width: 768px) {
-            .comics-grid {
-                grid-template-columns: 1fr;
-                grid-template-rows: repeat(6, auto);
-            }
-            
-            .comic-panel:nth-child(n) {
-                grid-row: span 1 !important;
-            }
-            
-            .header h1 {
-                font-size: 2.5rem;
-            }
-        }
-
-        .halftone {
-            background-image: radial-gradient(circle, #FF6B35 1px, transparent 1px);
-            background-size: 10px 10px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.1;
-            pointer-events: none;
+            display: none;
         }
     </style>
 </head>
 <body>
+    <!-- Menu latéral -->
     <div class="sidebar">
-        <button class="sidebar-btn active" onclick="switchVeille('ia')">VEILLE IA</button>
-        <button class="sidebar-btn" onclick="switchVeille('news')">VEILLE ACTU</button>
+        <button class="sidebar-btn active" onclick="switchVeille('ia')">IA</button>
+        <button class="sidebar-btn" onclick="switchVeille('news')">News</button>
     </div>
-
-    <div class="main-content">
+    
+    <!-- Container principal -->
+    <div class="container">
+        <!-- Header -->
         <div class="header">
-            <h1 id="main-title">VEILLE IA 🤖</h1>
-            <div class="subtitle">Semaine #2 - Édition Comics</div>
+            <h1 id="main-title">Veille IA & LLM</h1>
+            <div class="style-info">Style testé cette semaine : Layout en grille Comics (2 colonnes × 3 lignes)</div>
         </div>
-
-        <div class="comics-grid" id="comics-grid">
-            <!-- Les panels seront générés par JavaScript -->
+        
+        <!-- Veille IA -->
+        <div id="veille-ia" class="veille-section">
+            <div class="grid">
+                <div class="card" onclick="openModal('ia', 0)">
+                    <div class="card-icon">🤖</div>
+                    <div class="card-title">Nouveaux Modèles LLM</div>
+                    <button class="card-btn">Lire +</button>
+                </div>
+                
+                <div class="card" onclick="openModal('ia', 1)">
+                    <div class="card-icon">🔬</div>
+                    <div class="card-title">Recherche Scientifique</div>
+                    <button class="card-btn">Lire +</button>
+                </div>
+                
+                <div class="card" onclick="openModal('ia', 2)">
+                    <div class="card-icon">🌍</div>
+                    <div class="card-title">Régulation & Gouvernance</div>
+                    <button class="card-btn">Lire +</button>
+                </div>
+                
+                <div class="card" onclick="openModal('ia', 3)">
+                    <div class="card-icon">💼</div>
+                    <div class="card-title">Industrie & Investissements</div>
+                    <button class="card-btn">Lire +</button>
+                </div>
+                
+                <div class="card" onclick="openModal('ia', 4)">
+                    <div class="card-icon">🛡️</div>
+                    <div class="card-title">Cybersécurité & Risques</div>
+                    <button class="card-btn">Lire +</button>
+                </div>
+                
+                <div class="card" onclick="openModal('ia', 5)">
+                    <div class="card-icon">⚡</div>
+                    <div class="card-title">Hardware & Compute</div>
+                    <button class="card-btn">Lire +</button>
+                </div>
+            </div>
+            
+            <div class="key-points">
+                <h2>📌 Points Clés à Retenir</h2>
+                <ul>
+                    <li>Les nouveaux modèles LLM continuent de progresser en capacités et en efficacité</li>
+                    <li>La régulation de l'IA devient un enjeu majeur en Europe et aux États-Unis</li>
+                    <li>Les investissements dans le hardware IA atteignent des niveaux records</li>
+                    <li>La sécurité et l'éthique restent des préoccupations centrales</li>
+                </ul>
+            </div>
         </div>
-
-        <div class="key-points">
-            <h2>POINTS CLÉS À RETENIR 💥</h2>
-            <ul id="key-points-list">
-                <!-- Les points seront générés par JavaScript -->
-            </ul>
+        
+        <!-- Veille News -->
+        <div id="veille-news" class="veille-section hidden">
+            <div class="grid">
+                <div class="card" onclick="openModal('news', 0)">
+                    <div class="card-icon">🏛️</div>
+                    <div class="card-title">Politique Française</div>
+                    <button class="card-btn">Lire +</button>
+                </div>
+                
+                <div class="card" onclick="openModal('news', 1)">
+                    <div class="card-icon">💰</div>
+                    <div class="card-title">Économie & Entreprises</div>
+                    <button class="card-btn">Lire +</button>
+                </div>
+                
+                <div class="card" onclick="openModal('news', 2)">
+                    <div class="card-icon">🚀</div>
+                    <div class="card-title">Technologie & Innovation</div>
+                    <button class="card-btn">Lire +</button>
+                </div>
+                
+                <div class="card" onclick="openModal('news', 3)">
+                    <div class="card-icon">🌊</div>
+                    <div class="card-title">Mer, Climat & Littoral</div>
+                    <button class="card-btn">Lire +</button>
+                </div>
+                
+                <div class="card" onclick="openModal('news', 4)">
+                    <div class="card-icon">🏙️</div>
+                    <div class="card-title">Nantes & Région Ouest</div>
+                    <button class="card-btn">Lire +</button>
+                </div>
+                
+                <div class="card" onclick="openModal('news', 5)">
+                    <div class="card-icon">🌍</div>
+                    <div class="card-title">International & Europe</div>
+                    <button class="card-btn">Lire +</button>
+                </div>
+            </div>
+            
+            <div class="key-points">
+                <h2>📌 Points Clés à Retenir</h2>
+                <ul>
+                    <li>Les tensions géopolitiques continuent de marquer l'actualité internationale</li>
+                    <li>L'économie française fait face à des défis structurels majeurs</li>
+                    <li>La transition écologique s'accélère dans la région Ouest</li>
+                    <li>Nantes confirme son dynamisme en matière d'innovation</li>
+                </ul>
+            </div>
         </div>
     </div>
-
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal()">×</button>
-            <div id="modal-body"></div>
+    
+    <!-- Modal -->
+    <div id="modal" class="modal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div id="modal-body">
+                <!-- Contenu dynamique -->
+            </div>
         </div>
     </div>
-
+    
     <script>
-        const veilleData = {
-            ia: {
-                title: "VEILLE IA 🤖",
-                panels: [
-                    {
-                        icon: "🚀",
-                        title: "Gemini 3 révolutionne l'expérience utilisateur",
-                        content: `
-                            <h2>🚀 Gemini 3 révolutionne l'expérience utilisateur</h2>
-                            <h3>Résumé</h3>
-                            <p>Google a lancé <strong>Gemini 3</strong> le 18 novembre 2025, son modèle le plus intelligent combinant toutes les capacités Gemini en un système unifié. Gemini 3 Pro est immédiatement disponible dans l'application Gemini et les produits Google, marquant une approche radicalement différente des concurrents avec des "interfaces génératives" présentant les réponses sous forme de magazines numériques colorés avec images, tableaux et grilles.</p>
-                            
-                            <h3>Points de vue croisés</h3>
-                            <p><strong>TechCrunch</strong> souligne que Gemini 3 est le modèle le plus capable de Google et un concurrent immédiat pour l'outil IA le plus performant du marché, rappelant que la sortie intervient moins d'une semaine après GPT 5.1 d'OpenAI.</p>
-                            
-                            <p><strong>CNBC</strong> met l'accent sur l'aspect utilisateur, notant que le nouveau modèle permettra d'obtenir de meilleures réponses à des questions complexes "avec moins de sollicitation" et qu'il est "construit pour saisir la profondeur et les nuances".</p>
-                            
-                            <p><strong>InfoQ</strong> adopte une perspective technique, précisant que Gemini 3 fixe de nouveaux standards pour l'IA multimodale avec des scores state-of-the-art sur de nombreux benchmarks publics, y compris les tâches de raisonnement scientifique.</p>
-                            
-                            <h3>Signaux faibles</h3>
-                            <p>• Le mode Gemini 3 Deepthink ne sera disponible qu'après des tests de sécurité supplémentaires<br>
-                            • Google Antigravity transforme l'assistance IA d'un outil en partenaire actif<br>
-                            • La stratégie d'intégration immédiate dans la recherche Google pourrait redéfinir le SEO</p>
-                        `
-                    },
-                    {
-                        icon: "🛡️",
-                        title: "OpenAI dévoile ses modèles de sécurité open source",
-                        content: `
-                            <h2>🛡️ OpenAI dévoile ses modèles de sécurité open source</h2>
-                            <h3>Résumé</h3>
-                            <p>OpenAI a publié <strong>GPT-OSS-SafeGuard</strong>, des modèles de raisonnement open-weight pour les tâches de classification de sécurité, disponibles en versions 120b et 20b sous licence Apache 2.0 permissive. Ces modèles utilisent le raisonnement pour interpréter directement une politique fournie par le développeur au moment de l'inférence.</p>
-                            
-                            <h3>Enjeux</h3>
-                            <p><strong>Fortune</strong> adopte un ton critique, soulignant que les experts en sécurité estiment que ces outils pourraient donner un faux sentiment de sécurité car OpenAI a rendu les classificateurs open source, partageant ainsi les "plans" de ces portes de sécurité.</p>
-                            
-                            <p>En production, OpenAI utilise des filtres à haute sensibilité d'abord, puis escalade les éléments incertains vers un modèle de raisonnement, avec <strong>jusqu'à 16% du calcul total</strong> consacré au raisonnement de sécurité dans les récents lancements.</p>
-                        `
-                    },
-                    {
-                        icon: "🔬",
-                        title: "DeepSeek maintient son leadership avec de nouvelles versions",
-                        content: `
-                            <h2>🔬 DeepSeek maintient son leadership</h2>
-                            <h3>Résumé</h3>
-                            <p>DeepSeek a publié plusieurs mises à jour majeures : <strong>DeepSeek-V3-0324</strong> en mars, <strong>DeepSeek-R1-0528</strong> en mai, et <strong>DeepSeek-V3.1</strong> en août 2025, un modèle hybride de 671B paramètres avec support de contextes jusqu'à 128K.</p>
-                            
-                            <h3>Innovation technique</h3>
-                            <p>V3.1 peut basculer entre mode "thinking" (raisonnement chain-of-thought comme R1) et "non-thinking" (réponses directes comme V3) simplement en changeant le template de chat.</p>
-                            
-                            <p>Des physiciens quantiques de <strong>Multiverse Computing</strong> ont créé DeepSeek R1 Slim, une version 55% plus petite mais avec des performances quasi-identiques, tout en éliminant la censure chinoise officielle du modèle.</p>
-                        `
-                    },
-                    {
-                        icon: "🧠",
-                        title: "Les limites cognitives des LLM révélées",
-                        content: `
-                            <h2>🧠 Les limites cognitives des LLM révélées</h2>
-                            <h3>Résumé</h3>
-                            <p>Une étude publiée dans <strong>PNAS Nexus</strong> révèle que les personnes utilisant un moteur de recherche traditionnel développent une connaissance plus profonde que celles qui se fient aux chatbots IA, même lorsque ChatGPT fournit des liens optionnels vers les sources originales.</p>
-                            
-                            <h3>Découvertes</h3>
-                            <p>Seulement environ <strong>un quart des 800 participants</strong> de l'expérience "ChatGPT avec liens" étaient motivés à cliquer sur au moins un lien.</p>
-                            
-                            <p>Parallèlement, OpenAI a développé un LLM expérimental transparent qui expose les mécanismes internes d'IA, permettant de relier les neurones à des concepts et fonctions spécifiques.</p>
-                        `
-                    },
-                    {
-                        icon: "⚖️",
-                        title: "L'UE assouplit l'AI Act face aux pressions",
-                        content: `
-                            <h2>⚖️ L'UE assouplit l'AI Act face aux pressions</h2>
-                            <h3>Résumé</h3>
-                            <p>Le 19 novembre 2025, la Commission européenne a publié son <strong>"Digital Omnibus on AI"</strong>, un paquet législatif pour affiner et simplifier l'AI Act, offrant plus de temps aux entreprises jusqu'en décembre 2027.</p>
-                            
-                            <h3>Tensions politiques</h3>
-                            <p><strong>Fortune</strong> révèle que Bruxelles s'est "engagée" avec l'administration Trump sur les ajustements potentiels à l'AI Act, Trump ayant adopté une approche "light-touch" privilégiant l'innovation.</p>
-                            
-                            <p>De nombreux eurodéputés du centre et de la gauche ont déjà annoncé leur opposition, l'omnibus contournant les évaluations d'impact habituelles.</p>
-                        `
-                    },
-                    {
-                        icon: "💼",
-                        title: "Cisco acquiert NeuralFabric pour son IA d'entreprise",
-                        content: `
-                            <h2>💼 Cisco acquiert NeuralFabric</h2>
-                            <h3>Résumé</h3>
-                            <p>Cisco a complété l'acquisition de <strong>NeuralFabric Corp</strong> le 21 novembre 2025, une entreprise spécialisée dans les Small Language Models (SLM) spécifiques aux domaines d'entreprise, fondée par d'anciens ingénieurs Microsoft.</p>
-                            
-                            <h3>Stratégie</h3>
-                            <p>Cisco s'éloigne de l'ère de l'IA "taille unique" en faveur de modèles sur mesure. L'acquisition s'inscrit dans la stratégie IA plus large de Cisco avec <strong>1 milliard de dollars d'investissements</strong> en 2024.</p>
-                            
-                            <p>NeuralFabric sera intégré à AI Canvas de Cisco, transaction attendue en Q2 2026.</p>
-                        `
-                    }
-                ],
-                keyPoints: [
-                    "🚀 Gemini 3 de Google redéfinit les interfaces utilisateur avec des réponses adaptatives",
-                    "🛡️ OpenAI open-source ses outils de sécurité, créant un débat sur les risques",
-                    "🔬 DeepSeek V3.1 innove avec son architecture hybride thinking/non-thinking",
-                    "🧠 Les chatbots limitent l'apprentissage profond selon une étude du PNAS",
-                    "⚖️ L'UE assouplit l'AI Act sous pression de Trump et des entreprises tech"
-                ]
+        // Données de contenu (à remplacer par les vraies données des markdown)
+        const contenuIA = [
+            {
+                titre: "Nouveaux Modèles LLM",
+                contenu: `<h2>Nouveaux Modèles LLM</h2>
+                <h3>Résumé</h3>
+                <p>Cette semaine a vu le lancement de plusieurs nouveaux modèles de langage avec des capacités améliorées en raisonnement et en efficacité computationnelle.</p>
+                <h3>Points de vue croisés</h3>
+                <p><strong>Source 1 - TechCrunch:</strong> Met l'accent sur les gains de performance et les nouvelles capacités multimodales.</p>
+                <p><strong>Source 2 - The Verge:</strong> Souligne les préoccupations concernant les coûts énergétiques croissants.</p>
+                <p><strong>Source 3 - ArXiv:</strong> Détaille les innovations architecturales sous-jacentes.</p>`
             },
-            news: {
-                title: "VEILLE ACTUALITÉS 📰",
-                panels: [
-                    {
-                        icon: "🏛️",
-                        title: "Rejet historique du budget 2026 à l'Assemblée",
-                        content: `
-                            <h2>🏛️ Rejet historique du budget 2026</h2>
-                            <h3>Résumé</h3>
-                            <p>L'Assemblée nationale a rejeté massivement la partie "recettes" du projet de loi de finances pour 2026 dans la nuit du 21 au 22 novembre, par <strong>404 voix contre, 1 pour et 84 abstentions</strong>, après plus de 125 heures de débats.</p>
-                            
-                            <h3>Conséquences</h3>
-                            <p>Cette décision historique suspend l'examen du texte et le renvoie au Sénat dans sa version initiale, créant une incertitude majeure sur l'adoption du budget avant la fin d'année.</p>
-                            
-                            <p><strong>France 3</strong> contextualise historiquement : "première sous la Ve République" de cette ampleur, rappelant que l'Assemblée avait déjà rejeté le budget en 2024 mais sans cette ampleur.</p>
-                        `
-                    },
-                    {
-                        icon: "🏭",
-                        title: "Semaine de l'industrie et mobilisation pour la compétitivité",
-                        content: `
-                            <h2>🏭 Semaine de l'industrie et compétitivité</h2>
-                            <h3>Résumé</h3>
-                            <p>Du 17 au 23 novembre, la 14e Semaine de l'industrie mobilise l'ensemble du territoire français avec près de <strong>8 000 événements</strong>. En parallèle, le sommet "Choose France" réunit 200 entreprises avec 151 annonces d'investissement représentant <strong>30,4 milliards d'euros</strong>.</p>
-                            
-                            <h3>Bilan économique</h3>
-                            <p>La Direction générale des Entreprises affiche un optimisme institutionnel : "solde positif de +9 au premier semestre 2025, la France continue d'ouvrir plus d'usines qu'elle n'en ferme".</p>
-                        `
-                    },
-                    {
-                        icon: "🌍",
-                        title: "Tensions géopolitiques et plan de paix pour l'Ukraine",
-                        content: `
-                            <h2>🌍 Tensions géopolitiques Ukraine</h2>
-                            <h3>Résumé</h3>
-                            <p>La semaine a été marquée par l'émergence du "plan de paix" de Trump pour l'Ukraine, dans un contexte défavorable aux forces ukrainiennes. L'Europe tente un plan de contre-attaque, tandis que le sommet du G20 à Johannesburg se déroule jusqu'au 23 novembre.</p>
-                            
-                            <h3>Perspectives</h3>
-                            <p><strong>Viral Mag</strong> analyse : "semaine où le destin de la planète se joue en simultané sur plusieurs continents" avec une vision interconnectée des événements géopolitiques.</p>
-                        `
-                    },
-                    {
-                        icon: "🌱",
-                        title: "COP30 à Belém - résultats mitigés et incidents",
-                        content: `
-                            <h2>🌱 COP30 à Belém - résultats mitigés</h2>
-                            <h3>Résumé</h3>
-                            <p>La COP30 s'est déroulée du 6 au 21 novembre à Belém en Amazonie brésilienne. Un <strong>incendie a suspendu les travaux pendant sept heures</strong> le 20 novembre, et l'accord final adopté prévoit des mesures "volontaires" de réduction des émissions.</p>
-                            
-                            <h3>Bilan</h3>
-                            <p><strong>La Presse (Canada)</strong> analyse l'accord comme "modeste", "la faute aux pays développés qui reculent", mais avec une nuance : "pas un mauvais accord" selon la ministre française.</p>
-                        `
-                    },
-                    {
-                        icon: "🎄",
-                        title: "Nantes se prépare pour les festivités de fin d'année",
-                        content: `
-                            <h2>🎄 Nantes se prépare pour les fêtes</h2>
-                            <h3>Résumé</h3>
-                            <p>Nantes se pare de ses habits de fête avec l'installation des décorations de Noël le 17 novembre et le lancement du Voyage à Nantes version hivernale avec <strong>42 km de guirlandes, 66 rues décorées et 14 places illuminées</strong> jusqu'au 4 janvier.</p>
-                            
-                            <h3>Attractivité</h3>
-                            <p>Le marché de Noël, le plus grand de l'Ouest, a ouvert le 21 novembre avec plus de 170 chalets, attirant <strong>600 000 visiteurs</strong> selon Ouest-France.</p>
-                        `
-                    },
-                    {
-                        icon: "⚡",
-                        title: "Synthèse des événements majeurs",
-                        content: `
-                            <h2>⚡ Synthèse hebdomadaire</h2>
-                            <h3>Événements majeurs</h3>
-                            <p>• <strong>Rejet historique du budget 2026</strong> par l'Assemblée nationale, créant une crise gouvernementale<br>
-                            • <strong>Mobilisation économique</strong> avec la Semaine de l'industrie et Choose France<br>
-                            • <strong>Échec relatif de la COP30</strong> avec un accord sans feuille de route<br>
-                            • <strong>Tensions géopolitiques croissantes</strong> autour de l'Ukraine</p>
-                            
-                            <h3>À surveiller</h3>
-                            <p>• Débats budgétaires au Sénat à partir du 26 novembre<br>
-                            • Suites diplomatiques du G20<br>
-                            • Impact de l'accord COP30<br>
-                            • Campagne municipale nantaise</p>
-                        `
-                    }
-                ],
-                keyPoints: [
-                    "🏛️ Rejet historique du budget 2026 par l'Assemblée avec 404 voix contre",
-                    "🏭 30,4 milliards d'euros d'investissements annoncés au sommet Choose France",
-                    "🌍 Émergence du 'plan Trump' pour l'Ukraine dans un contexte géopolitique tendu",
-                    "🌱 Accord COP30 décevant sans feuille de route sur les énergies fossiles",
-                    "🎄 Nantes s'illumine avec 42 km de guirlandes pour les fêtes"
-                ]
+            {
+                titre: "Recherche Scientifique",
+                contenu: `<h2>Recherche Scientifique</h2>
+                <h3>Résumé</h3>
+                <p>Plusieurs papers importants ont été publiés cette semaine sur l'optimisation des transformers et les nouvelles approches d'apprentissage.</p>
+                <h3>Points de vue croisés</h3>
+                <p><strong>Source 1 - Nature:</strong> Publication d'une étude majeure sur l'efficacité énergétique des modèles.</p>
+                <p><strong>Source 2 - Science:</strong> Nouvelles découvertes sur les mécanismes d'attention.</p>
+                <p><strong>Source 3 - ArXiv:</strong> Propositions d'architectures alternatives prometteuses.</p>`
+            },
+            {
+                titre: "Régulation & Gouvernance",
+                contenu: `<h2>Régulation & Gouvernance</h2>
+                <h3>Résumé</h3>
+                <p>L'UE avance sur le cadre réglementaire de l'IA tandis que les États-Unis adoptent une approche plus fragmentée.</p>
+                <h3>Points de vue croisés</h3>
+                <p><strong>Source 1 - Financial Times:</strong> Analyse des implications économiques de l'AI Act européen.</p>
+                <p><strong>Source 2 - Politico:</strong> Focus sur les divergences transatlantiques.</p>
+                <p><strong>Source 3 - Les Échos:</strong> Impact sur les entreprises françaises.</p>`
+            },
+            {
+                titre: "Industrie & Investissements",
+                contenu: `<h2>Industrie & Investissements</h2>
+                <h3>Résumé</h3>
+                <p>Les investissements dans l'IA atteignent des sommets avec plusieurs levées de fonds majeures cette semaine.</p>
+                <h3>Points de vue croisés</h3>
+                <p><strong>Source 1 - Bloomberg:</strong> Détails des principales transactions.</p>
+                <p><strong>Source 2 - Reuters:</strong> Analyse des tendances du marché.</p>
+                <p><strong>Source 3 - La Tribune:</strong> Positionnement des acteurs européens.</p>`
+            },
+            {
+                titre: "Cybersécurité & Risques",
+                contenu: `<h2>Cybersécurité & Risques</h2>
+                <h3>Résumé</h3>
+                <p>Nouvelles vulnérabilités découvertes dans les systèmes d'IA et recommandations de sécurité publiées.</p>
+                <h3>Points de vue croisés</h3>
+                <p><strong>Source 1 - SecurityWeek:</strong> Détails techniques des vulnérabilités.</p>
+                <p><strong>Source 2 - ANSSI:</strong> Recommandations pour les entreprises françaises.</p>
+                <p><strong>Source 3 - MIT Tech Review:</strong> Perspectives sur les risques émergents.</p>`
+            },
+            {
+                titre: "Hardware & Compute",
+                contenu: `<h2>Hardware & Compute</h2>
+                <h3>Résumé</h3>
+                <p>Annonces de nouveaux chips spécialisés pour l'IA et innovations en matière d'efficacité énergétique.</p>
+                <h3>Points de vue croisés</h3>
+                <p><strong>Source 1 - AnandTech:</strong> Analyses techniques des nouveaux processeurs.</p>
+                <p><strong>Source 2 - Tom's Hardware:</strong> Benchmarks et comparaisons.</p>
+                <p><strong>Source 3 - The Register:</strong> Impact sur le marché.</p>`
             }
-        };
-
+        ];
+        
+        const contenuNews = [
+            {
+                titre: "Politique Française",
+                contenu: `<h2>Politique Française</h2>
+                <h3>Résumé</h3>
+                <p>Les débats politiques de la semaine ont porté sur les réformes économiques et sociales.</p>
+                <h3>Points de vue des médias</h3>
+                <p><strong>Le Monde:</strong> Analyse approfondie des enjeux politiques.</p>
+                <p><strong>Le Figaro:</strong> Perspective alternative sur les réformes.</p>
+                <p><strong>Libération:</strong> Focus sur les impacts sociaux.</p>`
+            },
+            {
+                titre: "Économie & Entreprises",
+                contenu: `<h2>Économie & Entreprises</h2>
+                <h3>Résumé</h3>
+                <p>L'économie française navigue entre défis et opportunités dans un contexte international tendu.</p>
+                <h3>Points de vue des médias</h3>
+                <p><strong>Les Échos:</strong> Données macroéconomiques et prévisions.</p>
+                <p><strong>La Tribune:</strong> Focus sur les secteurs porteurs.</p>
+                <p><strong>BFM Business:</strong> Réactions des marchés.</p>`
+            },
+            {
+                titre: "Technologie & Innovation",
+                contenu: `<h2>Technologie & Innovation</h2>
+                <h3>Résumé</h3>
+                <p>La tech française continue son développement avec plusieurs annonces importantes.</p>
+                <h3>Points de vue des médias</h3>
+                <p><strong>Numerama:</strong> Couverture des innovations.</p>
+                <p><strong>L'Usine Nouvelle:</strong> Perspective industrielle.</p>
+                <p><strong>France Info:</strong> Vulgarisation grand public.</p>`
+            },
+            {
+                titre: "Mer, Climat & Littoral",
+                contenu: `<h2>Mer, Climat & Littoral</h2>
+                <h3>Résumé</h3>
+                <p>Les enjeux climatiques sur le littoral atlantique restent au cœur des préoccupations.</p>
+                <h3>Points de vue des médias</h3>
+                <p><strong>Ouest-France:</strong> Couverture locale détaillée.</p>
+                <p><strong>Le Marin:</strong> Perspective maritime.</p>
+                <p><strong>Actu Environnement:</strong> Analyse écologique.</p>`
+            },
+            {
+                titre: "Nantes & Région Ouest",
+                contenu: `<h2>Nantes & Région Ouest</h2>
+                <h3>Résumé</h3>
+                <p>L'actualité nantaise et régionale est marquée par le dynamisme économique et culturel.</p>
+                <h3>Points de vue des médias</h3>
+                <p><strong>Presse Océan:</strong> Actualités locales quotidiennes.</p>
+                <p><strong>Ouest-France:</strong> Couverture régionale.</p>
+                <p><strong>Mediacités Nantes:</strong> Enquêtes locales.</p>`
+            },
+            {
+                titre: "International & Europe",
+                contenu: `<h2>International & Europe</h2>
+                <h3>Résumé</h3>
+                <p>La semaine internationale a été marquée par plusieurs développements géopolitiques majeurs.</p>
+                <h3>Points de vue des médias</h3>
+                <p><strong>Le Monde:</strong> Analyses géopolitiques.</p>
+                <p><strong>Courrier International:</strong> Revue de presse mondiale.</p>
+                <p><strong>France 24:</strong> Perspective française sur l'international.</p>`
+            }
+        ];
+        
         let currentVeille = 'ia';
-
+        
+        // Changer de veille
         function switchVeille(type) {
             currentVeille = type;
             
-            // Update sidebar buttons
-            document.querySelectorAll('.sidebar-btn').forEach(btn => btn.classList.remove('active'));
+            // Gérer les sections
+            document.getElementById('veille-ia').classList.toggle('hidden', type !== 'ia');
+            document.getElementById('veille-news').classList.toggle('hidden', type !== 'news');
+            
+            // Gérer les boutons actifs
+            document.querySelectorAll('.sidebar-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
             event.target.classList.add('active');
             
-            // Update content
-            document.getElementById('main-title').textContent = veilleData[type].title;
-            renderPanels(veilleData[type].panels);
-            renderKeyPoints(veilleData[type].keyPoints);
+            // Changer le titre
+            document.getElementById('main-title').textContent = 
+                type === 'ia' ? 'Veille IA & LLM' : 'Veille Actualités';
         }
-
-        function renderPanels(panels) {
-            const grid = document.getElementById('comics-grid');
-            grid.innerHTML = '';
-            
-            panels.forEach((panel, index) => {
-                const panelDiv = document.createElement('div');
-                panelDiv.className = 'comic-panel';
-                panelDiv.innerHTML = `
-                    <div class="halftone"></div>
-                    <div class="panel-icon">${panel.icon}</div>
-                    <h3 class="panel-title">${panel.title}</h3>
-                    <button class="read-more" onclick="openModal(${index})">LIRE +</button>
-                `;
-                grid.appendChild(panelDiv);
-            });
+        
+        // Ouvrir le modal
+        function openModal(type, index) {
+            const contenu = type === 'ia' ? contenuIA[index] : contenuNews[index];
+            document.getElementById('modal-body').innerHTML = contenu.contenu;
+            document.getElementById('modal').classList.add('active');
         }
-
-        function renderKeyPoints(keyPoints) {
-            const list = document.getElementById('key-
+        
+        // Fermer le modal
+        function closeModal(event) {
+            if (!event || event.target.id === 'modal') {
+                document.getElementById('modal').classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
