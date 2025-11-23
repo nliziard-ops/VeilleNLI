@@ -66,10 +66,13 @@ def generer_site_web(fichiers_markdown, preferences):
     test_actuel = cycle[(semaine - 1) % len(cycle)]
     
     # Construire le contexte des préférences
+    j_aime = ', '.join(preferences['preferences']['j_aime']) if preferences['preferences']['j_aime'] else 'Aucun pour l\'instant'
+    rejete = ', '.join(preferences['preferences']['rejete']) if preferences['preferences']['rejete'] else 'Aucun'
+    
     contexte_prefs = f"""
 PRÉFÉRENCES UTILISATEUR :
-- Styles aimés (à intégrer) : {', '.join(preferences['preferences']['j_aime']) if preferences['preferences']['j_aime'] else 'Aucun pour l'instant'}
-- Styles rejetés (NE JAMAIS utiliser) : {', '.join(preferences['preferences']['rejete']) if preferences['preferences']['rejete'] else 'Aucun'}
+- Styles aimés (à intégrer) : {j_aime}
+- Styles rejetés (NE JAMAIS utiliser) : {rejete}
 - Test de cette semaine : {test_actuel.upper()}
 - Semaine n°{semaine}
 """
@@ -79,16 +82,15 @@ PRÉFÉRENCES UTILISATEUR :
     for nom, contenu in fichiers_markdown.items():
         contenu_fichiers += f"\n\n=== FICHIER : {nom} ===\n{contenu}\n"
     
-    prompt = f"""
-# **MISSION : Générateur de Site Web de Veille**
+    prompt = """# **MISSION : Générateur de Site Web de Veille**
 
 ## **CONTEXTE**
 Tu dois créer un site web d'une seule page HTML avec des onglets pour visualiser des synthèses de veille hebdomadaires.
 
-{contexte_prefs}
+""" + contexte_prefs + """
 
 ## **FICHIERS MARKDOWN FOURNIS**
-{contenu_fichiers}
+""" + contenu_fichiers + """
 
 ## **CONTRAINTES CRITIQUES**
 
@@ -97,7 +99,7 @@ Tu dois créer un site web d'une seule page HTML avec des onglets pour visualise
 - **Esthétique soignée** dès la première version
 - Chaque variante doit être **visuellement impressionnante**
 
-### 2. TEST DE CETTE SEMAINE : {test_actuel.upper()}
+### 2. TEST DE CETTE SEMAINE : """ + test_actuel.upper() + """
 Tu dois créer une **NOUVELLE variante créative** de cet aspect :
 
 - **Layout** : grille, colonnes, masonry, flexbox, disposition asymétrique...
@@ -113,11 +115,7 @@ Tu dois créer une **NOUVELLE variante créative** de cet aspect :
 ## **STRUCTURE REQUISE**
 
 ### En haut de page (discret)
-```html
-<div style="font-size: 0.85rem; color: #666; padding: 10px; text-align: center;">
-  Style testé cette semaine : [Description précise du test de {test_actuel}]
-</div>
-```
+Un petit bandeau en haut indiquant le style testé cette semaine.
 
 ### Système d'onglets
 - **2 onglets** : "Veille IA" et "Veille Actualités"
@@ -164,7 +162,7 @@ Tu dois créer une **NOUVELLE variante créative** de cet aspect :
 Génère **UNIQUEMENT** le code HTML complet, prêt à être sauvegardé dans un fichier .html
 
 - Pas de commentaires explicatifs avant ou après le code
-- Pas de balises markdown ```html
+- Pas de balises markdown
 - Juste le code HTML pur, de <!DOCTYPE html> à </html>
 - Code production-ready, testé mentalement
 
