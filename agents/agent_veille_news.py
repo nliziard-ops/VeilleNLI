@@ -83,3 +83,201 @@ Pour chaque catégorie :
 
 ## **FORMAT DE SORTIE MARKDOWN**
 ```markdown
+---
+agent: Veille Actualités
+date: {date_fin.strftime("%Y-%m-%d")}
+catégorie: Actualités Générales
+---
+
+# **Veille hebdomadaire – Semaine du {date_debut.strftime("%d/%m/%Y")} au {date_fin.strftime("%d/%m/%Y")}**
+**[Nom d'édition unique]** *(ex: Édition Atlantique, Chronique des Marées, Édition des Horizons Calmes)*
+
+---
+
+## **Introduction**
+
+[Paragraphe de 3-4 lignes résumant l'ambiance générale de la semaine : tendances, tensions, signaux faibles, climat médiatique]
+
+---
+
+## **Table des matières**
+
+1. Politique française
+2. Économie & Entreprises
+3. Technologie & Innovation
+4. Société
+5. International & Europe
+6. Écologie & Transition
+7. Mer, Climat & Littoral
+8. Nantes & Région Ouest
+
+---
+
+## **[CATÉGORIE] – Sujet : [Titre bref et explicite]**
+
+### **Résumé**
+[Maximum 5 lignes]
+- Faits essentiels
+- Enjeux (économie, société, environnement, entreprises, Europe)
+- Ancrage temporel si nécessaire (évolution du mois précédent)
+
+### **Points de vue des médias**
+
+**[Média 1]**
+[Angle, ton, analyse principale]
+
+**[Média 2]**
+[Angle, divergences, critiques]
+
+**[Média 3]**
+[Analyse complémentaire, nuance, données clés]
+
+*Si < 3 sources disponibles :*
+"Moins de trois médias sérieux ont couvert ce sujet cette semaine. Analyse basée sur les sources disponibles."
+
+### **Sources**
+- [Média 1] : [Titre] — [URL]
+- [Média 2] : [Titre] — [URL]
+- [Média 3] : [Titre] — [URL]
+
+### **Illustration suggérée (optionnel)**
+[Phrase textuelle uniquement, ex : "Carte du littoral atlantique illustrant la zone concernée"]
+
+---
+
+[Répéter pour chaque sujet majeur - 10 à 15 sujets, jusqu'à 20 en semaine chargée]
+
+---
+
+## **Nantes & Région Ouest**
+
+[Traiter : Nantes, Pays de la Loire, Bretagne, Belle-Île-en-Mer, L'Hôpital-Camfrout, Landerneau, Brest]
+[Même structure que pour les sujets principaux]
+
+---
+
+## **Synthèse finale**
+
+### **Événements majeurs**
+- [Point 1]
+- [Point 2]
+- [...]
+
+### **Divergences éditoriales clés**
+- [Différences d'interprétation significatives]
+
+### **Implications possibles**
+- Politiques : [...]
+- Économiques : [...]
+- Sociales : [...]
+- Environnementales : [...]
+
+### **À surveiller la semaine prochaine**
+- [Sujet 1]
+- [Sujet 2]
+- [...]
+
+---
+
+**Fin de l'édition**
+```
+
+## **CONSIGNES CRITIQUES**
+
+- **Style** : sobre, élégant, uniquement Markdown
+- **Ton** : neutre, factuel, analytique
+- **Reformulation obligatoire** : aucun copier-coller d'articles
+- **Neutralité stricte** : aucune prise de position
+- **Sources** : toujours citer avec titres et URLs
+- **Volume** : 10-15 sujets (jusqu'à 20 en semaine chargée)
+- **Aucun emoji**, aucune décoration superflue
+- **Illustrations** : suggestions textuelles uniquement
+
+## **COMMENCE MAINTENANT**
+
+Génère la veille hebdomadaire complète pour la semaine du {date_debut.strftime("%d/%m/%Y")} au {date_fin.strftime("%d/%m/%Y")} en utilisant web_search de manière intensive pour obtenir les actualités réelles de la semaine.
+
+Produis **exclusivement le contenu final au format Markdown**, sans phrases d'introduction hors rapport, sans métadonnées supplémentaires, sans disclaimer, sans commentaire sur ta méthode.
+"""
+    
+    message = client.messages.create(
+        model="claude-sonnet-4-20250514",
+        max_tokens=10000,
+        tools=[{
+            "type": "web_search_20250305",
+            "name": "web_search"
+        }],
+        messages=[{
+            "role": "user",
+            "content": prompt
+        }]
+    )
+    
+    # Extraire le texte de la réponse (peut contenir plusieurs blocs)
+    contenu = ""
+    for block in message.content:
+        if block.type == "text":
+            contenu += block.text
+    
+    return contenu
+
+def uploader_vers_drive(contenu_markdown):
+    """Upload le fichier markdown vers Google Drive"""
+    # Authentification
+    credentials = service_account.Credentials.from_service_account_info(
+        GOOGLE_CREDENTIALS,
+        scopes=['https://www.googleapis.com/auth/drive']
+    )
+    
+    service = build('drive', 'v3', credentials=credentials)
+    
+    # Vérifier si le fichier existe déjà
+    nom_fichier = "VeilleNews.md"
+    query = f"name='{nom_fichier}' and '{FOLDER_ID}' in parents"
+    results = service.files().list(q=query, fields="files(id, name)").execute()
+    files = results.get('files', [])
+    
+    # Créer le média en mémoire
+    file_metadata = {'name': nom_fichier}
+    media = MediaIoBaseUpload(
+        io.BytesIO(contenu_markdown.encode('utf-8')),
+        mimetype='text/markdown',
+        resumable=True
+    )
+    
+    if files:
+        # Mettre à jour le fichier existant
+        file_id = files[0]['id']
+        service.files().update(
+            fileId=file_id,
+            media_body=media
+        ).execute()
+        print(f"✅ Fichier {nom_fichier} mis à jour")
+    else:
+        # Créer un nouveau fichier
+        file_metadata['parents'] = [FOLDER_ID]
+        service.files().create(
+            body=file_metadata,
+            media_body=media,
+            fields='id'
+        ).execute()
+        print(f"✅ Fichier {nom_fichier} créé")
+
+def main():
+    print("🚀 Démarrage Agent Veille News...")
+    print(f"⏰ Date d'exécution : {datetime.now().strftime('%d/%m/%Y %H:%M')}")
+    
+    # Générer la synthèse
+    print("📝 Génération de la synthèse actualités (avec recherches web)...")
+    print("⚠️  Cette opération peut prendre 2-3 minutes...")
+    synthese = generer_synthese()
+    
+    # Upload vers Drive
+    print("☁️ Upload vers Google Drive...")
+    uploader_vers_drive(synthese)
+    
+    print("✅ Agent Veille News terminé avec succès!")
+    print(f"📊 Taille de la synthèse : {len(synthese)} caractères")
+
+if __name__ == "__main__":
+    main()
