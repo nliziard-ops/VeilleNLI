@@ -82,89 +82,145 @@ PRÉFÉRENCES UTILISATEUR :
     for nom, contenu in fichiers_markdown.items():
         contenu_fichiers += f"\n\n=== FICHIER : {nom} ===\n{contenu}\n"
     
-    prompt = """# **MISSION : Générateur de Site Web de Veille**
+prompt = """# **MISSION : Générateur de Site Web de Veille - Style Comics**
 
 ## **CONTEXTE**
-Tu dois créer un site web d'une seule page HTML avec des onglets pour visualiser des synthèses de veille hebdomadaires.
+Tu dois créer un site web d'une seule page HTML avec navigation latérale pour visualiser des synthèses de veille hebdomadaires.
 
 """ + contexte_prefs + """
 
 ## **FICHIERS MARKDOWN FOURNIS**
 """ + contenu_fichiers + """
 
-## **CONTRAINTES CRITIQUES**
+## **STRUCTURE VISUELLE OBLIGATOIRE**
 
-### 1. MISE EN FORME TRÈS ABOUTIE
-- Design **professionnel et moderne** de qualité production
-- **Esthétique soignée** dès la première version
-- Chaque variante doit être **visuellement impressionnante**
+### Layout global
+```
+┌─┬──────────────────────────────────────────────┐
+│M│  Style testé : [Description du test]         │
+│e│                                               │
+│n├──────────────────────────────────────────────┤
+│u│  ┌─────────────┐  ┌─────────────┐           │
+│ │  │ 📊 Icône    │  │ 🔬 Icône    │           │
+│L│  │ Titre sujet │  │ Titre sujet │           │
+│a│  │ [Lire +]    │  │ [Lire +]    │           │
+│t│  └─────────────┘  └─────────────┘           │
+│é│  ┌─────────────┐  ┌─────────────┐           │
+│r│  │ 🌍 Icône    │  │ 💼 Icône    │           │
+│a│  │ Titre sujet │  │ Titre sujet │           │
+│l│  │ [Lire +]    │  │ [Lire +]    │           │
+│ │  └─────────────┘  └─────────────┘           │
+│ │  ┌─────────────┐  ┌─────────────┐           │
+│ │  │ ⚡ Icône    │  │ 🛡️ Icône    │           │
+│ │  │ Titre sujet │  │ Titre sujet │           │
+│ │  │ [Lire +]    │  │ [Lire +]    │           │
+│ │  └─────────────┘  └─────────────┘           │
+│ ├──────────────────────────────────────────────┤
+│ │  📌 POINTS CLÉS À RETENIR                    │
+│ │  • Point important 1                         │
+│ │  • Point important 2                         │
+│ │  • Point important 3                         │
+└─┴──────────────────────────────────────────────┘
+```
 
-### 2. TEST DE CETTE SEMAINE : """ + test_actuel.upper() + """
-Tu dois créer une **NOUVELLE variante créative** de cet aspect :
+## **SPÉCIFICATIONS OBLIGATOIRES**
 
-- **Layout** : grille, colonnes, masonry, flexbox, disposition asymétrique...
-- **Couleurs** : palettes sombres/claires, tons chauds/froids, contrastes, gradients...
-- **Typographie** : polices (Google Fonts), tailles, poids, hiérarchie, espacement...
-- **Visualisation** : cartes, badges, icônes, timeline, indicateurs visuels...
-- **Animations** : transitions, hover effects, accordéons, parallax, fade-in...
+### 1. MENU LATÉRAL (30-40px de large, très fin)
+- Fixe à gauche de l'écran
+- 2 boutons verticaux : "Veille IA" et "Veille Actualités"
+- Fond sombre ou coloré selon le test
+- Icônes + texte vertical OU juste icônes
+- Clic change la veille affichée
 
-### 3. RESPECTER LES PRÉFÉRENCES
-- **Intégrer** les éléments des styles "j'aime"
-- **NE JAMAIS utiliser** les styles "rejetés"
+### 2. GRILLE DE CASES TYPE BD/COMICS
+- **6 cases par veille** (2 colonnes × 3 lignes)
+- Chaque case contient :
+  * **Icône/Emoji** en haut (adaptée au sujet)
+  * **Titre du sujet** (court, 1-2 lignes max)
+  * **Bouton "Lire +"** ou "Détails" en bas
+- Cases de **taille variable** mais lisibles
+- Style BD : bordures nettes, ombres portées légères, aspect "case de comics"
+- Espacement entre les cases pour respirer
 
-## **STRUCTURE REQUISE**
+### 3. SECTION "POINTS CLÉS" EN BAS
+- Après les 6 cases
+- Titre "📌 POINTS CLÉS À RETENIR" ou similaire
+- 3-5 points importants en bullet points
+- Design sobre mais visible
+- Extrait de la synthèse finale du markdown
 
-### En haut de page (discret)
-Un petit bandeau en haut indiquant le style testé cette semaine.
+### 4. HAUTEUR TOTALE : ~2 ÉCRANS
+- Grille compacte mais lisible
+- Tout visible avec 1-2 scrolls maximum
+- Responsive : s'adapte à différentes tailles d'écran
 
-### Système d'onglets
-- **2 onglets** : "Veille IA" et "Veille Actualités"
-- Navigation fluide entre les onglets
-- Onglet actif visuellement distinct
+### 5. MODAL/OVERLAY AU CLIC
+- Clic sur "Lire +" → Modal s'ouvre par-dessus
+- Modal affiche le **contenu complet** du sujet
+- Markdown parsé et bien formaté
+- Bouton [X] ou [Fermer] en haut à droite
+- Fond semi-transparent derrière le modal
+- Clic en dehors du modal → ferme le modal
 
-### Double niveau d'affichage
+## **TEST DE CETTE SEMAINE : """ + test_actuel.upper() + """**
 
-**Vue synthétique (par défaut)** :
-- Affichage rapide à scanner (10-15 min de lecture)
-- Présentation condensée des sections principales
-- Chaque section cliquable pour voir le détail
+Tu dois appliquer une variante créative de """ + test_actuel + """ :
 
-**Vue détaillée (au clic)** :
-- Affichage complet du contenu d'une section
-- Mise en forme enrichie et esthétique
-- Retour facile à la vue synthétique
+- **Layout** : disposition asymétrique des cases, grille décalée, overlap léger...
+- **Couleurs** : palette comics (primaires, pop, vintage, noir&blanc...)
+- **Typographie** : polices comics, handwriting, bold pour titres...
+- **Visualisation** : style bulles BD, phylactères, effets tramés...
+- **Animations** : effet "flip" de case, zoom hover, shake subtil...
 
-## **SPÉCIFICATIONS TECHNIQUES**
+## **CONTRAINTES TECHNIQUES**
 
-- **Fichier HTML autonome** avec CSS inline et JavaScript vanilla
-- **Responsive** : fonctionne sur desktop, tablette, mobile
-- **Performance** : chargement rapide, animations fluides
-- **Accessibilité** : contraste suffisant, navigation clavier possible
-- **Compatibilité** : Chrome, Firefox, Safari, Edge modernes
+### HTML/CSS/JS
+- Fichier HTML **autonome** avec CSS inline et JavaScript vanilla
+- Pas de bibliothèques externes (sauf CDN pour polices si besoin)
+- Compatible Chrome, Firefox, Safari, Edge récents
+- Responsive : desktop prioritaire, mais fonctionne sur tablette
 
-## **PARSING DU MARKDOWN**
+### Parsing du Markdown
+- Parse le markdown côté client (JavaScript)
+- Identifie les sections principales (## Titre)
+- Crée 1 case par section majeure
+- Limite à 6 cases les plus importantes
+- Affiche tout le contenu dans le modal
 
-- Utilise JavaScript pour parser le markdown côté client
-- Affiche correctement les titres, listes, liens, citations
-- Préserve la structure hiérarchique du contenu
-- Liens cliquables et fonctionnels
+### Performance
+- Chargement rapide
+- Animations fluides (60fps)
+- Pas de freeze lors du clic
 
-## **CONSIGNES DE CRÉATIVITÉ**
+## **EXTRACTION DES DONNÉES**
 
-- Sois **audacieux** dans le design
-- Teste des approches **modernes et innovantes**
-- Utilise des **effets visuels subtils mais impactants**
-- Crée une expérience utilisateur **mémorable**
-- Le design doit faire dire "Wow, c'est beau !"
+Pour chaque fichier markdown :
+1. Identifier les **6 sections les plus importantes** (titres ##)
+2. Extraire le titre de chaque section
+3. Choisir une icône/emoji pertinente selon le sujet
+4. Extraire les 3-5 points clés de la "Synthèse finale"
+
+## **CONSIGNES DE STYLE**
+
+- Design **moderne et impactant**
+- Inspiration **comics américain** (Marvel, DC, BD franco-belge)
+- Couleurs **vives et contrastées** (sauf si test "couleurs sombres")
+- Typographie **lisible et punchy**
+- Expérience **fun et engageante**
+- Le site doit faire "WOW" ! 🎨
+
+## **RESPECTER LES PRÉFÉRENCES**
+- **Intégrer** : """ + j_aime + """
+- **NE JAMAIS utiliser** : """ + rejete + """
 
 ## **OUTPUT**
 
-Génère **UNIQUEMENT** le code HTML complet, prêt à être sauvegardé dans un fichier .html
+Génère **UNIQUEMENT** le code HTML complet, de <!DOCTYPE html> à </html>
 
-- Pas de commentaires explicatifs avant ou après le code
+- Pas de commentaires avant/après
 - Pas de balises markdown
-- Juste le code HTML pur, de <!DOCTYPE html> à </html>
-- Code production-ready, testé mentalement
+- Code production-ready
+- Tout fonctionne dès l'ouverture du fichier
 
 **GÉNÈRE LE SITE MAINTENANT.**
 """
