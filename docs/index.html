@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veille Hebdomadaire - Semaine 4</title>
+    <title>Veille Comics - Semaine 5</title>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -11,378 +11,360 @@
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
             font-family: 'Comic Neue', cursive;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
             background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            animation: gradientShift 8s ease-in-out infinite;
+            min-height: 100vh;
             overflow-x: hidden;
         }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
-
+        
         .sidebar {
             position: fixed;
             left: 0;
             top: 0;
             width: 40px;
             height: 100vh;
-            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+            background: linear-gradient(180deg, #2c3e50, #34495e);
             z-index: 1000;
-            border-right: 3px solid #e74c3c;
-            box-shadow: 3px 0 10px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.3);
         }
-
-        .nav-btn {
-            width: 100%;
-            height: 50vh;
-            border: none;
-            background: transparent;
-            color: white;
-            font-weight: bold;
-            font-size: 10px;
+        
+        .sidebar-btn {
+            width: 35px;
+            height: 80px;
+            background: #e74c3c;
+            border: 3px solid #fff;
+            border-radius: 8px;
+            margin: 10px 0;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             writing-mode: vertical-rl;
             text-orientation: mixed;
-            position: relative;
-            overflow: hidden;
+            color: #fff;
+            font-weight: bold;
+            font-size: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
-
-        .nav-btn:hover {
-            background: rgba(231, 76, 60, 0.3);
+        
+        .sidebar-btn:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.5);
+        }
+        
+        .sidebar-btn.active {
+            background: #f39c12;
             transform: scale(1.05);
         }
-
-        .nav-btn.active {
-            background: rgba(231, 76, 60, 0.5);
-            border-left: 3px solid #f1c40f;
+        
+        .sidebar-btn:nth-child(2) {
+            background: #9b59b6;
         }
-
-        .nav-btn::before {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-        }
-
-        .nav-btn[data-tab="ia"]::before {
-            background: #3498db;
-        }
-
-        .nav-btn[data-tab="news"]::before {
-            background: #e74c3c;
-        }
-
+        
         .main-container {
             margin-left: 40px;
+            padding: 20px;
             min-height: 100vh;
-            padding: 20px;
         }
-
-        .header {
+        
+        .title {
             text-align: center;
-            margin-bottom: 30px;
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            border: 3px solid #2c3e50;
-            position: relative;
-            overflow: hidden;
+            margin: 20px 0 40px 0;
+            transform: rotate(-2deg);
         }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(52, 73, 94, 0.05) 10px, rgba(52, 73, 94, 0.05) 20px);
-            animation: float 10s linear infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        .header h1 {
+        
+        .title h1 {
             font-family: 'Bangers', cursive;
-            font-size: 3.5rem;
-            color: #2c3e50;
-            text-shadow: 3px 3px 0px #e74c3c, 6px 6px 0px #f1c40f;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
+            font-size: 4rem;
+            color: #fff;
+            text-shadow: 4px 4px 0 #000, 8px 8px 0 rgba(0,0,0,0.3);
+            transform: perspective(500px) rotateY(10deg);
+            animation: titleBounce 3s ease-in-out infinite;
         }
-
-        .header .subtitle {
+        
+        @keyframes titleBounce {
+            0%, 100% { transform: perspective(500px) rotateY(10deg) translateY(0px); }
+            50% { transform: perspective(500px) rotateY(10deg) translateY(-10px); }
+        }
+        
+        .subtitle {
             font-size: 1.2rem;
-            color: #34495e;
-            font-weight: bold;
-            position: relative;
-            z-index: 1;
+            color: #2c3e50;
+            background: #fff;
+            padding: 5px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            border: 3px solid #000;
+            margin-top: 10px;
+            transform: rotate(1deg);
+            box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
         }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .comics-grid {
+        
+        .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-bottom: 40px;
+            gap: 30px;
             max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto;
+            transform: rotate(-1deg);
         }
-
-        .comic-panel {
-            background: white;
-            border: 4px solid #2c3e50;
+        
+        .comic-card {
+            background: #fff;
+            border: 4px solid #000;
             border-radius: 15px;
             padding: 25px;
             position: relative;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             cursor: pointer;
-            box-shadow: 8px 8px 0px rgba(52, 73, 94, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.3);
             min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             overflow: hidden;
         }
-
-        .comic-panel:nth-child(odd) {
-            transform: rotate(-1deg);
-        }
-
-        .comic-panel:nth-child(even) {
+        
+        .comic-card:nth-child(odd) {
             transform: rotate(1deg);
         }
-
-        .comic-panel:hover {
-            transform: rotate(0deg) scale(1.05);
-            box-shadow: 12px 12px 0px rgba(231, 76, 60, 0.4);
-            z-index: 10;
+        
+        .comic-card:nth-child(even) {
+            transform: rotate(-1deg);
         }
-
-        .comic-panel::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 50% 50%, transparent 30%, rgba(0,0,0,0.02) 70%);
-            pointer-events: none;
+        
+        .comic-card:hover {
+            transform: rotate(0deg) scale(1.05) translateY(-10px);
+            box-shadow: 12px 12px 0 rgba(0,0,0,0.3), 0 20px 40px rgba(0,0,0,0.2);
+            animation: cardShake 0.5s ease-in-out;
         }
-
-        .panel-icon {
+        
+        @keyframes cardShake {
+            0%, 100% { transform: rotate(0deg) scale(1.05) translateY(-10px); }
+            25% { transform: rotate(1deg) scale(1.05) translateY(-12px); }
+            75% { transform: rotate(-1deg) scale(1.05) translateY(-8px); }
+        }
+        
+        .card-icon {
             font-size: 3rem;
             margin-bottom: 15px;
-            display: block;
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+            text-align: center;
+            animation: iconFloat 2s ease-in-out infinite;
         }
-
-        .panel-title {
+        
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-5px) rotate(5deg); }
+        }
+        
+        .card-title {
             font-family: 'Bangers', cursive;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             color: #2c3e50;
-            margin-bottom: 15px;
+            text-align: center;
+            margin-bottom: 20px;
             line-height: 1.2;
-            text-shadow: 1px 1px 0px rgba(241, 196, 15, 0.5);
+            text-shadow: 2px 2px 0 rgba(255,255,255,0.8);
         }
-
-        .read-more-btn {
-            position: absolute;
-            bottom: 15px;
-            right: 15px;
-            background: #e74c3c;
-            color: white;
-            border: none;
+        
+        .card-btn {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: #fff;
+            border: 3px solid #000;
             border-radius: 20px;
-            padding: 8px 16px;
-            font-weight: bold;
+            padding: 10px 20px;
+            font-family: 'Bangers', cursive;
+            font-size: 1.2rem;
             cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Comic Neue', cursive;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            align-self: center;
         }
-
-        .read-more-btn:hover {
-            background: #c0392b;
-            transform: translateY(-2px);
+        
+        .card-btn:hover {
+            transform: translateY(-3px);
             box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #c0392b, #a93226);
         }
-
+        
         .key-points {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 20px;
-            padding: 30px;
+            background: #fff;
+            border: 4px solid #000;
+            border-radius: 15px;
             margin: 40px auto;
+            padding: 30px;
             max-width: 1000px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            border: 3px solid #2c3e50;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.3);
+            transform: rotate(0.5deg);
         }
-
+        
         .key-points h2 {
             font-family: 'Bangers', cursive;
             font-size: 2.5rem;
-            color: white;
+            color: #e74c3c;
             text-align: center;
             margin-bottom: 25px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
         }
-
+        
         .key-points ul {
             list-style: none;
+            padding: 0;
         }
-
+        
         .key-points li {
-            background: rgba(255,255,255,0.9);
-            margin-bottom: 15px;
-            padding: 15px 20px;
+            background: #f8f9fa;
+            margin: 15px 0;
+            padding: 15px;
+            border: 2px solid #34495e;
             border-radius: 10px;
-            font-weight: bold;
-            color: #2c3e50;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             position: relative;
-            padding-left: 50px;
+            font-size: 1.1rem;
+            line-height: 1.4;
+            box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
         }
-
-        .key-points li::before {
-            content: '★';
+        
+        .key-points li:before {
+            content: "💥";
             position: absolute;
-            left: 20px;
-            color: #f1c40f;
-            font-size: 1.2rem;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            background: #fff;
+            border-radius: 50%;
+            padding: 5px;
+            border: 2px solid #000;
         }
-
+        
         .modal {
             display: none;
             position: fixed;
-            top: 0;
+            z-index: 2000;
             left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 2000;
-            animation: fadeIn 0.3s ease-out;
+            background-color: rgba(0,0,0,0.8);
+            animation: modalFadeIn 0.3s ease;
         }
-
-        @keyframes fadeIn {
+        
+        @keyframes modalFadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
+        
         .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            border-radius: 20px;
+            background-color: #fff;
+            margin: 5% auto;
             padding: 30px;
-            max-width: 80vw;
-            max-height: 80vh;
+            border: 5px solid #000;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
             overflow-y: auto;
-            border: 4px solid #2c3e50;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            animation: modalSlideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
-        @keyframes popIn {
-            from { transform: translate(-50%, -50%) scale(0.5); }
-            to { transform: translate(-50%, -50%) scale(1); }
+        
+        @keyframes modalSlideIn {
+            from { transform: translateY(-100px) scale(0.8); }
+            to { transform: translateY(0) scale(1); }
         }
-
-        .close-btn {
+        
+        .modal-close {
             position: absolute;
             top: 15px;
             right: 20px;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .close-btn:hover {
-            background: #c0392b;
-            transform: scale(1.1);
-        }
-
-        .modal-content h2 {
-            font-family: 'Bangers', cursive;
-            color: #2c3e50;
             font-size: 2rem;
+            cursor: pointer;
+            background: #e74c3c;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #000;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            transform: rotate(90deg) scale(1.1);
+            background: #c0392b;
+        }
+        
+        .modal h3 {
+            font-family: 'Bangers', cursive;
+            font-size: 2rem;
+            color: #e74c3c;
             margin-bottom: 20px;
-            border-bottom: 3px solid #e74c3c;
-            padding-bottom: 10px;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
         }
-
-        .modal-content h3 {
-            font-family: 'Comic Neue', cursive;
+        
+        .modal h4 {
+            font-family: 'Bangers', cursive;
+            font-size: 1.5rem;
             color: #34495e;
-            font-size: 1.3rem;
             margin: 20px 0 10px 0;
-            font-weight: bold;
         }
-
-        .modal-content p {
+        
+        .modal p {
             line-height: 1.6;
             margin-bottom: 15px;
-            color: #2c3e50;
+            font-size: 1.1rem;
         }
-
-        .modal-content ul {
+        
+        .modal ul {
             margin-left: 20px;
             margin-bottom: 15px;
         }
-
-        .modal-content li {
+        
+        .modal li {
             margin-bottom: 8px;
             line-height: 1.5;
         }
-
+        
+        .modal strong {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
         @media (max-width: 768px) {
-            .comics-grid {
+            .grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
             
-            .header h1 {
+            .title h1 {
                 font-size: 2.5rem;
             }
             
             .modal-content {
-                max-width: 95vw;
-                max-height: 90vh;
+                width: 95%;
+                margin: 2% auto;
                 padding: 20px;
             }
         }
@@ -390,186 +372,205 @@
 </head>
 <body>
     <div class="sidebar">
-        <button class="nav-btn active" data-tab="ia">🤖 VEILLE IA</button>
-        <button class="nav-btn" data-tab="news">📰 VEILLE ACTU</button>
+        <div class="sidebar-btn active" data-veille="ia">🤖 IA</div>
+        <div class="sidebar-btn" data-veille="news">📰 NEWS</div>
     </div>
-
+    
     <div class="main-container">
-        <div class="header">
-            <h1>VEILLE COMICS</h1>
-            <div class="subtitle">Semaine 4 • Style Superhéros • Test VISUALISATION</div>
+        <div class="title">
+            <h1 id="main-title">VEILLE IA COMICS</h1>
+            <div class="subtitle">Semaine 5 • Style Comics • ANIMATIONS</div>
         </div>
-
-        <div id="tab-ia" class="tab-content active">
-            <div class="comics-grid">
-                <div class="comic-panel" onclick="openModal('ia-modal-1')">
-                    <span class="panel-icon">🧠</span>
-                    <div class="panel-title">OpenAI o1 : L'Avènement du Raisonnement</div>
-                    <button class="read-more-btn">BOOM!</button>
-                </div>
-                <div class="comic-panel" onclick="openModal('ia-modal-2')">
-                    <span class="panel-icon">🚀</span>
-                    <div class="panel-title">Google Gemini 2.0 : L'Offensive Multimodale</div>
-                    <button class="read-more-btn">POW!</button>
-                </div>
-                <div class="comic-panel" onclick="openModal('ia-modal-3')">
-                    <span class="panel-icon">🦙</span>
-                    <div class="panel-title">Meta Llama 4 : Architecture Révolutionnaire</div>
-                    <button class="read-more-btn">ZAP!</button>
-                </div>
-                <div class="comic-panel" onclick="openModal('ia-modal-4')">
-                    <span class="panel-icon">⚖️</span>
-                    <div class="panel-title">UE Digital Omnibus : Simplification en Vue</div>
-                    <button class="read-more-btn">WHAM!</button>
-                </div>
-                <div class="comic-panel" onclick="openModal('ia-modal-5')">
-                    <span class="panel-icon">🛡️</span>
-                    <div class="panel-title">Menaces IA : L'Escalade Confirmée</div>
-                    <button class="read-more-btn">BANG!</button>
-                </div>
-                <div class="comic-panel" onclick="openModal('ia-modal-6')">
-                    <span class="panel-icon">🖥️</span>
-                    <div class="panel-title">Anthropic Computer Use : Nouvelle Frontière</div>
-                    <button class="read-more-btn">WOW!</button>
-                </div>
-            </div>
-
-            <div class="key-points">
-                <h2>POINTS CLÉS À RETENIR</h2>
-                <ul>
-                    <li>Officialisation d'OpenAI o1 le 5 décembre marquant l'ère du raisonnement natif</li>
-                    <li>Lancement de Google Gemini 2.0 pour l'ère agentique</li>
-                    <li>Meta Llama 4 avec architecture mixture-of-experts</li>
-                    <li>Introduction du "computer use" par Anthropic</li>
-                    <li>Explosion du phishing IA avec +703% d'attaques credential</li>
-                </ul>
-            </div>
+        
+        <div class="grid" id="main-grid">
+            <!-- Grille sera générée par JavaScript -->
         </div>
-
-        <div id="tab-news" class="tab-content">
-            <div class="comics-grid">
-                <div class="comic-panel" onclick="openModal('news-modal-1')">
-                    <span class="panel-icon">🏛️</span>
-                    <div class="panel-title">Vote Crucial du Budget de la Sécurité Sociale</div>
-                    <button class="read-more-btn">BOOM!</button>
-                </div>
-                <div class="comic-panel" onclick="openModal('news-modal-2')">
-                    <span class="panel-icon">📊</span>
-                    <div class="panel-title">Évolution des Cotes de Popularité Politique</div>
-                    <button class="read-more-btn">POW!</button>
-                </div>
-                <div class="comic-panel" onclick="openModal('news-modal-3')">
-                    <span class="panel-icon">💰</span>
-                    <div class="panel-title">Prévisions Économiques 2025</div>
-                    <button class="read-more-btn">ZAP!</button>
-                </div>
-                <div class="comic-panel" onclick="openModal('news-modal-4')">
-                    <span class="panel-icon">🌍</span>
-                    <div class="panel-title">Critiques Américaines sur l'Europe</div>
-                    <button class="read-more-btn">WHAM!</button>
-                </div>
-                <div class="comic-panel" onclick="openModal('news-modal-5')">
-                    <span class="panel-icon">🌱</span>
-                    <div class="panel-title">Stratégie Spatiale et Ambitions Climatiques</div>
-                    <button class="read-more-btn">BANG!</button>
-                </div>
-                <div class="comic-panel" onclick="openModal('news-modal-6')">
-                    <span class="panel-icon">🏙️</span>
-                    <div class="panel-title">Nantes & Région Ouest</div>
-                    <button class="read-more-btn">WOW!</button>
-                </div>
-            </div>
-
-            <div class="key-points">
-                <h2>POINTS CLÉS À RETENIR</h2>
-                <ul>
-                    <li>Adoption difficile de la partie "recettes" du budget de la Sécurité sociale à l'Assemblée</li>
-                    <li>Publication d'un document américain très critique envers l'Europe</li>
-                    <li>Prévisions économiques moroses pour 2025 avec une croissance française attendue autour de 1%</li>
-                    <li>Instabilité gouvernementale persistante avec des votes serrés au Parlement</li>
-                    <li>Budget historique de 50 milliards d'euros à la transition écologique en 2025</li>
-                </ul>
-            </div>
+        
+        <div class="key-points" id="key-points">
+            <!-- Points clés seront générés par JavaScript -->
         </div>
     </div>
-
-    <!-- Modals IA -->
-    <div id="ia-modal-1" class="modal">
+    
+    <div id="modal" class="modal">
         <div class="modal-content">
-            <button class="close-btn" onclick="closeModal('ia-modal-1')">&times;</button>
-            <h2>OpenAI o1 : L'avènement du raisonnement</h2>
-            <p><strong>Résumé :</strong> OpenAI a officialisé le 5 décembre son modèle o1, marquant une rupture paradigmatique avec l'approche traditionnelle des LLM par l'intégration native du raisonnement. Le modèle o1 pro, disponible via ChatGPT Pro à 200$/mois, affiche des performances remarquables avec 86% de réussite sur les examens mathématiques AIME 2024 contre 78% pour la version standard.</p>
-            <h3>Points de vue croisés</h3>
-            <p><strong>TechTarget :</strong> L'approche se distingue des modèles précédents en "réfléchissant" au bon angle d'attaque pour résoudre un problème, plutôt que de fournir une réponse aussi rapidement que possible.</p>
-            <p><strong>Medium (AI Bistrot) :</strong> La sortie complète d'o1 le 5 décembre 2024 marque le début d'un changement significatif dans la conception des grands modèles de langage, mettant l'accent sur une architecture reasoning-first.</p>
-            <p><strong>InfoWorld :</strong> Une amélioration clé réside dans la capacité d'o1 à raisonner sur les téléchargements d'images, ouvrant de nouvelles applications par l'analyse visuelle avec plus d'exactitude et de détail.</p>
+            <span class="modal-close">&times;</span>
+            <div id="modal-body"></div>
         </div>
     </div>
-
-    <div id="ia-modal-2" class="modal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal('ia-modal-2')">&times;</button>
-            <h2>Google Gemini 2.0 : L'offensive multimodale</h2>
-            <p><strong>Résumé :</strong> Google a lancé Gemini 2.0 comme "notre modèle le plus capable", conçu pour l'ère agentique, avec Gemini 2.0 Flash disponible immédiatement pour tous les utilisateurs. Ce modèle surpasse 1.5 Pro sur les benchmarks clés tout en étant deux fois plus rapide, intégrant des capacités multimodales natives incluant la génération d'images et audio.</p>
-            <h3>Points de vue croisés</h3>
-            <p><strong>Google DeepMind :</strong> "Si Gemini 1.0 visait à organiser et comprendre l'information, Gemini 2.0 vise à la rendre beaucoup plus utile", selon Sundar Pichai. L'accent est mis sur l'aspect pratique et l'utilisation concrète.</p>
-            <p><strong>CNBC :</strong> Gemini 2.0 représente les derniers efforts de Google dans la course à l'IA de plus en plus compétitive de l'industrie technologique. La compétition avec OpenAI, Meta et autres acteurs reste féroce.</p>
-            <p><strong>AI Magazine :</strong> Gemini 2.0 Flash est décrit comme un modèle expérimental avec "faible latence et performance améliorée à la pointe de notre technologie, à l'échelle".</p>
-        </div>
-    </div>
-
-    <div id="ia-modal-3" class="modal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal('ia-modal-3')">&times;</button>
-            <h2>Meta Llama 4 : Architecture révolutionnaire</h2>
-            <p><strong>Résumé :</strong> Meta a lancé Llama 4 Scout (17B paramètres actifs avec 16 experts) et Llama 4 Maverick (17B paramètres actifs avec 128 experts), marquant l'adoption d'une architecture mixture-of-experts pour la première fois dans la famille Llama. Le modèle Llama 4 Behemoth surpasse GPT-4.5, Claude Sonnet 3.7, et Gemini 2.0 Pro sur les benchmarks STEM.</p>
-            <h3>Points de vue croisés</h3>
-            <p><strong>Meta AI Blog :</strong> Meta continue à croire que l'ouverture stimule l'innovation et est bonne pour les développeurs, Meta et le monde, rendant Llama 4 Scout et Maverick disponibles en téléchargement.</p>
-            <p><strong>Interconnects.ai :</strong> Cette sortie est arrivée un samedi, ce qui est "totalement bizarre pour une grande entreprise lançant l'un de ses produits les plus médiatisés de l'année", suggérant une précipitation face à la concurrence.</p>
-            <p><strong>TechTarget :</strong> Llama 4 Scout et Maverick étaient disponibles au lancement, avec le modèle Behemoth encore en formation, indiquant une stratégie de déploiement échelonné.</p>
-        </div>
-    </div>
-
-    <div id="ia-modal-4" class="modal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal('ia-modal-4')">&times;</button>
-            <h2>UE Digital Omnibus : Simplification en vue</h2>
-            <p><strong>Résumé :</strong> La Commission européenne a présenté le 19 novembre son Digital Omnibus Package, incluant un "Digital Omnibus on AI" qui amenderait l'AI Act. La proposition introduit un sandbox réglementaire UE pour les modèles d'IA généraliste, créant une structure à double niveau avec les sandbox nationaux, particulièrement bénéfique aux PME.</p>
-            <h3>Points de vue croisés</h3>
-            <p><strong>Cooley Law Firm :</strong> Les entreprises doivent "remapper les calendriers" en planifiant des dates de conformité retardées pour l'IA à haut risque, tout en modélisant un scénario d'activation précoce si la Commission européenne juge les outils de conformité "adéquats".</p>
-            <p><strong>Inside Privacy :</strong> Le texte final du Digital Omnibus on AI évoluera probablement lors des négociations avec le Parlement européen et le Conseil de l'UE, suggérant une période d'incertitude réglementaire.</p>
-        </div>
-    </div>
-
-    <div id="ia-modal-5" class="modal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal('ia-modal-5')">&times;</button>
-            <h2>Menaces IA : L'escalade confirmée</h2>
-            <p><strong>Résumé :</strong> Selon une enquête Darktrace auprès de 1800 professionnels, 74% considèrent les menaces alimentées par l'IA comme un problème significatif, et 89% estiment qu'elles resteront un défi majeur dans un avenir prévisible. L'impact le plus important de l'IA à ce jour concerne les attaques de phishing, avec une augmentation de 202% des messages de phishing et 703% des attaques de phishing credential en seconde moitié 2024.</p>
-            <h3>Points de vue croisés</h3>
-            <p><strong>Hinckley Allen :</strong> Les outils IA ont "suralimenté" les cyberattaques, permettant aux acteurs malveillants de scanner, identifier et armer les vulnérabilités bien plus rapidement qu'auparavant.</p>
-            <p><strong>Darktrace :</strong> Une majorité de répondants (six sur dix) estiment que leurs organisations sont insuffisamment préparées pour affronter la prochaine génération de menaces alimentées par l'IA.</p>
-            <p><strong>SecurityWeek :</strong> L'IA générative apportera un "double coup dur" aux équipes de sécurité : menace externe d'adversaires utilisant l'IA directement contre les organisations et menace interne de mauvaise utilisation des applications gen-IA internes.</p>
-        </div>
-    </div>
-
-    <div id="ia-modal-6" class="modal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal('ia-modal-6')">&times;</button>
-            <h2>Anthropic Computer Use : Nouvelle frontière</h2>
-            <p><strong>Résumé :</strong> Anthropic a introduit une capacité révolutionnaire en version bêta publique : computer use, permettant aux développeurs de diriger Claude à utiliser les ordinateurs comme le font les humains—en regardant un écran, bougeant un curseur, cliquant et tapant. Sur le codage, Claude 3.5 Sonnet améliore ses performances sur SWE-bench Verified de 33,4% à 49,0%.</p>
-            <h3>Points de vue croisés</h3>
-            <p><strong>Anthropic Blog :</strong> Des entreprises comme Asana, Canva, Cognition, DoorDash, Replit et The Browser Company explorent déjà ces possibilités, réalisant des tâches nécessitant parfois des centaines d'étapes.</p>
-            <p><strong>AWS Blog :</strong> Plutôt que de restreindre le modèle à utiliser des APIs, Claude a été entraîné sur des compétences informatiques générales, lui permettant d'utiliser une large gamme d'outils et programmes standard.</p>
-            <p><strong>NIST Evaluation :</strong> Dans les évaluations de cybersécurité, le modèle amélioré a résolu 32,5% de toutes les tâches et 36% des tâches de niveau "apprenti cybersécurité".</p>
-        </div>
-    </div>
-
-    <!-- Modals News -->
-    <div id="news-modal-1" class="modal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal('news-modal-1')">&times;</button>
-            <h2>Vote crucial du budget de la Sécurité sociale</h2>
-            <p><strong>Résumé :</strong> L'Assemblée a adopté vendredi 5 décembre dans un scrutin à suspense la partie "recettes" du budget de la Sécurité sociale par 166 voix contre 140 et 32 abstentions, permettant aux débats de se poursuivre avant un vote crucial sur l'ensemble du texte mardi. 239 députés sur 577 n'ont pas pris part au scrutin, dont des absents de marque comme Marine Le Pen (RN), Manuel Bompard (LFI), François Hollande (PS) ou encore Michel Barnier (LR).</p>
-            <h3>Points de vue des médias</h3>
-            <p><strong>France Info :</strong>
+    
+    <script>
+        const veilleData = {
+            ia: {
+                title: "VEILLE IA COMICS",
+                cards: [
+                    {
+                        icon: "⚡",
+                        title: "Guerre des Géants: OpenAI vs Google",
+                        content: `
+                            <h3>⚡ Guerre des Géants : OpenAI riposte avec GPT-5.2</h3>
+                            <p>OpenAI a lancé GPT-5.2 le 11 décembre après avoir déclaré un "code red" interne face à la concurrence de Google Gemini 3. Le modèle est sorti en moins d'un mois après GPT-5.1, contre trois mois habituels, illustrant l'accélération de la compétition dans l'IA.</p>
+                            
+                            <h4>Points de vue croisés</h4>
+                            <p><strong>TechCrunch</strong> souligne qu'OpenAI aurait souhaité retarder la sortie pour améliorer le modèle, mais la pression concurrentielle a forcé un lancement précipité orienté vers les usages professionnels.</p>
+                            
+                            <p><strong>Fortune</strong> rapporte les dénégations d'OpenAI selon lesquelles le "code red" serait directement responsable du timing, arguant que le développement était en cours depuis des mois.</p>
+                            
+                            <p><strong>CNBC</strong> met l'accent sur l'aspect stratégique, citant la directrice des applications qui confirme la réallocation de ressources vers ChatGPT, tout en minimisant l'impact de Gemini 3 sur les métriques.</p>
+                            
+                            <h4>Signaux faibles</h4>
+                            <ul>
+                                <li>Le nom de code interne "Garlic" suggère une préparation antérieure au lancement de Gemini 3</li>
+                                <li>L'intégration immédiate dans GitHub Copilot indique une stratégie de distribution accélérée</li>
+                                <li>Risque de régression qualitative due au lancement précipité</li>
+                            </ul>
+                        `
+                    },
+                    {
+                        icon: "🏆",
+                        title: "Claude Opus 4.5 Contre-Attaque",
+                        content: `
+                            <h3>🏆 Anthropic contre-attaque avec Claude Opus 4.5</h3>
+                            <p>Anthropic a lancé Claude Opus 4.5 le 24 novembre, revendiquant le leadership mondial pour le code, les agents et l'usage informatique. Le modèle atteint 80,9% sur SWE-bench Verified, surpassant GPT-5.1-Codex-Max (77,9%) et Gemini 3 Pro (76,2%).</p>
+                            
+                            <h4>Baisse de prix spectaculaire</h4>
+                            <p>Les prix chutent de deux tiers par rapport au précédent Opus, passant de 15$/75$ à 5$/25$ par million de tokens.</p>
+                            
+                            <h4>Points de vue croisés</h4>
+                            <p><strong>VentureBeat</strong> met en avant la performance exceptionnelle sur l'examen interne d'Anthropic, où le modèle bat tous les candidats humains en ingénierie performance.</p>
+                            
+                            <p><strong>The New Stack</strong> insiste sur la spécialisation d'Anthropic dans le code et la productivité, évitant délibérément l'image et la vidéo pour se concentrer sur ses forces.</p>
+                            
+                            <p><strong>CNBC</strong> contextualise le lancement après la valorisation à 350 milliards de dollars et les investissements de Microsoft/Nvidia, ciblant développeurs et analystes financiers.</p>
+                        `
+                    },
+                    {
+                        icon: "🔍",
+                        title: "Google Gemini 3 Déployé Massivement",
+                        content: `
+                            <h3>🔍 Google Gemini 3 : l'intégration tous azimuts</h3>
+                            <p>Google a dévoilé Gemini 3 le 18 novembre, son modèle le plus intelligent intégré dès le premier jour dans la recherche Google. L'app Gemini compte 650 millions d'utilisateurs mensuels contre 700 millions hebdomadaires pour ChatGPT.</p>
+                            
+                            <h4>Performance record</h4>
+                            <p>Le modèle atteint un score ELO record de 1501 sur LMArena, premier à franchir la barre des 1500 points.</p>
+                            
+                            <h4>Points de vue croisés</h4>
+                            <p><strong>Fortune</strong> souligne l'avantage tactique de Google face à OpenAI qui n'a pas réussi à "voler la vedette" cette fois, contrairement aux lancements précédents.</p>
+                            
+                            <p><strong>CNBC</strong> met l'accent sur les capacités de compréhension du contexte et d'intention, réduisant le besoin de prompts détaillés.</p>
+                            
+                            <p><strong>Xole.ai</strong> décrit un déploiement "sans précédent" touchant 2 milliards d'utilisateurs Search et 650 millions d'utilisateurs Gemini App dès le jour J.</p>
+                        `
+                    },
+                    {
+                        icon: "🌍",
+                        title: "Runway Modèles Monde GWM-1",
+                        content: `
+                            <h3>🌍 Runway GWM-1 : l'émergence des modèles monde</h3>
+                            <p>Runway a annoncé GWM-1, sa première famille de modèles monde généraux, construits sur Gen-4.5 et générant frame par frame en temps réel. Le modèle se décline en trois variantes : GWM Worlds pour les environnements explorables, GWM Avatars pour les personnages conversationnels, et GWM Robotics pour la manipulation robotique.</p>
+                            
+                            <h4>Capacités techniques</h4>
+                            <p><strong>TechCrunch</strong> détaille les capacités techniques : simulation 24 fps en 720p avec compréhension de la géométrie, physique et éclairage, utile pour le gaming et l'entraînement d'agents.</p>
+                            
+                            <p><strong>IMP News</strong> positionne l'annonce comme une escalade dans la compétition avec les Big Tech, Runway ayant déjà surpassé Google et OpenAI sur Video Arena.</p>
+                            
+                            <p><strong>Ars Technica</strong> nuance l'aspect "général" du modèle, notant qu'il s'agit en réalité de trois modèles distincts post-entraînés, bien que Runway travaille à l'unification.</p>
+                        `
+                    },
+                    {
+                        icon: "🇺🇸",
+                        title: "Trump Révolutionne la Régulation",
+                        content: `
+                            <h3>🇺🇸 Trump révolutionne la régulation IA américaine</h3>
+                            <p>Le président Trump a signé le 11 décembre un décret exécutif créant un cadre réglementaire national unique pour l'IA, limitant le pouvoir des États. Le décret stipule que les entreprises IA américaines "doivent être libres d'innover sans régulation encombrante".</p>
+                            
+                            <h4>AI Litigation Task Force</h4>
+                            <p>L'ordre crée une "AI Litigation Task Force" au ministère de la Justice pour poursuivre les États sur leurs lois IA.</p>
+                            
+                            <h4>Points de vue croisés</h4>
+                            <p><strong>CNN</strong> rapporte que David Sacks, le "tsar" IA et crypto de la Maison Blanche, promet de ne pas contester les régulations sur la sécurité des enfants mais de "repousser les exemples les plus onéreux".</p>
+                            
+                            <p><strong>NPR</strong> souligne que l'ordre sera "quasi certainement contesté en justice" et que les chercheurs estiment que Trump ne peut pas restreindre la régulation étatique sans loi du Congrès.</p>
+                            
+                            <p><strong>TechCrunch</strong> note que même les partisans d'un cadre national reconnaissent que l'ordre ne crée pas de standard unifié, laissant les startups dans un "limbe juridique" prolongé.</p>
+                        `
+                    },
+                    {
+                        icon: "🎨",
+                        title: "Adobe x ChatGPT Integration",
+                        content: `
+                            <h3>🎨 Adobe démocratise ses outils via ChatGPT</h3>
+                            <p>Adobe a lancé le 10 décembre l'intégration de Photoshop, Adobe Express et Acrobat dans ChatGPT, accessible aux 800 millions d'utilisateurs de la plateforme. Les utilisateurs peuvent demander à ChatGPT d'utiliser Photoshop pour éditer des parties spécifiques d'images, supprimer ou flouter des arrière-plans, ajuster exposition et contraste.</p>
+                            
+                            <h4>Points de vue croisés</h4>
+                            <p><strong>TechCrunch</strong> analyse cette stratégie comme un moyen pour Adobe d'attirer plus d'utilisateurs dans son écosystème, mais souligne le défi de se démarquer face aux apps rivales dans ChatGPT.</p>
+                            
+                            <p><strong>9to5Mac</strong> met l'accent sur l'accessibilité pour les utilisateurs non experts tout en offrant un moyen plus rapide pour les professionnels de faire des éditions rapides.</p>
+                            
+                            <p><strong>Gizmodo</strong> tempère l'enthousiasme, notant l'expérience "très limitée" actuelle et les potentielles hallucinations dans les éditions.</p>
+                            
+                            <h4>Signaux faibles</h4>
+                            <ul>
+                                <li>Cette intégration n'est pas le premier partenariat IA d'Adobe en 2025, mais le plus ambitieux</li>
+                                <li>Des fonctionnalités Firefly AI "co-pilot" sont prévues pour 2026</li>
+                                <li>Questions sur la monétisation future de ces intégrations gratuites</li>
+                            </ul>
+                        `
+                    }
+                ],
+                keyPoints: [
+                    "Escalade concurrentielle majeure entre OpenAI (GPT-5.2), Google (Gemini 3) et Anthropic (Opus 4.5)",
+                    "Révolution réglementaire américaine privilégiant l'innovation sur la régulation",
+                    "Recul européen avec report de l'AI Act à 2027 sous pression industrielle",
+                    "Intégrations technologiques accélérées (Adobe-ChatGPT, Runway GWM-1)"
+                ]
+            },
+            news: {
+                title: "VEILLE NEWS COMICS",
+                cards: [
+                    {
+                        icon: "🏛️",
+                        title: "Victoire Parlementaire de Lecornu",
+                        content: `
+                            <h3>🏛️ Première victoire parlementaire pour Sébastien Lecornu</h3>
+                            <p>Le gouvernement Lecornu remporte une victoire cruciale avec l'adoption du projet de loi de financement de la Sécurité sociale (PLFSS) pour 2026, voté de justesse à l'Assemblée (247 voix contre 234) sans recours au 49.3. Cette victoire inclut la suspension de la réforme des retraites, obtenue grâce au soutien du Parti socialiste.</p>
+                            
+                            <h4>Points de vue des médias</h4>
+                            <p><strong>France 24</strong> analyse cette victoire comme un renforcement provisoire pour Lecornu, soulignant que "sa méthode des petits pas, élaborant des compromis au jour le jour pour passer les obstacles un par un, s'est finalement montrée payante".</p>
+                            
+                            <p><strong>Boursorama</strong> met l'accent sur le pari personnel du Premier ministre, nommé il y a trois mois, qui "sort provisoirement renforcé de ce scrutin à haut risque".</p>
+                            
+                            <p><strong>France Info</strong> souligne les difficultés à venir, rapportant les déclarations de François Hollande jugeant "impossible" que les socialistes s'abstiennent sur le budget de l'État.</p>
+                            
+                            <h4>Défis à venir</h4>
+                            <p>Le défi suivant s'annonce plus complexe : l'adoption du budget de l'État, avec une commission mixte paritaire prévue et la menace persistante d'une motion de censure si le Premier ministre devait recourir au 49.3.</p>
+                        `
+                    },
+                    {
+                        icon: "📈",
+                        title: "Conjoncture Économique Française",
+                        content: `
+                            <h3>📈 Conjoncture économique française en fin d'année</h3>
+                            <p>Selon l'enquête de la Banque de France, l'activité économique française continue de progresser en novembre, avec une hausse plus marquée dans l'industrie, au-dessus de sa moyenne de long terme pour le sixième mois consécutif.</p>
+                            
+                            <h4>Secteurs en progression</h4>
+                            <p>Cette évolution positive est tirée principalement par une accélération dans les produits informatiques-électroniques-optiques, tandis que les secteurs agroalimentaire et automobile redémarrent.</p>
+                            
+                            <h4>Points de vue contrastés</h4>
+                            <p><strong>Banque de France</strong> - Officielle et mesurée, l'institution souligne la progression continue de l'activité avec "une hausse plus marquée dans l'industrie".</p>
+                            
+                            <p><strong>Institut La Boétie</strong> - Plus critique, dresse un bilan sombre : "En France, le marasme économique se prolonge, alors qu'un nouveau projet de budget austéritaire pour 2026 est en discussion au Parlement".</p>
+                            
+                            <p><strong>Rexecode</strong> - Nuance l'analyse en situant les prévisions dans leur contexte post-censure du gouvernement Barnier, soulignant que "l'évolution de la situation politique et budgétaire constitue donc un aléa important".</p>
+                        `
+                    },
+                    {
+                        icon: "🇺🇦",
+                        title: "Ukraine: Guerre d'Usure",
+                        content: `
+                            <h3>🇺🇦 Ukraine, une guerre d'usure qui se prolonge</h3>
+                            <p>L'Ukraine entre dans l'hiver "sous un ciel saturé de drones et de missiles", avec une intensification des frappes russes contre les infrastructures énergétiques qui plongent de nombreux Ukrainiens dans "une obscurité glaciale".</p>
+                            
+                            <h4>Bilan dramatique</h4>
+                            <p>L'ONU rappelle que 2025 est l'une des années les plus meurtrières pour les civils ukrainiens avec une augmentation de 24% des victimes par rapport à 2024, totalisant 14 775 civils morts depuis février 2022.</p>
+                            
+                            <p>Selon l'Institut for the Study of War, l'armée russe n'a gagné que 0,77% de territoire supplémentaire en 2025 (4 669 km²), mais au prix
