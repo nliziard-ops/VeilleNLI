@@ -3,597 +3,609 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veille Hebdomadaire - Édition Comics</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <title>Veille Comics - Semaine 7</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers:wght@400&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
             font-family: 'Comic Neue', cursive;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            background: linear-gradient(45deg, #FFD700, #FF6B6B, #4ECDC4, #45B7D1);
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite;
             min-height: 100vh;
             overflow-x: hidden;
         }
-
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
         .sidebar {
             position: fixed;
             left: 0;
             top: 0;
             width: 40px;
             height: 100vh;
-            background: linear-gradient(45deg, #FF6B35, #F7931E, #FFD23F);
+            background: linear-gradient(180deg, #2C3E50, #34495E);
             z-index: 1000;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            box-shadow: 3px 0 15px rgba(0,0,0,0.3);
+            gap: 20px;
+            border-right: 4px solid #E74C3C;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.3);
         }
-
+        
         .sidebar-btn {
             writing-mode: vertical-rl;
             text-orientation: mixed;
-            background: rgba(255,255,255,0.1);
+            background: linear-gradient(135deg, #E74C3C, #C0392B);
             border: none;
             color: white;
-            font-weight: bold;
-            font-size: 11px;
-            padding: 20px 8px;
+            padding: 15px 5px;
+            margin: 0 5px;
             cursor: pointer;
+            font-family: 'Bangers', cursive;
+            font-size: 12px;
+            border-radius: 5px;
             transition: all 0.3s ease;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            border-radius: 0;
-            margin: 2px 0;
+            transform: rotate(180deg);
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
         }
-
+        
         .sidebar-btn:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateX(3px);
+            transform: rotate(180deg) scale(1.1);
+            box-shadow: 3px 3px 12px rgba(0,0,0,0.5);
         }
-
+        
         .sidebar-btn.active {
-            background: rgba(255,255,255,0.4);
-            transform: translateX(5px);
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, #F39C12, #E67E22);
+            transform: rotate(180deg) scale(1.05);
         }
-
-        .main-content {
+        
+        .main-container {
             margin-left: 50px;
             padding: 20px;
             min-height: 100vh;
         }
-
+        
         .header {
             text-align: center;
             margin-bottom: 30px;
-            position: relative;
+            padding: 20px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            border: 4px solid #2C3E50;
+            box-shadow: 8px 8px 0px #E74C3C;
+            transform: rotate(-1deg);
         }
-
+        
         .header h1 {
             font-family: 'Bangers', cursive;
             font-size: 3em;
-            color: #FFD23F;
-            text-shadow: 4px 4px 0px #FF6B35, 8px 8px 0px #C73E1D;
-            transform: rotate(-2deg);
+            color: #2C3E50;
+            text-shadow: 3px 3px 0px #E74C3C;
             margin-bottom: 10px;
         }
-
+        
         .header .subtitle {
             font-size: 1.2em;
-            color: white;
-            background: #FF6B35;
-            padding: 8px 20px;
-            border-radius: 25px;
-            display: inline-block;
-            transform: rotate(1deg);
-            box-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+            color: #34495E;
+            font-weight: bold;
         }
-
+        
         .grid-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 25px;
             margin-bottom: 40px;
-            transform: rotate(-0.5deg);
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
         }
-
-        .comic-case {
+        
+        .comic-panel {
             background: white;
-            border: 4px solid #000;
-            border-radius: 10px;
+            border: 4px solid #2C3E50;
+            border-radius: 15px;
             padding: 20px;
             position: relative;
-            cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.8);
-            min-height: 180px;
+            cursor: pointer;
+            min-height: 200px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            overflow: hidden;
         }
-
-        .comic-case:nth-child(odd) {
-            transform: rotate(1deg);
+        
+        .comic-panel:nth-child(1) {
+            transform: rotate(2deg);
+            box-shadow: 8px 8px 0px #E74C3C;
+            background: linear-gradient(135deg, #FFE5E5, #FFFFFF);
         }
-
-        .comic-case:nth-child(even) {
+        
+        .comic-panel:nth-child(2) {
             transform: rotate(-1deg);
+            box-shadow: -6px 8px 0px #F39C12;
+            background: linear-gradient(135deg, #FFF5E5, #FFFFFF);
         }
-
-        .comic-case:nth-child(3) {
-            transform: rotate(2deg) translateX(10px);
+        
+        .comic-panel:nth-child(3) {
+            transform: rotate(1deg);
+            box-shadow: 8px -6px 0px #27AE60;
+            background: linear-gradient(135deg, #E8F8F5, #FFFFFF);
         }
-
-        .comic-case:nth-child(4) {
-            transform: rotate(-1.5deg) translateX(-5px);
+        
+        .comic-panel:nth-child(4) {
+            transform: rotate(-2deg);
+            box-shadow: -8px -6px 0px #3498DB;
+            background: linear-gradient(135deg, #EBF5FB, #FFFFFF);
         }
-
-        .comic-case:nth-child(5) {
-            transform: rotate(0.5deg) translateX(5px);
+        
+        .comic-panel:nth-child(5) {
+            transform: rotate(1.5deg);
+            box-shadow: 6px 8px 0px #9B59B6;
+            background: linear-gradient(135deg, #F4ECF7, #FFFFFF);
         }
-
-        .comic-case:nth-child(6) {
-            transform: rotate(-2deg) translateX(-10px);
+        
+        .comic-panel:nth-child(6) {
+            transform: rotate(-0.5deg);
+            box-shadow: -8px 6px 0px #E67E22;
+            background: linear-gradient(135deg, #FDF2E9, #FFFFFF);
         }
-
-        .comic-case:hover {
-            transform: scale(1.05) rotate(0deg) !important;
-            box-shadow: 12px 12px 0px rgba(0,0,0,0.8);
+        
+        .comic-panel:hover {
+            transform: rotate(0deg) scale(1.05);
             z-index: 10;
         }
-
-        .case-icon {
-            font-size: 2.5em;
+        
+        .panel-icon {
+            font-size: 3em;
             text-align: center;
             margin-bottom: 10px;
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
         }
-
-        .case-title {
+        
+        .panel-title {
             font-family: 'Bangers', cursive;
-            font-size: 1.3em;
+            font-size: 1.4em;
             color: #2C3E50;
             text-align: center;
             margin-bottom: 15px;
             line-height: 1.2;
         }
-
-        .case-btn {
-            background: linear-gradient(45deg, #FF6B35, #F7931E);
-            border: 3px solid #000;
+        
+        .panel-btn {
+            background: linear-gradient(135deg, #E74C3C, #C0392B);
+            border: none;
             color: white;
+            padding: 12px 20px;
             font-family: 'Bangers', cursive;
-            font-size: 1em;
-            padding: 8px 16px;
-            border-radius: 20px;
+            font-size: 1.1em;
+            border-radius: 25px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 3px 3px 0px #000;
+            transition: all 0.3s ease;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.3);
             align-self: center;
         }
-
-        .case-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 5px 5px 0px #000;
+        
+        .panel-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 4px 4px 12px rgba(0,0,0,0.4);
         }
-
-        .case-btn:active {
-            transform: translateY(0px);
-            box-shadow: 2px 2px 0px #000;
-        }
-
-        .points-cles {
+        
+        .key-points {
             background: rgba(255,255,255,0.95);
-            border: 4px solid #000;
+            border: 4px solid #2C3E50;
             border-radius: 15px;
-            padding: 25px;
-            margin: 20px auto;
-            max-width: 800px;
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.8);
-            transform: rotate(0.5deg);
+            padding: 30px;
+            margin-top: 40px;
+            box-shadow: 0 8px 0px #E74C3C;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
         }
-
-        .points-cles h2 {
+        
+        .key-points h2 {
             font-family: 'Bangers', cursive;
-            font-size: 2em;
-            color: #FF6B35;
+            font-size: 2.5em;
+            color: #2C3E50;
             text-align: center;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 0px #000;
+            text-shadow: 2px 2px 0px #E74C3C;
         }
-
-        .points-cles ul {
+        
+        .key-points ul {
             list-style: none;
+            padding: 0;
         }
-
-        .points-cles li {
-            background: #FFD23F;
-            border: 2px solid #000;
-            padding: 12px;
-            margin: 10px 0;
+        
+        .key-points li {
+            background: #F8F9FA;
+            border: 2px solid #BDC3C7;
             border-radius: 10px;
-            font-weight: bold;
+            padding: 15px;
+            margin-bottom: 15px;
             position: relative;
-            box-shadow: 3px 3px 0px rgba(0,0,0,0.5);
+            font-weight: bold;
+            color: #2C3E50;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
         }
-
-        .points-cles li:before {
+        
+        .key-points li:before {
             content: "💥";
-            margin-right: 10px;
-            font-size: 1.2em;
+            position: absolute;
+            left: -10px;
+            top: -5px;
+            font-size: 1.5em;
         }
-
+        
         .modal {
             display: none;
             position: fixed;
-            top: 0;
+            z-index: 2000;
             left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 2000;
-            overflow-y: auto;
+            background-color: rgba(0,0,0,0.8);
         }
-
+        
         .modal-content {
             background: white;
-            margin: 50px auto;
+            margin: 2% auto;
             padding: 30px;
-            max-width: 800px;
-            border: 4px solid #000;
+            border: 4px solid #2C3E50;
             border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
             position: relative;
             box-shadow: 0 0 30px rgba(0,0,0,0.5);
-            animation: modalPop 0.3s ease;
         }
-
-        @keyframes modalPop {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .modal-close {
+        
+        .close-btn {
             position: absolute;
-            top: -10px;
-            right: -10px;
-            background: #FF6B35;
+            right: 15px;
+            top: 15px;
+            font-size: 2em;
+            cursor: pointer;
+            background: #E74C3C;
             color: white;
-            border: 3px solid #000;
+            border: none;
+            border-radius: 50%;
             width: 40px;
             height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-family: 'Bangers', cursive;
-            font-size: 1.2em;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 3px 3px 0px #000;
+            font-family: 'Bangers', cursive;
         }
-
-        .modal-close:hover {
+        
+        .close-btn:hover {
+            background: #C0392B;
             transform: scale(1.1);
         }
-
-        .modal h2 {
+        
+        .modal-content h2 {
             font-family: 'Bangers', cursive;
-            color: #FF6B35;
-            font-size: 2em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
-        }
-
-        .modal h3 {
+            font-size: 2.2em;
             color: #2C3E50;
-            font-size: 1.3em;
-            margin: 20px 0 10px 0;
-            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 0px #BDC3C7;
         }
-
-        .modal p {
+        
+        .modal-content h3 {
+            font-family: 'Bangers', cursive;
+            font-size: 1.6em;
+            color: #E74C3C;
+            margin: 20px 0 10px 0;
+        }
+        
+        .modal-content p {
             line-height: 1.6;
             margin-bottom: 15px;
+            color: #2C3E50;
         }
-
-        .modal strong {
-            color: #FF6B35;
+        
+        .modal-content strong {
+            color: #E74C3C;
         }
-
-        .veille-content {
+        
+        .modal-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .modal-content li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .hidden {
             display: none;
         }
-
-        .veille-content.active {
-            display: block;
-        }
-
+        
         @media (max-width: 768px) {
             .grid-container {
                 grid-template-columns: 1fr;
-                transform: none;
             }
             
-            .comic-case {
-                transform: none !important;
-                margin-bottom: 10px;
+            .main-container {
+                margin-left: 45px;
+                padding: 10px;
             }
             
             .header h1 {
                 font-size: 2em;
             }
             
-            .main-content {
-                margin-left: 45px;
-                padding: 15px;
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
     <div class="sidebar">
-        <button class="sidebar-btn active" onclick="switchVeille('ia')">🤖 IA</button>
-        <button class="sidebar-btn" onclick="switchVeille('actu')">📰 ACTU</button>
+        <button class="sidebar-btn" data-veille="ia">🤖 VEILLE IA</button>
+        <button class="sidebar-btn active" data-veille="news">📰 ACTUALITÉS</button>
     </div>
 
-    <div class="main-content">
+    <div class="main-container">
         <div class="header">
-            <h1>VEILLE COMICS</h1>
-            <div class="subtitle">Semaine 6 - Édition Spéciale</div>
+            <h1 id="main-title">VEILLE ACTUALITÉS</h1>
+            <div class="subtitle">Semaine 7 • Édition des Horizons Calmes</div>
         </div>
 
-        <div id="veille-ia" class="veille-content active">
-            <div class="grid-container">
-                <div class="comic-case" onclick="openModal('modal-ia-1')">
-                    <div class="case-icon">⚔️</div>
-                    <div class="case-title">GUERRE DES MODÈLES<br>OpenAI vs Google</div>
-                    <button class="case-btn">LIRE +</button>
-                </div>
-
-                <div class="comic-case" onclick="openModal('modal-ia-2')">
-                    <div class="case-icon">💰</div>
-                    <div class="case-title">BULLE IA ?<br>Signaux d'alarme</div>
-                    <button class="case-btn">LIRE +</button>
-                </div>
-
-                <div class="comic-case" onclick="openModal('modal-ia-3')">
-                    <div class="case-icon">🇪🇺</div>
-                    <div class="case-title">RÉGULATION UE<br>Ajustements pragmatiques</div>
-                    <button class="case-btn">LIRE +</button>
-                </div>
-
-                <div class="comic-case" onclick="openModal('modal-ia-4')">
-                    <div class="case-icon">🛡️</div>
-                    <div class="case-title">CYBER MENACES<br>IA Autonome</div>
-                    <button class="case-btn">LIRE +</button>
-                </div>
-
-                <div class="comic-case" onclick="openModal('modal-ia-5')">
-                    <div class="case-icon">⚗️</div>
-                    <div class="case-title">RECHERCHE<br>Transparence & Open Source</div>
-                    <button class="case-btn">LIRE +</button>
-                </div>
-
-                <div class="comic-case" onclick="openModal('modal-ia-6')">
-                    <div class="case-icon">🏭</div>
-                    <div class="case-title">INDUSTRIE<br>Consolidation massive</div>
-                    <button class="case-btn">LIRE +</button>
-                </div>
-            </div>
-
-            <div class="points-cles">
-                <h2>POINTS CLÉS À RETENIR</h2>
-                <ul>
-                    <li>GPT-5.2 lancé en urgence face au succès de Gemini 3</li>
-                    <li>Signaux de "bulle IA" avec correction boursière</li>
-                    <li>L'Europe assouplit l'IA Act face aux réalités d'implémentation</li>
-                    <li>Explosion des cyberattaques autonomes pilotées par IA</li>
-                    <li>Consolidation industrielle avec partenariats stratégiques majeurs</li>
-                </ul>
-            </div>
+        <div class="grid-container" id="grid-container">
+            <!-- Les cases seront générées par JavaScript -->
         </div>
 
-        <div id="veille-actu" class="veille-content">
-            <div class="grid-container">
-                <div class="comic-case" onclick="openModal('modal-actu-1')">
-                    <div class="case-icon">📱</div>
-                    <div class="case-title">MACRON vs META<br>Fake News virale</div>
-                    <button class="case-btn">LIRE +</button>
-                </div>
-
-                <div class="comic-case" onclick="openModal('modal-actu-2')">
-                    <div class="case-icon">📉</div>
-                    <div class="case-title">ÉCONOMIE<br>Stagnation & incertitudes</div>
-                    <button class="case-btn">LIRE +</button>
-                </div>
-
-                <div class="comic-case" onclick="openModal('modal-actu-3')">
-                    <div class="case-icon">🇺🇦</div>
-                    <div class="case-title">UKRAINE<br>Soutien européen renforcé</div>
-                    <button class="case-btn">LIRE +</button>
-                </div>
-
-                <div class="comic-case" onclick="openModal('modal-actu-4')">
-                    <div class="case-icon">🐄</div>
-                    <div class="case-title">CRISE AGRICOLE<br>Dermatose & tensions</div>
-                    <button class="case-btn">LIRE +</button>
-                </div>
-
-                <div class="comic-case" onclick="openModal('modal-actu-5')">
-                    <div class="case-icon">🎭</div>
-                    <div class="case-title">NANTES<br>Ouverture de Mixt</div>
-                    <button class="case-btn">LIRE +</button>
-                </div>
-
-                <div class="comic-case" onclick="openModal('modal-actu-6')">
-                    <div class="case-icon">🌍</div>
-                    <div class="case-title">SYNTHÈSE<br>Climat d'incertitude</div>
-                    <button class="case-btn">LIRE +</button>
-                </div>
-            </div>
-
-            <div class="points-cles">
-                <h2>POINTS CLÉS À RETENIR</h2>
-                <ul>
-                    <li>Confrontation Macron-Meta révèle l'impuissance face aux géants du numérique</li>
-                    <li>Stagnation économique française dans l'attente d'un budget 2025</li>
-                    <li>L'Europe renforce son soutien à l'Ukraine avec 90 milliards d'euros</li>
-                    <li>Crise agricole : 113 foyers de dermatose, mobilisation des éleveurs</li>
-                    <li>Climate d'incertitude généralisée entre tensions politiques et économiques</li>
-                </ul>
-            </div>
+        <div class="key-points" id="key-points">
+            <!-- Les points clés seront générés par JavaScript -->
         </div>
     </div>
 
-    <!-- Modaux IA -->
-    <div id="modal-ia-1" class="modal">
+    <div class="modal" id="modal">
         <div class="modal-content">
-            <div class="modal-close" onclick="closeModal('modal-ia-1')">×</div>
-            <h2>⚔️ Guerre des Modèles - OpenAI contre-attaque</h2>
-            <p><strong>OpenAI a lancé GPT-5.2 le 11 décembre 2025</strong>, décrit comme "le modèle le plus capable pour le travail professionnel", permettant d'économiser 40-60 minutes par jour aux utilisateurs et jusqu'à 10 heures par semaine aux utilisateurs intensifs.</p>
-            
-            <h3>Le "Code Red" interne</h3>
-            <p>Cette sortie fait suite à un mémo <strong>"code red"</strong> interne après le déclin du trafic ChatGPT face à Google Gemini, demandant un recadrage des priorités. GPT-5.2-Codex, version spécialisée pour le développement, a également été annoncé le 18 décembre.</p>
-            
-            <h3>Points de vue divergents</h3>
-            <p><strong>OpenAI</strong> présente GPT-5.2 comme "définissant un nouvel état de l'art" avec des performances supérieures aux professionnels sur 44 métiers.</p>
-            <p><strong>TechCrunch</strong> analyse la sortie comme une réponse précipitée à la concurrence, avec certains employés demandant un report pour améliorer le modèle.</p>
-            <p><strong>Axios</strong> souligne l'intensité concurrentielle du marché des chatbots, tout en rapportant les dénégations d'OpenAI.</p>
-            
-            <h3>Signaux faibles</h3>
-            <p>• Absence notable de générateur d'images dans cette version<br>
-            • Capacités prometteuses en cybersécurité défensive<br>
-            • Sam Altman anticipe une sortie du "code red" d'ici janvier 2026</p>
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <div id="modal-body"></div>
         </div>
     </div>
 
-    <div id="modal-ia-2" class="modal">
-        <div class="modal-content">
-            <div class="modal-close" onclick="closeModal('modal-ia-2')">×</div>
-            <h2>💰 Signaux de "Bulle IA" - Entre euphorie et inquiétudes</h2>
-            <p><strong>Les indices boursiers américains ont connu des baisses significatives le 17 décembre</strong>, alimentées par l'anxiété croissante concernant une "bulle IA", les investissements massifs n'ayant pas encore généré les retours attendus.</p>
-            
-            <h3>Chiffres clés</h3>
-            <p>• <strong>89,4 milliards de dollars</strong> d'investissement dans les startups IA en 2025<br>
-            • <strong>34%</strong> de tout l'investissement VC malgré seulement 18% des entreprises financées<br>
-            • <strong>7 000 milliards</strong> déployés mondialement dans l'infrastructure IA</p>
-            
-            <h3>Mouvements de talents</h3>
-            <p>Google recrute massivement d'anciens employés, avec <strong>20% des ingénieurs IA embauchés en 2025</strong> étant des "boomerang employees".</p>
-            
-            <h3>Projections divergentes</h3>
-            <p><strong>Goldman Sachs</strong> projette que les dépenses en capital IA pourraient dépasser 500 milliards de dollars en 2026, mais note la sous-estimation constante des investissements depuis deux ans.</p>
-            <p><strong>Anthropic</strong> prépare une IPO potentielle en 2026 avec une valorisation visée au-dessus de 300 milliards de dollars.</p>
-        </div>
-    </div>
+    <script>
+        const veilleData = {
+            news: {
+                title: "VEILLE ACTUALITÉS",
+                subtitle: "Semaine 7 • Édition des Horizons Calmes",
+                sections: [
+                    {
+                        icon: "🏛️",
+                        title: "Politique française",
+                        subtitle: "Loi spéciale et paralysie budgétaire",
+                        content: `
+                        <h2>Politique française – Loi spéciale et paralysie budgétaire</h2>
+                        
+                        <h3>Résumé</h3>
+                        <p>Après l'adoption de la loi spéciale par l'Assemblée nationale le 16 décembre (481 votes pour, 0 contre) et par le Sénat le 18 décembre (345 voix pour, 0 voix contre), le Parlement a définitivement adopté ce texte d'urgence. Cette procédure exceptionnelle vise à assurer la continuité de la vie de la Nation et le fonctionnement régulier des services publics dès le 1er janvier 2025.</p>
 
-    <div id="modal-ia-3" class="modal">
-        <div class="modal-content">
-            <div class="modal-close" onclick="closeModal('modal-ia-3')">×</div>
-            <h2>🇪🇺 Régulation Européenne - Ajustements pragmatiques</h2>
-            <p><strong>La Commission européenne a publié le 17 décembre 2025</strong> le premier projet de Code de Pratique sur le marquage et l'étiquetage des contenus générés par IA.</p>
-            
-            <h3>Nouveaux délais</h3>
-            <p>Le paquet <strong>"Digital Omnibus on AI"</strong> propose des amendements significatifs pour simplifier l'implémentation de l'IA Act :</p>
-            <p>• <strong>Décembre 2027</strong> pour les systèmes à haut risque hors réglementation produits<br>
-            • <strong>Août 2028</strong> pour ceux intégrés dans la réglementation de sécurité</p>
-            
-            <h3>Réactions contrastées</h3>
-            <p><strong>Commission européenne</strong> : Justifie les ajustements comme nécessaires pour fournir plus de clarté aux entreprises et autorités nationales.</p>
-            <p><strong>Lawfare</strong> : Analyse le changement comme une réponse à l'urgence de ne pas être laissé pour compte dans la course à l'IA.</p>
-            <p><strong>CDT</strong> : Critique le processus avec 114 représentants d'entreprises contre seulement 9 organisations de la société civile.</p>
-            
-            <h3>Défis d'implémentation</h3>
-            <p>Plusieurs États membres ont manqué la date limite d'août 2025 pour désigner les autorités compétentes, compromettant la mise en œuvre effective.</p>
-        </div>
-    </div>
+                        <h3>Points de vue des médias</h3>
+                        
+                        <p><strong>Le gouvernement (sources officielles)</strong><br>
+                        Le périmètre de cette loi est strictement circonscrit : elle autorisera la perception des impôts et des ressources publiques nécessaires au financement des dépenses publiques essentielles.</p>
 
-    <div id="modal-ia-4" class="modal">
-        <div class="modal-content">
-            <div class="modal-close" onclick="closeModal('modal-ia-4')">×</div>
-            <h2>🛡️ Cybermenaces - L'année du basculement vers les attaques autonomes</h2>
-            <p><strong>L'année 2025 marque le franchissement du "Rubicon IA"</strong> en cybersécurité, avec l'IA désormais au centre de toutes les conversations sécuritaires sans possibilité de retour en arrière.</p>
-            
-            <h3>Explosion des menaces</h3>
-            <p>• <strong>87% des organisations</strong> rapportent avoir subi une cyberattaque pilotée par IA cette année<br>
-            • <strong>82,6% des emails de phishing</strong> utilisent désormais l'IA<br>
-            • Attaques de clonage vocal en hausse de <strong>260% à 442%</strong> selon les secteurs</p>
-            
-            <h3>Cas emblématiques</h3>
-            <p><strong>Hong Kong</strong> : transfert de 25 millions via deepfake - un aperçu de la nouvelle norme selon Cyble Research.</p>
-            <p><strong>BlackMatter ransomware</strong> : évolution de DarkSide, utilise des stratégies de chiffrement pilotées par IA et contourne les systèmes EDR traditionnels.</p>
-            
-            <h3>Impact sur l'industrie</h3>
-            <p><strong>World Economic Forum</strong> : Les cyberattaques ont plus que doublé en quatre ans (de 818 à 1984 par organisation par semaine).</p>
-            <p><strong>76% croient</strong> que la cybercriminalité continuera d'augmenter de façon incontrôlable à cause de l'IA.</p>
-        </div>
-    </div>
+                        <p><strong>L'OFCE (analyse économique)</strong><br>
+                        Avec un impact sur le PIB de -0,8 point lié à la seule politique budgétaire, une croissance du PIB de 0,8 % était anticipée pour 2025, avec un déficit public attendu à -5,3 % du PIB en 2025.</p>
 
-    <div id="modal-ia-5" class="modal">
-        <div class="modal-content">
-            <div class="modal-close" onclick="closeModal('modal-ia-5')">×</div>
-            <h2>⚗️ Recherche - Vers la transparence et l'open source</h2>
-            <p><strong>OpenAI a développé un modèle expérimental "weight-sparse transformer"</strong> plus facile à comprendre que les modèles typiques, permettant de mieux saisir le fonctionnement des LLM.</p>
-            
-            <h3>Avancées en transparence</h3>
-            <p><strong>MIT Technology Review</strong> : Le modèle transparent d'OpenAI pourrait atteindre les performances de GPT-3 avec transparence complète d'ici quelques années.</p>
-            
-            <h3>Olmo 3 - L'open source intégral</h3>
-            <p><strong>L'AI2 a publié Olmo 3</strong>, modèle entièrement ouvert avec :</p>
-            <p>• Données d'entraînement complètes<br>
-            • Code source intégral<br>
-            • Checkpoints de tous les états</p>
-            
-            <h3>Innovation mobile</h3>
-            <p><strong>Tether Data a lancé QVAC Fabric LLM</strong>, permettant l'exécution et l'entraînement de modèles directement sur smartphones - premier framework de production pour l'entraînement LLM sur GPU mobiles.</p>
-            
-            <h3>Nouveautés Google</h3>
-            <p><strong>Gemini 2.5 Pro</strong> intègre un mode "Deep Think" pour le raisonnement complexe pas à pas, excellant dans les requêtes multimodales complexes.</p>
-        </div>
-    </div>
+                        <p><strong>France Bleu (impact citoyen)</strong><br>
+                        La loi spéciale ne reconduisant que les impôts dans leur version 2024, elle ne permettra pas de revaloriser le barème de l'impôt sur le revenu, avec pour conséquence que 380.000 Français supplémentaires seront imposables.</p>
+                        `
+                    },
+                    {
+                        icon: "💰",
+                        title: "Économie & Entreprises",
+                        subtitle: "Conjoncture et perspectives 2025",
+                        content: `
+                        <h2>Économie & Entreprises – Conjoncture et perspectives 2025</h2>
+                        
+                        <h3>Résumé</h3>
+                        <p>Selon l'enquête de conjoncture de la Banque de France auprès de 8 500 entreprises, l'activité économique continue de progresser en novembre, avec une hausse plus marquée dans l'industrie. Le PIB progresserait à un rythme de 0,9 % en moyenne annuelle en 2025, après 1,1 % en 2024.</p>
 
-    <div id="modal-ia-6" class="modal">
-        <div class="modal-content">
-            <div class="modal-close" onclick="closeModal('modal-ia-6')">×</div>
-            <h2>🏭 Industrie - Consolidation et course aux talents</h2>
-            <p><strong>Le Département américain de l'Énergie a annoncé plus de 320 millions de dollars d'investissements</strong> pour accélérer les capacités IA de la mission Genesis, visant à doubler la productivité scientifique.</p>
-            
-            <h3>Partenariats stratégiques</h3>
-            <p><strong>Disney a confirmé un partenariat de trois ans avec OpenAI</strong> :</p>
-            <p>• Licences sur plus de 200 personnages pour Sora et ChatGPT Images<br>
-            • Investissement de 1 milliard de dollars<br>
-            • Intégration native dans les services Disney</p>
-            
-            <h3>Initiatives gouvernementales</h3>
-            <p><strong>Département de la Santé US (HHS)</strong> a lancé une consultation publique sur l'accélération de l'adoption de l'IA en soins cliniques, utilisant les leviers réglementaires, de remboursement et de R&D.</p>
-            
-            <h3>Évolutions Google</h3>
-            <p>• <strong>Gemini Deep Research</strong> réinventé avec workflow de recherche web supervisé<br>
-            • <strong>API Interactions</strong> ouverte aux développeurs<br>
-            • Export Google Docs intégré</p>
-            
-            <h3>Signaux faibles</h3>
-            <p>Les initiatives gouvernementales visent à créer des écosystèmes d'IA auto-améliorés exploitant les données, installations et expertise uniques du DOE.</p>
-        </div>
-    </div>
+                        <h3>Points de vue des médias</h3>
+                        
+                        <p><strong>Banque de France</strong><br>
+                        L'indicateur mensuel d'incertitude se replie sensiblement dans les trois secteurs, mais reste à des niveaux élevés en raison principalement de la situation politique nationale.</p>
 
-    <!-- Modaux Actualités -->
-    <div id="modal-actu-1" class="modal">
-        <div class="modal-content">
-            <div class="modal-close" onclick="closeModal('modal-actu-1')">×</div>
-            <h2>📱 Confrontation Macron vs Meta</h2>
-            <p><strong>Emmanuel Macron renversé lors d'un coup d'État par un mystérieux colonel ?</strong> C'est ce que raconte une vidéo virale vue 13 millions de fois sur Facebook, un contenu généré par intelligence artificielle.</p>
-            
-            <h3>Le refus de Meta</h3>
-            <p>Meta, le propriétaire de la plateforme, <strong>a refusé de retirer la vidéo</strong> malgré les demandes présidentielles. Cette affaire révèle les limites de la régulation des plateformes numériques.</p>
-            
-            <h3>Points de vue des médias</h3>
-            <p><strong>France Info</strong> : "Ces gens-là se moquent de nous. Ils se foutent de la sérénité des débats publics et donc ils nous mettent en danger."</p>
-            <p><strong>France 24</strong> : Adopte une approche plus technique, détaillant le processus de modération de Meta.</p>
-            <p><strong>RT France</strong> : Insiste sur l'origine africaine du créateur - un adolescent burkinabé administrant une page Facebook depuis Ouagadougou.</p>
-            
-            <h3>Implications</h3>
-            <p>Cette
+                        <p><strong>Rexecode</strong><br>
+                        L'économie française devrait enregistrer une croissance de 1,1% en 2025 selon l'Insee, 0,9% selon la Banque de France. L'évolution de la situation politique et budgétaire constitue un aléa important.</p>
+                        `
+                    },
+                    {
+                        icon: "🌍",
+                        title: "International & Europe",
+                        subtitle: "Tensions transatlantiques et défis européens",
+                        content: `
+                        <h2>International & Europe – Tensions transatlantiques et défis européens</h2>
+                        
+                        <h3>Résumé</h3>
+                        <p>Les sanctions prises cette semaine par l'administration Trump contre Thierry Breton et quatre autre personnalités européennes constituent un geste hostile sans précédent entre pays alliés. En 2025, les Européens ont enfin compris que le monde avait changé, et pas en leur faveur.</p>
+
+                        <h3>Points de vue des médias</h3>
+                        
+                        <p><strong>Maliweb (analyse géopolitique critique)</strong><br>
+                        Ces sanctions sont d'abord idéologiques, basées sur une conception très américaine de la liberté d'expression, et répondent aux intérêts des oligarques de la Tech.</p>
+
+                        <p><strong>Euronews</strong><br>
+                        L'UE empruntera conjointement 90 milliards d'euros pour soutenir la lutte de l'Ukraine contre la Russie. La Hongrie, la Slovaquie et la République tchèque se retirent du système.</p>
+                        `
+                    },
+                    {
+                        icon: "🌱",
+                        title: "Écologie & Transition",
+                        subtitle: "Bilan et perspectives environnementales",
+                        content: `
+                        <h2>Écologie & Transition – Bilan et perspectives environnementales</h2>
+                        
+                        <h3>Résumé</h3>
+                        <p>Depuis la conférence COP30 en juillet 2025, l'ONU et l'Union européenne ont resserré leurs engagements. En février, la Commission européenne a adopté une taxe carbone portée à 120 €/tonne pour l'industrie lourde avec l'objectif d'atteindre la neutralité carbone en 2050.</p>
+
+                        <h3>Points de vue des médias</h3>
+                        
+                        <p><strong>Obsnat.fr (analyse optimiste)</strong><br>
+                        Hervé Le Treut s'est félicité de cette mesure de taxe carbone, estimant qu'elle pourrait réduire de 15 % les émissions du secteur d'ici 2030.</p>
+
+                        <p><strong>Environnement Durable (critique)</strong><br>
+                        Après une décennie de prévisions surévaluées, RTE vient de l'admettre : la PPE3 était basée sur des chiffres faux, et la France se retrouve dans une situation difficile.</p>
+                        `
+                    },
+                    {
+                        icon: "🏙️",
+                        title: "Nantes & Région Ouest",
+                        subtitle: "Développement métropolitain et actualités locales",
+                        content: `
+                        <h2>Nantes & Région Ouest</h2>
+                        
+                        <h3>Réalisations métropolitaines</h3>
+                        <p>Le budget prévisionnel 2026 confirme le programme économique métropolitain : 837,1 millions d'euros seront investis, en priorité dans les mobilités (305,7 M€), l'entretien durable des espaces publics (98,3 M€), l'eau et l'assainissement (80,2 M€).</p>
+                        
+                        <p>Deux lignes de covoiturage expérimentales démarreront début 2026 pour 3 ans : une branche nord reliant Saint-Herblain à La Chapelle-Launay et Savenay (33 km), une seconde vers Blain (35 km).</p>
+
+                        <h3>Économie locale</h3>
+                        <p>S'il y a une bien une entreprise qui a vécu une année 2025 exceptionnelle, c'est Blam, à Nantes, dont l'atelier est à Couëron. Après avoir créé Zeus, cheval d'aluminium star des JO, la sculpture a été exposée dans plusieurs villes cette année.</p>
+
+                        <h3>Culture et traditions</h3>
+                        <p>Au marché de Talensac à Nantes en cette fin décembre 2025, les amateurs du coquillage se ruent pour aller récupérer leur bourriche avant le réveillon.</p>
+                        `
+                    }
+                ],
+                keyPoints: [
+                    "Adoption unanime de la loi spéciale budgétaire pour assurer la continuité de l'État",
+                    "Maintien de la croissance économique malgré l'incertitude politique persistante",
+                    "Tensions diplomatiques inédites entre l'Europe et les États-Unis",
+                    "Poursuite des efforts de transition écologique avec des financements renforcés",
+                    "Développement métropolitain nantais avec 837M€ d'investissements prévus"
+                ]
+            },
+            ia: {
+                title: "VEILLE IA & LLM",
+                subtitle: "Semaine 7 • Édition Tensor",
+                sections: [
+                    {
+                        icon: "🚀",
+                        title: "Percées technologiques",
+                        subtitle: "La révolution OpenAI o3",
+                        content: `
+                        <h2>Percées technologiques & nouveaux modèles – La révolution o3</h2>
+                        
+                        <h3>Résumé</h3>
+                        <p>OpenAI a annoncé o3 le 20 décembre 2024, son modèle de raisonnement de nouvelle génération qui représente une percée significative. Le modèle atteint 96,7% sur l'examen mathématique AIME 2024 et 25,2% sur le benchmark Frontier Math, un bond considérable par rapport aux 2% des modèles précédents.</p>
+
+                        <h3>Points de vue croisés</h3>
+                        
+                        <p><strong>TechCrunch</strong><br>
+                        L'annonce d'o3 est présentée comme une approche vers l'AGI, avec des réserves importantes. TechCrunch souligne que o3 échoue sur des tâches très faciles d'ARC-AGI, indiquant des différences fondamentales avec l'intelligence humaine.</p>
+
+                        <p><strong>NextBigFuture</strong><br>
+                        Met l'accent sur les performances exceptionnelles : o3 atteint 87,5% sur ARC-AGI en mode haute-puissance, dépassant le seuil humain de 85%. Les coûts sont très élevés, atteignant des milliers de dollars par tâche.</p>
+                        `
+                    },
+                    {
+                        icon: "🇨🇳",
+                        title: "Compétition géostratégique",
+                        subtitle: "L'effet DeepSeek",
+                        content: `
+                        <h2>Compétition géostratégique & innovations chinoises – L'effet DeepSeek</h2>
+                        
+                        <h3>Résumé</h3>
+                        <p>DeepSeek, startup IA chinoise, a lancé R1, un modèle qui égale ou dépasse ChatGPT o1 sur plusieurs benchmarks clés tout en fonctionnant à une fraction du coût. En janvier 2025, DeepSeek a dépassé ChatGPT comme application la plus téléchargée sur l'App Store américain, provoquant une chute de 18% du cours de Nvidia.</p>
+
+                        <h3>Impact géopolitique</h3>
+                        
+                        <p><strong>MIT Technology Review</strong><br>
+                        Plutôt que d'affaiblir les capacités IA de la Chine, les sanctions semblent pousser les startups comme DeepSeek à innover vers plus d'efficacité et de collaboration.</p>
+
+                        <p><strong>CSIS</strong><br>
+                        L'hypothèse que Washington jouissait d'un avantage décisif grâce aux budgets de calcul massifs est remise en question par la sortie de R1.</p>
+                        `
+                    },
+                    {
+                        icon: "🔍",
+                        title: "Écosystème Google",
+                        subtitle: "Gemini 2.0 et l'ère agentique",
+                        content: `
+                        <h2>Évolutions de l'écosystème Google – Gemini 2.0 et l'ère agentique</h2>
+                        
+                        <h3>Résumé</h3>
+                        <p>Google a lancé Gemini 2.0, son modèle le plus capable à ce jour, conçu pour l'ère agentique. Gemini 2.0 Flash surpasse les performances de 1.5 Pro sur les benchmarks clés, à deux fois la vitesse. Le modèle intègre nativement la génération d'images et audio.</p>
+
+                        <h3>Innovations clés</h3>
+                        
+                        <p><strong>Vision agentique</strong><br>
+                        Investissement dans des modèles plus agentiques, capables de comprendre le monde, de planifier plusieurs étapes à l'avance et d'agir au nom de l'utilisateur.</p>
+
+                        <p><strong>Project Mariner</strong><br>
+                        Prototype de recherche qui atteint 83,5% sur le benchmark WebVoyager, démontrant les capacités d'interaction web avancées.</p>
+                        `
+                    },
+                    {
+                        icon: "⚖️",
+                        title: "Régulation & gouvernance",
+                        subtitle: "Évolutions du cadre européen",
+                        content: `
+                        <h2>Régulation & gouvernance IA – Évolutions du cadre européen</h2>
+                        
+                        <h3>Résumé</h3>
+                        <p>L'AI Act européen est entré en vigueur le 1er août 2024, avec une application progressive. La Commission européenne a publié le paquet Digital Omnibus le 19 novembre 2025, visant à rationaliser les régulations numériques européennes.</p>
+
+                        <h3>Calendrier d'application</h3>
+                        <ul>
+                        <li>Pratiques d'IA interdites : depuis le 2 février 2025</li>
+                        <li>Règles pour les modèles GPAI : depuis le 2 août 2025</li>
+                        <li>Systèmes IA à haut risque : à partir du 2 août 2026</li>
+                        </ul>
+
+                        <h3>Tensions géopolitiques</h3>
+                        <p>Aux États-Unis, un ordre exécutif de décembre 2025 mobilise le DOJ pour identifier et contester les lois d'État sur l'IA jugées "onéreuses".</p>
+                        `
+                    },
+                    {
+                        icon: "🧠",
+                        title: "Anthropic & Claude",
+                        subtitle: "Computer Use et nouveaux modèles",
+                        content: `
+                        <h2>Anthropic & évolutions Claude – Computer Use et nouveaux modèles</h2>
+                        
+                        <h3>Résumé</h3>
+                        <p>Anthropic a lancé une version améliorée de Claude 3.5 Sonnet le 22 octobre 2024, ainsi que Claude 3.5 Haiku et la fonctionnalité "computer use" en bêta publique. Claude Opus 4.5 est présenté comme le meilleur modèle mondial pour le code, les agents et l'utilisation d'ordinateur.</p>
+
+                        <h3>Computer Use</h3>
+                        <p>API permettant à Claude de percevoir et interagir avec les interfaces informatiques, traduisant les instructions en commandes informatiques. Sur OSWorld, Claude 3.5 Sonnet atteint 22,0% avec plusieurs étapes.</p>
+
+                        <h3>Performances en codage</h3>
+                        <p>Le nouveau 3.5 Sonnet améliore ses performances sur SWE-bench Verified de 33,4% à 49,0%. Sonnet 4.5 atteint 77,2% sur SWE-bench Verified.</p>
+                        `
+                    },
+                    {
+                        icon: "🔬",
+                        title: "Recherche scientifique",
+                        subtitle: "IA et productivité académique",
+                        content: `
+                        <h2>Impact sur la recherche scientifique – IA et productivité académique</h2>
+                        
+                        <h3>Résumé</h3>
+                        <p>Une étude de Cornell révèle que les LLMs comme ChatGPT augmentent la production de papers, avec des bénéfices particulièrement forts pour les scientifiques non-anglophones. Sur arXiv, les scientifiques utilisant des LLMs publient environ un tiers de papers en plus.</p>
+
+                        <h3>Résultats clés</h3>
+                        <ul>
+                        <li>Augmentations dépassant 50% sur bioRxiv et SSRN</li>
+                        <li>Bénéfices particuliers pour les
