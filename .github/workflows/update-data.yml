@@ -59,6 +59,9 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           
+          # Pull avant de push pour éviter les conflits
+          git pull --rebase origin main
+          
           git add docs/data.json
           
           if git diff --staged --quiet; then
