@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Agent Générateur JSON - VeilleNLI
+Agent Générateur JSON - VeilleNLI  
 Lit les fichiers Markdown depuis Google Drive et génère data.json pour le site dynamique
 """
 
@@ -232,8 +232,8 @@ def parser_sections(contenu_md: str) -> Tuple[List[Dict], List[Dict]]:
     section_actuelle = None
     capture = False
     
-    # Sections à exclure - LIGNE 236 CORRIGÉE
-    exclusions = ["introduction", "table des matieres", "synthese finale", "fin de l'edition", "fin de l'edition"]
+    # Sections à exclure - LIGNE 236 CORRIGEE SANS APOSTROPHE
+    exclusions = ["introduction", "table des matieres", "synthese finale", "fin de l edition", "fin de l edition"]
     
     for ligne in lignes:
         ligne_clean = ligne.strip()
