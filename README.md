@@ -12,7 +12,7 @@ VeilleNLI est un système orchestré par GitHub Actions qui exécute automatique
 
 1. **Agent Veille IA** : Synthétise les actualités IA/LLM de la semaine
 2. **Agent Veille Actualités** : Synthétise l'actualité générale hebdomadaire
-3. **Agent Générateur Web** : Crée un site web interactif pour visualiser les synthèses
+3. **Agent Générateur Web V2** : Crée un site web interactif à double onglets pour visualiser les synthèses
 
 ### 🎯 Objectifs
 
@@ -20,7 +20,7 @@ VeilleNLI est un système orchestré par GitHub Actions qui exécute automatique
 - Croiser minimum 3 sources fiables par sujet
 - Fournir des analyses neutres avec différents points de vue
 - Présenter l'information de manière engageante et moderne
-- Personnaliser progressivement le style visuel du site
+- Hiérarchiser les sujets par importance (6 sujets majeurs + sujets secondaires)
 
 ---
 
@@ -35,7 +35,7 @@ VeilleNLI/
 ├── agents/
 │   ├── agent_veille_ia.py           # Agent de veille IA/LLM
 │   ├── agent_veille_news.py         # Agent de veille actualités
-│   └── agent_generateur_web.py      # Générateur de site web
+│   └── agent_generateur_web.py      # Générateur de site web V2
 ├── config/
 │   └── styles_preferences.json      # Préférences de style visuel
 ├── docs/
@@ -87,28 +87,70 @@ VeilleNLI/
 
 ---
 
-### 3. Agent Générateur Web (`agent_generateur_web.py`)
+### 3. Agent Générateur Web V2 (`agent_generateur_web.py`)
 
 **Mission** : Créer un site web interactif au style comics/BD pour visualiser les veilles.
 
-**Fonctionnement** :
-- Télécharge les fichiers Markdown depuis Google Drive
-- Utilise Claude Sonnet 4 pour générer le HTML
-- Implémente un système de préférences visuelles cycliques
-- Teste chaque semaine un aspect du design : layout, couleurs, typographie, visualisation, animations
+**🆕 Nouveautés V2** :
+
+#### **Parsing Intelligent du Markdown**
+- Extraction automatique des sections principales (##)
+- Exclusion des sections meta (Introduction, Table des matières, Synthèse finale)
+- Séparation automatique : **6 sujets importants** (premiers) + **sujets secondaires** (suivants)
+- Extraction des points clés de la synthèse finale
+
+#### **Résumés Tronqués**
+- Résumés des sujets importants **tronqués à 40 mots** avec "..."
+- Clic sur le résumé → expand pour afficher le texte complet
+- Résumés des sujets secondaires affichés en entier
+
+#### **Double Onglets**
+- **1 page HTML unique** avec 2 sections masquables
+- **Navigation JavaScript** fluide entre "Veille IA" et "Actualités"
+- Menu latéral (30-40px) avec 2 boutons verticaux
+
+#### **Système de Vérification Robuste**
+- **3 tentatives maximum** de génération
+- Vérifications automatiques :
+  - Validité HTML (balises fermées, structure correcte)
+  - Présence de tous les sujets (IA + Actualités)
+  - Éléments essentiels (menu, sections, modals, JavaScript)
+  - Liens et sources présents
+- Régénération automatique en cas d'échec
+- Logs détaillés des vérifications
 
 **Design du site** :
-- Menu latéral fin (30-40px) avec 2 boutons : "Veille IA" / "Veille Actualités"
-- Grille de 6 cases style BD/comics (2 colonnes x 3 lignes)
-- Chaque case : icône, titre du sujet, bouton "Lire +"
-- Section "Points clés" en bas
-- Modal/overlay pour afficher le contenu complet au clic
-- Hauteur totale : environ 2 écrans
 
-**Système de préférences** :
-- Cycle de 5 tests : layout, couleurs, typographie, visualisation, animations
-- Mémorisation des styles aimés/rejetés dans `styles_preferences.json`
-- Intégration progressive des préférences détectées
+#### **Sujets Importants (6 cartes comics par onglet)**
+- Grille de 6 cartes style BD (2x3 ou 3x2)
+- Chaque carte contient :
+  - Icône/emoji pertinente
+  - Titre du sujet (1-2 lignes)
+  - Résumé tronqué à 40 mots (cliquable pour expand)
+  - Bouton "Lire +" → ouvre modal avec détail complet
+- Style BD : bordures nettes, ombres portées, couleurs vives
+
+#### **Sujets Secondaires (liste compacte)**
+- Titre : "Autres sujets de la semaine"
+- Liste avec :
+  - Titre en gras
+  - Résumé complet
+  - Clic sur titre → ouvre modal
+
+#### **Section Points Clés**
+- 3-5 points importants de la synthèse
+- Design sobre mais visible
+
+#### **Modals Fonctionnels**
+- Overlay semi-transparent
+- Contenu complet du sujet :
+  1. Titre
+  2. Résumé complet
+  3. Points de vue croisés
+  4. Fiabilité & signaux faibles
+  5. Sources avec liens cliquables
+- Bouton [X] fermeture
+- Clic en dehors → ferme le modal
 
 **Sortie** : `docs/index.html` pour GitHub Pages
 
@@ -143,9 +185,11 @@ VeilleNLI/
 
 **Séquence d'exécution** :
 1. Téléchargement des fichiers Markdown depuis Google Drive
-2. Génération du site web HTML
-3. Commit et push automatique du site vers `docs/index.html`
-4. Mise à jour de `config/styles_preferences.json`
+2. **Parsing intelligent** des fichiers Markdown
+3. **Génération du site web HTML** (jusqu'à 3 tentatives)
+4. **Vérification de l'intégrité** du HTML
+5. Commit et push automatique du site vers `docs/index.html`
+6. Mise à jour de `config/styles_preferences.json`
 
 **Commit automatique** : 
 ```
@@ -205,12 +249,19 @@ graph TD
     D --> E[Agent Veille News]
     E --> F[Upload VeilleNews.md sur Drive]
     F --> G[Samedi 7h30]
-    G --> H[Agent Générateur Web]
-    H --> I[Télécharge les .md depuis Drive]
-    I --> J[Génère index.html]
-    J --> K[Commit & Push vers GitHub]
-    K --> L[GitHub Pages publie le site]
-    L --> M[Incrémente compteur de semaine]
+    G --> H[Agent Générateur Web V2]
+    H --> I[Parsing intelligent des MD]
+    I --> J[Génération HTML - Tentative 1]
+    J --> K{Vérification OK?}
+    K -->|Non| L[Tentative 2]
+    L --> M{Vérification OK?}
+    M -->|Non| N[Tentative 3]
+    N --> O{Vérification OK?}
+    O -->|Oui ou Échec final| P[Commit & Push vers GitHub]
+    K -->|Oui| P
+    M -->|Oui| P
+    P --> Q[GitHub Pages publie le site]
+    Q --> R[Incrémente compteur de semaine]
 ```
 
 ---
@@ -238,7 +289,7 @@ Le fichier `config/styles_preferences.json` gère l'évolution du design :
 4. **Visualisation** : bulles BD, phylactères, effets tramés
 5. **Animations** : flip, zoom hover, shake subtil
 
-Le générateur intègre automatiquement les préférences et évite les styles rejetés.
+⚠️ **Note V2** : Le système de préférences cycliques est actuellement désactivé. Focus sur la structure et la fonctionnalité.
 
 ---
 
@@ -246,10 +297,12 @@ Le générateur intègre automatiquement les préférences et évite les styles 
 
 - **Fréquence** : Hebdomadaire (samedi)
 - **Sujets par veille** : 10-15 (IA) / 8-10 (Actualités)
+- **Hiérarchisation** : 6 sujets importants + sujets secondaires par onglet
 - **Sources minimales par sujet** : 3
 - **Temps de lecture** : 10-15 minutes par veille
 - **Taille des synthèses** : ~8000 caractères (IA) / ~5000 caractères (Actualités)
-- **Site web** : Hauteur ~2 écrans, 6 cases + section Points clés
+- **Site web** : 1 page HTML, 2 onglets, 6 cartes + liste par onglet
+- **Système de vérification** : 3 tentatives maximum
 
 ---
 
@@ -322,6 +375,7 @@ catégorie: [Intelligence Artificielle | Actualités Générales]
 - Pause de 2 minutes entre les agents pour respecter les rate limits
 - Commit automatique avec user.email et user.name génériques
 - Logs détaillés dans les workflows pour debug
+- Système de vérification robuste (3 tentatives)
 
 ---
 
@@ -331,8 +385,9 @@ Le système est entièrement automatisé. Une fois les secrets configurés :
 
 1. Les workflows s'exécutent automatiquement chaque samedi
 2. Les fichiers Markdown sont créés et uploadés sur Google Drive
-3. Le site web est généré et publié sur GitHub Pages
-4. Aucune intervention manuelle requise
+3. Le site web est généré avec vérifications (jusqu'à 3 tentatives)
+4. Le site est publié sur GitHub Pages
+5. Aucune intervention manuelle requise
 
 **Exécution manuelle** : 
 - Aller dans Actions > [Workflow] > Run workflow
@@ -349,9 +404,31 @@ google-auth>=2.23.0
 
 ---
 
+## 🆕 Changelog V2
+
+### Version 2.0 - Janvier 2026
+
+**Nouvelles fonctionnalités** :
+- ✅ Parsing intelligent du Markdown avec extraction automatique des sections
+- ✅ Hiérarchisation des sujets (6 importants + secondaires)
+- ✅ Résumés tronqués à 40 mots avec expand
+- ✅ Double onglets (Veille IA / Actualités) avec navigation JavaScript
+- ✅ Système de vérification robuste avec 3 tentatives de génération
+- ✅ Validation HTML, présence des sujets, liens et éléments essentiels
+- ✅ Modals fonctionnels pour afficher le détail des sujets
+- ✅ Logs détaillés des vérifications
+
+**Améliorations** :
+- Structure HTML plus claire et sémantique
+- Meilleure séparation des préoccupations (parsing, génération, vérification)
+- Gestion d'erreurs améliorée avec retry automatique
+
+---
+
 ## 🛠️ Évolutions futures possibles
 
-- [ ] Système de notation des styles visuels (feedback utilisateur)
+- [ ] Réactivation du système de préférences visuelles cycliques
+- [ ] Système de notation des styles (feedback utilisateur)
 - [ ] Export PDF des synthèses
 - [ ] Archivage automatique des anciennes semaines
 - [ ] Dashboard avec statistiques d'évolution des sujets
@@ -359,6 +436,7 @@ google-auth>=2.23.0
 - [ ] Notifications email lors de la publication
 - [ ] Mode sombre/clair pour le site
 - [ ] Recherche dans les archives
+- [ ] Filtres par catégorie sur le site
 
 ---
 
@@ -386,5 +464,5 @@ Nantes, France
 ---
 
 **Dernière mise à jour** : Janvier 2026  
-**Version** : 1.0  
+**Version** : 2.0  
 **Statut** : Production - Actif chaque samedi
