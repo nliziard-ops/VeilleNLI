@@ -191,6 +191,105 @@ class HTMLValidator(HTMLParser):
     def is_valid(self):
         return len(self.errors) == 0 and len(self.tags) == 0
 
+def injecter_javascript_si_manquant(html_content):
+    """
+    Vérifie si le JavaScript fonctionnel est présent et l'injecte si nécessaire
+    """
+    fonctions_requises = ['showTab', 'toggleResume', 'openModal', 'closeModal']
+    
+    # Vérifier si toutes les fonctions sont présentes
+    toutes_presentes = all(f'function {func}' in html_content for func in fonctions_requises)
+    
+    if toutes_presentes:
+        print("      ✓ JavaScript déjà présent et complet")
+        return html_content
+    
+    print("      ⚠️  JavaScript manquant ou incomplet - Injection automatique")
+    
+    # JavaScript complet et fonctionnel
+    javascript_complet = """
+    <script>
+        // Navigation entre onglets
+        function showTab(tabName) {
+            document.querySelectorAll('.veille-section').forEach(s => s.style.display = 'none');
+            document.getElementById('veille-' + tabName).style.display = 'block';
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            const activeBtn = document.querySelector('.nav-btn[data-tab="' + tabName + '"]');
+            if (activeBtn) activeBtn.classList.add('active');
+        }
+
+        // Expand/collapse résumés dans les cartes
+        function toggleResume(cardId) {
+            const card = document.getElementById(cardId);
+            if (!card) return;
+            
+            const court = card.querySelector('.resume-court');
+            const complet = card.querySelector('.resume-complet');
+            
+            if (!court || !complet) return;
+            
+            if (complet.style.display === 'none' || !complet.style.display) {
+                court.style.display = 'none';
+                complet.style.display = 'block';
+            } else {
+                court.style.display = 'block';
+                complet.style.display = 'none';
+            }
+        }
+
+        // Gestion des modals
+        function openModal(modalId) {
+            const modal = document.getElementById('modal-' + modalId);
+            if (modal) {
+                modal.style.display = 'flex';
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById('modal-' + modalId);
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Fermer modal si clic en dehors
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        };
+
+        // Initialisation au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            // Afficher la première section par défaut
+            const firstSection = document.querySelector('.veille-section');
+            if (firstSection) {
+                firstSection.style.display = 'block';
+            }
+            
+            // S'assurer que tous les résumés complets sont cachés au départ
+            document.querySelectorAll('.resume-complet').forEach(el => {
+                el.style.display = 'none';
+            });
+        });
+    </script>
+"""
+    
+    # Injecter avant </body>
+    if '</body>' in html_content:
+        html_content = html_content.replace('</body>', javascript_complet + '\n</body>')
+        print("      ✓ JavaScript injecté avec succès avant </body>")
+    elif '</html>' in html_content:
+        # Fallback : injecter avant </html>
+        html_content = html_content.replace('</html>', javascript_complet + '\n</html>')
+        print("      ✓ JavaScript injecté avec succès avant </html>")
+    else:
+        # Fallback ultime : ajouter à la fin
+        html_content += javascript_complet
+        print("      ✓ JavaScript ajouté à la fin du fichier")
+    
+    return html_content
+
 def verifier_html_genere(html_content, sujets_ia, sujets_news):
     """
     Vérifie la validité et l'intégrité du HTML généré
@@ -241,7 +340,17 @@ def verifier_html_genere(html_content, sujets_ia, sujets_news):
     checks['elements_essentiels'] = elements_requis
     checks['tous_elements_presents'] = all(elements_requis.values())
     
-    # 5. Vérification des liens/sources
+    # 5. Vérification des fonctions JavaScript critiques
+    fonctions_js = {
+        'showTab': 'function showTab' in html_content,
+        'toggleResume': 'function toggleResume' in html_content,
+        'openModal': 'function openModal' in html_content,
+        'closeModal': 'function closeModal' in html_content
+    }
+    checks['fonctions_javascript'] = fonctions_js
+    checks['javascript_complet'] = all(fonctions_js.values())
+    
+    # 6. Vérification des liens/sources
     checks['liens_presents'] = 'http://' in html_content or 'https://' in html_content
     
     # Résultat global
@@ -249,7 +358,8 @@ def verifier_html_genere(html_content, sujets_ia, sujets_news):
         checks['html_valide'],
         checks['tous_sujets_ia'],
         checks['tous_sujets_news'],
-        checks['tous_elements_presents']
+        checks['tous_elements_presents'],
+        checks['javascript_complet']  # Nouveau check critique
     ]
     
     est_valide = all(checks_critiques)
@@ -310,6 +420,9 @@ def generer_site_web_avec_verification(fichiers_markdown, preferences, max_tenta
             
             print(f"      ✓ HTML généré ({len(html_content)} caractères)")
             
+            # NOUVEAU : Injection automatique du JavaScript si manquant
+            html_content = injecter_javascript_si_manquant(html_content)
+            
             # Vérification
             print(f"   🔍 Vérification de l'intégrité (tentative {tentative}/{max_tentatives})...")
             est_valide, details_checks = verifier_html_genere(
@@ -326,6 +439,7 @@ def generer_site_web_avec_verification(fichiers_markdown, preferences, max_tenta
                 print(f"         - Tous sujets IA présents: {details_checks['tous_sujets_ia']}")
                 print(f"         - Tous sujets News présents: {details_checks['tous_sujets_news']}")
                 print(f"         - Éléments essentiels: {details_checks['tous_elements_presents']}")
+                print(f"         - JavaScript complet: {details_checks['javascript_complet']}")
                 return html_content, True, details_checks
             else:
                 print(f"      ⚠️  Vérification échouée (tentative {tentative}/{max_tentatives})")
@@ -333,6 +447,7 @@ def generer_site_web_avec_verification(fichiers_markdown, preferences, max_tenta
                 print(f"         - Tous sujets IA présents: {details_checks['tous_sujets_ia']}")
                 print(f"         - Tous sujets News présents: {details_checks['tous_sujets_news']}")
                 print(f"         - Éléments essentiels: {details_checks['tous_elements_presents']}")
+                print(f"         - JavaScript complet: {details_checks['javascript_complet']}")
                 
                 if tentative < max_tentatives:
                     print(f"      🔄 Régénération en cours...")
@@ -471,43 +586,62 @@ Tu dois créer un site web d'une seule page HTML avec 2 ONGLETS pour visualiser 
 - Compatible tous navigateurs récents
 - Responsive (desktop prioritaire)
 
-## JAVASCRIPT REQUIS
+## JAVASCRIPT REQUIS ET CRITIQUE
+
+Tu DOIS absolument inclure ce JavaScript COMPLET avant la balise </body> :
 
 ```javascript
-// Navigation entre onglets
-function showTab(tabName) {{
-    // Masquer toutes les sections
-    document.querySelectorAll('.veille-section').forEach(s => s.style.display = 'none');
-    // Afficher la section demandée
-    document.getElementById('veille-' + tabName).style.display = 'block';
-    // Gérer les boutons actifs
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    document.querySelector('.nav-btn[data-tab="' + tabName + '"]').classList.add('active');
-}}
-
-// Expand/collapse résumés dans les cartes
-function toggleResume(cardId) {{
-    const card = document.getElementById(cardId);
-    const court = card.querySelector('.resume-court');
-    const complet = card.querySelector('.resume-complet');
-    // Toggle visibility
-}}
-
-// Gestion des modals
-function openModal(modalId) {{
-    document.getElementById('modal-' + modalId).style.display = 'flex';
-}}
-
-function closeModal(modalId) {{
-    document.getElementById('modal-' + modalId).style.display = 'none';
-}}
-
-// Fermer modal si clic en dehors
-window.onclick = function(event) {{
-    if (event.target.classList.contains('modal')) {{
-        event.target.style.display = 'none';
+<script>
+    // Navigation entre onglets
+    function showTab(tabName) {{
+        document.querySelectorAll('.veille-section').forEach(s => s.style.display = 'none');
+        document.getElementById('veille-' + tabName).style.display = 'block';
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        const activeBtn = document.querySelector('.nav-btn[data-tab="' + tabName + '"]');
+        if (activeBtn) activeBtn.classList.add('active');
     }}
-}}
+
+    // Expand/collapse résumés dans les cartes
+    function toggleResume(cardId) {{
+        const card = document.getElementById(cardId);
+        if (!card) return;
+        const court = card.querySelector('.resume-court');
+        const complet = card.querySelector('.resume-complet');
+        if (!court || !complet) return;
+        if (complet.style.display === 'none' || !complet.style.display) {{
+            court.style.display = 'none';
+            complet.style.display = 'block';
+        }} else {{
+            court.style.display = 'block';
+            complet.style.display = 'none';
+        }}
+    }}
+
+    // Gestion des modals
+    function openModal(modalId) {{
+        const modal = document.getElementById('modal-' + modalId);
+        if (modal) modal.style.display = 'flex';
+    }}
+
+    function closeModal(modalId) {{
+        const modal = document.getElementById('modal-' + modalId);
+        if (modal) modal.style.display = 'none';
+    }}
+
+    // Fermer modal si clic en dehors
+    window.onclick = function(event) {{
+        if (event.target.classList.contains('modal')) {{
+            event.target.style.display = 'none';
+        }}
+    }};
+
+    // Initialisation
+    document.addEventListener('DOMContentLoaded', function() {{
+        const firstSection = document.querySelector('.veille-section');
+        if (firstSection) firstSection.style.display = 'block';
+        document.querySelectorAll('.resume-complet').forEach(el => el.style.display = 'none');
+    }});
+</script>
 ```
 
 ## STYLE COMICS/BD
@@ -528,7 +662,7 @@ Ton HTML DOIT contenir :
 - ✅ Listes des sujets secondaires
 - ✅ Sections points clés
 - ✅ 1 modal par sujet (IA + News)
-- ✅ JavaScript pour navigation et modals
+- ✅ JavaScript COMPLET pour navigation et modals
 - ✅ Tous les titres de sujets présents
 - ✅ Tous les liens sources présents
 
@@ -540,6 +674,7 @@ Génère UNIQUEMENT le code HTML complet de <!DOCTYPE html> à </html>
 - Pas de balises markdown
 - Code production-ready
 - Tout fonctionne immédiatement
+- JavaScript OBLIGATOIRE avant </body>
 
 GÉNÈRE LE SITE MAINTENANT.
 """
@@ -560,7 +695,7 @@ def incrementer_semaine(preferences):
     print(f"✅ Compteur de semaine incrémenté : semaine {preferences['semaine_actuelle']}")
 
 def main():
-    print("🚀 Démarrage Agent Générateur Web V2...")
+    print("🚀 Démarrage Agent Générateur Web V2.1...")
     print(f"⏰ Date d'exécution : {datetime.now().strftime('%d/%m/%Y %H:%M')}")
     
     print("\n📂 Chargement des préférences...")
@@ -606,7 +741,7 @@ def main():
     incrementer_semaine(preferences)
     
     print("\n" + "="*60)
-    print("✅ Agent Générateur Web V2 terminé avec succès!")
+    print("✅ Agent Générateur Web V2.1 terminé avec succès!")
     print(f"🌐 Site disponible à : https://nliziard-ops.github.io/VeilleNLI/")
     print("="*60)
 
