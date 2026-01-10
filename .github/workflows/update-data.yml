@@ -1,0 +1,83 @@
+name: Mise à jour des données de veille
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Agents Collecteurs"]
+    types:
+      - completed
+  schedule:
+    - cron: '0 8 * * 1'
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: 📥 Checkout du repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: 📦 Installation des dépendances
+        run: |
+          pip install --upgrade pip
+          pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
+      
+      - name: 🔨 Génération de data.json
+        env:
+          GOOGLE_DRIVE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+        run: |
+          echo "🚀 Lancement de l'agent générateur JSON..."
+          python agents/agent_generateur_json.py
+          
+          echo "✅ data.json généré avec succès"
+          ls -lh docs/data.json
+      
+      - name: 📊 Vérification du fichier généré
+        run: |
+          if [ -f docs/data.json ]; then
+            echo "✅ Le fichier data.json existe"
+            echo "📏 Taille: $(wc -c < docs/data.json) octets"
+            echo "📝 Contenu (premières lignes):"
+            head -n 20 docs/data.json
+          else
+            echo "❌ Erreur: data.json n'a pas été généré"
+            exit 1
+          fi
+      
+      - name: 💾 Commit et push des modifications
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          git add docs/data.json
+          
+          if git diff --staged --quiet; then
+            echo "ℹ️ Aucune modification à commiter"
+          else
+            git commit -m "🤖 Mise à jour automatique de data.json - $(date '+%Y-%m-%d %H:%M')"
+            git push
+            echo "✅ Modifications commitées et pushées"
+          fi
+      
+      - name: 📢 Notification de succès
+        if: success()
+        run: |
+          echo "✅ Workflow terminé avec succès!"
+          echo "🌐 Les données sont maintenant disponibles sur GitHub Pages"
+          echo "🔗 https://nliziard-ops.github.io/VeilleNLI/"
+      
+      - name: 📢 Notification d'erreur
+        if: failure()
+        run: |
+          echo "❌ Le workflow a échoué"
+          echo "🔍 Consultez les logs ci-dessus pour plus de détails"
