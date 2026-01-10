@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veille Hebdomadaire - Semaine 8</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers:wght@400&family=Comic+Neue:wght@400;700&family=Creepster&display=swap" rel="stylesheet">
+    <title>Veille Hebdo - Semaine 9 • Style Comics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,587 +14,590 @@
 
         body {
             font-family: 'Comic Neue', cursive;
-            background: linear-gradient(45deg, #FF6B35, #F7931E, #FFD23F, #06FFA5, #4ECDC4, #45B7D1);
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
             background-size: 400% 400%;
-            animation: backgroundShift 15s ease infinite;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
             overflow-x: hidden;
         }
 
-        @keyframes backgroundShift {
+        @keyframes gradientShift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 35px;
-            height: 100vh;
-            background: linear-gradient(180deg, #2C3E50, #34495E);
-            z-index: 1000;
+        .container {
             display: flex;
-            flex-direction: column;
-            box-shadow: 3px 0 15px rgba(0,0,0,0.3);
+            min-height: 100vh;
         }
 
-        .nav-btn {
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            padding: 20px 5px;
-            background: transparent;
+        /* MENU LATÉRAL */
+        .sidebar {
+            width: 40px;
+            background: linear-gradient(180deg, #2c3e50, #34495e);
+            position: fixed;
+            height: 100vh;
+            z-index: 1000;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.3);
+        }
+
+        .sidebar-btn {
+            width: 100%;
+            height: 50vh;
             border: none;
+            background: transparent;
             color: white;
             font-family: 'Bangers', cursive;
-            font-size: 14px;
+            font-size: 16px;
+            writing-mode: vertical-lr;
             cursor: pointer;
             transition: all 0.3s ease;
-            border-bottom: 2px solid #34495E;
+            position: relative;
+            overflow: hidden;
         }
 
-        .nav-btn:hover {
-            background: #E74C3C;
-            transform: scale(1.1);
+        .sidebar-btn:first-child {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
         }
 
-        .nav-btn.active {
-            background: #E74C3C;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+        .sidebar-btn:last-child {
+            background: linear-gradient(45deg, #3498db, #2980b9);
         }
 
+        .sidebar-btn:hover {
+            transform: scale(1.05);
+            box-shadow: inset 0 0 20px rgba(255,255,255,0.2);
+        }
+
+        .sidebar-btn.active {
+            box-shadow: inset 0 0 30px rgba(255,255,255,0.4);
+        }
+
+        /* CONTENU PRINCIPAL */
         .main-content {
-            margin-left: 35px;
+            margin-left: 40px;
             padding: 20px;
+            width: calc(100% - 40px);
             min-height: 100vh;
         }
 
         .header {
             text-align: center;
             margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border: 4px solid #2c3e50;
             position: relative;
+        }
+
+        .header::before {
+            content: "💥";
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            font-size: 30px;
+            background: #ffeb3b;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #2c3e50;
         }
 
         .header h1 {
             font-family: 'Bangers', cursive;
-            font-size: 3.5em;
-            color: #2C3E50;
-            text-shadow: 3px 3px 0px #FFD23F, 6px 6px 0px #E74C3C;
-            transform: rotate(-2deg);
+            font-size: 3em;
+            color: #2c3e50;
+            text-shadow: 3px 3px 0 #ecf0f1;
             margin-bottom: 10px;
-            animation: titleBounce 2s ease-in-out infinite alternate;
+            transform: rotate(-2deg);
         }
 
-        @keyframes titleBounce {
-            0% { transform: rotate(-2deg) scale(1); }
-            100% { transform: rotate(2deg) scale(1.05); }
+        .header p {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            font-weight: bold;
         }
 
-        .week-indicator {
-            font-family: 'Bangers', cursive;
-            font-size: 1.5em;
-            background: #E74C3C;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 50px;
-            display: inline-block;
-            transform: rotate(3deg);
-            box-shadow: 3px 3px 0px #2C3E50;
-        }
-
-        .veille-section {
-            display: none;
-        }
-
-        .veille-section.active {
-            display: block;
-        }
-
+        /* GRILLE DE CASES */
         .comics-grid {
             display: grid;
-            grid-template-columns: 1fr 0.8fr;
-            grid-template-rows: repeat(3, 280px);
-            gap: 20px;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
             margin-bottom: 40px;
-            transform: rotate(-1deg);
         }
 
-        .comics-case {
+        .comic-case {
             background: white;
-            border: 4px solid #2C3E50;
-            border-radius: 10px;
+            border: 4px solid #2c3e50;
+            border-radius: 15px;
             padding: 20px;
-            position: relative;
-            cursor: pointer;
+            box-shadow: 8px 8px 0 #34495e, 0 15px 25px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
-            box-shadow: 8px 8px 0px #E74C3C;
+            cursor: pointer;
+            position: relative;
             overflow: hidden;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .comics-case:nth-child(even) {
-            transform: rotate(2deg);
-        }
-
-        .comics-case:nth-child(odd) {
+        .comic-case:nth-child(odd) {
             transform: rotate(-1deg);
         }
 
-        .comics-case:hover {
-            transform: scale(1.05) rotate(0deg) !important;
-            box-shadow: 12px 12px 0px #E74C3C;
-            z-index: 10;
+        .comic-case:nth-child(even) {
+            transform: rotate(1deg);
+        }
+
+        .comic-case:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 12px 12px 0 #34495e, 0 20px 35px rgba(0,0,0,0.3);
             animation: shake 0.5s ease-in-out;
         }
 
         @keyframes shake {
-            0%, 100% { transform: scale(1.05) rotate(0deg) translateX(0); }
-            25% { transform: scale(1.05) rotate(0deg) translateX(-2px); }
-            75% { transform: scale(1.05) rotate(0deg) translateX(2px); }
+            0%, 100% { transform: rotate(0deg) scale(1.05); }
+            25% { transform: rotate(0.5deg) scale(1.05); }
+            75% { transform: rotate(-0.5deg) scale(1.05); }
         }
 
         .case-icon {
-            font-size: 3em;
+            font-size: 2.5em;
             text-align: center;
             margin-bottom: 15px;
-            filter: drop-shadow(2px 2px 0px #FFD23F);
+            position: relative;
+        }
+
+        .case-icon::after {
+            content: "";
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #ff6b6b, #e55656);
+            border-radius: 50%;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
         }
 
         .case-title {
             font-family: 'Bangers', cursive;
             font-size: 1.4em;
-            color: #2C3E50;
-            text-align: center;
+            color: #2c3e50;
             margin-bottom: 15px;
+            text-align: center;
             line-height: 1.2;
-            text-shadow: 1px 1px 0px #FFD23F;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .read-more-btn {
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #E74C3C;
+        .case-btn {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
             color: white;
-            border: 3px solid #2C3E50;
-            padding: 8px 16px;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
             font-family: 'Bangers', cursive;
             font-size: 1.1em;
-            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 3px 3px 0px #2C3E50;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+            margin-top: auto;
         }
 
-        .read-more-btn:hover {
-            background: #FFD23F;
-            color: #2C3E50;
-            transform: translateX(-50%) scale(1.1);
+        .case-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
         }
 
+        /* POINTS CLÉS */
         .key-points {
             background: white;
-            border: 4px solid #2C3E50;
-            border-radius: 15px;
             padding: 30px;
-            margin-top: 40px;
-            box-shadow: 8px 8px 0px #34495E;
-            transform: rotate(1deg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 4px solid #2c3e50;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .key-points::before {
+            content: "🎯";
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 40px;
+            background: #ffeb3b;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #2c3e50;
         }
 
         .key-points h2 {
             font-family: 'Bangers', cursive;
             font-size: 2.5em;
-            color: #E74C3C;
+            color: #2c3e50;
             text-align: center;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 0px #FFD23F;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 0 #ecf0f1;
         }
 
         .key-points ul {
             list-style: none;
-            padding: 0;
+            font-size: 1.1em;
+            line-height: 1.8;
         }
 
         .key-points li {
-            background: #F7931E;
-            margin: 10px 0;
-            padding: 15px;
-            border-radius: 25px;
-            border: 3px solid #2C3E50;
-            font-weight: 700;
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
             color: white;
-            text-shadow: 1px 1px 0px #2C3E50;
+            padding: 12px 20px;
+            margin-bottom: 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             position: relative;
-            transform: rotate(-0.5deg);
         }
 
-        .key-points li:nth-child(even) {
-            background: #06FFA5;
-            transform: rotate(0.5deg);
+        .key-points li::before {
+            content: "💡";
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #ffeb3b;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            border: 2px solid white;
         }
 
-        .key-points li:before {
-            content: "💥";
-            margin-right: 10px;
-            font-size: 1.2em;
-        }
-
+        /* MODAL */
         .modal {
             display: none;
             position: fixed;
-            z-index: 2000;
-            left: 0;
             top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.8);
-            animation: modalFadeIn 0.3s ease;
-        }
-
-        @keyframes modalFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
         }
 
         .modal-content {
             background: white;
             margin: 2% auto;
             padding: 30px;
-            border: 6px solid #2C3E50;
-            border-radius: 15px;
             width: 90%;
-            max-width: 800px;
+            max-width: 900px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 4px solid #2c3e50;
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-            animation: modalSlideIn 0.4s ease;
         }
 
-        @keyframes modalSlideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .close {
-            color: #E74C3C;
-            float: right;
+        .modal h2 {
+            font-family: 'Bangers', cursive;
             font-size: 2.5em;
-            font-weight: bold;
-            cursor: pointer;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 0 #ecf0f1;
+        }
+
+        .modal h3 {
             font-family: 'Bangers', cursive;
-            text-shadow: 2px 2px 0px #FFD23F;
-            transition: all 0.3s ease;
+            font-size: 1.8em;
+            color: #e74c3c;
+            margin: 25px 0 15px 0;
         }
 
-        .close:hover {
-            color: #2C3E50;
-            transform: scale(1.2) rotate(15deg);
-        }
-
-        .modal-content h3 {
-            font-family: 'Bangers', cursive;
-            font-size: 2.2em;
-            color: #E74C3C;
-            margin: 20px 0;
-            text-shadow: 1px 1px 0px #FFD23F;
-        }
-
-        .modal-content h4 {
-            font-family: 'Bangers', cursive;
-            font-size: 1.5em;
-            color: #2C3E50;
-            margin: 15px 0 10px 0;
-            border-left: 4px solid #F7931E;
-            padding-left: 10px;
-        }
-
-        .modal-content p {
-            margin: 15px 0;
+        .modal p {
             line-height: 1.6;
-            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: #2c3e50;
         }
 
-        .modal-content ul {
-            margin: 15px 0;
-            padding-left: 20px;
+        .modal ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
         }
 
-        .modal-content li {
-            margin: 8px 0;
-            line-height: 1.5;
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2em;
+            cursor: pointer;
+            color: #e74c3c;
+            background: none;
+            border: none;
+            font-family: 'Bangers', cursive;
+            transition: all 0.2s ease;
         }
 
+        .close-btn:hover {
+            transform: scale(1.2);
+            color: #c0392b;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             .comics-grid {
                 grid-template-columns: 1fr;
-                grid-template-rows: repeat(6, 250px);
-                transform: none;
+                gap: 20px;
             }
             
             .header h1 {
-                font-size: 2.5em;
+                font-size: 2em;
             }
             
             .modal-content {
                 width: 95%;
-                margin: 5% auto;
                 padding: 20px;
             }
+        }
+
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <button class="nav-btn active" data-veille="news">📰 NEWS</button>
-        <button class="nav-btn" data-veille="ia">🤖 IA</button>
+    <div class="container">
+        <!-- MENU LATÉRAL -->
+        <div class="sidebar">
+            <button class="sidebar-btn active" onclick="switchVeille('actualites')">ACTUALITÉS</button>
+            <button class="sidebar-btn" onclick="switchVeille('ia')">VEILLE IA</button>
+        </div>
+
+        <!-- CONTENU PRINCIPAL -->
+        <div class="main-content">
+            <!-- HEADER -->
+            <div class="header">
+                <h1>VEILLE HEBDO</h1>
+                <p>Semaine 9 • 03-10 Janvier 2026 • Edition Comics</p>
+            </div>
+
+            <!-- VEILLE ACTUALITÉS -->
+            <div id="veille-actualites">
+                <div class="comics-grid">
+                    <div class="comic-case" onclick="openModal('actualites-1')">
+                        <div class="case-icon">🌍</div>
+                        <div class="case-title">Opération militaire américaine au Venezuela</div>
+                        <button class="case-btn">LIRE +</button>
+                    </div>
+
+                    <div class="comic-case" onclick="openModal('actualites-2')">
+                        <div class="case-icon">🤝</div>
+                        <div class="case-title">Opposition française au traité UE-Mercosur</div>
+                        <button class="case-btn">LIRE +</button>
+                    </div>
+
+                    <div class="comic-case" onclick="openModal('actualites-3')">
+                        <div class="case-icon">🏛️</div>
+                        <div class="case-title">Évolutions réglementaires et mesures sociales</div>
+                        <button class="case-btn">LIRE +</button>
+                    </div>
+
+                    <div class="comic-case" onclick="openModal('actualites-4')">
+                        <div class="case-icon">📊</div>
+                        <div class="case-title">Prévisions économiques et inflation</div>
+                        <button class="case-btn">LIRE +</button>
+                    </div>
+
+                    <div class="comic-case" onclick="openModal('actualites-5')">
+                        <div class="case-icon">🚀</div>
+                        <div class="case-title">CES 2026 et tendances technologiques</div>
+                        <button class="case-btn">LIRE +</button>
+                    </div>
+
+                    <div class="comic-case" onclick="openModal('actualites-6')">
+                        <div class="case-icon">🌱</div>
+                        <div class="case-title">Impacts environnementaux du numérique</div>
+                        <button class="case-btn">LIRE +</button>
+                    </div>
+                </div>
+
+                <div class="key-points">
+                    <h2>POINTS CLÉS À RETENIR</h2>
+                    <ul>
+                        <li>Opération militaire américaine au Venezuela marque un tournant géopolitique majeur</li>
+                        <li>France isolée sur le traité UE-Mercosur, signature prévue au Paraguay le 17 janvier</li>
+                        <li>Rebond économique prévu avec +0,3% de croissance aux deux premiers trimestres 2026</li>
+                        <li>CES 2026 confirme l'intégration massive de l'IA dans tous les produits</li>
+                        <li>Enjeux environnementaux du numérique au cœur des préoccupations industrielles</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- VEILLE IA -->
+            <div id="veille-ia" class="hidden">
+                <div class="comics-grid">
+                    <div class="comic-case" onclick="openModal('ia-1')">
+                        <div class="case-icon">🧠</div>
+                        <div class="case-title">L'émergence des World Models</div>
+                        <button class="case-btn">LIRE +</button>
+                    </div>
+
+                    <div class="comic-case" onclick="openModal('ia-2')">
+                        <div class="case-icon">⚡</div>
+                        <div class="case-title">GPT-5.2 et la course aux paramètres</div>
+                        <button class="case-btn">LIRE +</button>
+                    </div>
+
+                    <div class="comic-case" onclick="openModal('ia-3')">
+                        <div class="case-icon">🔓</div>
+                        <div class="case-title">L'hégémonie chinoise confirmée</div>
+                        <button class="case-btn">LIRE +</button>
+                    </div>
+
+                    <div class="comic-case" onclick="openModal('ia-4')">
+                        <div class="case-icon">🔬</div>
+                        <div class="case-title">Vers l'ère post-scaling</div>
+                        <button class="case-btn">LIRE +</button>
+                    </div>
+
+                    <div class="comic-case" onclick="openModal('ia-5')">
+                        <div class="case-icon">⚖️</div>
+                        <div class="case-title">Fracture transatlantique</div>
+                        <button class="case-btn">LIRE +</button>
+                    </div>
+
+                    <div class="comic-case" onclick="openModal('ia-6')">
+                        <div class="case-icon">🛡️</div>
+                        <div class="case-title">L'ère des menaces IA-natives</div>
+                        <button class="case-btn">LIRE +</button>
+                    </div>
+                </div>
+
+                <div class="key-points">
+                    <h2>POINTS CLÉS À RETENIR</h2>
+                    <ul>
+                        <li>Transition majeure vers les "world models" qui prédisent les interactions dans l'espace 3D</li>
+                        <li>OpenAI lance GPT-5.2 avec 400K tokens de contexte et réduction drastique des hallucinations</li>
+                        <li>Domination chinoise confirmée en open-source avec DeepSeek R1 et les modèles Qwen</li>
+                        <li>L'industrie IA atteint les limites du scaling et transition vers la recherche post-training</li>
+                        <li>Fracture régulatoire majeure entre l'UE et les États-Unis sur l'AI Act</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="main-content">
-        <div class="header">
-            <h1>VEILLE HEBDO</h1>
-            <div class="week-indicator">SEMAINE #8</div>
-        </div>
-
-        <div id="veille-news" class="veille-section active">
-            <div class="comics-grid">
-                <div class="comics-case" data-section="politique">
-                    <div class="case-icon">🏛️</div>
-                    <div class="case-title">L'INSTABILITÉ DE BAYROU</div>
-                    <button class="read-more-btn">LIRE +</button>
-                </div>
-
-                <div class="comics-case" data-section="economie">
-                    <div class="case-icon">💰</div>
-                    <div class="case-title">NOUVELLES RÈGLES FISCALES 2025</div>
-                    <button class="read-more-btn">LIRE +</button>
-                </div>
-
-                <div class="comics-case" data-section="international">
-                    <div class="case-icon">🌍</div>
-                    <div class="case-title">L'EUROPE FACE À TRUMP</div>
-                    <button class="read-more-btn">LIRE +</button>
-                </div>
-
-                <div class="comics-case" data-section="ecologie">
-                    <div class="case-icon">🌱</div>
-                    <div class="case-title">TRANSITION ÉCOLOGIQUE</div>
-                    <button class="read-more-btn">LIRE +</button>
-                </div>
-
-                <div class="comics-case" data-section="nantes">
-                    <div class="case-icon">🎭</div>
-                    <div class="case-title">NANTES & CULTURE 2026</div>
-                    <button class="read-more-btn">LIRE +</button>
-                </div>
-
-                <div class="comics-case" data-section="synthese">
-                    <div class="case-icon">📊</div>
-                    <div class="case-title">SYNTHÈSE GLOBALE</div>
-                    <button class="read-more-btn">LIRE +</button>
-                </div>
-            </div>
-
-            <div class="key-points">
-                <h2>POINTS CLÉS À RETENIR</h2>
-                <ul>
-                    <li>Instabilité politique persistante du gouvernement Bayrou face aux menaces de censure</li>
-                    <li>Entrée en vigueur des mesures fiscales 2025 : retraites +2,2%, nouvelles règles entreprises</li>
-                    <li>Basculement mondial vers les énergies renouvelables confirmé par les organismes internationaux</li>
-                    <li>Tensions géopolitiques pour 2026 marquées par l'approche Trump vs Europe</li>
-                    <li>Risque de nouvelle crise gouvernementale en février-mars 2026</li>
-                </ul>
-            </div>
-        </div>
-
-        <div id="veille-ia" class="veille-section">
-            <div class="comics-grid">
-                <div class="comics-case" data-section="tech">
-                    <div class="case-icon">🚀</div>
-                    <div class="case-title">DEEPSEEK & IQUEST RÉVOLUTIONNENT</div>
-                    <button class="read-more-btn">LIRE +</button>
-                </div>
-
-                <div class="comics-case" data-section="modeles">
-                    <div class="case-icon">🧠</div>
-                    <div class="case-title">DEEPSEEK R1 vs GPT-4</div>
-                    <button class="read-more-btn">LIRE +</button>
-                </div>
-
-                <div class="comics-case" data-section="opensource">
-                    <div class="case-icon">🔓</div>
-                    <div class="case-title">FONDATION IA AGENTIQUE</div>
-                    <button class="read-more-btn">LIRE +</button>
-                </div>
-
-                <div class="comics-case" data-section="regulation">
-                    <div class="case-icon">⚖️</div>
-                    <div class="case-title">CODE UE TRANSPARENCE IA</div>
-                    <button class="read-more-btn">LIRE +</button>
-                </div>
-
-                <div class="comics-case" data-section="industrie">
-                    <div class="case-icon">💎</div>
-                    <div class="case-title">150 MD$ LEVÉS EN IA</div>
-                    <button class="read-more-btn">LIRE +</button>
-                </div>
-
-                <div class="comics-case" data-section="securite">
-                    <div class="case-icon">🛡️</div>
-                    <div class="case-title">IA vs CYBERSÉCURITÉ</div>
-                    <button class="read-more-btn">LIRE +</button>
-                </div>
-            </div>
-
-            <div class="key-points">
-                <h2>POINTS CLÉS À RETENIR</h2>
-                <ul>
-                    <li>2026 marque le passage de l'IA expérimentale vers des applications pratiques et quotidiennes</li>
-                    <li>DeepSeek révolutionne l'efficacité avec des modèles performants à coût réduit</li>
-                    <li>La Fondation IA Agentique standardise les protocoles pour l'adoption enterprise</li>
-                    <li>L'UE prend l'avance réglementaire avec le premier Code de Transparence IA mondial</li>
-                    <li>87% des organisations subissent des cyberattaques pilotées par IA</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
+    <!-- MODAL -->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
             <div id="modal-body"></div>
         </div>
     </div>
 
     <script>
-        const veilleData = {
-            news: {
-                politique: `
-                    <h3>L'instabilité gouvernementale de François Bayrou face aux défis budgétaires</h3>
-                    
-                    <h4>Résumé</h4>
-                    <p>Le gouvernement de François Bayrou, formé sans accord de non-censure et recyclant de nombreux ministres macronistes, se retrouve dans la même situation précaire que son prédécesseur Michel Barnier. Un accord budgétaire avec la gauche paraît difficile, Bayrou semblant inflexible sur l'abrogation de la réforme des retraites demandée par le NFP. Marine Le Pen menace de voter une nouvelle censure si le gouvernement ne fait pas de concessions remarquables.</p>
-
-                    <h4>Points de vue des médias</h4>
-                    <p><strong>Politis :</strong> L'hebdomadaire de gauche souligne l'échec de Bayrou à tenir sa promesse d'ouverture aux autres forces politiques, pointant l'inflexibilité du Premier ministre sur la réforme des retraites.</p>
-                    
-                    <p><strong>Sondages d'opinion :</strong> Selon une enquête de Destin Commun, seuls 16% des Français considèrent que "la France va dans la bonne direction" début janvier 2025, avec un pessimisme particulièrement marqué chez les électeurs du Rassemblement National (92%).</p>
-                `,
-                economie: `
-                    <h3>Les nouvelles règles fiscales et sociales au 1er janvier 2025</h3>
-                    
-                    <h4>Résumé</h4>
-                    <p>Les retraites de base sont revalorisées de 2,2% au 1er janvier 2025, à hauteur de l'inflation, suite à la motion de censure votée contre le gouvernement le 4 décembre 2024. Pour les entreprises, de nouvelles règles entrent en vigueur concernant les taxes sur l'affectation des véhicules et le régime de franchise en base de TVA.</p>
-
-                    <h4>Impact économique</h4>
-                    <p>Selon la Banque de France, l'activité économique en janvier 2025 a récupéré plus que prévu dans l'industrie et la construction, mais les perspectives restent modérées dans un climat d'incertitude politique domestique et internationale.</p>
-                    
-                    <p>La proportion d'entreprises ayant augmenté leurs prix en janvier 2025 est nettement inférieure aux trois dernières années, témoignant de pressions accrues sur les marges.</p>
-                `,
-                international: `
-                    <h3>Les défis géopolitiques européens face au retour de Trump</h3>
-                    
-                    <h4>Résumé</h4>
-                    <p>L'année 2025 a été marquée par le retour de Donald Trump à la Maison Blanche, constituant une véritable rupture géopolitique qui bouleverse l'ordre international. 2026 s'annonce comme une année décisive pour l'Union européenne, confrontée à des crises multiples : Ukraine, Groenland, Chine, géants de la Tech.</p>
-
-                    <h4>Analyses géopolitiques</h4>
-                    <p><strong>Institut IRIS :</strong> "L'Europe demeure dans le déni et la crainte" face au choc Trump, pendant que Vladimir Poutine, Netanyahu et Xi Jinping voient dans cette élection une opportunité.</p>
-                    
-                    <p><strong>Diploweb :</strong> Les États-Unis de Trump "ne se conduisent pas en allié avec les Européens", questionnant si ces derniers ont les moyens de s'opposer à Washington.</p>
-                    
-                    <p>En Europe, les pays décident d'un budget de 22 milliards d'euros pour l'Agence spatiale européenne (2026-2028), la France défendant une "préférence communautaire" pour ce secteur.</p>
-                `,
-                ecologie: `
-                    <h3>Les nouvelles obligations environnementales pour 2025</h3>
-                    
-                    <h4>Résumé</h4>
-                    <p>À partir du 1er janvier 2025, de nouvelles mesures entrent en vigueur en faveur de la transition écologique, notamment l'obligation d'informer sur le débroussaillement dans les zones à risque d'incendie. Les entreprises doivent reconsidérer leurs stratégies internes face aux nouvelles mesures climatiques, avec un objectif de -40% d'émissions de gaz à effet de serre d'ici 2030.</p>
-
-                    <h4>Énergies renouvelables : année record</h4>
-                    <p>L'Agence internationale de l'énergie anticipe une nouvelle année record pour les énergies renouvelables, avec plus de 750 GW de nouvelles capacités. Le renouvelable a produit plus d'électricité que le charbon au premier semestre 2025.</p>
-                    
-                    <ul>
-                        <li>Boom du solaire : +88% de nouvelles capacités installées</li>
-                        <li>Renforcement des filières de responsabilité élargie des producteurs (REP)</li>
-                        <li>Interdiction d'exporter les déchets électroniques hors UE et OCDE</li>
-                    </ul>
-                `,
-                nantes: `
-                    <h3>Projets d'aménagement et événements culturels pour 2026</h3>
-                    
-                    <h4>Résumé</h4>
-                    <p>Dès janvier, la métropole nantaise retrouve un rythme de grande capitale culturelle avec le festival Trajectoires qui s'étale sur plusieurs communes, suivi par La Folle Journée fin janvier. Le pont Anne-de-Bretagne entre dans une phase décisive de transformation avec des périodes d'interruption prévues.</p>
-
-                    <h4>Grands projets</h4>
-                    <ul>
-                        <li>Les futures lignes de tram progressent par tronçons</li>
-                        <li>Le Muséum d'histoire naturelle, qui a fêté ses 150 ans en 2025, a fermé début novembre pour ne rouvrir qu'en 2029</li>
-                        <li>Chantier d'un nouveau lieu de création artistique dans la friche Mellinet lancé en 2025</li>
-                        <li>Recyclage des sapins en janvier dans le cadre du développement durable</li>
-                    </ul>
-                    
-                    <p><strong>Sport :</strong> Retours au FC Nantes avec Herba Guirassy et Louis Leroux guéris, plus le retour de prêt d'Ignatius Ganago pour le match contre Marseille.</p>
-                `,
-                synthese: `
-                    <h3>Synthèse finale - Événements majeurs</h3>
-                    
-                    <h4>Événements majeurs de la semaine</h4>
-                    <ul>
-                        <li>Instabilité politique persistante du gouvernement Bayrou face aux menaces de censure</li>
-                        <li>Entrée en vigueur des mesures fiscales et sociales 2025 (retraites +2,2%, nouvelles règles entreprises)</li>
-                        <li>Basculement mondial vers les énergies renouvelables confirmé par les organismes internationaux</li>
-                        <li>Anticipations géopolitiques pour 2026 marquées par les tensions américano-européennes</li>
-                    </ul>
-
-                    <h4>Divergences éditoriales clés</h4>
-                    <ul>
-                        <li><strong>Stabilité gouvernementale :</strong> optimisme officiel vs pessimisme de l'opposition et des sondages</li>
-                        <li><strong>Économie :</strong> prudence institutionnelle vs inquiétudes sectorielles sur les marges et l'investissement</li>
-                        <li><strong>Transition écologique :</strong> accent réglementaire vs questionnements sur le financement et la démocratisation</li>
-                    </ul>
-
-                    <h4>À surveiller la semaine prochaine</h4>
-                    <ul>
-                        <li>Réactions politiques aux premières mesures gouvernementales de janvier</li>
-                        <li>Indicateurs économiques du premier trimestre 2025</li>
-                        <li>Évolutions des négociations budgétaires à l'Assemblée nationale</li>
-                        <li>Développements géopolitiques post-Trump en Europe</li>
-                    </ul>
-                `
-            },
-            ia: {
-                tech: `
-                    <h3>Nouveautés technologiques & nouvelles approches</h3>
-                    
-                    <h4>IQuest Coder : La révolution venue de Chine</h4>
-                    <p>Un hedge fund chinois a publié le premier modèle de codage IA de 2026, IQuest Coder, qui rivalise avec Claude Sonnet 4.5 et GPT avec seulement 40 milliards de paramètres. Cette prouesse technique introduit des méthodes d'entraînement révolutionnaires nommées "Code-Flow".</p>
-
-                    <h4>Contexte financier unique</h4>
-                    <p>IQuest Lab, branche de recherche IA d'Ubiquant (l'un des plus grands hedge funds quantitatifs chinois gérant plus de 10 milliards de dollars), explique que comprendre l'évolution du code les aide à comprendre comment les systèmes et les motifs changent au fil du temps - ce qui est littéralement ce qu'est la finance quantitative.</p>
-
-                    <h4>Model Context Protocol (MCP)</h4>
-                    <p>Le Model Context Protocol a rejoint la Linux Foundation, devenant déjà le standard pour l'accès aux outils et données dans les systèmes LLM de style agent. C'est le "USB-C pour l'IA" qui permet aux agents IA de parler aux outils externes comme les bases de données, les moteurs de recherche, et les API.</p>
-                `,
-                modeles: `
-                    <h3>Modèles & Publications LLM</h3>
-                    
-                    <h4>La domination DeepSeek</h4>
-                    <p>DeepSeek domine l'actualité avec ses sorties récentes. Mistral AI utilise l'architecture DeepSeek V3 pour son dernier modèle phare Mistral 3, annoncé en décembre 2025. La société a lancé un chatbot éponyme aux côtés de son modèle DeepSeek-R1 en janvier 2025, publié sous licence MIT.</p>
-
-                    <h4>Performances comparatives</h4>
-                    <p>DeepSeek-R1 fournit des réponses comparables à d'autres grands modèles de langage contemporains, tels que GPT-4 et o1 d'OpenAI. La société affirme avoir entraîné son modèle V3 pour 6 millions de dollars US — bien moins que les 100 millions de dollars de coût pour GPT-4 d'OpenAI en 2023.</p>
-
-                    <h4>Efficacité révolutionnaire</h4>
-                    <p>DeepSeek V3 utilise approximativement un dixième de la puissance de calcul consommée par le modèle comparable de Meta, Llama 3.1, tout en se vantant de temps d'inférence trois fois plus rapides. Il envoie des ondulations à travers la communauté IA depuis sa sortie en décembre 2024.</p>
-
-                    <h4>Concurrence émergente</h4>
-                    <p>De nombreux autres concurrents émergent dans la course aux modèles open-weight de pointe, notamment Kimi, GLM, MiniMax, et Yi, créant un paysage de plus en plus fragmenté.</p>
-                `,
-                opensource: `
-                    <h3>Open Source & Écosystèmes</h3>
-                    
-                    <h4>Fondation IA Agentique (AAIF)</h4>
-                    <p>La Linux Foundation annonce la formation de la Fondation IA Agentique (AAIF), avec des contributions fondatrices de trois projets majeurs : le Model Context Protocol (MCP) d'Anthropic, goose de Block, et AGENTS.md d'OpenAI.</p>
-
-                    <h4>MCP devient standard industriel
+        const modalContents = {
+            'actualites-1': `
+                <h2>🌍 Opération militaire américaine au Venezuela</h2>
+                <h3>Résumé</h3>
+                <p>Le 3 janvier 2026, les États-Unis ont mené une opération militaire d'envergure au Venezuela, capturant le président Nicolás Maduro et son épouse sous le nom de code "Operation Absolute Resolve". L'intervention a fait au moins 80 morts selon le New York Times, et Maduro a été transféré à New York pour y être jugé pour narcoterrorisme. Cette action, sans précédent dans sa forme assumée, redéfinit les rapports de force géopolitiques mondiaux.</p>
+                
+                <h3>Points de vue des médias</h3>
+                <p><strong>Le Monde/France Info :</strong> Met l'accent sur la revendication de Trump d'une "opération brillante" avec "beaucoup de bonne planification", tout en soulignant les réactions internationales critiques et la position française qui condamne l'opération comme contraire aux principes de règlement pacifique.</p>
+                
+                <p><strong>Euronews :</strong> Présente l'événement dans un contexte géopolitique plus large, évoquant les défis pour l'UE de "trouver une voix et un plan" face aux visées expansionnistes américaines.</p>
+                
+                <p><strong>Revue Conflits :</strong> Analyse l'opération comme "un moment de clarification stratégique" marquant "l'abandon assumé de toute médiation normative" où "la puissance ne cherche plus à se dissimuler derrière le droit".</p>
+            `,
+            'actualites-2': `
+                <h2>🤝 Opposition française au traité UE-Mercosur</h2>
+                <h3>Résumé</h3>
+                <p>La France a voté contre l'accord UE-Mercosur vendredi 9 janvier, mais une majorité d'États européens ont soutenu le traité, malgré la colère des agriculteurs. Paris s'est retrouvée isolée, privée du soutien italien décisif, ne parvenant pas à constituer une minorité de blocage. La signature du traité est prévue au Paraguay le 17 janvier.</p>
+                
+                <h3>Points de vue des médias</h3>
+                <p><strong>Les Échos/France 24 :</strong> Soulignent l'isolement français : "Paris semble désormais très isolé" face à "la fin imminente de la partie de bras de fer", avec un focus sur les conséquences politiques pour Emmanuel Macron.</p>
+                
+                <p><strong>Euronews :</strong> Analyse l'événement comme "la première fois que la France est mise en minorité au Conseil" et "un nouveau coup dur pour le président Macron", dans un contexte de crise politique intérieure.</p>
+                
+                <p><strong>Public Sénat :</strong> Met l'accent sur l'unanimité politique française rare : "Fait rare en France, l'ensemble de la classe politique fait également bloc contre cet accord", mais note que "ce mouvement de cohésion nationale risque de ne pas suffire".</p>
+            `,
+            'actualites-3': `
+                <h2>🏛️ Évolutions réglementaires et mesures sociales</h2>
+                <h3>Résumé</h3>
+                <p>Le 1er janvier 2026 apporte diverses revalorisations : SMIC à 12,02€ brut/heure (+1,18%), passage du plafond de Sécurité sociale à 48 060€. Sébastien Lecornu enregistre une progression notable de sa cote de confiance à 24%, creusant un écart inédit de 8 points avec Emmanuel Macron. Les mesures de simplification administrative s'accélèrent avec plus de 30 normes réglementaires simplifiées.</p>
+                
+                <h3>Points de vue des médias</h3>
+                <p><strong>Info.gouv.fr :</strong> Présente de manière factuelle les évolutions réglementaires, mettant l'accent sur "la simplification de plus de 30 normes réglementaires d'ici fin janvier 2026" et les revalorisations automatiques.</p>
+                
+                <p><strong>Elabe (sondage Les Échos) :</strong> Analyse la progression du Premier ministre : "Sébastien Lecornu bénéficie d'un fort soutien au sein de l'électorat présidentiel" avec 60% de confiance des électeurs Macron contre 48% pour le président.</p>
+                
+                <p><strong>Public Sénat :</strong> Se concentre sur les enjeux budgétaires : "Il faut un budget en janvier et notre déficit doit être réduit à moins de 5% en 2026" avec reprise des débats parlementaires à partir du 13 janvier.</p>
+            `,
+            'actualites-4': `
+                <h2>📊 Prévisions économiques et inflation</h2>
+                <h3>Résumé</h3>
+                <p>L'INSEE prévoit un rebond de croissance avec +0,3% aux deux premiers trimestres 2026, portant l'acquis de croissance à +1% à mi-année. L'inflation pourrait remonter à +1,5% en juin 2026, "portée principalement par les prix de l'énergie". La Banque de France anticipe 1,0% de croissance en 2026 et maintient son objectif d'inflation sous 2%.</p>
+                
+                <h3>Points de vue des médias</h3>
+                <p><strong>France Info :</strong> Présente un scénario d'optimisme mesuré : "la France pourrait connaître un rebond de croissance début 2026" mais souligne que "le tableau conjuncturel est un peu plus favorable que celui des derniers mois".</p>
+                
+                <p><strong>Banque de France :</strong> Adopte une approche prudente évoquant "des révisions à la baisse" dues aux "incertitudes majeures" et note que "moins de consolidation fiscale n'entraînerait pas de croissance excédentaire".</p>
+                
+                <p><strong>Creditnews :</strong> Met l'accent sur la fragilité : "l'économie française reste engagée dans une trajectoire fragile" et "l'ampleur de ce rebond dépendra avant tout de la confiance retrouvée des ménages et des entreprises".</p>
+            `,
+            'actualites-5': `
+                <h2>🚀 CES 2026 et tendances technologiques</h2>
+                <h3>Résumé</h3>
+                <p>Le CES 2026 (6-9 janvier à Las Vegas) met en lumière l'intégration massive de l'IA dans tous les produits, avec plus de 4 100 exposants sur 2,6 millions de m² couvrant l'accessibilité, l'IA, la santé numérique, la mobilité et la robotique. L'année 2026 s'annonce dominée par l'IA qui devient "autonome et proactive" et poursuit "sa progression constante dans tous les aspects de notre vie".</p>
+                
+                <h3>Points de vue des médias</h3>
+                <p><strong>Techniques de l'Ingénieur :</strong> Met l'accent sur l'évolution qualitative : "l'intelligence artificielle intégrée comme utilité de base plutôt que simple fonctionnalité" avec "des solutions de puces mettant l'accent sur l'IA locale".</p>
+                
+                <p><strong>Futura Sciences :</strong> Adopte un ton plus critique : "l'efficience énergétique sera mise en sourdine au profit de la puissance" et prévient que "2026 promet d'être une année noire pour l'informatique grand public" due à la pénurie de mémoire.</p>
+                
+                <p><strong>BPI France :</strong> Analyse les enjeux stratégiques : "il faut désormais réaligner modèle d'affaires sur un triple impératif : souveraineté, sécurité et urgence écologique" avec un focus sur "les entreprises françaises".</p>
+            `,
+            'actualites-6': `
+                <h2>🌱 Impacts environnementaux du numérique et enjeux climatiques</h2>
+                <h3>Résumé</h3>
+                <p>Les nouvelles tendances technologiques intègrent désormais les enjeux environnementaux avec un "triple impératif : souveraineté, sécurité et urgence écologique", incluant cybersécurité post-quantique, cloud souverain et informatique durable. L'essor massif de l'IA soulève des questions énergétiques majeures, tandis que les entreprises doivent réaligner leurs modèles d'affaires sur les critères ESG.</p>
+                
+                <h3>Points de vue des médias</h3>
+                <p><strong>BPI France :</strong> Présente une approche stratégique : "l'industrialisation de l'IA, la sobriété des infrastructures numériques" comme "enseignements majeurs" avec "l'adoption massive de la technologie responsable (Green IT, sobriété numérique)".</p>
+                
+                <p><strong>Futura Sciences :</strong> Adopte un regard critique : "2026 s'avance comme l'année où la technologie cessera d'être un simple décor pour devenir une contrainte – énergétique, presque existentielle" avec "un prix que tout le monde paiera".</p>
+                
+                <p><strong>Reporterre :</strong> Souligne les risques environnementaux : "l'accord devrait encourager la déforestation" avec "plus de 700 000 hectares de forêts qui pourraient être sacrifiés".</p>
+            `,
+            'ia-1': `
+                <h2>🧠 L'émergence des World Models</h2>
+                <h3>Résumé</h3>
+                <p>L'année 2026 s'annonce décisive pour les "world models" - des systèmes IA qui apprennent comment les choses bougent et interagissent dans des espaces 3D pour faire des prédictions et prendre des actions. Yann LeCun quitte Meta pour créer son propre laboratoire de world models avec une valorisation recherchée de 5 milliards $, Google DeepMind progresse sur Genie avec son dernier modèle qui construit des world models interactifs en temps réel, et Fei-Fei Li lance World Labs avec son premier modèle commercial
