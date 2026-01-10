@@ -1,0 +1,56 @@
+{
+  "version": "2.0",
+  "date_generation": "2026-01-10T15:30:00",
+  "veilles": {
+    "ia": {
+      "metadata": {
+        "agent": "Agent Veille IA",
+        "date": "2026-01-10",
+        "categorie": "Intelligence Artificielle"
+      },
+      "titre": "Veille IA – Semaine du 03/01/2026 au 10/01/2026",
+      "edition": "Édition Tensor",
+      "introduction": "L'année 2026 démarre sur des bases solides avec plusieurs annonces majeures dans le domaine de l'IA. Les world models émergent comme la prochaine frontière technologique, tandis que l'hégémonie chinoise en open-source se confirme.",
+      "sujets_importants": [
+        {
+          "titre": "Nouveautés technologiques – L'émergence des World Models",
+          "icone": "🌍",
+          "resume": "L'année 2026 s'annonce décisive pour les 'world models' - des systèmes IA qui apprennent comment les choses bougent et interagissent dans des espaces 3D.",
+          "resume_court": "L'année 2026 s'annonce décisive pour les 'world models' - des systèmes IA qui apprennent comment les choses bougent et interagissent dans des espaces 3D...",
+          "resume_complet": "L'année 2026 s'annonce décisive pour les 'world models' - des systèmes IA qui apprennent comment les choses bougent et interagissent dans des espaces 3D.",
+          "points_de_vue": [
+            {"nom": "TechCrunch", "texte": "Les humains n'apprennent pas seulement par le langage mais en expérimentant le monde."}
+          ],
+          "fiabilite": ["Signal fort : multiplication des investissements privés"],
+          "sources": [{"titre": "AI will move from hype to pragmatism", "url": "https://techcrunch.com/2026/01/02/in-2026-ai-will-move-from-hype-to-pragmatism/"}]
+        }
+      ],
+      "sujets_secondaires": [],
+      "points_cles": [
+        "Transition des LLM vers les 'world models'",
+        "Hégémonie chinoise en IA open-source",
+        "Limites du scaling atteintes"
+      ]
+    },
+    "news": {
+      "metadata": {"agent": "Agent Veille News", "date": "2026-01-10", "categorie": "Actualités"},
+      "titre": "Veille Actualités – Semaine du 03/01/2026 au 10/01/2026",
+      "edition": "Édition Horizon",
+      "introduction": "Première semaine de 2026 marquée par des événements géopolitiques majeurs.",
+      "sujets_importants": [
+        {
+          "titre": "INTERNATIONAL – Opération militaire au Venezuela",
+          "icone": "🇺🇸",
+          "resume": "Opération militaire américaine d'envergure au Venezuela le 3 janvier 2026.",
+          "resume_court": "Opération militaire américaine d'envergure au Venezuela le 3 janvier 2026...",
+          "resume_complet": "Opération militaire américaine d'envergure au Venezuela le 3 janvier 2026.",
+          "points_de_vue": [],
+          "fiabilite": [],
+          "sources": []
+        }
+      ],
+      "sujets_secondaires": [],
+      "points_cles": ["Opération US au Venezuela", "CES 2026 et IA", "Croissance économique prévue"]
+    }
+  }
+}
