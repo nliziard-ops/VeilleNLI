@@ -232,8 +232,8 @@ def parser_sections(contenu_md: str) -> Tuple[List[Dict], List[Dict]]:
     section_actuelle = None
     capture = False
     
-    # Sections à exclure
-    exclusions = ['introduction', 'table des matières', 'synthèse finale', 'fin de l\'édition', 'fin de l'édition']
+    # Sections à exclure - LIGNE 236 CORRIGÉE
+    exclusions = ["introduction", "table des matieres", "synthese finale", "fin de l'edition", "fin de l'edition"]
     
     for ligne in lignes:
         ligne_clean = ligne.strip()
