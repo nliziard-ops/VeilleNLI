@@ -20,6 +20,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
       
       - name: 🐍 Setup Python
         uses: actions/setup-python@v5
@@ -59,18 +60,41 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           
-          # Pull avant de push pour éviter les conflits
-          git pull --rebase origin main
-          
-          git add docs/data.json
-          
-          if git diff --staged --quiet; then
-            echo "ℹ️ Aucune modification à commiter"
-          else
-            git commit -m "🤖 Mise à jour automatique de data.json - $(date '+%Y-%m-%d %H:%M')"
-            git push
-            echo "✅ Modifications commitées et pushées"
+          # Vérifier s'il y a des modifications
+          if git diff --quiet docs/data.json; then
+            echo "ℹ️ Aucune modification détectée dans data.json"
+            exit 0
           fi
+          
+          # Sauvegarder les modifications de data.json
+          git add docs/data.json
+          git commit -m "🤖 Mise à jour automatique de data.json - $(date '+%Y-%m-%d %H:%M')"
+          
+          # Pull avec rebase et push avec retry
+          max_retries=3
+          retry_count=0
+          
+          while [ $retry_count -lt $max_retries ]; do
+            echo "🔄 Tentative de push ($((retry_count + 1))/$max_retries)..."
+            
+            # Pull les derniers changements
+            if git pull --rebase origin main; then
+              # Push les modifications
+              if git push origin main; then
+                echo "✅ Modifications commitées et pushées avec succès"
+                exit 0
+              fi
+            fi
+            
+            retry_count=$((retry_count + 1))
+            if [ $retry_count -lt $max_retries ]; then
+              echo "⏳ Attente de 5 secondes avant nouvelle tentative..."
+              sleep 5
+            fi
+          done
+          
+          echo "❌ Échec du push après $max_retries tentatives"
+          exit 1
       
       - name: 📢 Notification de succès
         if: success()
