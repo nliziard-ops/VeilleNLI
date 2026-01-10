@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veille Hebdo - Semaine 9 • Style Comics</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <title>Générateur de Veille - IA & Actualités</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers:wght@400&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,591 +13,866 @@
         }
 
         body {
-            font-family: 'Comic Neue', cursive;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+            font-family: 'Open Sans', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* MENU LATÉRAL */
-        .sidebar {
-            width: 40px;
-            background: linear-gradient(180deg, #2c3e50, #34495e);
+        .nav-sidebar {
             position: fixed;
+            left: 0;
+            top: 0;
+            width: 80px;
             height: 100vh;
-            z-index: 1000;
-            box-shadow: 4px 0 15px rgba(0,0,0,0.3);
-        }
-
-        .sidebar-btn {
-            width: 100%;
-            height: 50vh;
-            border: none;
-            background: transparent;
-            color: white;
-            font-family: 'Bangers', cursive;
-            font-size: 16px;
-            writing-mode: vertical-lr;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .sidebar-btn:first-child {
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
-        }
-
-        .sidebar-btn:last-child {
-            background: linear-gradient(45deg, #3498db, #2980b9);
-        }
-
-        .sidebar-btn:hover {
-            transform: scale(1.05);
-            box-shadow: inset 0 0 20px rgba(255,255,255,0.2);
-        }
-
-        .sidebar-btn.active {
-            box-shadow: inset 0 0 30px rgba(255,255,255,0.4);
-        }
-
-        /* CONTENU PRINCIPAL */
-        .main-content {
-            margin-left: 40px;
-            padding: 20px;
-            width: calc(100% - 40px);
-            min-height: 100vh;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            background: white;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            border: 4px solid #2c3e50;
-            position: relative;
-        }
-
-        .header::before {
-            content: "💥";
-            position: absolute;
-            top: -15px;
-            left: -15px;
-            font-size: 30px;
-            background: #ffeb3b;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            background: linear-gradient(180deg, #ff6b6b 0%, #4ecdc4 50%, #45b7d1 100%);
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            width: 60px;
+            height: 60px;
+            margin: 10px 0;
+            background: #fff;
+            border: 4px solid #000;
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            border: 3px solid #2c3e50;
-        }
-
-        .header h1 {
-            font-family: 'Bangers', cursive;
-            font-size: 3em;
-            color: #2c3e50;
-            text-shadow: 3px 3px 0 #ecf0f1;
-            margin-bottom: 10px;
-            transform: rotate(-2deg);
-        }
-
-        .header p {
-            font-size: 1.2em;
-            color: #7f8c8d;
+            font-size: 20px;
             font-weight: bold;
+            color: #333;
+            transition: all 0.3s;
+            box-shadow: 4px 4px 0px #000;
         }
 
-        /* GRILLE DE CASES */
-        .comics-grid {
+        .nav-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px #000;
+        }
+
+        .nav-btn.active {
+            background: #ffeb3b;
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px #000;
+        }
+
+        .nav-btn .icon {
+            font-size: 24px;
+            margin-bottom: 2px;
+        }
+
+        .nav-btn .text {
+            font-size: 8px;
+            text-align: center;
+            line-height: 1;
+        }
+
+        .main-content {
+            margin-left: 80px;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .veille-section {
+            display: none;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .veille-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-family: 'Bangers', cursive;
+            font-size: 3rem;
+            color: #fff;
+            text-align: center;
+            text-shadow: 4px 4px 0px #000;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+        .cards-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
             margin-bottom: 40px;
         }
 
-        .comic-case {
-            background: white;
-            border: 4px solid #2c3e50;
+        .subject-card {
+            background: #fff;
+            border: 4px solid #000;
             border-radius: 15px;
             padding: 20px;
-            box-shadow: 8px 8px 0 #34495e, 0 15px 25px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            min-height: 180px;
-            display: flex;
-            flex-direction: column;
+            box-shadow: 6px 6px 0px #000;
+            transition: transform 0.3s;
         }
 
-        .comic-case:nth-child(odd) {
-            transform: rotate(-1deg);
+        .subject-card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 9px 9px 0px #000;
         }
 
-        .comic-case:nth-child(even) {
-            transform: rotate(1deg);
-        }
-
-        .comic-case:hover {
-            transform: rotate(0deg) scale(1.05);
-            box-shadow: 12px 12px 0 #34495e, 0 20px 35px rgba(0,0,0,0.3);
-            animation: shake 0.5s ease-in-out;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: rotate(0deg) scale(1.05); }
-            25% { transform: rotate(0.5deg) scale(1.05); }
-            75% { transform: rotate(-0.5deg) scale(1.05); }
-        }
-
-        .case-icon {
-            font-size: 2.5em;
+        .card-icon {
+            font-size: 2.5rem;
             text-align: center;
             margin-bottom: 15px;
-            position: relative;
         }
 
-        .case-icon::after {
-            content: "";
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            width: 20px;
-            height: 20px;
-            background: radial-gradient(circle, #ff6b6b, #e55656);
-            border-radius: 50%;
-            border: 2px solid white;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        .case-title {
+        .card-title {
             font-family: 'Bangers', cursive;
-            font-size: 1.4em;
-            color: #2c3e50;
+            font-size: 1.3rem;
+            color: #333;
             margin-bottom: 15px;
-            text-align: center;
             line-height: 1.2;
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        .case-btn {
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-family: 'Bangers', cursive;
-            font-size: 1.1em;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            margin-top: auto;
-        }
-
-        .case-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-        }
-
-        /* POINTS CLÉS */
-        .key-points {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border: 4px solid #2c3e50;
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .key-points::before {
-            content: "🎯";
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 40px;
-            background: #ffeb3b;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 4px solid #2c3e50;
-        }
-
-        .key-points h2 {
-            font-family: 'Bangers', cursive;
-            font-size: 2.5em;
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 25px;
-            text-shadow: 2px 2px 0 #ecf0f1;
-        }
-
-        .key-points ul {
-            list-style: none;
-            font-size: 1.1em;
-            line-height: 1.8;
-        }
-
-        .key-points li {
-            background: linear-gradient(45deg, #74b9ff, #0984e3);
-            color: white;
-            padding: 12px 20px;
+        .resume-court {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #555;
             margin-bottom: 15px;
-            border-radius: 25px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .resume-court:hover {
+            color: #007bff;
+        }
+
+        .resume-complet {
+            display: none;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .btn-detail {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            border: 3px solid #000;
+            padding: 8px 15px;
             font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            color: #000;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            box-shadow: 3px 3px 0px #000;
+        }
+
+        .btn-detail:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0px #000;
+        }
+
+        .secondary-subjects {
+            background: rgba(255,255,255,0.9);
+            border: 4px solid #000;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 6px 6px 0px #000;
+        }
+
+        .secondary-title {
+            font-family: 'Bangers', cursive;
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 2px 2px 0px #ffeb3b;
+        }
+
+        .secondary-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 2px solid #000;
+            border-radius: 10px;
+        }
+
+        .secondary-item-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .secondary-item-title:hover {
+            color: #007bff;
+        }
+
+        .secondary-item-content {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #555;
+        }
+
+        .key-points {
+            background: rgba(255,235,59,0.9);
+            border: 4px solid #000;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 6px 6px 0px #000;
+        }
+
+        .key-points-title {
+            font-family: 'Bangers', cursive;
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .key-point {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #333;
+            margin-bottom: 10px;
+            padding-left: 20px;
             position: relative;
         }
 
-        .key-points li::before {
+        .key-point:before {
             content: "💡";
             position: absolute;
-            left: -10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #ffeb3b;
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8em;
-            border: 2px solid white;
+            left: 0;
+            top: 0;
         }
 
-        /* MODAL */
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0,0,0,0.8);
             z-index: 2000;
-            animation: fadeIn 0.3s ease;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
         .modal-content {
-            background: white;
-            margin: 2% auto;
-            padding: 30px;
-            width: 90%;
-            max-width: 900px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            border: 4px solid #2c3e50;
-            max-height: 90vh;
+            background: #fff;
+            border: 4px solid #000;
+            border-radius: 15px;
+            max-width: 800px;
+            max-height: 80vh;
             overflow-y: auto;
             position: relative;
+            box-shadow: 8px 8px 0px #000;
+            padding: 30px;
         }
 
-        .modal h2 {
-            font-family: 'Bangers', cursive;
-            font-size: 2.5em;
-            color: #2c3e50;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 0 #ecf0f1;
-        }
-
-        .modal h3 {
-            font-family: 'Bangers', cursive;
-            font-size: 1.8em;
-            color: #e74c3c;
-            margin: 25px 0 15px 0;
-        }
-
-        .modal p {
-            line-height: 1.6;
-            margin-bottom: 15px;
-            color: #2c3e50;
-        }
-
-        .modal ul {
-            margin-left: 20px;
-            margin-bottom: 15px;
-        }
-
-        .close-btn {
+        .modal-close {
             position: absolute;
             top: 15px;
             right: 20px;
-            font-size: 2em;
+            font-size: 2rem;
+            font-weight: bold;
             cursor: pointer;
-            color: #e74c3c;
-            background: none;
-            border: none;
+            color: #000;
+            background: #ff6b6b;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #000;
+        }
+
+        .modal-title {
             font-family: 'Bangers', cursive;
-            transition: all 0.2s ease;
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            padding-right: 50px;
         }
 
-        .close-btn:hover {
-            transform: scale(1.2);
-            color: #c0392b;
+        .modal-section {
+            margin-bottom: 20px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .modal-section h4 {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
         }
 
-        /* RESPONSIVE */
+        .modal-section p {
+            line-height: 1.5;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .modal-sources a {
+            color: #007bff;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .modal-sources a:hover {
+            text-decoration: underline;
+        }
+
         @media (max-width: 768px) {
-            .comics-grid {
+            .cards-grid {
                 grid-template-columns: 1fr;
-                gap: 20px;
             }
             
-            .header h1 {
-                font-size: 2em;
+            .section-title {
+                font-size: 2rem;
             }
             
-            .modal-content {
-                width: 95%;
-                padding: 20px;
+            .nav-sidebar {
+                width: 60px;
             }
-        }
-
-        .hidden {
-            display: none !important;
+            
+            .main-content {
+                margin-left: 60px;
+            }
+            
+            .nav-btn {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .nav-btn .icon {
+                font-size: 16px;
+            }
+            
+            .nav-btn .text {
+                font-size: 6px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- MENU LATÉRAL -->
-        <div class="sidebar">
-            <button class="sidebar-btn active" onclick="switchVeille('actualites')">ACTUALITÉS</button>
-            <button class="sidebar-btn" onclick="switchVeille('ia')">VEILLE IA</button>
-        </div>
+    <nav class="nav-sidebar">
+        <button class="nav-btn active" data-tab="ia" onclick="showTab('ia')">
+            <div class="icon">🤖</div>
+            <div class="text">VEILLE<br>IA</div>
+        </button>
+        <button class="nav-btn" data-tab="actualites" onclick="showTab('actualites')">
+            <div class="icon">📰</div>
+            <div class="text">ACTU<br>ALITÉS</div>
+        </button>
+    </nav>
 
-        <!-- CONTENU PRINCIPAL -->
-        <div class="main-content">
-            <!-- HEADER -->
-            <div class="header">
-                <h1>VEILLE HEBDO</h1>
-                <p>Semaine 9 • 03-10 Janvier 2026 • Edition Comics</p>
+    <main class="main-content">
+        <section id="veille-ia" class="veille-section active">
+            <h1 class="section-title">VEILLE IA</h1>
+            
+            <div class="cards-grid">
+                <div class="subject-card" id="card-ia-1">
+                    <div class="card-icon">🌍</div>
+                    <h3 class="card-title">Nouveautés technologiques & nouvelles approches – L'émergence des World Models</h3>
+                    <div class="resume-court" onclick="toggleResume('card-ia-1')">
+                        L'année 2026 s'annonce décisive pour les "world models" - des systèmes IA qui apprennent comment les choses bougent et interagissent dans des espaces 3D pour faire des prédictions et prendre des actions. Yann LeCun quitte Meta pour créer son propre...
+                    </div>
+                    <div class="resume-complet">
+                        L'année 2026 s'annonce décisive pour les "world models" - des systèmes IA qui apprennent comment les choses bougent et interagissent dans des espaces 3D pour faire des prédictions et prendre des actions. Yann LeCun quitte Meta pour créer son propre laboratoire de world models avec une valorisation recherchée de 5 milliards $, Google DeepMind progresse sur Genie avec son dernier modèle qui construit des world models interactifs en temps réel, et Fei-Fei Li lance World Labs avec son premier modèle commercial Marble.
+                    </div>
+                    <button class="btn-detail" onclick="openModal('ia-1')">Lire +</button>
+                </div>
+
+                <div class="subject-card" id="card-ia-2">
+                    <div class="card-icon">🚀</div>
+                    <h3 class="card-title">Modèles & Publications LLM – GPT-5.2 et la course aux paramètres</h3>
+                    <div class="resume-court" onclick="toggleResume('card-ia-2')">
+                        OpenAI annonce GPT-5.2 après GPT-5.1, avec une fenêtre de contexte élargie à 400K tokens (contre 128K pour GPT-4) et un score parfait de 100% sur le benchmark mathématique AIME 2025. Le taux d'hallucination a été réduit à 6.2%, soit environ...
+                    </div>
+                    <div class="resume-complet">
+                        OpenAI annonce GPT-5.2 après GPT-5.1, avec une fenêtre de contexte élargie à 400K tokens (contre 128K pour GPT-4) et un score parfait de 100% sur le benchmark mathématique AIME 2025. Le taux d'hallucination a été réduit à 6.2%, soit environ 40% de réduction par rapport aux générations précédentes. Parallèlement, OpenAI lance ses premiers modèles "open-weight" GPT-oss-120b et GPT-oss-20b.
+                    </div>
+                    <button class="btn-detail" onclick="openModal('ia-2')">Lire +</button>
+                </div>
+
+                <div class="subject-card" id="card-ia-3">
+                    <div class="card-icon">🇨🇳</div>
+                    <h3 class="card-title">Open Source & Écosystèmes – L'hégémonie chinoise confirmée</h3>
+                    <div class="resume-court" onclick="toggleResume('card-ia-3')">
+                        DeepSeek a publié R1, son modèle de raisonnement open-source, choquant le monde avec ce qu'une firme relativement petite en Chine pouvait accomplir avec des ressources limitées. "DeepSeek moment" est devenu une expression fréquemment utilisée par les entrepreneurs et observateurs IA...
+                    </div>
+                    <div class="resume-complet">
+                        DeepSeek a publié R1, son modèle de raisonnement open-source, choquant le monde avec ce qu'une firme relativement petite en Chine pouvait accomplir avec des ressources limitées. "DeepSeek moment" est devenu une expression fréquemment utilisée par les entrepreneurs et observateurs IA. Selon The ATOM Project, les téléchargements totaux de modèles sont passés d'une dominance USA à une dominance Chine durant l'été 2025.
+                    </div>
+                    <button class="btn-detail" onclick="openModal('ia-3')">Lire +</button>
+                </div>
+
+                <div class="subject-card" id="card-ia-4">
+                    <div class="card-icon">🔬</div>
+                    <h3 class="card-title">Recherche scientifique & papers – Vers l'ère post-scaling</h3>
+                    <div class="resume-court" onclick="toggleResume('card-ia-4')">
+                        L'industrie IA commence à épuiser les limites des lois de scaling et va encore transitioner vers une ère de recherche. Beaucoup de chercheurs pensent que l'industrie IA commence à épuiser les limites des lois de scaling. L'ère d'ajouter plus de...
+                    </div>
+                    <div class="resume-complet">
+                        L'industrie IA commence à épuiser les limites des lois de scaling et va encore transitioner vers une ère de recherche. Beaucoup de chercheurs pensent que l'industrie IA commence à épuiser les limites des lois de scaling. L'ère d'ajouter plus de compute et de données pour construire des modèles fondamentaux toujours plus gros se termine. En 2025, nous avons atteint un mur avec les lois de scaling établies comme la formule Chinchilla.
+                    </div>
+                    <button class="btn-detail" onclick="openModal('ia-4')">Lire +</button>
+                </div>
+
+                <div class="subject-card" id="card-ia-5">
+                    <div class="card-icon">⚖️</div>
+                    <h3 class="card-title">Régulation & Gouvernance – Fracture transatlantique</h3>
+                    <div class="resume-court" onclick="toggleResume('card-ia-5')">
+                        La Commission européenne a officiellement rejeté le mécanisme "Stop-the-Clock" - un moratoire de deux ans proposé sur l'application de l'AI Act de l'UE. Cette décision marque un moment pivot dans l'implémentation du premier cadre légal IA complet au monde. En...
+                    </div>
+                    <div class="resume-complet">
+                        La Commission européenne a officiellement rejeté le mécanisme "Stop-the-Clock" - un moratoire de deux ans proposé sur l'application de l'AI Act de l'UE. Cette décision marque un moment pivot dans l'implémentation du premier cadre légal IA complet au monde. En parallèle, l'administration Trump a clairement indiqué qu'elle voit ces régulations comme une guerre économique et se prépare à riposter.
+                    </div>
+                    <button class="btn-detail" onclick="openModal('ia-5')">Lire +</button>
+                </div>
+
+                <div class="subject-card" id="card-ia-6">
+                    <div class="card-icon">💰</div>
+                    <h3 class="card-title">Industrie, investissements & marché – Transition vers le pragmatisme</h3>
+                    <div class="resume-court" onclick="toggleResume('card-ia-6')">
+                        Les experts voient 2026 comme une année de transition, évoluant du scaling par force brute vers la recherche de nouvelles architectures, des démos flashy aux déploiements ciblés, et des agents promettant l'autonomie à ceux augmentant réellement le travail humain. L'investissement...
+                    </div>
+                    <div class="resume-complet">
+                        Les experts voient 2026 comme une année de transition, évoluant du scaling par force brute vers la recherche de nouvelles architectures, des démos flashy aux déploiements ciblés, et des agents promettant l'autonomie à ceux augmentant réellement le travail humain. L'investissement IA global a atteint 202.3 milliards $ en 2025, représentant 50% de tout le capital-risque déployé mondialement.
+                    </div>
+                    <button class="btn-detail" onclick="openModal('ia-6')">Lire +</button>
+                </div>
             </div>
 
-            <!-- VEILLE ACTUALITÉS -->
-            <div id="veille-actualites">
-                <div class="comics-grid">
-                    <div class="comic-case" onclick="openModal('actualites-1')">
-                        <div class="case-icon">🌍</div>
-                        <div class="case-title">Opération militaire américaine au Venezuela</div>
-                        <button class="case-btn">LIRE +</button>
-                    </div>
-
-                    <div class="comic-case" onclick="openModal('actualites-2')">
-                        <div class="case-icon">🤝</div>
-                        <div class="case-title">Opposition française au traité UE-Mercosur</div>
-                        <button class="case-btn">LIRE +</button>
-                    </div>
-
-                    <div class="comic-case" onclick="openModal('actualites-3')">
-                        <div class="case-icon">🏛️</div>
-                        <div class="case-title">Évolutions réglementaires et mesures sociales</div>
-                        <button class="case-btn">LIRE +</button>
-                    </div>
-
-                    <div class="comic-case" onclick="openModal('actualites-4')">
-                        <div class="case-icon">📊</div>
-                        <div class="case-title">Prévisions économiques et inflation</div>
-                        <button class="case-btn">LIRE +</button>
-                    </div>
-
-                    <div class="comic-case" onclick="openModal('actualites-5')">
-                        <div class="case-icon">🚀</div>
-                        <div class="case-title">CES 2026 et tendances technologiques</div>
-                        <button class="case-btn">LIRE +</button>
-                    </div>
-
-                    <div class="comic-case" onclick="openModal('actualites-6')">
-                        <div class="case-icon">🌱</div>
-                        <div class="case-title">Impacts environnementaux du numérique</div>
-                        <button class="case-btn">LIRE +</button>
+            <div class="secondary-subjects">
+                <h2 class="secondary-title">Autres sujets de la semaine</h2>
+                
+                <div class="secondary-item">
+                    <div class="secondary-item-title" onclick="openModal('ia-7')">Cybersécurité, risques & incidents – L'ère des menaces IA-natives</div>
+                    <div class="secondary-item-content">
+                        L'IA a déjà facilité les attaques personnalisées via phishing et deepfakes, mais 2026 apportera probablement des "malwares adaptatifs" difficiles à détecter, ainsi que des agents IA aidant les hackers à lancer des attaques plus rapidement. La firme prédit même des "indications précoces d'attaques autonomes". D'ici fin 2026, nous verrons au moins trois PDG Fortune 500 perdre leur poste explicitement à cause de pannes de systèmes IA que leurs organisations ne peuvent expliquer, reproduire ou défendre post-incident.
                     </div>
                 </div>
 
-                <div class="key-points">
-                    <h2>POINTS CLÉS À RETENIR</h2>
-                    <ul>
-                        <li>Opération militaire américaine au Venezuela marque un tournant géopolitique majeur</li>
-                        <li>France isolée sur le traité UE-Mercosur, signature prévue au Paraguay le 17 janvier</li>
-                        <li>Rebond économique prévu avec +0,3% de croissance aux deux premiers trimestres 2026</li>
-                        <li>CES 2026 confirme l'intégration massive de l'IA dans tous les produits</li>
-                        <li>Enjeux environnementaux du numérique au cœur des préoccupations industrielles</li>
-                    </ul>
+                <div class="secondary-item">
+                    <div class="secondary-item-title" onclick="openModal('ia-8')">Applications & usages – L'agentic AI entre en production</div>
+                    <div class="secondary-item-content">
+                        Avec le MCP réduisant les frictions de connexion des agents aux systèmes réels, 2026 sera probablement l'année où les workflows agentiques passeront enfin des démos à la pratique quotidienne. Les solutions agent-first prendront des rôles de "système d'enregistrement" dans les industries. Meta dit que les LLM ont aidé à rationaliser les cadres de conformité et gestion des risques. Depuis l'incorporation des résultats de recherche dans ACH, Meta a présenté le travail à FSE 2025 et EuroSTAR 2025.
+                    </div>
+                </div>
+
+                <div class="secondary-item">
+                    <div class="secondary-item-title" onclick="openModal('ia-9')">Hardware, compute & optimisation – L'optimisation locale gagne du terrain</div>
+                    <div class="secondary-item-content">
+                        NVIDIA a annoncé des mises à jour majeures pour les développeurs PC IA au CES 2026, incluant support accéléré et optimisations pour les outils open source comme llama.cpp, Ollama et ComfyUI. ComfyUI voit des boosts de performance jusqu'à 3x et llama.cpp/Ollama atteignent génération de tokens 35% plus rapide. Tiiny AI utilise TurboSparse avec PowerInfer, un moteur d'inférence open-source distribuant dynamiquement les workloads entre CPU et NPU, supportant Qwen, DeepSeek, Llama, Phi, Mistral.
+                    </div>
+                </div>
+
+                <div class="secondary-item">
+                    <div class="secondary-item-title" onclick="openModal('ia-10')">Europe & France – Souveraineté numérique sous tension</div>
+                    <div class="secondary-item-content">
+                        La France et l'Europe entrent en 2026 prises entre ambition IA et réalité géopolitique alors qu'elles tentent de faire grandir les champions nationaux, faire appliquer les règles sur Big Tech, et confronter les US sur pouvoir, plateformes et contrôle. Soutenu par 10 milliards EUR, le projet français déploiera 500,000 GPUs d'ici 2026 et atteindra un gigawatt de capacité d'ici 2028, alimenté par l'énergie nucléaire française.
+                    </div>
                 </div>
             </div>
 
-            <!-- VEILLE IA -->
-            <div id="veille-ia" class="hidden">
-                <div class="comics-grid">
-                    <div class="comic-case" onclick="openModal('ia-1')">
-                        <div class="case-icon">🧠</div>
-                        <div class="case-title">L'émergence des World Models</div>
-                        <button class="case-btn">LIRE +</button>
-                    </div>
+            <div class="key-points">
+                <h2 class="key-points-title">POINTS CLÉS À RETENIR</h2>
+                <div class="key-point">2026 marque la transition des LLM vers les "world models" avec des investissements massifs</div>
+                <div class="key-point">La Chine domine désormais l'écosystème open-source avec DeepSeek et Qwen</div>
+                <div class="key-point">Fracture réglementaire USA-UE avec Trump qui menace de représailles commerciales</div>
+                <div class="key-point">L'industrie IA atteint les limites du scaling et se tourne vers la recherche architecturale</div>
+                <div class="key-point">L'agentic AI entre enfin en production malgré des risques de cybersécurité croissants</div>
+            </div>
+        </section>
 
-                    <div class="comic-case" onclick="openModal('ia-2')">
-                        <div class="case-icon">⚡</div>
-                        <div class="case-title">GPT-5.2 et la course aux paramètres</div>
-                        <button class="case-btn">LIRE +</button>
+        <section id="veille-actualites" class="veille-section">
+            <h1 class="section-title">ACTUALITÉS</h1>
+            
+            <div class="cards-grid">
+                <div class="subject-card" id="card-actu-1">
+                    <div class="card-icon">🇺🇸</div>
+                    <h3 class="card-title">Opération militaire américaine au Venezuela</h3>
+                    <div class="resume-court" onclick="toggleResume('card-actu-1')">
+                        Le 3 janvier 2026, les États-Unis ont mené une opération militaire d'envergure au Venezuela, capturant le président Nicolás Maduro et son épouse sous le nom de code "Operation Absolute Resolve". L'intervention a fait au moins 80 morts selon le New...
                     </div>
-
-                    <div class="comic-case" onclick="openModal('ia-3')">
-                        <div class="case-icon">🔓</div>
-                        <div class="case-title">L'hégémonie chinoise confirmée</div>
-                        <button class="case-btn">LIRE +</button>
+                    <div class="resume-complet">
+                        Le 3 janvier 2026, les États-Unis ont mené une opération militaire d'envergure au Venezuela, capturant le président Nicolás Maduro et son épouse sous le nom de code "Operation Absolute Resolve". L'intervention a fait au moins 80 morts selon le New York Times, et Maduro a été transféré à New York pour y être jugé pour narcoterrorisme. Cette action, sans précédent dans sa forme assumée, redéfinit les rapports de force géopolitiques mondiaux.
                     </div>
-
-                    <div class="comic-case" onclick="openModal('ia-4')">
-                        <div class="case-icon">🔬</div>
-                        <div class="case-title">Vers l'ère post-scaling</div>
-                        <button class="case-btn">LIRE +</button>
-                    </div>
-
-                    <div class="comic-case" onclick="openModal('ia-5')">
-                        <div class="case-icon">⚖️</div>
-                        <div class="case-title">Fracture transatlantique</div>
-                        <button class="case-btn">LIRE +</button>
-                    </div>
-
-                    <div class="comic-case" onclick="openModal('ia-6')">
-                        <div class="case-icon">🛡️</div>
-                        <div class="case-title">L'ère des menaces IA-natives</div>
-                        <button class="case-btn">LIRE +</button>
-                    </div>
+                    <button class="btn-detail" onclick="openModal('actu-1')">Lire +</button>
                 </div>
 
-                <div class="key-points">
-                    <h2>POINTS CLÉS À RETENIR</h2>
-                    <ul>
-                        <li>Transition majeure vers les "world models" qui prédisent les interactions dans l'espace 3D</li>
-                        <li>OpenAI lance GPT-5.2 avec 400K tokens de contexte et réduction drastique des hallucinations</li>
-                        <li>Domination chinoise confirmée en open-source avec DeepSeek R1 et les modèles Qwen</li>
-                        <li>L'industrie IA atteint les limites du scaling et transition vers la recherche post-training</li>
-                        <li>Fracture régulatoire majeure entre l'UE et les États-Unis sur l'AI Act</li>
-                    </ul>
+                <div class="subject-card" id="card-actu-2">
+                    <div class="card-icon">🇪🇺</div>
+                    <h3 class="card-title">Opposition française au traité UE-Mercosur</h3>
+                    <div class="resume-court" onclick="toggleResume('card-actu-2')">
+                        La France a voté contre l'accord UE-Mercosur vendredi 9 janvier, mais une majorité d'États européens ont soutenu le traité, malgré la colère des agriculteurs. Paris s'est retrouvée isolée, privée du soutien italien décisif, ne parvenant pas à constituer une minorité...
+                    </div>
+                    <div class="resume-complet">
+                        La France a voté contre l'accord UE-Mercosur vendredi 9 janvier, mais une majorité d'États européens ont soutenu le traité, malgré la colère des agriculteurs. Paris s'est retrouvée isolée, privée du soutien italien décisif, ne parvenant pas à constituer une minorité de blocage. La signature du traité est prévue au Paraguay le 17 janvier.
+                    </div>
+                    <button class="btn-detail" onclick="openModal('actu-2')">Lire +</button>
                 </div>
+
+                <div class="subject-card" id="card-actu-3">
+                    <div class="card-icon">🏛️</div>
+                    <h3 class="card-title">Évolutions réglementaires et mesures sociales</h3>
+                    <div class="resume-court" onclick="toggleResume('card-actu-3')">
+                        Le 1er janvier 2026 apporte diverses revalorisations : SMIC à 12,02€ brut/heure (+1,18%), passage du plafond de Sécurité sociale à 48 060€. Sébastien Lecornu enregistre une progression notable de sa cote de confiance à 24%, creusant un écart inédit de...
+                    </div>
+                    <div class="resume-complet">
+                        Le 1er janvier 2026 apporte diverses revalorisations : SMIC à 12,02€ brut/heure (+1,18%), passage du plafond de Sécurité sociale à 48 060€. Sébastien Lecornu enregistre une progression notable de sa cote de confiance à 24%, creusant un écart inédit de 8 points avec Emmanuel Macron. Les mesures de simplification administrative s'accélèrent avec plus de 30 normes réglementaires simplifiées.
+                    </div>
+                    <button class="btn-detail" onclick="openModal('actu-3')">Lire +</button>
+                </div>
+
+                <div class="subject-card" id="card-actu-4">
+                    <div class="card-icon">📈</div>
+                    <h3 class="card-title">Prévisions économiques et inflation</h3>
+                    <div class="resume-court" onclick="toggleResume('card-actu-4')">
+                        L'INSEE prévoit un rebond de croissance avec +0,3% aux deux premiers trimestres 2026, portant l'acquis de croissance à +1% à mi-année. L'inflation pourrait remonter à +1,5% en juin 2026, "portée principalement par les prix de l'énergie". La Banque de France...
+                    </div>
+                    <div class="resume-complet">
+                        L'INSEE prévoit un rebond de croissance avec +0,3% aux deux premiers trimestres 2026, portant l'acquis de croissance à +1% à mi-année. L'inflation pourrait remonter à +1,5% en juin 2026, "portée principalement par les prix de l'énergie". La Banque de France anticipe 1,0% de croissance en 2026 et maintient son objectif d'inflation sous 2%.
+                    </div>
+                    <button class="btn-detail" onclick="openModal('actu-4')">Lire +</button>
+                </div>
+
+                <div class="subject-card" id="card-actu-5">
+                    <div class="card-icon">💻</div>
+                    <h3 class="card-title">CES 2026 et tendances technologiques</h3>
+                    <div class="resume-court" onclick="toggleResume('card-actu-5')">
+                        Le CES 2026 (6-9 janvier à Las Vegas) met en lumière l'intégration massive de l'IA dans tous les produits, avec plus de 4 100 exposants sur 2,6 millions de m² couvrant l'accessibilité, l'IA, la santé numérique, la mobilité et la...
+                    </div>
+                    <div class="resume-complet">
+                        Le CES 2026 (6-9 janvier à Las Vegas) met en lumière l'intégration massive de l'IA dans tous les produits, avec plus de 4 100 exposants sur 2,6 millions de m² couvrant l'accessibilité, l'IA, la santé numérique, la mobilité et la robotique. L'année 2026 s'annonce dominée par l'IA qui devient "autonome et proactive" et poursuit "sa progression constante dans tous les aspects de notre vie".
+                    </div>
+                    <button class="btn-detail" onclick="openModal('actu-5')">Lire +</button>
+                </div>
+
+                <div class="subject-card" id="card-actu-6">
+                    <div class="card-icon">🌱</div>
+                    <h3 class="card-title">Impacts environnementaux du numérique et enjeux climatiques</h3>
+                    <div class="resume-court" onclick="toggleResume('card-actu-6')">
+                        Les nouvelles tendances technologiques intègrent désormais les enjeux environnementaux avec un "triple impératif : souveraineté, sécurité et urgence écologique", incluant cybersécurité post-quantique, cloud souverain et informatique durable. L'essor massif de l'IA soulève des questions énergétiques majeures, tandis que les entreprises...
+                    </div>
+                    <div class="resume-complet">
+                        Les nouvelles tendances technologiques intègrent désormais les enjeux environnementaux avec un "triple impératif : souveraineté, sécurité et urgence écologique", incluant cybersécurité post-quantique, cloud souverain et informatique durable. L'essor massif de l'IA soulève des questions énergétiques majeures, tandis que les entreprises doivent réaligner leurs modèles d'affaires sur les critères ESG.
+                    </div>
+                    <button class="btn-detail" onclick="openModal('actu-6')">Lire +</button>
+                </div>
+            </div>
+
+            <div class="secondary-subjects">
+                <h2 class="secondary-title">Autres sujets de la semaine</h2>
+                
+                <div class="secondary-item">
+                    <div class="secondary-item-title" onclick="openModal('actu-7')">Nantes & Région Ouest</div>
+                    <div class="secondary-item-content">
+                        Nantes a connu des conditions météo rares début 2026 avec "la neige qui s'est invitée" et une vigilance orange du 5 au 6 janvier, suivie de la tempête Goretti. La tempête Goretti a touché la métropole nantaise les 8-9 janvier avec des rafales de 110 à 130 km/h et 20 interventions des sapeurs-pompiers. Jusqu'à 4 800 clients ont été privés d'électricité. À Saint-Nazaire, le réseau Hélyce+ démarre le 24 janvier 2026 avec des passages toutes les 10 minutes et un investissement de 170 millions d'euros jusqu'en 2030.
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-points">
+                <h2 class="key-points-title">POINTS CLÉS À RETENIR</h2>
+                <div class="key-point">Intervention militaire US au Venezuela marquant un précédent géopolitique majeur</div>
+                <div class="key-point">Isolement diplomatique de la France sur le traité UE-Mercosur malgré l'opposition unanime</div>
+                <div class="key-point">Rebond économique prévu en France avec +1% de croissance acquise à mi-2026</div>
+                <div class="key-point">Révolution technologique centrée sur l'IA intégrée massivement dans tous les produits</div>
+                <div class="key-point">Triple impératif ESG : souveraineté, sécurité et urgence écologique pour les entreprises</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modaux IA -->
+    <div id="modal-ia-1" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('ia-1')">&times;</span>
+            <h2 class="modal-title">Nouveautés technologiques & nouvelles approches – L'émergence des World Models</h2>
+            
+            <div class="modal-section">
+                <h4>Résumé</h4>
+                <p>L'année 2026 s'annonce décisive pour les "world models" - des systèmes IA qui apprennent comment les choses bougent et interagissent dans des espaces 3D pour faire des prédictions et prendre des actions. Yann LeCun quitte Meta pour créer son propre laboratoire de world models avec une valorisation recherchée de 5 milliards $, Google DeepMind progresse sur Genie avec son dernier modèle qui construit des world models interactifs en temps réel, et Fei-Fei Li lance World Labs avec son premier modèle commercial Marble.</p>
+            </div>
+
+            <div class="modal-section">
+                <h4>Points de vue croisés</h4>
+                <p><strong>Source 1 – TechCrunch</strong><br>
+                Les humains n'apprennent pas seulement par le langage mais en expérimentant le monde. Les LLM ne comprennent pas vraiment le monde, ils prédisent juste le prochain mot. C'est pourquoi beaucoup de chercheurs croient que le prochain grand bond viendra des world models.</p>
+                
+                <p><strong>Source 2 – MIT Technology Review</strong><br>
+                Google DeepMind a révélé AlphaEvolve, un système combinant Gemini LLM avec un algorithme évolutionnaire qui vérifie ses suggestions et les retourne au LLM pour les améliorer. Google l'a utilisé pour optimiser la consommation énergétique des data centers et des puces TPU.</p>
+                
+                <p><strong>Source 3 – Euronews</strong><br>
+                Les world models fonctionnent en apprenant à regarder des vidéos, en utilisant des données de simulation et d'autres entrées spatiales, puis en construisant leurs propres représentations de scènes. Au lieu de prédire le mot suivant, ils prédisent ce qui se passerait dans le monde suivant.</p>
+            </div>
+
+            <div class="modal-section">
+                <h4>Fiabilité & signaux faibles</h4>
+                <p>- La transition des LLM vers les world models reste majoritairement conceptuelle<br>
+                - Les applications commerciales concrètes demeurent limitées<br>
+                - Signal fort : multiplication des investissements privés dans ce secteur</p>
+            </div>
+
+            <div class="modal-section modal-sources">
+                <h4>Sources</h4>
+                <a href="https://techcrunch.com/2026/01/02/in-2026-ai-will-move-from-hype-to-pragmatism/" target="_blank">In 2026, AI will move from hype to pragmatism</a>
+                <a href="https://www.technologyreview.com/2026/01/05/1130662/whats-next-for-ai-in-2026/" target="_blank">What's next for AI in 2026</a>
+                <a href="https://www.euronews.com/next/2026/01/01/from-ai-slop-to-world-models-bubbles-and-small-models-what-to-expect-from-ai-in-2026" target="_blank">From 'AI slop' to world models</a>
             </div>
         </div>
     </div>
 
-    <!-- MODAL -->
-    <div id="modal" class="modal" onclick="closeModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <button class="close-btn" onclick="closeModal()">&times;</button>
-            <div id="modal-body"></div>
+    <div id="modal-ia-2" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('ia-2')">&times;</span>
+            <h2 class="modal-title">Modèles & Publications LLM – GPT-5.2 et la course aux paramètres</h2>
+            
+            <div class="modal-section">
+                <h4>Résumé</h4>
+                <p>OpenAI annonce GPT-5.2 après GPT-5.1, avec une fenêtre de contexte élargie à 400K tokens (contre 128K pour GPT-4) et un score parfait de 100% sur le benchmark mathématique AIME 2025. Le taux d'hallucination a été réduit à 6.2%, soit environ 40% de réduction par rapport aux générations précédentes. Parallèlement, OpenAI lance ses premiers modèles "open-weight" GPT-oss-120b et GPT-oss-20b.</p>
+            </div>
+
+            <div class="modal-section">
+                <h4>Points de vue croisés</h4>
+                <p><strong>Source 1 – Shakudo</strong><br>
+                Nous recommandons ce modèle pour les entreprises cherchant un LLM excellant en raisonnement multi-étapes, dialogue conversationnel et interactions temps réel, particulièrement celles avec un budget flexible.</p>
+                
+                <p><strong>Source 2 – Simon Willison</strong><br>
+                En 2026 la qualité du code généré par LLM deviendra impossible à nier. Ceux qui pensent encore que les LLM ne peuvent pas écrire du bon code vont subir un choc très désagréable en 2026.</p>
+                
+                <p><strong>Source 3 – MIT Technology Review</strong><br>
+                C'était la première fois que beaucoup réalisaient qu'ils pouvaient goûter aux performances IA de haut niveau sans passer par OpenAI, Anthropic ou Google. Les modèles open-weight permettent de télécharger et faire tourner un modèle sur son propre hardware.</p>
+            </div>
+
+            <div class="modal-section">
+                <h4>Fiabilité & signaux faibles</h4>
+                <p>- Les chiffres de performance d'OpenAI restent à confirmer indépendamment<br>
+                - La réduction des hallucinations pourrait masquer des biais dans les benchmarks<br>
+                - Tendance confirmée vers l'hybridation open/closed chez les grands acteurs</p>
+            </div>
+
+            <div class="modal-section modal-sources">
+                <h4>Sources</h4>
+                <a href="https://www.shakudo.io/blog/top-9-large-language-models" target="_blank">Top 9 Large Language Models as of January 2026</a>
+                <a href="https://simonwillison.net/2026/Jan/8/llm-predictions-for-2026/" target="_blank">LLM predictions for 2026</a>
+                <a href="https://www.technologyreview.com/2026/01/05/1130662/whats-next-for-ai-in-2026/" target="_blank">What's next for AI in 2026</a>
+            </div>
         </div>
     </div>
 
-    <script>
-        const modalContents = {
-            'actualites-1': `
-                <h2>🌍 Opération militaire américaine au Venezuela</h2>
-                <h3>Résumé</h3>
-                <p>Le 3 janvier 2026, les États-Unis ont mené une opération militaire d'envergure au Venezuela, capturant le président Nicolás Maduro et son épouse sous le nom de code "Operation Absolute Resolve". L'intervention a fait au moins 80 morts selon le New York Times, et Maduro a été transféré à New York pour y être jugé pour narcoterrorisme. Cette action, sans précédent dans sa forme assumée, redéfinit les rapports de force géopolitiques mondiaux.</p>
+    <div id="modal-ia-3" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('ia-3')">&times;</span>
+            <h2 class="modal-title">Open Source & Écosystèmes – L'hégémonie chinoise confirmée</h2>
+            
+            <div class="modal-section">
+                <h4>Résumé</h4>
+                <p>DeepSeek a publié R1, son modèle de raisonnement open-source, choquant le monde avec ce qu'une firme relativement petite en Chine pouvait accomplir avec des ressources limitées. "DeepSeek moment" est devenu une expression fréquemment utilisée par les entrepreneurs et observateurs IA. Selon The ATOM Project, les téléchargements totaux de modèles sont passés d'une dominance USA à une dominance Chine durant l'été 2025.</p>
+            </div>
+
+            <div class="modal-section">
+                <h4>Points de vue croisés</h4>
+                <p><strong>Source 1 – MIT Technology Review</strong><br>
+                Même dans un contexte d'antagonisme croissant US-Chine, l'adoption quasi unanime de l'open source par les firmes IA chinoises leur a valu de la bonne volonté dans la communauté IA globale. En 2026, attendez-vous à ce que plus d'apps Silicon Valley s'appuient discrètement sur des modèles ouverts chinois.</p>
                 
-                <h3>Points de vue des médias</h3>
-                <p><strong>Le Monde/France Info :</strong> Met l'accent sur la revendication de Trump d'une "opération brillante" avec "beaucoup de bonne planification", tout en soulignant les réactions internationales critiques et la position française qui condamne l'opération comme contraire aux principes de règlement pacifique.</p>
+                <p><strong>Source 2 – Red Hat Developer</strong><br>
+                Beaucoup des modèles dont on va parler viennent de labs chinois et mènent en téléchargements totaux par région. Selon The ATOM Project, les téléchargements totaux sont passés d'une dominance USA à Chine pendant l'été 2025.</p>
                 
-                <p><strong>Euronews :</strong> Présente l'événement dans un contexte géopolitique plus large, évoquant les défis pour l'UE de "trouver une voix et un plan" face aux visées expansionnistes américaines.</p>
+                <p><strong>Source 3 – VentureBeat</strong><br>
+                Le jeu long implique un ensemble concurrentiel différent : principalement les modèles open-source des entreprises chinoises comme DeepSeek et la série Qwen d'Alibaba, qui ont fait des progrès remarquables ces derniers mois.</p>
+            </div>
+
+            <div class="modal-section">
+                <h4>Fiabilité & signaux faibles</h4>
+                <p>- Questions géopolitiques sur la sécurité des modèles chinois<br>
+                - Beaucoup d'entreprises ne peuvent pas utiliser les modèles ouverts Qwen et DeepSeek car ils viennent de Chine<br>
+                - Signal faible : montée des alternatives européennes (Mistral) face à cette domination</p>
+            </div>
+
+            <div class="modal-section modal-sources">
+                <h4>Sources</h4>
+                <a href="https://www.technologyreview.com/2026/01/05/1130662/whats-next-for-ai-in-2026/" target="_blank">What's next for AI in 2026</a>
+                <a href="https://developers.redhat.com/articles/2026/01/07/state-open-source-ai-models-2025" target="_blank">The state of open source AI models in 2025</a>
+                <a href="https://www.understandingai.org/p/the-best-chinese-open-weight-models" target="_blank">The best Chinese open-weight models</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-ia-4" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('ia-4')">&times;</span>
+            <h2 class="modal-title">Recherche scientifique & papers – Vers l'ère post-scaling</h2>
+            
+            <div class="modal-section">
+                <h4>Résumé</h4>
+                <p>L'industrie IA commence à épuiser les limites des lois de scaling et va encore transitioner vers une ère de recherche. Beaucoup de chercheurs pensent que l'industrie IA commence à épuiser les limites des lois de scaling. L'ère d'ajouter plus de compute et de données pour construire des modèles fondamentaux toujours plus gros se termine. En 2025, nous avons atteint un mur avec les lois de scaling établies comme la formule Chinchilla.</p>
+            </div>
+
+            <div class="modal-section">
+                <h4>Points de vue croisés</h4>
+                <p><strong>Source 1 – InfoWorld</strong><br>
+                D'ici 2026, la puissance des modèles fondamentaux ne sera plus limitée à une poignée d'entreprises. Les plus grandes percées se produisent maintenant en phase post-training, où les modèles sont raffinés avec des données spécialisées.</p>
                 
-                <p><strong>Revue Conflits :</strong> Analyse l'opération comme "un moment de clarification stratégique" marquant "l'abandon assumé de toute médiation normative" où "la puissance ne cherche plus à se dissimuler derrière le droit".</p>
-            `,
-            'actualites-2': `
-                <h2>🤝 Opposition française au traité UE-Mercosur</h2>
-                <h3>Résumé</h3>
-                <p>La France a voté contre l'accord UE-Mercosur vendredi 9 janvier, mais une majorité d'États européens ont soutenu le traité, malgré la colère des agriculteurs. Paris s'est retrouvée isolée, privée du soutien italien décisif, ne parvenant pas à constituer une minorité de blocage. La signature du traité est prévue au Paraguay le 17 janvier.</p>
+                <p><strong>Source 2 – NeurIPS Research</strong><br>
+                Les chercheurs ont réussi à entraîner des réseaux avec 1000 couches. La percée technique réside dans la façon dont la profondeur affecte "l'abstraction temporelle". Les réseaux peu profonds peinent à planifier loin dans le futur car le signal se perd.</p>
                 
-                <h3>Points de vue des médias</h3>
-                <p><strong>Les Échos/France 24 :</strong> Soulignent l'isolement français : "Paris semble désormais très isolé" face à "la fin imminente de la partie de bras de fer", avec un focus sur les conséquences politiques pour Emmanuel Macron.</p>
+                <p><strong>Source 3 – ScienceDaily</strong><br>
+                Des scientifiques ont développé des dispositifs moléculaires qui peuvent changer de rôles, se comportant comme des éléments de mémoire, logique ou d'apprentissage dans la même structure. Contrairement à l'électronique conventionnelle, ces dispositifs n'imitent pas seulement l'intelligence mais l'encodent physiquement.</p>
+            </div>
+
+            <div class="modal-section">
+                <h4>Fiabilité & signaux faibles</h4>
+                <p>- Les architectures alternatives restent largement expérimentales<br>
+                - Le "post-training" pourrait représenter un goulot d'étranglement coûteux<br>
+                - Signal émergent : recherche sur les architectures neuromorphiques</p>
+            </div>
+
+            <div class="modal-section modal-sources">
+                <h4>Sources</h4>
+                <a href="https://www.infoworld.com/article/4108092/6-ai-breakthroughs-that-will-define-2026.html" target="_blank">6 AI breakthroughs that will define 2026</a>
+                <a href="https://litslink.com/blog/best-research-papers-on-ai-at-neurips-2025" target="_blank">Latest research papers on AI at NeurIPS 2026</a>
+                <a href="https://www.sciencedaily.com/releases/2026/01/260101160857.htm" target="_blank">Beyond silicon: shape-shifting molecules could be AI hardware future</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-ia-5" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('ia-5')">&times;</span>
+            <h2 class="modal-title">Régulation & Gouvernance – Fracture transatlantique</h2>
+            
+            <div class="modal-section">
+                <h4>Résumé</h4>
+                <p>La Commission européenne a officiellement rejeté le mécanisme "Stop-the-Clock" - un moratoire de deux ans proposé sur l'application de l'AI Act de l'UE. Cette décision marque un moment pivot dans l'implémentation du premier cadre légal IA complet au monde. En parallèle, l'administration Trump a clairement indiqué qu'elle voit ces régulations comme une guerre économique et se prépare à riposter.</p>
+            </div>
+
+            <div class="modal-section">
+                <h4>Points de vue croisés</h4>
+                <p><strong>Source 1 – European Business Magazine</strong><br>
+                Au cœur du conflit se trouvent deux lois UE qui ont transformé le fonctionnement des entreprises tech en Europe : le Digital Markets Act (DMA) et le Digital Services Act (DSA). Les deux sont entrées en vigueur pleine récemment et ont déjà résulté en centaines de millions d'euros d'amendes contre les géants tech américains.</p>
                 
-                <p><strong>Euronews :</strong> Analyse l'événement comme "la première fois que la France est mise en minorité au Conseil" et "un nouveau coup dur pour le président Macron", dans un contexte de crise politique intérieure.</p>
+                <p><strong>Source 2 – Kyiv Post</strong><br>
+                Jacob Helberg dit que Washington considère maintenant la croissance atone de l'Europe et les régulations strictes comme une "crise" risquant de laisser le continent dans les seconds rôles du siècle IA. Ses commentaires suivent la publication de la Stratégie de Sécurité Nationale US avec des avertissements d'"éradication civilisationnelle".</p>
                 
-                <p><strong>Public Sénat :</strong> Met l'accent sur l'unanimité politique française rare : "Fait rare en France, l'ensemble de la classe politique fait également bloc contre cet accord", mais note que "ce mouvement de cohésion nationale risque de ne pas suffire".</p>
-            `,
-            'actualites-3': `
-                <h2>🏛️ Évolutions réglementaires et mesures sociales</h2>
-                <h3>Résumé</h3>
-                <p>Le 1er janvier 2026 apporte diverses revalorisations : SMIC à 12,02€ brut/heure (+1,18%), passage du plafond de Sécurité sociale à 48 060€. Sébastien Lecornu enregistre une progression notable de sa cote de confiance à 24%, creusant un écart inédit de 8 points avec Emmanuel Macron. Les mesures de simplification administrative s'accélèrent avec plus de 30 normes réglementaires simplifiées.</p>
+                <p><strong>Source 3 – Irish Times</strong><br>
+                L'application des régulations numériques UE a été rendue plus difficile par la position aggressive de l'administration américaine. Google dit que l'investigation UE sur ses modèles IA "risque d'étouffer l'innovation dans un marché plus compétitif que jamais".</p>
+            </div>
+
+            <div class="modal-section">
+                <h4>Fiabilité & signaux faibles</h4>
+                <p>- Escalade probable vers une guerre commerciale tech US-UE<br>
+                - Risque que l'innovation "high-risk" migre vers les US ou l'Asie<br>
+                - Signal critique : la fenêtre d'août 2026 pour les systèmes IA "high-risk"</p>
+            </div>
+
+            <div class="modal-section modal-sources">
+                <h4>Sources</h4>
+                <a href="https://markets.financialcontent.com/wral/article/tokenring-2026-1-1-no-turning-back-eu-rejects-stop-the-clock-requests-as-2026-ai-compliance-deadlines-loom" target="_blank">No Turning Back: EU Rejects 'Stop-the-Clock' Requests</a>
+                <a href="https://europeanbusinessmagazine.com/european-news/eu-readies-tougher-tech-enforcement-in-2026-as-trump-warns-of-retaliation/" target="_blank">EU Strengthens Tech Regulation Enforcement</a>
+                <a href="https://www.kyivpost.com/post/67473" target="_blank">US to Europe: Deregulate AI or Face 'Civilizational Erasure'</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-ia-6" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('ia-6')">&times;</span>
+            <h2 class="modal-title">Industrie, investissements & marché – Transition vers le pragmatisme</h2>
+            
+            <div class="modal-section">
+                <h4>Résumé</h4>
+                <p>Les experts voient 2026 comme une année de transition, évoluant du scaling par force brute vers la recherche de nouvelles architectures, des démos flashy aux déploiements ciblés, et des agents promettant l'autonomie à ceux augmentant réellement le travail humain. L'investissement IA global a atteint 202.3 milliards $ en 2025, représentant 50% de tout le capital-risque déployé mondialement.</p>
+            </div>
+
+            <div class="modal-section">
+                <h4>Points de vue croisés</h4>
+                <p><strong>Source 1 – TechCrunch</strong><br>
+                2026 sera l'année des humains. En 2024, chaque entreprise IA prédisait qu'elle automatiserait les emplois sans besoin d'humains. Mais la technologie n'y est pas encore, et dans une économie instable, ce n'est vraiment pas une rhétorique populaire.</p>
                 
-                <h3>Points de vue des médias</h3>
-                <p><strong>Info.gouv.fr :</strong> Présente de manière factuelle les évolutions réglementaires, mettant l'accent sur "la simplification de plus de 30 normes réglementaires d'ici fin janvier 2026" et les revalorisations automatiques.</p>
+                <p><strong>Source 2 – France Épargne</strong><br>
+                L'industrie IA fin 2025 présente un défi analytique fondamental : pratiquement tous les indicateurs suggèrent à la fois que nous sommes dans une bulle spéculative et que la technologie motrice représente un véritable changement de paradigme d'ampleur historique.</p>
                 
-                <p><strong>Elabe (sondage Les Échos) :</strong> Analyse la progression du Premier ministre : "Sébastien Lecornu bénéficie d'un fort soutien au sein de l'électorat présidentiel" avec 60% de confiance des électeurs Macron contre 48% pour le président.</p>
+                <p><strong>Source 3 – AI Apps</strong><br>
+                Janvier 2026 a mis en évidence un glissement dans l'industrie IA vers des modèles plus petits, axés sur des tâches spécifiques et des solutions IA agentiques.</p>
+            </div>
+
+            <div class="modal-section">
+                <h4>Fiabilité & signaux faibles</h4>
+                <p>- Les SLM (Small Language Models) ajustés seront la grande tendance<br>
+                - Consolidation probable du marché avec faillites annoncées<br>
+                - Signal émergent : modèles économiques hybrides (API + sur site)</p>
+            </div>
+
+            <div class="modal-section modal-sources">
+                <h4>Sources</h4>
+                <a href="https://techcrunch.com/2026/01/02/in-2026-ai-will-move-from-hype-to-pragmatism/" target="_blank">In 2026, AI will move from hype to pragmatism</a>
+                <a href="https://www.france-epargne.fr/research/en/state-of-ai-entering-2026" target="_blank">State of AI 2026: Comprehensive Market Analysis</a>
+                <a href="https://www.aiapps.com/blog/ai-news-january-2026-breakthroughs-launches-trends/" target="_blank">Top AI News for January 2026</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-ia-7" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('ia-7')">&times;</span>
+            <h2 class="modal-title">Cybersécurité, risques & incidents – L'ère des menaces IA-natives</h2>
+            
+            <div class="modal-section">
+                <h4>Résumé</h4>
+                <p>L'IA a déjà facilité les attaques personnalisées via phishing et deepfakes, mais 2026 apportera probablement des "malwares adaptatifs" difficiles à détecter, ainsi que des agents IA aidant les hackers à lancer des attaques plus rapidement. La firme prédit même des "indications précoces d'attaques autonomes". D'ici fin 2026, nous verrons au moins trois PDG Fortune 500 perdre leur poste explicitement à cause de pannes de systèmes IA que leurs organisations ne peuvent expliquer, reproduire ou défendre post-incident.</p>
+            </div>
+
+            <div class="modal-section">
+                <h4>Points de vue croisés</h4>
+                <p><strong>Source 1 – Moody's/Cybersecurity Dive</strong><br>
+                Du côté défensif, Moody's dit que les entreprises n'investissant pas dans des "défenses pilotées par IA" seront "de plus en plus vulnérables", mais prédit aussi que les capacités autonomes de l'IA agentique créent un "potentiel de comportement imprévisible et d'accumulation d'erreurs".</p>
                 
-                <p><strong>Public Sénat :</strong> Se concentre sur les enjeux budgétaires : "Il faut un budget en janvier et notre déficit doit être réduit à moins de 5% en 2026" avec reprise des débats parlementaires à partir du 13 janvier.</p>
-            `,
-            'actualites-4': `
-                <h2>📊 Prévisions économiques et inflation</h2>
-                <h3>Résumé</h3>
-                <p>L'INSEE prévoit un rebond de croissance avec +0,3% aux deux premiers trimestres 2026, portant l'acquis de croissance à +1% à mi-année. L'inflation pourrait remonter à +1,5% en juin 2026, "portée principalement par les prix de l'énergie". La Banque de France anticipe 1,0% de croissance en 2026 et maintient son objectif d'inflation sous 2%.</p>
+                <p><strong>Source 2 – Palo Alto Networks/HBR</strong><br>
+                Notre recherche a découvert que le trafic IA générative a augmenté de plus de 890% et les incidents de sécurité liés ont plus que doublé rien que l'année dernière. Les risques vont de la fuite de données involontaire à des attaques sophistiquées.</p>
                 
-                <h3>Points de vue des médias</h3>
-                <p><strong>France Info :</strong> Présente un scénario d'optimisme mesuré : "la France pourrait connaître un rebond de croissance début 2026" mais souligne que "le tableau conjuncturel est un peu plus favorable que celui des derniers mois".</p>
-                
-                <p><strong>Banque de France :</strong> Adopte une approche prudente évoquant "des révisions à la baisse" dues aux "incertitudes majeures" et note que "moins de consolidation fiscale n'entraînerait pas de croissance excédentaire".</p>
-                
-                <p><strong>Creditnews :</strong> Met l'accent sur la fragilité : "l'économie française reste engagée dans une trajectoire fragile" et "l'ampleur de ce rebond dépendra avant tout de la confiance retrouvée des ménages et des entreprises".</p>
-            `,
-            'actualites-5': `
-                <h2>🚀 CES 2026 et tendances technologiques</h2>
-                <h3>Résumé</h3>
-                <p>Le CES 2026 (6-9 janvier à Las Vegas) met en lumière l'intégration massive de l'IA dans tous les produits, avec plus de 4 100 exposants sur 2,6 millions de m² couvrant l'accessibilité, l'IA, la santé numérique, la mobilité et la robotique. L'année 2026 s'annonce dominée par l'IA qui devient "autonome et proactive" et poursuit "sa progression constante dans tous les aspects de notre vie".</p>
-                
-                <h3>Points de vue des médias</h3>
-                <p><strong>Techniques de l'Ingénieur :</strong> Met l'accent sur l'évolution qualitative : "l'intelligence artificielle intégrée comme utilité de base plutôt que simple fonctionnalité" avec "des solutions de puces mettant l'accent sur l'IA locale".</p>
-                
-                <p><strong>Futura Sciences :</strong> Adopte un ton plus critique : "l'efficience énergétique sera mise en sourdine au profit de la puissance" et prévient que "2026 promet d'être une année noire pour l'informatique grand public" due à la pénurie de mémoire.</p>
-                
-                <p><strong>BPI France :</strong> Analyse les enjeux stratégiques : "il faut désormais réaligner modèle d'affaires sur un triple impératif : souveraineté, sécurité et urgence écologique" avec un focus sur "les entreprises françaises".</p>
-            `,
-            'actualites-6': `
-                <h2>🌱 Impacts environnementaux du numérique et enjeux climatiques</h2>
-                <h3>Résumé</h3>
-                <p>Les nouvelles tendances technologiques intègrent désormais les enjeux environnementaux avec un "triple impératif : souveraineté, sécurité et urgence écologique", incluant cybersécurité post-quantique, cloud souverain et informatique durable. L'essor massif de l'IA soulève des questions énergétiques majeures, tandis que les entreprises doivent réaligner leurs modèles d'affaires sur les critères ESG.</p>
-                
-                <h3>Points de vue des médias</h3>
-                <p><strong>BPI France :</strong> Présente une approche stratégique : "l'industrialisation de l'IA, la sobriété des infrastructures numériques" comme "enseignements majeurs" avec "l'adoption massive de la technologie responsable (Green IT, sobriété numérique)".</p>
-                
-                <p><strong>Futura Sciences :</strong> Adopte un regard critique : "2026 s'avance comme l'année où la technologie cessera d'être un simple décor pour devenir une contrainte – énergétique, presque existentielle" avec "un prix que tout le monde paiera".</p>
-                
-                <p><strong>Reporterre :</strong> Souligne les risques environnementaux : "l'accord devrait encourager la déforestation" avec "plus de 700 000 hectares de forêts qui pourraient être sacrifiés".</p>
-            `,
-            'ia-1': `
-                <h2>🧠 L'émergence des World Models</h2>
-                <h3>Résumé</h3>
-                <p>L'année 2026 s'annonce décisive pour les "world models" - des systèmes IA qui apprennent comment les choses bougent et interagissent dans des espaces 3D pour faire des prédictions et prendre des actions. Yann LeCun quitte Meta pour créer son propre laboratoire de world models avec une valorisation recherchée de 5 milliards $, Google DeepMind progresse sur Genie avec son dernier modèle qui construit des world models interactifs en temps réel, et Fei-Fei Li lance World Labs avec son premier modèle commercial
+                <p><strong>Source 3 – TechTarget</strong><br>
+                L'IA a déjà permis du phishing plus personnalisé et des attaques deepfakes, et les risques futurs incluent l'empoisonnement de modèles et du hacking assisté par IA plus rapide. Bien que les défenses IA soient essentielles, Moody's met en garde qu'elles introduisent de nouveaux risques.</p>
+            </div>
+
+            <div class="modal-section">
+                <h4>Fiabilité & signaux faibles</h4>
+                <p>- Les départements IT, RH et finance sont des cibles privilégiées<br>
+                - Émergence confirmée du "Shadow AI" comme vecteur d'attaque majeur<br>
+                - Signal critique : déploiement massif d'agents IA en 2026</p>
+            </div>
+
+            <div class="modal-section modal-sources">
+                <h4>Sources</h4>
+                <a href="https://www.cybersecuritydive.com/news/moodys-cyber-outlook-forecast-2026/809101/" target="_blank">Moody's forecasts growing AI threats for 2026</a>
+                <a href="https://hbr.org/sponsored/2025/12/6-cybersecurity-predictions-for-the-ai-economy-in-2026" target="_blank">6 Cybersecurity Predictions for AI Economy in 2026</a>
+                <a href="https://www.techtarget.com/searchsecurity/news/366637045/News-brief-AI-threats-to-shape-2026-cybersecurity" target="_blank">AI threats to shape 2026 cybersecurity</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-ia-8" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('ia-8')">&times;</span>
+            <h2 class="modal-title">Applications & usages – L'agentic AI entre en production</h2>
+            
+            <div class="modal-section">
+                <h4>Résumé</h4>
+                <p>Avec le MCP réduisant les frictions de connexion des agents aux systèmes réels, 2026 sera probablement l'année où les workflows agentiques passeront enfin des démos à la pratique quotidienne. Les solutions agent-first prendront des rôles de "système d'enregistrement" dans les industries. Meta dit que les LLM ont aidé à rationaliser les cadres de conformité et gestion des risques. Depuis l'incorporation des résultats de recherche dans ACH, Meta a présenté le travail à FSE 2025 et EuroSTAR 2025.</p>
+            </div>
+
+            <div class="modal-section">
+                <h4>Points de vue croisés</h4>
+                <p><strong>Source 1 – TechCrunch</strong><br>
+                Dans une économie
