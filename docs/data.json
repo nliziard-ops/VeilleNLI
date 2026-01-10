@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "date_generation": "2026-01-10T20:55:46.263736",
+  "date_generation": "2026-01-10T21:00:57.734461",
   "veilles": {
     "news": {
       "metadata": {
@@ -115,7 +115,7 @@
         }
       ],
       "points_cles": [],
-      "date_generation": "2026-01-10T20:55:46.264356"
+      "date_generation": "2026-01-10T21:00:57.735087"
     },
     "ia": {
       "metadata": {
@@ -522,7 +522,7 @@
         }
       ],
       "points_cles": [],
-      "date_generation": "2026-01-10T20:55:46.265151"
+      "date_generation": "2026-01-10T21:00:57.735888"
     }
   }
 }
