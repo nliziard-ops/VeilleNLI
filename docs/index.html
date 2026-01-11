@@ -1058,7 +1058,21 @@
                         throw new Error('Impossible de charger les données');
                     }
                     
-                    const markdown = await response.text();
+                    let markdown = await response.text();
+                    
+                    // Nettoyer les backticks parasites générés par l'agent GPT-4o
+                    // Retirer ```markdown au début et ``` à la fin si présents
+                    markdown = markdown.trim();
+                    if (markdown.startsWith('```markdown')) {
+                        markdown = markdown.replace(/^```markdown\n?/, '');
+                    }
+                    if (markdown.startsWith('```')) {
+                        markdown = markdown.replace(/^```\n?/, '');
+                    }
+                    if (markdown.endsWith('```')) {
+                        markdown = markdown.replace(/\n?```$/, '');
+                    }
+                    
                     const parsedData = parseMarkdown(markdown);
                     setData(parsedData);
                 } catch (err) {
