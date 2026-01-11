@@ -1,318 +1,213 @@
-# 🔍 VeilleNLI v2.0
+# VeilleNLI
 
-**Système automatisé de veille hebdomadaire intelligente - Architecture dynamique**
+Système de veille automatisée sur l'Intelligence Artificielle et les actualités générales, propulsé par OpenAI GPT-4o.
 
-Un système de veille automatisée qui génère chaque semaine des synthèses d'actualités personnalisées sur l'IA et l'actualité générale, avec un site web dynamique au style comics pour les consulter.
+## 🌐 Site web
 
----
-
-## 🎯 Nouveauté v2.0 : Architecture Dynamique
-
-**Migration complète** vers une architecture moderne :
-- ✅ **Site HTML 100% dynamique** (fetch `data.json`)
-- ✅ **Agent générateur JSON** (parse Markdown → JSON structuré)
-- ✅ **Bouton rafraîchir** fonctionnel
-- ✅ **Format Markdown standardisé** pour futurs agents OpenAI
-- ✅ **Budget maîtrisé** : 25€ sur 3 mois
+**https://nliziard-ops.github.io/VeilleNLI/**
 
 ---
 
-## 📋 Vue d'ensemble
+## 📋 Description
 
-VeilleNLI est orchestré par GitHub Actions avec :
+VeilleNLI génère quotidiennement deux veilles hebdomadaires :
 
-1. **Agents collecteurs** (IA + News) : Génèrent fichiers Markdown
-2. **Agent générateur JSON** : Parse Markdown → `data.json`
-3. **Site web dynamique** : Fetch et affiche `data.json`
+- **Veille IA & LLM** : Actualités sur l'intelligence artificielle, modèles de langage, recherche, régulation
+- **Veille Actualités** : Politique française, économie, international, écologie, Nantes & région Ouest
 
-### 🏗️ Architecture v2.0
+### Architecture 2-agents
+
+Chaque veille utilise 2 agents OpenAI :
+
+1. **Agent Collecteur (GPT-4o-mini)** : Recherche web via Tavily, filtrage, classification
+2. **Agent Synthèse (GPT-4o)** : Génération Markdown avec structure 6 sujets détaillés + autres sujets
+
+---
+
+## ✨ Fonctionnalités
+
+### Agents de synthèse
+
+- ✅ **6 sujets principaux** traités en profondeur :
+  - Résumé (5 lignes)
+  - Points de vue croisés (3 sources)
+  - Analyse & implications
+  - Signaux faibles (IA seulement)
+  - Sources complètes
+
+- ✅ **Autres sujets** en format condensé :
+  - Thème
+  - Résumé court (2-3 lignes)
+  - Source unique
+
+### Frontend web
+
+- ✅ Design sobre et élégant (Crimson Text + IBM Plex Sans)
+- ✅ Navigation IA / Actualités
+- ✅ Cards avec bouton **"Lire +"** pour dérouler le détail
+- ✅ Section **"Autres sujets"** en bas de page
+- ✅ Responsive design
+- ✅ Parser Markdown avancé
+
+---
+
+## 🚀 Utilisation
+
+### Consulter les veilles
+
+👉 **https://nliziard-ops.github.io/VeilleNLI/**
+
+### Relancer les agents manuellement
+
+1. **Veille IA** :  
+   https://github.com/nliziard-ops/VeilleNLI/actions/workflows/veille-ia-openai.yml  
+   → Cliquer "Run workflow"
+
+2. **Veille News** :  
+   https://github.com/nliziard-ops/VeilleNLI/actions/workflows/veille-news-openai.yml  
+   → Cliquer "Run workflow"
+
+3. **Mettre à jour le site** :
+   - Télécharger `VeilleIA.md` et `VeilleNews.md` depuis Google Drive
+   - Les uploader dans `docs/markdown/` sur GitHub
+   - Le site se met à jour automatiquement
+
+---
+
+## 📊 Coûts
+
+| Veille | Coût/jour |
+|--------|-----------|
+| Veille IA | $0.066 |
+| Veille News | $0.046 |
+| **TOTAL** | **$0.112** (~0.10€) |
+
+**Par mois** : ~3€  
+**Autonomie avec 25€** : 8 mois
+
+---
+
+## 🏗️ Architecture technique
 
 ```
-Agents (Anthropic/OpenAI)
-         ↓
-   Google Drive
-   (Markdown)
-         ↓
-Agent Générateur JSON
-         ↓
-   docs/data.json
-         ↓
-Site HTML dynamique
-```
-
----
-
-## 🤖 Les Composants
-
-### 1. Agents Collecteurs
-
-**Agent Veille IA** (`agent_veille_ia.py`)
-- Synthétise actualité IA/LLM hebdomadaire
-- 9 catégories : modèles, open source, recherche, régulation, etc.
-- Minimum 3 sources par sujet
-- Sortie : `VeilleIA.md` sur Google Drive
-
-**Agent Veille News** (`agent_veille_news.py`)
-- Synthétise actualité générale
-- 6 catégories : politique, économie, international, etc.
-- Focus local : Nantes & Bretagne
-- Sortie : `VeilleNews.md` sur Google Drive
-
-### 2. Agent Générateur JSON (`agent_generateur_json.py`) ✨ NOUVEAU
-
-**Mission** : Parser les Markdown et générer JSON structuré
-
-**Fonctionnalités** :
-- Télécharge Markdown depuis Google Drive
-- Extrait métadonnées, titres, résumés, sources, points clés
-- Génère icônes automatiques par catégorie
-- Tronque résumés à 40 mots
-- Sépare sujets importants (6) / secondaires (reste)
-- Sortie : `docs/data.json`
-
-### 3. Site Web Dynamique (`docs/index.html`) ✨ NOUVEAU
-
-**Caractéristiques** :
-- **100% dynamique** : fetch `data.json` au chargement
-- **Bouton rafraîchir** : recharge les données
-- **Navigation IA/News** : 2 onglets
-- **Cards comics** : 6 sujets principaux par onglet
-- **Expand/collapse** : résumés tronqués cliquables
-- **Modals détaillés** : sources, points de vue, fiabilité
-- **Design BD** : identique à v1
-
----
-
-## ⚙️ Workflows GitHub Actions
-
-### Workflow "Agents Collecteurs" (existant)
-
-**Déclenchement** : Samedi 6h30
-- Exécute agents IA + News
-- Upload Markdown sur Google Drive
-
-### Workflow "Mise à jour des données" ✨ NOUVEAU
-
-**Déclenchement** : 
-- Manuel (workflow_dispatch)
-- Automatique après agents collecteurs
-- Programmé (lundi 8h)
-
-**Actions** :
-1. Exécute `agent_generateur_json.py`
-2. Génère `docs/data.json`
-3. Commit et push automatique
-
----
-
-## 📊 Format des données
-
-### Structure `data.json`
-
-```json
-{
-  "version": "2.0",
-  "date_generation": "2026-01-10T15:30:00",
-  "veilles": {
-    "ia": {
-      "metadata": {...},
-      "titre": "Veille IA – Semaine du...",
-      "edition": "Édition Tensor",
-      "introduction": "...",
-      "sujets_importants": [
-        {
-          "titre": "...",
-          "icone": "🤖",
-          "resume": "...",
-          "resume_court": "...",
-          "resume_complet": "...",
-          "points_de_vue": [...],
-          "fiabilite": [...],
-          "sources": [...]
-        }
-      ],
-      "sujets_secondaires": [...],
-      "points_cles": [...]
-    },
-    "news": {...}
-  }
-}
-```
-
-### Format Markdown (agents)
-
-**Documentation complète** : `docs/FORMAT_MARKDOWN_AGENTS.md`
-
-**Structure obligatoire** :
-- Front matter YAML
-- Sections `## **[CATÉGORIE] – [Titre]**`
-- Sous-sections : Résumé, Points de vue, Sources
-- Format sources : `- Titre – URL`
-
----
-
-## 🔧 Configuration
-
-### Secrets GitHub requis
-
-```bash
-ANTHROPIC_API_KEY=sk-ant-xxxxx
-GOOGLE_DRIVE_CREDENTIALS={"type": "service_account", ...}
-GOOGLE_DRIVE_FOLDER_ID=1aBcDeFgHiJkLmN
-OPENAI_API_KEY=sk-xxxxx  # Pour Phase 2
-```
-
-### Installation locale
-
-```bash
-git clone https://github.com/nliziard-ops/VeilleNLI.git
-cd VeilleNLI
-
-pip install -r requirements.txt
-
-# Variables d'environnement
-export GOOGLE_DRIVE_CREDENTIALS='...'
-export GOOGLE_DRIVE_FOLDER_ID='...'
-
-# Générer data.json
-python agents/agent_generateur_json.py
-
-# Tester le site
-cd docs && python -m http.server 8000
+┌──────────────────────────┐
+│   Agent 1 (GPT-4o-mini)  │
+│   Tavily → Filtrage      │
+└────────────┬─────────────┘
+             │ JSON
+             ↓
+┌──────────────────────────┐
+│   Agent 2 (GPT-4o)       │
+│   Top 6 + Autres         │
+│   → Markdown             │
+└────────────┬─────────────┘
+             │
+             ↓
+      Google Drive
+             │
+             ↓ (copie manuelle)
+             │
+      docs/markdown/
+             │
+             ↓
+┌──────────────────────────┐
+│   Frontend React         │
+│   GitHub Pages           │
+└──────────────────────────┘
 ```
 
 ---
 
-## 🌐 Accès au site
+## 📁 Structure du projet
 
-**URL** : https://nliziard-ops.github.io/VeilleNLI/
-
-**Fonctionnalités** :
-- 🔄 Bouton rafraîchir
-- 🤖 Onglet IA / 📰 Onglet News
-- 📱 Responsive mobile
-- 🎨 Design Comics/BD
-
----
-
-## 📈 Statistiques
-
-- **Fréquence** : Hebdomadaire (samedi)
-- **Sujets par veille** : 10-15 (IA) / 8-10 (News)
-- **Hiérarchisation** : 6 importants + secondaires
-- **Sources minimales** : 3 par sujet
-- **Temps lecture** : 10-15 min par veille
-
----
-
-## 🗺️ Roadmap Migration
-
-### ✅ Phase 1 : Infrastructure dynamique (TERMINÉE)
-- Agent générateur JSON
-- Site HTML dynamique
-- Workflow GitHub Actions
-- Documentation format Markdown
-
-### ⏳ Phase 2 : Agents OpenAI
-- `agent_veille_ia_openai.py`
-- `agent_veille_news_openai.py`
-- Budget : ~1€/semaine
-
-### ⏳ Phase 3 : Tests en parallèle
-- Validation format Markdown
-- Vérification qualité contenu
-- Tests de coûts
-
-### ⏳ Phase 4 : Basculement v2
-- Activation agents OpenAI
-- Désactivation ancien système
-
-### ⏳ Phase 5 : Nettoyage
-- Suppression `agent_generateur_web.py`
-- Suppression `ANTHROPIC_API_KEY`
+```
+VeilleNLI/
+├── agents/
+│   ├── agent_collecteur_ia.py      # Collecte IA (GPT-4o-mini)
+│   ├── agent_synthese_ia.py        # Synthèse IA (GPT-4o)
+│   ├── agent_collecteur_news.py    # Collecte News (GPT-4o-mini)
+│   └── agent_synthese_news.py      # Synthèse News (GPT-4o)
+│
+├── .github/workflows/
+│   ├── veille-ia-openai.yml        # Workflow quotidien IA
+│   └── veille-news-openai.yml      # Workflow quotidien News
+│
+├── docs/
+│   ├── index.html                  # Frontend React
+│   ├── markdown/
+│   │   ├── VeilleIA.md             # Markdown IA
+│   │   └── VeilleNews.md           # Markdown News
+│   └── SYSTEM_COMPLETE.md          # Documentation complète
+│
+└── README.md                        # Ce fichier
+```
 
 ---
 
-## 📚 Documentation
+## 🛠️ Technologies
 
-- **`README_MIGRATION_V2.md`** : Guide migration complet
-- **`docs/FORMAT_MARKDOWN_AGENTS.md`** : Format standardisé
-- **`RECAP_PHASE1.md`** : Récapitulatif Phase 1
-- **Code** : Commentaires français + docstrings
-
----
-
-## 🔒 Sécurité
-
-- Credentials Google Drive en secrets GitHub
-- Pas d'exposition côté client
-- HTTPS uniquement (GitHub Pages)
-- Variables d'environnement pour config sensible
+- **Backend** : Python 3.11+
+- **LLM** : OpenAI GPT-4o + GPT-4o-mini
+- **Web Search** : Tavily API
+- **Storage** : Google Drive API
+- **Frontend** : React 18, Babel, Marked.js
+- **Hosting** : GitHub Pages
+- **CI/CD** : GitHub Actions
 
 ---
 
-## 💰 Budget OpenAI
+## 📖 Documentation
 
-**Total** : 25€ (janvier - mars 2026)
-**Estimation** : 1€/semaine (agents IA + News)
-**Marge** : 13€
-
----
-
-## 🆕 Changelog
-
-### Version 2.0 - Janvier 2026
-
-**Nouvelles fonctionnalités** :
-- ✅ Site 100% dynamique avec fetch JSON
-- ✅ Agent générateur JSON (parsing Markdown)
-- ✅ Bouton rafraîchir fonctionnel
-- ✅ Format Markdown standardisé
-- ✅ Workflow automatisé data.json
-- ✅ Documentation complète
-
-**Architecture** :
-- Migration vers système dynamique
-- Préparation agents OpenAI
-- Optimisation coûts
+- **[SYSTEM_COMPLETE.md](docs/SYSTEM_COMPLETE.md)** : Documentation technique complète
+- **[PHASE3_COMPLETE.md](docs/PHASE3_COMPLETE.md)** : Phase 3 (Agents News)
+- **[AGENTS_OPENAI.md](docs/AGENTS_OPENAI.md)** : Architecture agents OpenAI
 
 ---
 
-## 🛠️ Évolutions futures
+## 🔐 Secrets GitHub requis
 
-- [ ] Migration agents vers OpenAI (Phase 2)
-- [ ] Export PDF synthèses
-- [ ] Archivage anciennes semaines
-- [ ] Dashboard statistiques
-- [ ] Mode sombre/clair
-- [ ] Recherche dans archives
-- [ ] Notifications email
+```
+OPENAI_API_KEY              # Clé API OpenAI
+TAVILY_API_KEY              # Clé API Tavily
+GOOGLE_DRIVE_CREDENTIALS    # JSON service account Google Drive
+GOOGLE_DRIVE_FOLDER_ID      # ID du dossier Google Drive
+```
+
+---
+
+## 🎯 Profil du lecteur
+
+Cadre supérieur, ingénieur, basé à Nantes. Centres d'intérêt :
+
+- **IA/LLM** : Modèles de langage, recherche, open source, régulation, cybersécurité
+- **Actualités** : Politique française, économie, international, écologie, Nantes & Ouest, Bretagne
+
+---
+
+## 📅 Exécution
+
+- **Fréquence** : Quotidienne à 6h (Paris)
+- **Format** : Hebdomadaire (cumul de la semaine)
+- **Mise à jour** : Manuelle (copie Markdown → GitHub)
+
+---
+
+## 🤝 Contribution
+
+Projet personnel de Nicolas Liziard.
 
 ---
 
 ## 📄 Licence
 
-Projet personnel - Tous droits réservés
+Tous droits réservés.
 
 ---
 
-## 👤 Auteur
+## 📞 Contact
 
-**Nicolas Liziard**  
-Data Consultant chez CCR Consulting  
-Nantes, France
+GitHub : [@nliziard-ops](https://github.com/nliziard-ops)
 
 ---
 
-## 🙏 Remerciements
-
-- **Anthropic Claude** pour les capacités IA
-- **GitHub Actions** pour l'orchestration
-- **Google Drive API** pour le stockage
-- **GitHub Pages** pour l'hébergement
-
----
-
-**Dernière mise à jour** : 10 janvier 2026  
-**Version** : 2.0 - Architecture Dynamique  
-**Statut** : Phase 1 terminée, Phase 2 en cours
+*Dernière mise à jour : 11 janvier 2026*
