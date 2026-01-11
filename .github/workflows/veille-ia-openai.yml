@@ -28,6 +28,23 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
       
+      - name: Debug - Check secrets availability
+        run: |
+          echo "🔍 Vérification des secrets..."
+          if [ -z "$OPENAI_API_KEY" ]; then
+            echo "❌ OPENAI_API_KEY est vide ou absente"
+          else
+            echo "✅ OPENAI_API_KEY est présente (longueur: ${#OPENAI_API_KEY})"
+          fi
+          if [ -z "$TAVILY_API_KEY" ]; then
+            echo "❌ TAVILY_API_KEY est vide ou absente"
+          else
+            echo "✅ TAVILY_API_KEY est présente (longueur: ${#TAVILY_API_KEY})"
+          fi
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+      
       - name: Run Agent 1 - Collecteur
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -35,7 +52,6 @@ jobs:
         run: |
           echo "🚀 Lancement Agent 1 - Collecteur"
           python agents/agent_collecteur_ia.py
-        shell: bash
       
       - name: Verify JSON file exists
         run: |
@@ -84,6 +100,23 @@ jobs:
           echo "📊 Contenu du répertoire:"
           ls -la
       
+      - name: Debug - Check secrets availability
+        run: |
+          echo "🔍 Vérification des secrets..."
+          if [ -z "$OPENAI_API_KEY" ]; then
+            echo "❌ OPENAI_API_KEY est vide ou absente"
+          else
+            echo "✅ OPENAI_API_KEY est présente"
+          fi
+          if [ -z "$GOOGLE_DRIVE_CREDENTIALS" ]; then
+            echo "❌ GOOGLE_DRIVE_CREDENTIALS est vide ou absente"
+          else
+            echo "✅ GOOGLE_DRIVE_CREDENTIALS est présente (longueur: ${#GOOGLE_DRIVE_CREDENTIALS})"
+          fi
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GOOGLE_DRIVE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+      
       - name: Run Agent 2 - Synthèse
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -92,7 +125,6 @@ jobs:
         run: |
           echo "🚀 Lancement Agent 2 - Synthèse"
           python agents/agent_synthese_ia.py
-        shell: bash
       
       - name: Summary
         if: success()
