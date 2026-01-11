@@ -26,8 +26,8 @@ FOLDER_ID = os.environ.get('GOOGLE_DRIVE_FOLDER_ID')
 # Modèle premium pour synthèse qualitative
 MODEL_SYNTHESE = "gpt-4o-2024-11-20"
 
-# Fichiers d'entrée/sortie
-INPUT_JSON = "/tmp/articles_filtres_ia.json"
+# Fichiers d'entrée/sortie - utiliser répertoire courant
+INPUT_JSON = "articles_filtres_ia.json"
 OUTPUT_MARKDOWN = "VeilleIA.md"
 
 
