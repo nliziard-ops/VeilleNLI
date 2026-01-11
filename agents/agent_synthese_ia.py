@@ -135,16 +135,6 @@ modèles: GPT-4o-mini (collecte) + GPT-4o (synthèse)
 - Le ton général (innovation, régulation, consolidation, etc.)]
 
 ---
-
-## **Table des matières**
-
-1. [Thème 1]
-2. [Thème 2]
-3. [...]
-10. Synthèse finale
-
----
-
 ## **[THÈME] – [Titre du sujet principal]**
 
 ### **Résumé**
