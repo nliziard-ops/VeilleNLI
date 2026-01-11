@@ -205,7 +205,7 @@
         }
         
         .card-details.expanded {
-            max-height: 2000px;
+            max-height: 3000px;
             opacity: 1;
             margin-bottom: var(--spacing-md);
         }
@@ -229,6 +229,7 @@
         .card-details ul {
             margin-left: var(--spacing-md);
             margin-bottom: var(--spacing-sm);
+            list-style: none;
         }
         
         .card-details li {
@@ -236,6 +237,24 @@
             color: var(--color-text-muted);
             line-height: 1.6;
             margin-bottom: var(--spacing-xs);
+            padding-left: 0.5rem;
+        }
+        
+        .card-details li::before {
+            content: "• ";
+            color: var(--color-accent);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        .card-details a {
+            color: var(--color-accent);
+            text-decoration: none;
+            word-break: break-all;
+        }
+        
+        .card-details a:hover {
+            text-decoration: underline;
         }
         
         .card-footer {
@@ -415,7 +434,6 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     <script type="text/babel">
         const { useState, useEffect } = React;
@@ -423,7 +441,21 @@
         // Configuration
         const GITHUB_PROXY_URL = 'https://raw.githubusercontent.com/nliziard-ops/VeilleNLI/main/docs/markdown/';
         
-        // Parser Markdown pour extraire les sections
+        // Fonction pour convertir les URLs en liens HTML cliquables
+        function linkifyText(text) {
+            if (!text) return text;
+            
+            // Regex pour détecter les URLs (http, https, www)
+            const urlRegex = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/g;
+            
+            return text.replace(urlRegex, (url) => {
+                // Ajouter http:// si l'URL commence par www.
+                const href = url.startsWith('www.') ? `http://${url}` : url;
+                return `<a href="${href}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+            });
+        }
+        
+        // Parser Markdown amélioré pour extraire les sections
         function parseMarkdown(markdown) {
             if (!markdown) return null;
             
@@ -440,9 +472,10 @@
             let currentSection = null;
             let currentArticle = null;
             let inOtherTopics = false;
+            let currentSubsection = null;
             
             for (let i = 0; i < lines.length; i++) {
-                const line = lines[i];
+                const line = lines[i].trim();
                 
                 // Metadata YAML
                 if (line.startsWith('agent:')) data.metadata.agent = line.replace('agent:', '').trim();
@@ -450,7 +483,7 @@
                 if (line.startsWith('catégorie:')) data.metadata.category = line.replace('catégorie:', '').trim();
                 
                 // Title
-                if (line.startsWith('# ')) {
+                if (line.startsWith('# ') && !data.title) {
                     data.title = line.replace('# ', '').replace(/\*\*/g, '').trim();
                 }
                 
@@ -461,117 +494,152 @@
                 
                 // Introduction
                 if (line.startsWith('## Introduction')) {
-                    let intro = '';
-                    i++;
-                    while (i < lines.length && !lines[i].startsWith('##') && !lines[i].startsWith('---')) {
-                        if (lines[i].trim()) intro += lines[i] + ' ';
-                        i++;
-                    }
-                    data.introduction = intro.trim();
-                    i--;
+                    currentSection = 'introduction';
                     continue;
                 }
                 
-                // Other topics section
+                if (currentSection === 'introduction' && line && !line.startsWith('##') && !line.startsWith('---')) {
+                    data.introduction += line + ' ';
+                }
+                
+                // Détecter section "Autres sujets"
                 if (line.includes('## Autres sujets')) {
                     inOtherTopics = true;
+                    currentSection = 'otherTopics';
+                    currentArticle = null;
                     continue;
                 }
                 
-                // Synthèse finale = fin des autres sujets
-                if (line.includes('## Synthèse finale') || line.includes('**Fin de l\'\u00e9dition**')) {
+                // Fin de l'édition = fin des autres sujets
+                if (line.includes('**Fin de l\'édition**') || line.includes('Fin de l\'édition')) {
                     inOtherTopics = false;
+                    currentSection = null;
                 }
                 
-                // Articles principaux (format: ## [SUJET] – Titre)
-                if (line.match(/^## \[?[A-ZÉÈÀÂ]/i) && !inOtherTopics && !line.includes('Introduction') && !line.includes('Synthèse')) {
-                    if (currentArticle) {
+                // Articles principaux (format: ## [THEME] – Titre ou ## THEME – Titre)
+                if (line.match(/^##\s+\[?[A-ZÉÈÀÂÊÎÔÛÙÇ]/i) && 
+                    !inOtherTopics && 
+                    !line.includes('Introduction') && 
+                    !line.includes('Synthèse') &&
+                    !line.includes('Autres sujets')) {
+                    
+                    // Sauvegarder l'article précédent
+                    if (currentArticle && !inOtherTopics) {
                         data.mainArticles.push(currentArticle);
                     }
                     
-                    const titleMatch = line.match(/## (.+?)(?:–|-)(.+)/);
+                    // Extraire thème et titre
+                    const titleMatch = line.match(/##\s+\[?([^\]–-]+)\]?\s*[–-]\s*(.+)/);
                     currentArticle = {
-                        theme: titleMatch ? titleMatch[1].trim().replace(/\[|\]/g, '') : '',
-                        title: titleMatch ? titleMatch[2].trim() : line.replace('## ', '').trim(),
+                        theme: titleMatch ? titleMatch[1].trim() : '',
+                        title: titleMatch ? titleMatch[2].trim() : line.replace(/^##\s+/, '').trim(),
                         summary: '',
                         pointsDeVue: [],
                         analysis: '',
                         signals: '',
                         sources: []
                     };
-                    currentSection = 'article';
+                    currentSection = 'mainArticle';
+                    currentSubsection = null;
                     continue;
                 }
                 
-                // Autres articles (format: ### Titre court)
-                if (inOtherTopics && line.startsWith('### ') && !line.includes('Événements') && !line.includes('Divergences')) {
+                // Sous-sections des articles principaux
+                if (currentSection === 'mainArticle' && line.startsWith('###')) {
+                    const subsection = line.replace('###', '').replace(/\*\*/g, '').trim().toLowerCase();
+                    
+                    if (subsection.includes('résumé')) {
+                        currentSubsection = 'summary';
+                    } else if (subsection.includes('points de vue') || subsection.includes('points de vue des médias')) {
+                        currentSubsection = 'pointsDeVue';
+                    } else if (subsection.includes('analyse') || subsection.includes('implications')) {
+                        currentSubsection = 'analysis';
+                    } else if (subsection.includes('signaux faibles') || subsection.includes('fiabilité')) {
+                        currentSubsection = 'signals';
+                    } else if (subsection.includes('sources')) {
+                        currentSubsection = 'sources';
+                    }
+                    continue;
+                }
+                
+                // Contenu des sous-sections
+                if (currentArticle && currentSubsection) {
+                    if (currentSubsection === 'summary' && line && !line.startsWith('###')) {
+                        currentArticle.summary += line + ' ';
+                    } else if (currentSubsection === 'pointsDeVue') {
+                        // Détecter un média (format **Media Name**)
+                        if (line.startsWith('**') && line.endsWith('**')) {
+                            const media = line.replace(/\*\*/g, '').trim();
+                            let content = '';
+                            i++;
+                            while (i < lines.length && !lines[i].startsWith('**') && !lines[i].startsWith('###') && !lines[i].startsWith('##')) {
+                                if (lines[i].trim()) content += lines[i].trim() + ' ';
+                                i++;
+                            }
+                            i--;
+                            currentArticle.pointsDeVue.push({ media, content: content.trim() });
+                        }
+                    } else if (currentSubsection === 'analysis' && line && !line.startsWith('###')) {
+                        currentArticle.analysis += line + ' ';
+                    } else if (currentSubsection === 'signals' && line && !line.startsWith('###')) {
+                        currentArticle.signals += line + ' ';
+                    } else if (currentSubsection === 'sources' && line.startsWith('-')) {
+                        const sourceText = line.replace(/^-\s*/, '').trim();
+                        currentArticle.sources.push(sourceText);
+                    }
+                }
+                
+                // Autres articles (format: ### Titre)
+                if (inOtherTopics && line.startsWith('###')) {
+                    const title = line.replace('###', '').trim();
                     const otherArticle = {
-                        title: line.replace('### ', '').trim(),
+                        title: title,
                         theme: '',
                         summary: '',
                         source: ''
                     };
                     
-                    // Lire les lignes suivantes
+                    // Lire les lignes suivantes pour ce sujet
                     i++;
                     while (i < lines.length && !lines[i].startsWith('###') && !lines[i].startsWith('##')) {
-                        if (lines[i].startsWith('**Thème**')) {
-                            otherArticle.theme = lines[i].replace('**Thème**', '').replace(':', '').trim();
-                        } else if (lines[i].startsWith('**Résumé**')) {
-                            otherArticle.summary = lines[i].replace('**Résumé**', '').replace(':', '').trim();
-                        } else if (lines[i].startsWith('**Source**')) {
-                            otherArticle.source = lines[i].replace('**Source**', '').replace(':', '').trim();
+                        const contentLine = lines[i].trim();
+                        if (contentLine.startsWith('**Thème**')) {
+                            otherArticle.theme = contentLine.replace('**Thème**', '').replace(':', '').trim();
+                        } else if (contentLine.startsWith('**Résumé**')) {
+                            otherArticle.summary = contentLine.replace('**Résumé**', '').replace(':', '').trim();
+                        } else if (contentLine.startsWith('**Source**')) {
+                            otherArticle.source = contentLine.replace('**Source**', '').replace(':', '').trim();
                         }
                         i++;
                     }
                     i--;
                     
                     data.otherArticles.push(otherArticle);
-                    continue;
-                }
-                
-                // Contenu des articles principaux
-                if (currentArticle && currentSection === 'article') {
-                    if (line.startsWith('### Résumé') || line.startsWith('### **Résumé**')) {
-                        currentSection = 'summary';
-                    } else if (line.includes('Points de vue') || line.includes('points de vue')) {
-                        currentSection = 'pointsdevue';
-                    } else if (line.includes('Analyse') || line.includes('Implications')) {
-                        currentSection = 'analysis';
-                    } else if (line.includes('Signaux faibles') || line.includes('Fiabilité')) {
-                        currentSection = 'signals';
-                    } else if (line.startsWith('### Sources') || line.startsWith('### **Sources**')) {
-                        currentSection = 'sources';
-                    } else if (line.startsWith('**') && line.endsWith('**') && currentSection === 'pointsdevue') {
-                        // Point de vue d'un média
-                        const media = line.replace(/\*\*/g, '').trim();
-                        let content = '';
-                        i++;
-                        while (i < lines.length && !lines[i].startsWith('**') && !lines[i].startsWith('###')) {
-                            if (lines[i].trim()) content += lines[i] + ' ';
-                            i++;
-                        }
-                        i--;
-                        currentArticle.pointsDeVue.push({ media, content: content.trim() });
-                    } else if (currentSection === 'summary' && line.trim() && !line.startsWith('###')) {
-                        currentArticle.summary += line + ' ';
-                    } else if (currentSection === 'analysis' && line.trim() && !line.startsWith('###')) {
-                        currentArticle.analysis += line + ' ';
-                    } else if (currentSection === 'signals' && line.trim() && !line.startsWith('###')) {
-                        currentArticle.signals += line + ' ';
-                    } else if (currentSection === 'sources' && line.startsWith('- ')) {
-                        currentArticle.sources.push(line.replace('- ', '').trim());
-                    }
                 }
             }
             
-            // Ajouter le dernier article
-            if (currentArticle) {
+            // Ajouter le dernier article principal
+            if (currentArticle && !inOtherTopics) {
                 data.mainArticles.push(currentArticle);
             }
             
+            // Nettoyer les espaces
+            data.introduction = data.introduction.trim();
+            
             // Limiter à 6 articles principaux
-            data.mainArticles = data.mainArticles.slice(0, 6);
+            if (data.mainArticles.length > 6) {
+                // Déplacer les articles excédentaires vers "Autres sujets"
+                const extras = data.mainArticles.slice(6);
+                extras.forEach(article => {
+                    data.otherArticles.push({
+                        title: article.title,
+                        theme: article.theme,
+                        summary: article.summary,
+                        source: article.sources.length > 0 ? article.sources[0] : ''
+                    });
+                });
+                data.mainArticles = data.mainArticles.slice(0, 6);
+            }
             
             return data;
         }
@@ -617,6 +685,17 @@
                                 <p>{article.signals}</p>
                             </>
                         )}
+                        
+                        {article.sources && article.sources.length > 0 && (
+                            <>
+                                <h4>Sources</h4>
+                                <ul>
+                                    {article.sources.map((source, i) => (
+                                        <li key={i} dangerouslySetInnerHTML={{__html: linkifyText(source)}} />
+                                    ))}
+                                </ul>
+                            </>
+                        )}
                     </div>
                     
                     <div className="card-footer">
@@ -624,7 +703,7 @@
                             className={`read-more-btn ${expanded ? 'expanded' : ''}`}
                             onClick={() => setExpanded(!expanded)}
                         >
-                            {expanded ? 'Réduire' : 'Lire +'}
+                            {expanded ? 'Réduire' : 'Lire plus'}
                             <svg viewBox="0 0 20 20" fill="currentColor">
                                 <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                             </svg>
@@ -647,9 +726,9 @@
                     </div>
                     <p className="other-topic-summary">{article.summary}</p>
                     {article.source && (
-                        <div className="other-topic-source">
-                            Source : {article.source}
-                        </div>
+                        <div className="other-topic-source" dangerouslySetInnerHTML={{
+                            __html: 'Source : ' + linkifyText(article.source)
+                        }} />
                     )}
                 </div>
             );
@@ -672,7 +751,7 @@
                 
                 try {
                     const filename = type === 'ia' ? 'VeilleIA.md' : 'VeilleNews.md';
-                    const response = await fetch(GITHUB_PROXY_URL + filename);
+                    const response = await fetch(GITHUB_PROXY_URL + filename + '?t=' + Date.now());
                     
                     if (!response.ok) {
                         throw new Error('Impossible de charger les données');
