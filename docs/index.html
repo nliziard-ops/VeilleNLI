@@ -679,8 +679,13 @@
                     data.introduction += line + ' ';
                 }
                 
-                // Détecter section Synthèse
+                // Détecter section Synthèse (CORRECTION: sauvegarder l'article en cours)
                 if (line.includes('## Synthèse')) {
+                    // Sauvegarder l'article en cours avant d'entrer dans la synthèse
+                    if (currentArticle && !inOtherTopics) {
+                        data.mainArticles.push(currentArticle);
+                        currentArticle = null;
+                    }
                     inSynthesis = true;
                     currentSection = 'synthesis';
                     synthesisSubsection = null;
@@ -835,7 +840,7 @@
                 }
             }
             
-            // Ajouter le dernier article principal
+            // Ajouter le dernier article principal (si pas déjà ajouté)
             if (currentArticle && !inOtherTopics) {
                 data.mainArticles.push(currentArticle);
             }
