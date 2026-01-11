@@ -23,8 +23,8 @@ TAVILY_API_KEY = os.environ.get('TAVILY_API_KEY')
 # Modèle économique pour filtrage
 MODEL_COLLECTEUR = "gpt-4o-mini-2024-07-18"
 
-# Fichier de sortie temporaire
-OUTPUT_JSON = "/tmp/articles_filtres_ia.json"
+# Fichier de sortie - utiliser le répertoire courant pour GitHub Actions
+OUTPUT_JSON = "articles_filtres_ia.json"
 
 
 # ================================================================================
