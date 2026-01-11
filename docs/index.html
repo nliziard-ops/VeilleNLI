@@ -3,181 +3,775 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veille IA & Actualités 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <title>VeilleNLI - Intelligence Artificielle & Actualités</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Comic Neue', cursive; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
-        .sidebar { position: fixed; left: 0; top: 0; width: 50px; height: 100vh; background: linear-gradient(180deg, #ff6b6b, #feca57); border-right: 4px solid #000; z-index: 1000; display: flex; flex-direction: column; justify-content: flex-start; padding-top: 20px; }
-        .nav-btn { width: 40px; height: 60px; margin: 5px 5px; background: #fff; border: 3px solid #000; border-radius: 8px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; transition: all 0.2s ease; box-shadow: 3px 3px 0px #000; }
-        .nav-btn:hover { transform: translateY(-2px); box-shadow: 5px 5px 0px #000; }
-        .nav-btn.active { background: #f39c12; color: white; }
-        .nav-btn .icon { font-size: 16px; margin-bottom: 2px; }
-        .refresh-btn { width: 40px; height: 40px; margin: 15px 5px 5px 5px; background: #3498db; border: 3px solid #000; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; transition: all 0.2s ease; box-shadow: 3px 3px 0px #000; color: white; }
-        .refresh-btn:hover { transform: translateY(-2px); box-shadow: 5px 5px 0px #000; background: #2980b9; }
-        .refresh-btn.loading { animation: spin 1s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .main-content { margin-left: 60px; padding: 20px; min-height: 100vh; }
-        .veille-section { display: none; }
-        .loading-message { text-align: center; color: #fff; font-size: 1.5em; margin-top: 50px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 15px; border: 4px solid #000; }
-        .error-message { text-align: center; color: #fff; font-size: 1.2em; margin: 50px auto; padding: 20px; background: rgba(231, 76, 60, 0.9); border-radius: 15px; border: 4px solid #000; max-width: 600px; }
-        h1 { text-align: center; color: #fff; font-size: 2.5em; margin-bottom: 30px; text-shadow: 3px 3px 0px #000; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; border: 4px solid #000; }
-        .edition { text-align: center; color: #fff; font-size: 1.2em; margin-top: -20px; margin-bottom: 20px; text-shadow: 2px 2px 0px #000; }
-        .introduction { background: rgba(255,255,255,0.95); padding: 20px; border: 4px solid #000; border-radius: 15px; box-shadow: 8px 8px 0px #000; margin-bottom: 30px; line-height: 1.6; color: #2c3e50; }
-        .important-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .card { background: #fff; border: 4px solid #000; border-radius: 15px; padding: 20px; box-shadow: 8px 8px 0px #000; transition: transform 0.2s ease; }
-        .card:hover { transform: translateY(-3px); box-shadow: 10px 10px 0px #000; }
-        .card-icon { font-size: 2em; text-align: center; margin-bottom: 10px; }
-        .card-title { font-size: 1.2em; font-weight: bold; margin-bottom: 15px; color: #2c3e50; line-height: 1.3; }
-        .resume-court, .resume-complet { color: #555; line-height: 1.5; margin-bottom: 15px; cursor: pointer; }
-        .resume-court:hover { color: #3498db; }
-        .resume-complet { display: none; }
-        .btn-lire { background: #e74c3c; color: white; border: 3px solid #000; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-family: inherit; font-weight: bold; box-shadow: 3px 3px 0px #000; transition: all 0.2s ease; }
-        .btn-lire:hover { background: #c0392b; transform: translateY(-1px); box-shadow: 4px 4px 0px #000; }
-        .secondary-section { margin: 40px 0; background: rgba(255,255,255,0.9); padding: 25px; border: 4px solid #000; border-radius: 15px; box-shadow: 8px 8px 0px #000; }
-        .secondary-section h2 { color: #2c3e50; font-size: 1.8em; margin-bottom: 20px; text-align: center; text-transform: uppercase; }
-        .secondary-item { margin-bottom: 20px; padding: 15px; background: #ecf0f1; border: 2px solid #000; border-radius: 10px; }
-        .secondary-title { font-weight: bold; color: #2c3e50; cursor: pointer; margin-bottom: 8px; }
-        .secondary-title:hover { color: #3498db; }
-        .secondary-description { color: #555; line-height: 1.4; }
-        .points-section { background: rgba(52, 152, 219, 0.9); color: white; padding: 25px; border: 4px solid #000; border-radius: 15px; box-shadow: 8px 8px 0px #000; margin-top: 30px; }
-        .points-section h2 { font-size: 1.8em; margin-bottom: 20px; text-align: center; text-transform: uppercase; }
-        .points-section ul { list-style: none; padding: 0; }
-        .points-section li { margin-bottom: 10px; padding-left: 30px; position: relative; }
-        .points-section li:before { content: "⚡"; position: absolute; left: 0; font-size: 1.2em; }
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); align-items: center; justify-content: center; }
-        .modal-content { background: #fff; margin: auto; padding: 30px; border: 4px solid #000; border-radius: 15px; width: 90%; max-width: 800px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 10px 10px 0px #000; }
-        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; position: absolute; right: 20px; top: 20px; cursor: pointer; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: #e74c3c; color: white; border-radius: 50%; border: 2px solid #000; }
-        .close:hover { background: #c0392b; }
-        .modal h3 { color: #2c3e50; margin-bottom: 15px; font-size: 1.5em; }
-        .modal h4 { color: #e74c3c; margin: 20px 0 10px 0; font-size: 1.2em; }
-        .modal p, .modal ul, .modal li { margin-bottom: 15px; line-height: 1.6; }
-        .modal a { color: #3498db; text-decoration: underline; }
-        .modal-source { background: #ecf0f1; padding: 10px; border-left: 4px solid #3498db; margin-bottom: 15px; }
-        .modal-source strong { color: #2c3e50; }
-        @media (max-width: 768px) { .important-grid { grid-template-columns: 1fr; } .main-content { margin-left: 60px; padding: 10px; } .card { padding: 15px; } }
+        :root {
+            --color-bg: #fafaf9;
+            --color-surface: #ffffff;
+            --color-text: #1c1917;
+            --color-text-muted: #57534e;
+            --color-accent: #0369a1;
+            --color-accent-hover: #0284c7;
+            --color-border: #e7e5e4;
+            --color-shadow: rgba(0, 0, 0, 0.04);
+            
+            --font-serif: 'Crimson Text', Georgia, serif;
+            --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 0.75rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Header */
+        header {
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+            padding: var(--spacing-lg) 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        h1 {
+            font-family: var(--font-serif);
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--color-text);
+            letter-spacing: -0.02em;
+        }
+        
+        .header-meta {
+            font-family: var(--font-sans);
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            font-weight: 400;
+        }
+        
+        /* Navigation */
+        nav {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+        
+        .nav-btn {
+            font-family: var(--font-sans);
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: transparent;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text);
+            transition: all 0.2s ease;
+        }
+        
+        .nav-btn.active {
+            background: var(--color-accent);
+            color: white;
+            border-color: var(--color-accent);
+        }
+        
+        .nav-btn:hover:not(.active) {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+        }
+        
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-2xl) var(--spacing-lg);
+        }
+        
+        .section-header {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: var(--spacing-sm);
+            letter-spacing: -0.03em;
+        }
+        
+        .section-subtitle {
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            color: var(--color-text-muted);
+            font-style: italic;
+            font-weight: 400;
+        }
+        
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+        }
+        
+        .article-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .article-card:hover {
+            box-shadow: 0 4px 12px var(--color-shadow);
+            border-color: var(--color-accent);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .card-title {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: var(--spacing-xs);
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+        }
+        
+        .card-theme {
+            font-size: 0.75rem;
+            color: var(--color-accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .card-summary {
+            font-size: 0.9375rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .card-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        .card-details.expanded {
+            max-height: 2000px;
+            opacity: 1;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .card-details h4 {
+            font-family: var(--font-sans);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-top: var(--spacing-md);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .card-details p {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .card-details ul {
+            margin-left: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .card-details li {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--color-border);
+        }
+        
+        .read-more-btn {
+            font-family: var(--font-sans);
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-accent);
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            transition: all 0.2s ease;
+        }
+        
+        .read-more-btn:hover {
+            color: var(--color-accent-hover);
+        }
+        
+        .read-more-btn svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s ease;
+        }
+        
+        .read-more-btn.expanded svg {
+            transform: rotate(180deg);
+        }
+        
+        .card-sources {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+        
+        /* Other Topics Section */
+        .other-topics {
+            margin-top: var(--spacing-2xl);
+            padding-top: var(--spacing-2xl);
+            border-top: 2px solid var(--color-border);
+        }
+        
+        .other-topics-list {
+            display: grid;
+            gap: var(--spacing-md);
+        }
+        
+        .other-topic-item {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+        }
+        
+        .other-topic-title {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .other-topic-meta {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .other-topic-theme {
+            font-size: 0.75rem;
+            color: var(--color-accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .other-topic-summary {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .other-topic-source {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+        
+        .other-topic-source a {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+        
+        .other-topic-source a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Loading & Error States */
+        .loading, .error {
+            text-align: center;
+            padding: var(--spacing-2xl);
+            font-family: var(--font-sans);
+            color: var(--color-text-muted);
+        }
+        
+        .error {
+            color: #dc2626;
+        }
+        
+        /* Introduction */
+        .introduction {
+            font-family: var(--font-serif);
+            font-size: 1.0625rem;
+            line-height: 1.8;
+            color: var(--color-text);
+            margin-bottom: var(--spacing-2xl);
+            padding: var(--spacing-lg);
+            background: var(--color-surface);
+            border-left: 3px solid var(--color-accent);
+            border-radius: var(--radius-md);
+        }
+        
+        /* Footer */
+        footer {
+            max-width: 1200px;
+            margin: var(--spacing-2xl) auto 0;
+            padding: var(--spacing-xl) var(--spacing-lg);
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            border-top: 1px solid var(--color-border);
+        }
+        
+        /* Links */
+        a {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: var(--spacing-md);
+                align-items: flex-start;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="nav-btn active" data-tab="ia" onclick="showTab('ia')"><div class="icon">🤖</div><div>IA</div></div>
-        <div class="nav-btn" data-tab="news" onclick="showTab('news')"><div class="icon">📰</div><div>News</div></div>
-        <div class="refresh-btn" onclick="refreshData()" title="Rafraîchir les données">🔄</div>
-    </div>
-    <div class="main-content">
-        <div class="loading-message" id="loading">⏳ Chargement des données de veille...</div>
-        <div class="error-message" id="error" style="display: none;">❌ Erreur lors du chargement des données.<br><small id="error-detail"></small></div>
-        <div id="veille-container"></div>
-    </div>
-    <script>
-        let donnees = null;
-        let modalsContainer = document.createElement('div');
-        document.body.appendChild(modalsContainer);
-        document.addEventListener('DOMContentLoaded', function() { chargerDonnees(); });
-        async function chargerDonnees() {
-            try {
-                document.getElementById('loading').style.display = 'block';
-                document.getElementById('error').style.display = 'none';
-                const response = await fetch('data.json?t=' + new Date().getTime());
-                if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                donnees = await response.json();
-                console.log('✅ Données chargées:', donnees);
-                genererSections();
-                document.getElementById('loading').style.display = 'none';
-                const firstSection = document.querySelector('.veille-section');
-                if (firstSection) firstSection.style.display = 'block';
-            } catch (error) {
-                console.error('❌ Erreur chargement:', error);
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('error').style.display = 'block';
-                document.getElementById('error-detail').textContent = error.message;
+    <div id="root"></div>
+    
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        
+        // Configuration
+        const GITHUB_PROXY_URL = 'https://raw.githubusercontent.com/nliziard-ops/VeilleNLI/main/docs/markdown/';
+        
+        // Parser Markdown pour extraire les sections
+        function parseMarkdown(markdown) {
+            if (!markdown) return null;
+            
+            const lines = markdown.split('\n');
+            const data = {
+                metadata: {},
+                title: '',
+                edition: '',
+                introduction: '',
+                mainArticles: [],
+                otherArticles: []
+            };
+            
+            let currentSection = null;
+            let currentArticle = null;
+            let inOtherTopics = false;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                
+                // Metadata YAML
+                if (line.startsWith('agent:')) data.metadata.agent = line.replace('agent:', '').trim();
+                if (line.startsWith('date:')) data.metadata.date = line.replace('date:', '').trim();
+                if (line.startsWith('catégorie:')) data.metadata.category = line.replace('catégorie:', '').trim();
+                
+                // Title
+                if (line.startsWith('# ')) {
+                    data.title = line.replace('# ', '').replace(/\*\*/g, '').trim();
+                }
+                
+                // Edition
+                if (line.startsWith('**Édition') || line.startsWith('**Edition')) {
+                    data.edition = line.replace(/\*\*/g, '').trim();
+                }
+                
+                // Introduction
+                if (line.startsWith('## Introduction')) {
+                    let intro = '';
+                    i++;
+                    while (i < lines.length && !lines[i].startsWith('##') && !lines[i].startsWith('---')) {
+                        if (lines[i].trim()) intro += lines[i] + ' ';
+                        i++;
+                    }
+                    data.introduction = intro.trim();
+                    i--;
+                    continue;
+                }
+                
+                // Other topics section
+                if (line.includes('## Autres sujets')) {
+                    inOtherTopics = true;
+                    continue;
+                }
+                
+                // Synthèse finale = fin des autres sujets
+                if (line.includes('## Synthèse finale') || line.includes('**Fin de l\'\u00e9dition**')) {
+                    inOtherTopics = false;
+                }
+                
+                // Articles principaux (format: ## [SUJET] – Titre)
+                if (line.match(/^## \[?[A-ZÉÈÀÂ]/i) && !inOtherTopics && !line.includes('Introduction') && !line.includes('Synthèse')) {
+                    if (currentArticle) {
+                        data.mainArticles.push(currentArticle);
+                    }
+                    
+                    const titleMatch = line.match(/## (.+?)(?:–|-)(.+)/);
+                    currentArticle = {
+                        theme: titleMatch ? titleMatch[1].trim().replace(/\[|\]/g, '') : '',
+                        title: titleMatch ? titleMatch[2].trim() : line.replace('## ', '').trim(),
+                        summary: '',
+                        pointsDeVue: [],
+                        analysis: '',
+                        signals: '',
+                        sources: []
+                    };
+                    currentSection = 'article';
+                    continue;
+                }
+                
+                // Autres articles (format: ### Titre court)
+                if (inOtherTopics && line.startsWith('### ') && !line.includes('Événements') && !line.includes('Divergences')) {
+                    const otherArticle = {
+                        title: line.replace('### ', '').trim(),
+                        theme: '',
+                        summary: '',
+                        source: ''
+                    };
+                    
+                    // Lire les lignes suivantes
+                    i++;
+                    while (i < lines.length && !lines[i].startsWith('###') && !lines[i].startsWith('##')) {
+                        if (lines[i].startsWith('**Thème**')) {
+                            otherArticle.theme = lines[i].replace('**Thème**', '').replace(':', '').trim();
+                        } else if (lines[i].startsWith('**Résumé**')) {
+                            otherArticle.summary = lines[i].replace('**Résumé**', '').replace(':', '').trim();
+                        } else if (lines[i].startsWith('**Source**')) {
+                            otherArticle.source = lines[i].replace('**Source**', '').replace(':', '').trim();
+                        }
+                        i++;
+                    }
+                    i--;
+                    
+                    data.otherArticles.push(otherArticle);
+                    continue;
+                }
+                
+                // Contenu des articles principaux
+                if (currentArticle && currentSection === 'article') {
+                    if (line.startsWith('### Résumé') || line.startsWith('### **Résumé**')) {
+                        currentSection = 'summary';
+                    } else if (line.includes('Points de vue') || line.includes('points de vue')) {
+                        currentSection = 'pointsdevue';
+                    } else if (line.includes('Analyse') || line.includes('Implications')) {
+                        currentSection = 'analysis';
+                    } else if (line.includes('Signaux faibles') || line.includes('Fiabilité')) {
+                        currentSection = 'signals';
+                    } else if (line.startsWith('### Sources') || line.startsWith('### **Sources**')) {
+                        currentSection = 'sources';
+                    } else if (line.startsWith('**') && line.endsWith('**') && currentSection === 'pointsdevue') {
+                        // Point de vue d'un média
+                        const media = line.replace(/\*\*/g, '').trim();
+                        let content = '';
+                        i++;
+                        while (i < lines.length && !lines[i].startsWith('**') && !lines[i].startsWith('###')) {
+                            if (lines[i].trim()) content += lines[i] + ' ';
+                            i++;
+                        }
+                        i--;
+                        currentArticle.pointsDeVue.push({ media, content: content.trim() });
+                    } else if (currentSection === 'summary' && line.trim() && !line.startsWith('###')) {
+                        currentArticle.summary += line + ' ';
+                    } else if (currentSection === 'analysis' && line.trim() && !line.startsWith('###')) {
+                        currentArticle.analysis += line + ' ';
+                    } else if (currentSection === 'signals' && line.trim() && !line.startsWith('###')) {
+                        currentArticle.signals += line + ' ';
+                    } else if (currentSection === 'sources' && line.startsWith('- ')) {
+                        currentArticle.sources.push(line.replace('- ', '').trim());
+                    }
+                }
             }
-        }
-        async function refreshData() {
-            const btn = document.querySelector('.refresh-btn');
-            btn.classList.add('loading');
-            await chargerDonnees();
-            btn.classList.remove('loading');
-        }
-        function genererSections() {
-            const container = document.getElementById('veille-container');
-            container.innerHTML = '';
-            modalsContainer.innerHTML = '';
-            for (const [cle, veille] of Object.entries(donnees.veilles)) {
-                container.innerHTML += genererSectionHtml(cle, veille);
-                genererModals(cle, veille);
+            
+            // Ajouter le dernier article
+            if (currentArticle) {
+                data.mainArticles.push(currentArticle);
             }
+            
+            // Limiter à 6 articles principaux
+            data.mainArticles = data.mainArticles.slice(0, 6);
+            
+            return data;
         }
-        function genererSectionHtml(cle, veille) {
-            const titre = veille.titre || 'Veille';
-            const edition = veille.edition || '';
-            const intro = veille.introduction || '';
-            let html = `<div id="veille-${cle}" class="veille-section"><h1>${titre}</h1>${edition ? `<div class="edition">${edition}</div>` : ''}${intro ? `<div class="introduction">${intro}</div>` : ''}<div class="important-grid">`;
-            veille.sujets_importants.forEach((sujet, index) => {
-                const cardId = `card-${cle}-${index}`;
-                const modalId = `${cle}-${index}`;
-                html += `<div class="card" id="${cardId}"><div class="card-icon">${sujet.icone || '📄'}</div><div class="card-title">${sujet.titre}</div><div class="resume-court" onclick="toggleResume('${cardId}')">${sujet.resume_court}</div><div class="resume-complet" onclick="toggleResume('${cardId}')">${sujet.resume_complet}</div><button class="btn-lire" onclick="openModal('${modalId}')">Lire +</button></div>`;
-            });
-            html += `</div>${veille.sujets_secondaires.length > 0 ? `<div class="secondary-section"><h2>Autres sujets de la semaine</h2>` : ''}`;
-            veille.sujets_secondaires.forEach((sujet, index) => {
-                const modalId = `${cle}-sec-${index}`;
-                html += `<div class="secondary-item"><div class="secondary-title" onclick="openModal('${modalId}')">${sujet.titre}</div><div class="secondary-description">${sujet.resume}</div></div>`;
-            });
-            html += `${veille.sujets_secondaires.length > 0 ? '</div>' : ''}${veille.points_cles.length > 0 ? `<div class="points-section"><h2>Points Clés à Retenir</h2><ul>${veille.points_cles.map(point => `<li>${point}</li>`).join('')}</ul></div>` : ''}</div>`;
-            return html;
+        
+        // Composant Article Card
+        function ArticleCard({ article, index }) {
+            const [expanded, setExpanded] = useState(false);
+            
+            return (
+                <div className="article-card">
+                    <div className="card-header">
+                        <div className="card-theme">{article.theme}</div>
+                        <h3 className="card-title">{article.title}</h3>
+                    </div>
+                    
+                    <div className="card-summary">
+                        {article.summary}
+                    </div>
+                    
+                    <div className={`card-details ${expanded ? 'expanded' : ''}`}>
+                        {article.pointsDeVue && article.pointsDeVue.length > 0 && (
+                            <>
+                                <h4>Points de vue croisés</h4>
+                                {article.pointsDeVue.map((pdv, i) => (
+                                    <div key={i}>
+                                        <p><strong>{pdv.media}</strong></p>
+                                        <p>{pdv.content}</p>
+                                    </div>
+                                ))}
+                            </>
+                        )}
+                        
+                        {article.analysis && (
+                            <>
+                                <h4>Analyse & implications</h4>
+                                <p>{article.analysis}</p>
+                            </>
+                        )}
+                        
+                        {article.signals && (
+                            <>
+                                <h4>Signaux faibles</h4>
+                                <p>{article.signals}</p>
+                            </>
+                        )}
+                    </div>
+                    
+                    <div className="card-footer">
+                        <button 
+                            className={`read-more-btn ${expanded ? 'expanded' : ''}`}
+                            onClick={() => setExpanded(!expanded)}
+                        >
+                            {expanded ? 'Réduire' : 'Lire +'}
+                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                            </svg>
+                        </button>
+                        <div className="card-sources">
+                            {article.sources && article.sources.length > 0 && `${article.sources.length} source${article.sources.length > 1 ? 's' : ''}`}
+                        </div>
+                    </div>
+                </div>
+            );
         }
-        function genererModals(cle, veille) {
-            veille.sujets_importants.forEach((sujet, index) => { modalsContainer.innerHTML += genererModalHtml(`${cle}-${index}`, sujet); });
-            veille.sujets_secondaires.forEach((sujet, index) => { modalsContainer.innerHTML += genererModalHtml(`${cle}-sec-${index}`, sujet); });
+        
+        // Composant Other Topic
+        function OtherTopic({ article }) {
+            return (
+                <div className="other-topic-item">
+                    <h4 className="other-topic-title">{article.title}</h4>
+                    <div className="other-topic-meta">
+                        {article.theme && <span className="other-topic-theme">{article.theme}</span>}
+                    </div>
+                    <p className="other-topic-summary">{article.summary}</p>
+                    {article.source && (
+                        <div className="other-topic-source">
+                            Source : {article.source}
+                        </div>
+                    )}
+                </div>
+            );
         }
-        function genererModalHtml(modalId, sujet) {
-            let html = `<div id="modal-${modalId}" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('${modalId}')">&times;</span><h3>${sujet.titre}</h3><h4>Résumé</h4><p>${sujet.resume || sujet.resume_complet}</p>`;
-            if (sujet.points_de_vue && sujet.points_de_vue.length > 0) {
-                html += `<h4>Points de vue croisés</h4>`;
-                sujet.points_de_vue.forEach(pv => { html += `<div class="modal-source"><strong>${pv.nom}</strong><br>${pv.texte}</div>`; });
+        
+        // Composant principal
+        function App() {
+            const [activeTab, setActiveTab] = useState('ia');
+            const [data, setData] = useState(null);
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState(null);
+            
+            useEffect(() => {
+                loadMarkdown(activeTab);
+            }, [activeTab]);
+            
+            async function loadMarkdown(type) {
+                setLoading(true);
+                setError(null);
+                
+                try {
+                    const filename = type === 'ia' ? 'VeilleIA.md' : 'VeilleNews.md';
+                    const response = await fetch(GITHUB_PROXY_URL + filename);
+                    
+                    if (!response.ok) {
+                        throw new Error('Impossible de charger les données');
+                    }
+                    
+                    const markdown = await response.text();
+                    const parsedData = parseMarkdown(markdown);
+                    setData(parsedData);
+                } catch (err) {
+                    setError(err.message);
+                } finally {
+                    setLoading(false);
+                }
             }
-            if (sujet.fiabilite && sujet.fiabilite.length > 0) {
-                html += `<h4>Fiabilité & signaux faibles</h4><ul>${sujet.fiabilite.map(item => `<li>${item}</li>`).join('')}</ul>`;
-            }
-            if (sujet.sources && sujet.sources.length > 0) {
-                html += `<h4>Sources</h4><ul>${sujet.sources.map(s => `<li><a href="${s.url}" target="_blank" rel="noopener">${s.titre}</a></li>`).join('')}</ul>`;
-            }
-            html += `</div></div>`;
-            return html;
+            
+            return (
+                <>
+                    <header>
+                        <div className="header-content">
+                            <div>
+                                <h1>VeilleNLI</h1>
+                                <div className="header-meta">
+                                    {data?.metadata?.date && `Semaine du ${new Date(data.metadata.date).toLocaleDateString('fr-FR')}`}
+                                </div>
+                            </div>
+                            <nav>
+                                <button 
+                                    className={`nav-btn ${activeTab === 'ia' ? 'active' : ''}`}
+                                    onClick={() => setActiveTab('ia')}
+                                >
+                                    Veille IA
+                                </button>
+                                <button 
+                                    className={`nav-btn ${activeTab === 'news' ? 'active' : ''}`}
+                                    onClick={() => setActiveTab('news')}
+                                >
+                                    Actualités
+                                </button>
+                            </nav>
+                        </div>
+                    </header>
+                    
+                    <main>
+                        {loading && <div className="loading">Chargement...</div>}
+                        {error && <div className="error">Erreur : {error}</div>}
+                        
+                        {data && !loading && (
+                            <>
+                                <div className="section-header">
+                                    <h2 className="section-title">{data.title}</h2>
+                                    {data.edition && <p className="section-subtitle">{data.edition}</p>}
+                                </div>
+                                
+                                {data.introduction && (
+                                    <div className="introduction">
+                                        {data.introduction}
+                                    </div>
+                                )}
+                                
+                                {data.mainArticles && data.mainArticles.length > 0 && (
+                                    <>
+                                        <h3 className="section-title" style={{fontSize: '1.5rem', marginBottom: 'var(--spacing-lg)'}}>
+                                            Sujets principaux
+                                        </h3>
+                                        <div className="cards-grid">
+                                            {data.mainArticles.map((article, index) => (
+                                                <ArticleCard key={index} article={article} index={index} />
+                                            ))}
+                                        </div>
+                                    </>
+                                )}
+                                
+                                {data.otherArticles && data.otherArticles.length > 0 && (
+                                    <div className="other-topics">
+                                        <h3 className="section-title" style={{fontSize: '1.5rem', marginBottom: 'var(--spacing-lg)'}}>
+                                            Autres sujets de la semaine
+                                        </h3>
+                                        <div className="other-topics-list">
+                                            {data.otherArticles.map((article, index) => (
+                                                <OtherTopic key={index} article={article} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </main>
+                    
+                    <footer>
+                        <p>VeilleNLI - Veille automatisée par système 2-agents OpenAI</p>
+                        <p>Agent 1 (GPT-4o-mini) : Collecte et filtrage | Agent 2 (GPT-4o) : Synthèse</p>
+                    </footer>
+                </>
+            );
         }
-        function showTab(tabName) {
-            document.querySelectorAll('.veille-section').forEach(s => s.style.display = 'none');
-            const section = document.getElementById('veille-' + tabName);
-            if (section) section.style.display = 'block';
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            const activeBtn = document.querySelector('.nav-btn[data-tab="' + tabName + '"]');
-            if (activeBtn) activeBtn.classList.add('active');
-        }
-        function toggleResume(cardId) {
-            const card = document.getElementById(cardId);
-            if (!card) return;
-            const court = card.querySelector('.resume-court');
-            const complet = card.querySelector('.resume-complet');
-            if (!court || !complet) return;
-            if (complet.style.display === 'none' || !complet.style.display) {
-                court.style.display = 'none';
-                complet.style.display = 'block';
-            } else {
-                court.style.display = 'block';
-                complet.style.display = 'none';
-            }
-        }
-        function openModal(modalId) {
-            const modal = document.getElementById('modal-' + modalId);
-            if (modal) modal.style.display = 'flex';
-        }
-        function closeModal(modalId) {
-            const modal = document.getElementById('modal-' + modalId);
-            if (modal) modal.style.display = 'none';
-        }
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) event.target.style.display = 'none';
-        };
+        
+        // Rendu
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>
