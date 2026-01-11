@@ -35,6 +35,7 @@ jobs:
         run: |
           echo "🚀 Lancement Agent 1 - Collecteur"
           python agents/agent_collecteur_ia.py
+        shell: bash
       
       - name: Verify JSON file exists
         run: |
@@ -91,6 +92,7 @@ jobs:
         run: |
           echo "🚀 Lancement Agent 2 - Synthèse"
           python agents/agent_synthese_ia.py
+        shell: bash
       
       - name: Summary
         if: success()
