@@ -159,7 +159,6 @@
             border-radius: var(--radius-lg);
             padding: var(--spacing-lg);
             transition: all 0.3s ease;
-            cursor: pointer;
         }
         
         .article-card:hover {
@@ -197,66 +196,6 @@
             margin-bottom: var(--spacing-md);
         }
         
-        .card-details {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease, opacity 0.3s ease;
-            opacity: 0;
-        }
-        
-        .card-details.expanded {
-            max-height: 3000px;
-            opacity: 1;
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .card-details h4 {
-            font-family: var(--font-sans);
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--color-text);
-            margin-top: var(--spacing-md);
-            margin-bottom: var(--spacing-xs);
-        }
-        
-        .card-details p {
-            font-size: 0.875rem;
-            color: var(--color-text-muted);
-            line-height: 1.6;
-            margin-bottom: var(--spacing-sm);
-        }
-        
-        .card-details ul {
-            margin-left: var(--spacing-md);
-            margin-bottom: var(--spacing-sm);
-            list-style: none;
-        }
-        
-        .card-details li {
-            font-size: 0.875rem;
-            color: var(--color-text-muted);
-            line-height: 1.6;
-            margin-bottom: var(--spacing-xs);
-            padding-left: 0.5rem;
-        }
-        
-        .card-details li::before {
-            content: "• ";
-            color: var(--color-accent);
-            font-weight: bold;
-            margin-right: 0.5rem;
-        }
-        
-        .card-details a {
-            color: var(--color-accent);
-            text-decoration: none;
-            word-break: break-all;
-        }
-        
-        .card-details a:hover {
-            text-decoration: underline;
-        }
-        
         .card-footer {
             display: flex;
             justify-content: space-between;
@@ -286,16 +225,172 @@
         .read-more-btn svg {
             width: 16px;
             height: 16px;
-            transition: transform 0.3s ease;
-        }
-        
-        .read-more-btn.expanded svg {
-            transform: rotate(180deg);
         }
         
         .card-sources {
             font-size: 0.75rem;
             color: var(--color-text-muted);
+        }
+        
+        /* Modal Popup */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: var(--spacing-lg);
+            backdrop-filter: blur(4px);
+        }
+        
+        .modal-content {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            max-width: 800px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-header {
+            padding: var(--spacing-xl);
+            border-bottom: 1px solid var(--color-border);
+            position: sticky;
+            top: 0;
+            background: var(--color-surface);
+            z-index: 10;
+        }
+        
+        .modal-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .modal-title-group {
+            flex: 1;
+        }
+        
+        .modal-theme {
+            font-size: 0.75rem;
+            color: var(--color-accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .modal-title {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-text);
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            margin-left: var(--spacing-md);
+        }
+        
+        .modal-close:hover {
+            background: var(--color-bg);
+            color: var(--color-text);
+        }
+        
+        .modal-body {
+            padding: var(--spacing-xl);
+        }
+        
+        .modal-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .modal-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .modal-section h4 {
+            font-family: var(--font-sans);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: var(--spacing-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .modal-section p {
+            font-size: 0.9375rem;
+            color: var(--color-text-muted);
+            line-height: 1.7;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .modal-section ul {
+            list-style: none;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .modal-section li {
+            font-size: 0.9375rem;
+            color: var(--color-text-muted);
+            line-height: 1.7;
+            margin-bottom: var(--spacing-sm);
+            padding-left: 1rem;
+            position: relative;
+        }
+        
+        .modal-section li::before {
+            content: "•";
+            color: var(--color-accent);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .modal-section a {
+            color: var(--color-accent);
+            text-decoration: none;
+            word-break: break-word;
+        }
+        
+        .modal-section a:hover {
+            text-decoration: underline;
+        }
+        
+        .modal-pdv-item {
+            margin-bottom: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: var(--color-bg);
+            border-radius: var(--radius-sm);
+        }
+        
+        .modal-pdv-item strong {
+            display: block;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: var(--spacing-xs);
         }
         
         /* Other Topics Section */
@@ -358,6 +453,60 @@
         
         .other-topic-source a:hover {
             text-decoration: underline;
+        }
+        
+        /* Sections spéciales (Synthèse) */
+        .synthesis-section {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-2xl);
+        }
+        
+        .synthesis-section h3 {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: var(--spacing-md);
+            letter-spacing: -0.02em;
+        }
+        
+        .synthesis-section h4 {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .synthesis-section p,
+        .synthesis-section li {
+            font-size: 0.9375rem;
+            color: var(--color-text-muted);
+            line-height: 1.7;
+        }
+        
+        .synthesis-section ul {
+            list-style: none;
+            margin-left: 0;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .synthesis-section li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .synthesis-section li::before {
+            content: "•";
+            color: var(--color-accent);
+            font-weight: bold;
+            position: absolute;
+            left: 0.5rem;
         }
         
         /* Loading & Error States */
@@ -425,6 +574,15 @@
             .section-title {
                 font-size: 1.5rem;
             }
+            
+            .modal-content {
+                max-height: 90vh;
+            }
+            
+            .modal-header,
+            .modal-body {
+                padding: var(--spacing-lg);
+            }
         }
     </style>
 </head>
@@ -455,6 +613,14 @@
             });
         }
         
+        // Fonction pour vérifier si une ligne contient un lien actif
+        function hasActiveLink(text) {
+            if (!text) return false;
+            // Cherche si le texte contient une URL (http, https, www)
+            const urlRegex = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/;
+            return urlRegex.test(text);
+        }
+        
         // Parser Markdown amélioré pour extraire les sections
         function parseMarkdown(markdown) {
             if (!markdown) return null;
@@ -466,13 +632,23 @@
                 edition: '',
                 introduction: '',
                 mainArticles: [],
-                otherArticles: []
+                otherArticles: [],
+                synthesis: {
+                    keyPoints: '',
+                    signals: '',
+                    toWatch: '',
+                    majorEvents: '',
+                    divergences: '',
+                    implications: ''
+                }
             };
             
             let currentSection = null;
             let currentArticle = null;
             let inOtherTopics = false;
             let currentSubsection = null;
+            let inSynthesis = false;
+            let synthesisSubsection = null;
             
             for (let i = 0; i < lines.length; i++) {
                 const line = lines[i].trim();
@@ -495,6 +671,7 @@
                 // Introduction
                 if (line.startsWith('## Introduction')) {
                     currentSection = 'introduction';
+                    inSynthesis = false;
                     continue;
                 }
                 
@@ -502,9 +679,43 @@
                     data.introduction += line + ' ';
                 }
                 
+                // Détecter section Synthèse
+                if (line.includes('## Synthèse')) {
+                    inSynthesis = true;
+                    currentSection = 'synthesis';
+                    synthesisSubsection = null;
+                    continue;
+                }
+                
+                // Sous-sections de la synthèse
+                if (inSynthesis && line.startsWith('###')) {
+                    const subsection = line.replace('###', '').replace(/\*\*/g, '').trim().toLowerCase();
+                    
+                    if (subsection.includes('points clés') || subsection.includes('points cles')) {
+                        synthesisSubsection = 'keyPoints';
+                    } else if (subsection.includes('signaux faibles') || subsection.includes('opportunités') || subsection.includes('opportunites')) {
+                        synthesisSubsection = 'signals';
+                    } else if (subsection.includes('à surveiller') || subsection.includes('a surveiller')) {
+                        synthesisSubsection = 'toWatch';
+                    } else if (subsection.includes('événements majeurs') || subsection.includes('evenements majeurs')) {
+                        synthesisSubsection = 'majorEvents';
+                    } else if (subsection.includes('divergences')) {
+                        synthesisSubsection = 'divergences';
+                    } else if (subsection.includes('implications')) {
+                        synthesisSubsection = 'implications';
+                    }
+                    continue;
+                }
+                
+                // Contenu de la synthèse
+                if (inSynthesis && synthesisSubsection && line && !line.startsWith('###') && !line.startsWith('##')) {
+                    data.synthesis[synthesisSubsection] += line + '\n';
+                }
+                
                 // Détecter section "Autres sujets"
                 if (line.includes('## Autres sujets')) {
                     inOtherTopics = true;
+                    inSynthesis = false;
                     currentSection = 'otherTopics';
                     currentArticle = null;
                     continue;
@@ -513,12 +724,14 @@
                 // Fin de l'édition = fin des autres sujets
                 if (line.includes('**Fin de l\'édition**') || line.includes('Fin de l\'édition')) {
                     inOtherTopics = false;
+                    inSynthesis = false;
                     currentSection = null;
                 }
                 
                 // Articles principaux (format: ## [THEME] – Titre ou ## THEME – Titre)
                 if (line.match(/^##\s+\[?[A-ZÉÈÀÂÊÎÔÛÙÇ]/i) && 
                     !inOtherTopics && 
+                    !inSynthesis &&
                     !line.includes('Introduction') && 
                     !line.includes('Synthèse') &&
                     !line.includes('Autres sujets')) {
@@ -541,6 +754,7 @@
                     };
                     currentSection = 'mainArticle';
                     currentSubsection = null;
+                    inSynthesis = false;
                     continue;
                 }
                 
@@ -585,7 +799,10 @@
                         currentArticle.signals += line + ' ';
                     } else if (currentSubsection === 'sources' && line.startsWith('-')) {
                         const sourceText = line.replace(/^-\s*/, '').trim();
-                        currentArticle.sources.push(sourceText);
+                        // Ne garder que les sources qui contiennent un lien
+                        if (hasActiveLink(sourceText)) {
+                            currentArticle.sources.push(sourceText);
+                        }
                     }
                 }
                 
@@ -625,94 +842,123 @@
             
             // Nettoyer les espaces
             data.introduction = data.introduction.trim();
-            
-            // Limiter à 6 articles principaux
-            if (data.mainArticles.length > 6) {
-                // Déplacer les articles excédentaires vers "Autres sujets"
-                const extras = data.mainArticles.slice(6);
-                extras.forEach(article => {
-                    data.otherArticles.push({
-                        title: article.title,
-                        theme: article.theme,
-                        summary: article.summary,
-                        source: article.sources.length > 0 ? article.sources[0] : ''
-                    });
-                });
-                data.mainArticles = data.mainArticles.slice(0, 6);
-            }
+            Object.keys(data.synthesis).forEach(key => {
+                data.synthesis[key] = data.synthesis[key].trim();
+            });
             
             return data;
         }
         
-        // Composant Article Card
-        function ArticleCard({ article, index }) {
-            const [expanded, setExpanded] = useState(false);
+        // Composant Modal
+        function ArticleModal({ article, onClose }) {
+            useEffect(() => {
+                // Empêcher le scroll du body quand la modal est ouverte
+                document.body.style.overflow = 'hidden';
+                return () => {
+                    document.body.style.overflow = 'unset';
+                };
+            }, []);
             
             return (
-                <div className="article-card">
-                    <div className="card-header">
-                        <div className="card-theme">{article.theme}</div>
-                        <h3 className="card-title">{article.title}</h3>
-                    </div>
-                    
-                    <div className="card-summary">
-                        {article.summary}
-                    </div>
-                    
-                    <div className={`card-details ${expanded ? 'expanded' : ''}`}>
-                        {article.pointsDeVue && article.pointsDeVue.length > 0 && (
-                            <>
-                                <h4>Points de vue croisés</h4>
-                                {article.pointsDeVue.map((pdv, i) => (
-                                    <div key={i}>
-                                        <p><strong>{pdv.media}</strong></p>
-                                        <p>{pdv.content}</p>
-                                    </div>
-                                ))}
-                            </>
-                        )}
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <div className="modal-header-content">
+                                <div className="modal-title-group">
+                                    <div className="modal-theme">{article.theme}</div>
+                                    <h2 className="modal-title">{article.title}</h2>
+                                </div>
+                                <button className="modal-close" onClick={onClose}>×</button>
+                            </div>
+                        </div>
                         
-                        {article.analysis && (
-                            <>
-                                <h4>Analyse & implications</h4>
-                                <p>{article.analysis}</p>
-                            </>
-                        )}
-                        
-                        {article.signals && (
-                            <>
-                                <h4>Signaux faibles</h4>
-                                <p>{article.signals}</p>
-                            </>
-                        )}
-                        
-                        {article.sources && article.sources.length > 0 && (
-                            <>
-                                <h4>Sources</h4>
-                                <ul>
-                                    {article.sources.map((source, i) => (
-                                        <li key={i} dangerouslySetInnerHTML={{__html: linkifyText(source)}} />
+                        <div className="modal-body">
+                            <div className="modal-section">
+                                <h4>Résumé</h4>
+                                <p>{article.summary}</p>
+                            </div>
+                            
+                            {article.pointsDeVue && article.pointsDeVue.length > 0 && (
+                                <div className="modal-section">
+                                    <h4>Points de vue croisés</h4>
+                                    {article.pointsDeVue.map((pdv, i) => (
+                                        <div key={i} className="modal-pdv-item">
+                                            <strong>{pdv.media}</strong>
+                                            <p>{pdv.content}</p>
+                                        </div>
                                     ))}
-                                </ul>
-                            </>
-                        )}
-                    </div>
-                    
-                    <div className="card-footer">
-                        <button 
-                            className={`read-more-btn ${expanded ? 'expanded' : ''}`}
-                            onClick={() => setExpanded(!expanded)}
-                        >
-                            {expanded ? 'Réduire' : 'Lire plus'}
-                            <svg viewBox="0 0 20 20" fill="currentColor">
-                                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                            </svg>
-                        </button>
-                        <div className="card-sources">
-                            {article.sources && article.sources.length > 0 && `${article.sources.length} source${article.sources.length > 1 ? 's' : ''}`}
+                                </div>
+                            )}
+                            
+                            {article.analysis && (
+                                <div className="modal-section">
+                                    <h4>Analyse & Implications</h4>
+                                    <p>{article.analysis}</p>
+                                </div>
+                            )}
+                            
+                            {article.signals && (
+                                <div className="modal-section">
+                                    <h4>Signaux faibles</h4>
+                                    <p>{article.signals}</p>
+                                </div>
+                            )}
+                            
+                            {article.sources && article.sources.length > 0 && (
+                                <div className="modal-section">
+                                    <h4>Sources</h4>
+                                    <ul>
+                                        {article.sources.map((source, i) => (
+                                            <li key={i} dangerouslySetInnerHTML={{__html: linkifyText(source)}} />
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
+            );
+        }
+        
+        // Composant Article Card
+        function ArticleCard({ article, index }) {
+            const [showModal, setShowModal] = useState(false);
+            
+            return (
+                <>
+                    <div className="article-card">
+                        <div className="card-header">
+                            <div className="card-theme">{article.theme}</div>
+                            <h3 className="card-title">{article.title}</h3>
+                        </div>
+                        
+                        <div className="card-summary">
+                            {article.summary}
+                        </div>
+                        
+                        <div className="card-footer">
+                            <button 
+                                className="read-more-btn"
+                                onClick={() => setShowModal(true)}
+                            >
+                                Lire plus
+                                <svg viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                                </svg>
+                            </button>
+                            <div className="card-sources">
+                                {article.sources && article.sources.length > 0 && `${article.sources.length} source${article.sources.length > 1 ? 's' : ''}`}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {showModal && (
+                        <ArticleModal 
+                            article={article} 
+                            onClose={() => setShowModal(false)} 
+                        />
+                    )}
+                </>
             );
         }
         
@@ -730,6 +976,56 @@
                             __html: 'Source : ' + linkifyText(article.source)
                         }} />
                     )}
+                </div>
+            );
+        }
+        
+        // Composant Synthèse
+        function SynthesisSection({ synthesis, category }) {
+            // Déterminer quelles sections afficher selon la catégorie
+            const sectionsToShow = category === 'ia' 
+                ? ['keyPoints', 'signals', 'toWatch']
+                : ['majorEvents', 'divergences', 'implications', 'toWatch'];
+            
+            const sectionTitles = {
+                keyPoints: 'Points clés de la semaine',
+                signals: 'Signaux faibles & opportunités',
+                toWatch: 'À surveiller la semaine prochaine',
+                majorEvents: 'Événements majeurs',
+                divergences: 'Divergences éditoriales clés',
+                implications: 'Implications possibles'
+            };
+            
+            // Vérifier s'il y a du contenu à afficher
+            const hasContent = sectionsToShow.some(key => synthesis[key] && synthesis[key].trim());
+            
+            if (!hasContent) return null;
+            
+            return (
+                <div className="synthesis-section">
+                    <h3>Synthèse hebdomadaire</h3>
+                    {sectionsToShow.map(key => {
+                        if (!synthesis[key] || !synthesis[key].trim()) return null;
+                        
+                        return (
+                            <div key={key}>
+                                <h4>{sectionTitles[key]}</h4>
+                                <div dangerouslySetInnerHTML={{
+                                    __html: linkifyText(synthesis[key])
+                                        .split('\n')
+                                        .filter(line => line.trim())
+                                        .map(line => {
+                                            if (line.trim().startsWith('- ')) {
+                                                return '<li>' + line.replace(/^-\s*/, '') + '</li>';
+                                            }
+                                            return '<p>' + line + '</p>';
+                                        })
+                                        .join('')
+                                        .replace(/(<li>.*?<\/li>)/s, '<ul>$1</ul>')
+                                }} />
+                            </div>
+                        );
+                    })}
                 </div>
             );
         }
@@ -809,6 +1105,14 @@
                                     <div className="introduction">
                                         {data.introduction}
                                     </div>
+                                )}
+                                
+                                {/* Section Synthèse */}
+                                {data.synthesis && (
+                                    <SynthesisSection 
+                                        synthesis={data.synthesis} 
+                                        category={data.metadata.category}
+                                    />
                                 )}
                                 
                                 {data.mainArticles && data.mainArticles.length > 0 && (
