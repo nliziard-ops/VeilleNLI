@@ -121,15 +121,6 @@ modèles: GPT-4o-mini (collecte) + GPT-4o (synthèse)
 
 ---
 
-## **Table des matières**
-
-1. [Thème 1]
-2. [Thème 2]
-3. [...]
-9. Synthèse finale
-
----
-
 ## **[THÈME] – [Titre du sujet]**
 
 ### **Résumé**
