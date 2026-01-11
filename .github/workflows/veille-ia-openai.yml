@@ -34,14 +34,20 @@ jobs:
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
         run: |
           echo "🚀 Lancement Agent 1 - Collecteur"
-          cd agents
-          python agent_collecteur_ia.py
+          python agents/agent_collecteur_ia.py
+      
+      - name: Verify JSON file exists
+        run: |
+          echo "📁 Vérification du fichier JSON..."
+          ls -la articles_filtres_ia.json
+          echo "📊 Taille du fichier:"
+          du -h articles_filtres_ia.json
       
       - name: Upload JSON filtré (artifact pour Agent 2)
         uses: actions/upload-artifact@v4
         with:
           name: articles-filtres-ia
-          path: agents/articles_filtres_ia.json
+          path: articles_filtres_ia.json
           retention-days: 1
 
   agent-synthese:
@@ -68,7 +74,14 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: articles-filtres-ia
-          path: agents/
+          path: .
+      
+      - name: Verify downloaded JSON
+        run: |
+          echo "📁 Vérification du JSON téléchargé..."
+          ls -la articles_filtres_ia.json
+          echo "📊 Contenu du répertoire:"
+          ls -la
       
       - name: Run Agent 2 - Synthèse
         env:
@@ -77,8 +90,7 @@ jobs:
           GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
         run: |
           echo "🚀 Lancement Agent 2 - Synthèse"
-          cd agents
-          python agent_synthese_ia.py
+          python agents/agent_synthese_ia.py
       
       - name: Summary
         if: success()
