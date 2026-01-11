@@ -1,1 +1,370 @@
-"""\nAgent 2 - Synthétiseur News\nModèle : GPT-4o (qualité maximale)\nRôle : Lire JSON filtré → Générer synthèse Markdown → Upload Google Drive\nStructure : 6 sujets détaillés + autres sujets en bref\n"""\n\nimport os\nimport json\nimport sys\nimport traceback\nfrom datetime import datetime, timedelta\nfrom typing import Dict, Any, List\nfrom openai import OpenAI\nfrom google.oauth2 import service_account\nfrom googleapiclient.discovery import build\nfrom googleapiclient.http import MediaIoBaseUpload\nimport io\n\n\n# ================================================================================\n# CONFIGURATION\n# ================================================================================\n\nOPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')\nGOOGLE_CREDENTIALS = json.loads(os.environ.get('GOOGLE_DRIVE_CREDENTIALS'))\nFOLDER_ID = os.environ.get('GOOGLE_DRIVE_FOLDER_ID')\n\n# Modèle premium pour synthèse qualitative\nMODEL_SYNTHESE = \"gpt-4o-2024-11-20\"\n\n# Fichiers d'entrée/sortie\nINPUT_JSON = \"articles_filtres_news.json\"\nOUTPUT_MARKDOWN = \"VeilleNews.md\"\n\n\n# ================================================================================\n# CHARGEMENT DONNÉES FILTRÉES\n# ================================================================================\n\ndef charger_articles_filtres() -> Dict[str, Any]:\n    \"\"\"Charge le JSON produit par Agent 1\"\"\"\n    if not os.path.exists(INPUT_JSON):\n        raise FileNotFoundError(f\"❌ Fichier {INPUT_JSON} introuvable\")\n    \n    with open(INPUT_JSON, 'r', encoding='utf-8') as f:\n        data = json.load(f)\n    \n    print(f\"✅ JSON chargé : {len(data['articles'])} articles\")\n    return data\n\n\n# ================================================================================\n# TRI ET SÉLECTION DES ARTICLES\n# ================================================================================\n\ndef trier_articles(articles: List[Dict[str, Any]]) -> tuple:\n    \"\"\"\n    Trie les articles par pertinence et sépare en 2 groupes\n    Returns: (top_6, autres)\n    \"\"\"\n    # Trier par pertinence décroissante\n    articles_tries = sorted(articles, key=lambda x: x['pertinence'], reverse=True)\n    \n    # Séparer\n    top_6 = articles_tries[:6]\n    autres = articles_tries[6:]\n    \n    print(f\"📊 Top 6 articles : {len(top_6)}\")\n    print(f\"📊 Autres sujets : {len(autres)}\")\n    \n    return top_6, autres\n\n\n# ================================================================================\n# GÉNÉRATION SYNTHÈSE MARKDOWN GPT-4o\n# ================================================================================\n\ndef generer_synthese_markdown(data: Dict[str, Any]) -> str:\n    \"\"\"Utilise GPT-4o pour générer une synthèse Markdown avec structure 6+autres\"\"\"\n    \n    client = OpenAI(api_key=OPENAI_API_KEY)\n    \n    # Trier les articles\n    top_6, autres = trier_articles(data['articles'])\n    \n    # Préparer texte TOP 6\n    top_6_text = \"\"\n    for i, art in enumerate(top_6, 1):\n        top_6_text += f\"\\n**[{i}] {art['titre']}**\\n\"\n        top_6_text += f\"Source: {art['source']} | URL: {art['url']}\\n\"\n        top_6_text += f\"Thème: {art['theme']}\\n\"\n        top_6_text += f\"Snippet: {art['snippet']}\\n\"\n        top_6_text += f\"Pertinence: {art['pertinence']}/10 | Tags: {', '.join(art['tags'])}\\n\\n\"\n    \n    # Préparer texte AUTRES\n    autres_text = \"\"\n    for art in autres:\n        autres_text += f\"\\n**{art['titre']}**\\n\"\n        autres_text += f\"Source: {art['source']} | URL: {art['url']}\\n\"\n        autres_text += f\"Thème: {art['theme']}\\n\"\n        autres_text += f\"Snippet: {art['snippet'][:150]}...\\n\"\n        autres_text += f\"Pertinence: {art['pertinence']}/10\\n\\n\"\n    \n    date_debut = datetime.strptime(data['periode']['debut'], '%Y-%m-%d')\n    date_fin = datetime.strptime(data['periode']['fin'], '%Y-%m-%d')\n    \n    prompt = f\"\"\"Tu es un journaliste expert en actualités françaises/internationales qui produit une veille hebdomadaire pour un cadre supérieur français, ingénieur, vivant à Nantes.\n\n**PÉRIODE** : du {date_debut.strftime('%d/%m/%Y')} au {date_fin.strftime('%d/%m/%Y')}\n\n**ARTICLES PRINCIPAUX (Top 6 - traitement détaillé)** :\n{top_6_text}\n\n**AUTRES ARTICLES (traitement bref)** :\n{autres_text}\n\n**STRUCTURE DU MARKDOWN À GÉNÉRER** :\n\n```markdown\n---\nagent: Veille Actualités (2 agents OpenAI)\ndate: {date_fin.strftime('%Y-%m-%d')}\ncatégorie: Actualités Générales\nmodèles: GPT-4o-mini (collecte) + GPT-4o (synthèse)\n---\n\n# Veille hebdomadaire – Semaine du {date_debut.strftime('%d/%m/%Y')} au {date_fin.strftime('%d/%m/%Y')}\n\n**Édition [Nom créatif sobre]**\n\n---\n\n## Introduction\n\n[4-5 lignes : ambiance générale, tendances, tensions, climat médiatique]\n\n---\n\n## [SUJET 1/6] – [Titre accrocheur]\n\n### Résumé\n[5 lignes max : faits essentiels, enjeux, impacts]\n\n### Points de vue des médias\n\n**[Média 1]**\n[Angle éditorial, ton, analyse, 3-4 lignes]\n\n**[Média 2]**\n[Divergences, critiques, 3-4 lignes]\n\n**[Média 3]** (si disponible)\n[Analyse complémentaire, 3-4 lignes]\n\n### Implications\n- Politiques : [...]\n- Économiques : [...]\n- Sociales : [...]\n- Environnementales : [...]\n\n### Sources\n- [Titre] – [URL complète]\n\n---\n\n[RÉPÉTER POUR SUJETS 2, 3, 4, 5, 6]\n\n---\n\n## Autres sujets de la semaine\n\n### [Titre court sujet A]\n**Thème** : [Thème]\n**Résumé** : [2-3 lignes]\n**Source** : [Nom média] – [URL]\n\n### [Titre court sujet B]\n**Thème** : [Thème]\n**Résumé** : [2-3 lignes]\n**Source** : [Nom média] – [URL]\n\n[Continuer pour tous les autres articles]\n\n---\n\n## Synthèse finale\n\n### Événements majeurs\n1. [Point 1]\n2. [Point 2]\n3. [Point 3]\n\n### Divergences éditoriales clés\n- [Différences d'interprétation entre médias]\n\n### Implications possibles\n- Politiques : [...]\n- Économiques : [...]\n- Sociales : [...]\n- Environnementales : [...]\n\n### À surveiller la semaine prochaine\n- [Sujet 1]\n- [Sujet 2]\n\n---\n\n**Fin de l'édition**\n*Veille générée automatiquement par système 2-agents OpenAI*\n```\n\n**CONSIGNES CRITIQUES** :\n\n1. **Top 6** : Traitement COMPLET avec résumé, points de vue médias, implications, sources\n2. **Autres sujets** : Format BREF avec thème, résumé court (2-3 lignes), source unique\n3. **Style** : Sobre, professionnel, élégant, pas d'emoji\n4. **Sources** : URLs complètes obligatoires\n5. **Reformulation** : Jamais de copier-coller\n6. **Neutralité stricte** : Présenter faits sans jugement\n7. **Équilibre** : Top 6 = 80% du contenu, Autres = 20%\n\n**IMPORTANT** :\n- Les 6 premiers sujets doivent être ultra-détaillés\n- Les autres sujets sont juste listés pour traçabilité\n- Maintenir cohérence narrative\n\nGénère le Markdown complet maintenant, sans préambule.\"\"\"\n\n    print(\"🤖 Génération synthèse Markdown avec GPT-4o...\")\n    \n    try:\n        response = client.chat.completions.create(\n            model=MODEL_SYNTHESE,\n            messages=[\n                {\n                    \"role\": \"system\",\n                    \"content\": \"Tu es un journaliste expert en actualités. Tu réponds UNIQUEMENT en Markdown, sans préambule.\"\n                },\n                {\n                    \"role\": \"user\",\n                    \"content\": prompt\n                }\n            ],\n            temperature=0.7,\n            max_tokens=6000\n        )\n        \n        markdown_content = response.choices[0].message.content.strip()\n        \n        print(f\"📊 Tokens utilisés : {response.usage.total_tokens}\")\n        \n        cost_input = (response.usage.prompt_tokens / 1000) * 0.03\n        cost_output = (response.usage.completion_tokens / 1000) * 0.06\n        cost_total = cost_input + cost_output\n        print(f\"💰 Coût estimé : ${cost_total:.4f}\")\n        \n        print(f\"✅ Synthèse générée : {len(markdown_content)} caractères\")\n        \n        return markdown_content\n    \n    except Exception as e:\n        print(f\"❌ Erreur GPT-4o : {e}\")\n        traceback.print_exc()\n        raise\n\n\n# ================================================================================\n# UPLOAD GOOGLE DRIVE\n# ================================================================================\n\ndef uploader_vers_drive(contenu_markdown: str) -> None:\n    \"\"\"Upload vers Google Drive\"\"\"\n    \n    print(\"☁️  Upload vers Google Drive...\")\n    \n    credentials = service_account.Credentials.from_service_account_info(\n        GOOGLE_CREDENTIALS,\n        scopes=['https://www.googleapis.com/auth/drive']\n    )\n    \n    service = build('drive', 'v3', credentials=credentials)\n    \n    query = f\"name='{OUTPUT_MARKDOWN}' and '{FOLDER_ID}' in parents\"\n    results = service.files().list(q=query, fields=\"files(id, name)\").execute()\n    files = results.get('files', [])\n    \n    file_metadata = {'name': OUTPUT_MARKDOWN}\n    media = MediaIoBaseUpload(\n        io.BytesIO(contenu_markdown.encode('utf-8')),\n        mimetype='text/markdown',\n        resumable=True\n    )\n    \n    if files:\n        file_id = files[0]['id']\n        service.files().update(\n            fileId=file_id,\n            media_body=media\n        ).execute()\n        print(f\"✅ Fichier {OUTPUT_MARKDOWN} mis à jour sur Google Drive\")\n    else:\n        file_metadata['parents'] = [FOLDER_ID]\n        service.files().create(\n            body=file_metadata,\n            media_body=media,\n            fields='id'\n        ).execute()\n        print(f\"✅ Fichier {OUTPUT_MARKDOWN} créé sur Google Drive\")\n\n\n# ================================================================================\n# MAIN\n# ================================================================================\n\ndef main():\n    \"\"\"Point d'entrée principal\"\"\"\n    \n    try:\n        print(\"=\" * 80)\n        print(\"🤖 AGENT 2 - SYNTHÉTISEUR NEWS (GPT-4o)\")\n        print(\"=\" * 80)\n        print(f\"⏰ Exécution : {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}\")\n        print()\n        \n        if not OPENAI_API_KEY:\n            print(\"❌ OPENAI_API_KEY manquante\")\n            sys.exit(1)\n        \n        if not GOOGLE_CREDENTIALS:\n            print(\"❌ GOOGLE_DRIVE_CREDENTIALS manquantes\")\n            sys.exit(1)\n        \n        print(\"📂 ÉTAPE 1/3 : Chargement JSON filtré\")\n        print(\"-\" * 80)\n        data = charger_articles_filtres()\n        print()\n        \n        print(\"📝 ÉTAPE 2/3 : Génération synthèse (6 détaillés + autres)\")\n        print(\"-\" * 80)\n        synthese = generer_synthese_markdown(data)\n        print()\n        \n        print(\"☁️  ÉTAPE 3/3 : Upload Google Drive\")\n        print(\"-\" * 80)\n        uploader_vers_drive(synthese)\n        print()\n        \n        print(\"=\" * 80)\n        print(\"✅ AGENT 2 NEWS TERMINÉ AVEC SUCCÈS\")\n        print(\"=\" * 80)\n        print(f\"📊 {len(data['articles'])} articles synthétisés\")\n        print(f\"☁️  Fichier : {OUTPUT_MARKDOWN}\")\n        print()\n        \n        sys.exit(0)\n    \n    except Exception as e:\n        print(\"\\n\" + \"=\" * 80)\n        print(\"❌ ERREUR FATALE\")\n        print(\"=\" * 80)\n        print(f\"Type : {type(e).__name__}\")\n        print(f\"Message : {e}\")\n        traceback.print_exc()\n        print(\"=\" * 80)\n        sys.exit(1)\n\n\nif __name__ == \"__main__\":\n    main()\n
+"""
+Agent 2 - Synthétiseur News
+Modèle : GPT-4o (qualité maximale)
+Rôle : Lire JSON filtré → Générer synthèse Markdown → Upload Google Drive
+Structure : 6 sujets détaillés + autres sujets en bref
+"""
+
+import os
+import json
+import sys
+import traceback
+from datetime import datetime, timedelta
+from typing import Dict, Any, List
+from openai import OpenAI
+from google.oauth2 import service_account
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaIoBaseUpload
+import io
+
+
+# ================================================================================
+# CONFIGURATION
+# ================================================================================
+
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+GOOGLE_CREDENTIALS = json.loads(os.environ.get('GOOGLE_DRIVE_CREDENTIALS'))
+FOLDER_ID = os.environ.get('GOOGLE_DRIVE_FOLDER_ID')
+
+# Modèle premium pour synthèse qualitative
+MODEL_SYNTHESE = "gpt-4o-2024-11-20"
+
+# Fichiers d'entrée/sortie
+INPUT_JSON = "articles_filtres_news.json"
+OUTPUT_MARKDOWN = "VeilleNews.md"
+
+
+# ================================================================================
+# CHARGEMENT DONNÉES FILTRÉES
+# ================================================================================
+
+def charger_articles_filtres() -> Dict[str, Any]:
+    """Charge le JSON produit par Agent 1"""
+    if not os.path.exists(INPUT_JSON):
+        raise FileNotFoundError(f"❌ Fichier {INPUT_JSON} introuvable")
+    
+    with open(INPUT_JSON, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    
+    print(f"✅ JSON chargé : {len(data['articles'])} articles")
+    return data
+
+
+# ================================================================================
+# TRI ET SÉLECTION DES ARTICLES
+# ================================================================================
+
+def trier_articles(articles: List[Dict[str, Any]]) -> tuple:
+    """
+    Trie les articles par pertinence et sépare en 2 groupes
+    Returns: (top_6, autres)
+    """
+    # Trier par pertinence décroissante
+    articles_tries = sorted(articles, key=lambda x: x['pertinence'], reverse=True)
+    
+    # Séparer
+    top_6 = articles_tries[:6]
+    autres = articles_tries[6:]
+    
+    print(f"📊 Top 6 articles : {len(top_6)}")
+    print(f"📊 Autres sujets : {len(autres)}")
+    
+    return top_6, autres
+
+
+# ================================================================================
+# GÉNÉRATION SYNTHÈSE MARKDOWN GPT-4o
+# ================================================================================
+
+def generer_synthese_markdown(data: Dict[str, Any]) -> str:
+    """Utilise GPT-4o pour générer une synthèse Markdown avec structure 6+autres"""
+    
+    client = OpenAI(api_key=OPENAI_API_KEY)
+    
+    # Trier les articles
+    top_6, autres = trier_articles(data['articles'])
+    
+    # Préparer texte TOP 6
+    top_6_text = ""
+    for i, art in enumerate(top_6, 1):
+        top_6_text += f"\n**[{i}] {art['titre']}**\n"
+        top_6_text += f"Source: {art['source']} | URL: {art['url']}\n"
+        top_6_text += f"Thème: {art['theme']}\n"
+        top_6_text += f"Snippet: {art['snippet']}\n"
+        top_6_text += f"Pertinence: {art['pertinence']}/10 | Tags: {', '.join(art['tags'])}\n\n"
+    
+    # Préparer texte AUTRES
+    autres_text = ""
+    for art in autres:
+        autres_text += f"\n**{art['titre']}**\n"
+        autres_text += f"Source: {art['source']} | URL: {art['url']}\n"
+        autres_text += f"Thème: {art['theme']}\n"
+        autres_text += f"Snippet: {art['snippet'][:150]}...\n"
+        autres_text += f"Pertinence: {art['pertinence']}/10\n\n"
+    
+    date_debut = datetime.strptime(data['periode']['debut'], '%Y-%m-%d')
+    date_fin = datetime.strptime(data['periode']['fin'], '%Y-%m-%d')
+    
+    prompt = f"""Tu es un journaliste expert en actualités françaises/internationales qui produit une veille hebdomadaire pour un cadre supérieur français, ingénieur, vivant à Nantes.
+
+**PÉRIODE** : du {date_debut.strftime('%d/%m/%Y')} au {date_fin.strftime('%d/%m/%Y')}
+
+**ARTICLES PRINCIPAUX (Top 6 - traitement détaillé)** :
+{top_6_text}
+
+**AUTRES ARTICLES (traitement bref)** :
+{autres_text}
+
+**STRUCTURE DU MARKDOWN À GÉNÉRER** :
+
+```markdown
+---
+agent: Veille Actualités (2 agents OpenAI)
+date: {date_fin.strftime('%Y-%m-%d')}
+catégorie: Actualités Générales
+modèles: GPT-4o-mini (collecte) + GPT-4o (synthèse)
+---
+
+# Veille hebdomadaire – Semaine du {date_debut.strftime('%d/%m/%Y')} au {date_fin.strftime('%d/%m/%Y')}
+
+**Édition [Nom créatif sobre]**
+
+---
+
+## Introduction
+
+[4-5 lignes : ambiance générale, tendances, tensions, climat médiatique]
+
+---
+
+## [SUJET 1/6] – [Titre accrocheur]
+
+### Résumé
+[5 lignes max : faits essentiels, enjeux, impacts]
+
+### Points de vue des médias
+
+**[Média 1]**
+[Angle éditorial, ton, analyse, 3-4 lignes]
+
+**[Média 2]**
+[Divergences, critiques, 3-4 lignes]
+
+**[Média 3]** (si disponible)
+[Analyse complémentaire, 3-4 lignes]
+
+### Implications
+- Politiques : [...]
+- Économiques : [...]
+- Sociales : [...]
+- Environnementales : [...]
+
+### Sources
+- [Titre] – [URL complète]
+
+---
+
+[RÉPÉTER POUR SUJETS 2, 3, 4, 5, 6]
+
+---
+
+## Autres sujets de la semaine
+
+### [Titre court sujet A]
+**Thème** : [Thème]
+**Résumé** : [2-3 lignes]
+**Source** : [Nom média] – [URL]
+
+### [Titre court sujet B]
+**Thème** : [Thème]
+**Résumé** : [2-3 lignes]
+**Source** : [Nom média] – [URL]
+
+[Continuer pour tous les autres articles]
+
+---
+
+## Synthèse finale
+
+### Événements majeurs
+1. [Point 1]
+2. [Point 2]
+3. [Point 3]
+
+### Divergences éditoriales clés
+- [Différences d'interprétation entre médias]
+
+### Implications possibles
+- Politiques : [...]
+- Économiques : [...]
+- Sociales : [...]
+- Environnementales : [...]
+
+### À surveiller la semaine prochaine
+- [Sujet 1]
+- [Sujet 2]
+
+---
+
+**Fin de l'édition**
+*Veille générée automatiquement par système 2-agents OpenAI*
+```
+
+**CONSIGNES CRITIQUES** :
+
+1. **Top 6** : Traitement COMPLET avec résumé, points de vue médias, implications, sources
+2. **Autres sujets** : Format BREF avec thème, résumé court (2-3 lignes), source unique
+3. **Style** : Sobre, professionnel, élégant, pas d'emoji
+4. **Sources** : URLs complètes obligatoires
+5. **Reformulation** : Jamais de copier-coller
+6. **Neutralité stricte** : Présenter faits sans jugement
+7. **Équilibre** : Top 6 = 80% du contenu, Autres = 20%
+
+**IMPORTANT** :
+- Les 6 premiers sujets doivent être ultra-détaillés
+- Les autres sujets sont juste listés pour traçabilité
+- Maintenir cohérence narrative
+
+Génère le Markdown complet maintenant, sans préambule."""
+
+    print("🤖 Génération synthèse Markdown avec GPT-4o...")
+    
+    try:
+        response = client.chat.completions.create(
+            model=MODEL_SYNTHESE,
+            messages=[
+                {
+                    "role": "system",
+                    "content": "Tu es un journaliste expert en actualités. Tu réponds UNIQUEMENT en Markdown, sans préambule."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            temperature=0.7,
+            max_tokens=6000
+        )
+        
+        markdown_content = response.choices[0].message.content.strip()
+        
+        print(f"📊 Tokens utilisés : {response.usage.total_tokens}")
+        
+        cost_input = (response.usage.prompt_tokens / 1000) * 0.03
+        cost_output = (response.usage.completion_tokens / 1000) * 0.06
+        cost_total = cost_input + cost_output
+        print(f"💰 Coût estimé : ${cost_total:.4f}")
+        
+        print(f"✅ Synthèse générée : {len(markdown_content)} caractères")
+        
+        return markdown_content
+    
+    except Exception as e:
+        print(f"❌ Erreur GPT-4o : {e}")
+        traceback.print_exc()
+        raise
+
+
+# ================================================================================
+# UPLOAD GOOGLE DRIVE
+# ================================================================================
+
+def uploader_vers_drive(contenu_markdown: str) -> None:
+    """Upload vers Google Drive"""
+    
+    print("☁️  Upload vers Google Drive...")
+    
+    credentials = service_account.Credentials.from_service_account_info(
+        GOOGLE_CREDENTIALS,
+        scopes=['https://www.googleapis.com/auth/drive']
+    )
+    
+    service = build('drive', 'v3', credentials=credentials)
+    
+    query = f"name='{OUTPUT_MARKDOWN}' and '{FOLDER_ID}' in parents"
+    results = service.files().list(q=query, fields="files(id, name)").execute()
+    files = results.get('files', [])
+    
+    file_metadata = {'name': OUTPUT_MARKDOWN}
+    media = MediaIoBaseUpload(
+        io.BytesIO(contenu_markdown.encode('utf-8')),
+        mimetype='text/markdown',
+        resumable=True
+    )
+    
+    if files:
+        file_id = files[0]['id']
+        service.files().update(
+            fileId=file_id,
+            media_body=media
+        ).execute()
+        print(f"✅ Fichier {OUTPUT_MARKDOWN} mis à jour sur Google Drive")
+    else:
+        file_metadata['parents'] = [FOLDER_ID]
+        service.files().create(
+            body=file_metadata,
+            media_body=media,
+            fields='id'
+        ).execute()
+        print(f"✅ Fichier {OUTPUT_MARKDOWN} créé sur Google Drive")
+
+
+# ================================================================================
+# MAIN
+# ================================================================================
+
+def main():
+    """Point d'entrée principal"""
+    
+    try:
+        print("=" * 80)
+        print("🤖 AGENT 2 - SYNTHÉTISEUR NEWS (GPT-4o)")
+        print("=" * 80)
+        print(f"⏰ Exécution : {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
+        print()
+        
+        if not OPENAI_API_KEY:
+            print("❌ OPENAI_API_KEY manquante")
+            sys.exit(1)
+        
+        if not GOOGLE_CREDENTIALS:
+            print("❌ GOOGLE_DRIVE_CREDENTIALS manquantes")
+            sys.exit(1)
+        
+        print("📂 ÉTAPE 1/3 : Chargement JSON filtré")
+        print("-" * 80)
+        data = charger_articles_filtres()
+        print()
+        
+        print("📝 ÉTAPE 2/3 : Génération synthèse (6 détaillés + autres)")
+        print("-" * 80)
+        synthese = generer_synthese_markdown(data)
+        print()
+        
+        print("☁️  ÉTAPE 3/3 : Upload Google Drive")
+        print("-" * 80)
+        uploader_vers_drive(synthese)
+        print()
+        
+        print("=" * 80)
+        print("✅ AGENT 2 NEWS TERMINÉ AVEC SUCCÈS")
+        print("=" * 80)
+        print(f"📊 {len(data['articles'])} articles synthétisés")
+        print(f"☁️  Fichier : {OUTPUT_MARKDOWN}")
+        print()
+        
+        sys.exit(0)
+    
+    except Exception as e:
+        print("\n" + "=" * 80)
+        print("❌ ERREUR FATALE")
+        print("=" * 80)
+        print(f"Type : {type(e).__name__}")
+        print(f"Message : {e}")
+        traceback.print_exc()
+        print("=" * 80)
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
