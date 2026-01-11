@@ -5,8 +5,10 @@ Rôle : Recherche web → Filtrage → Classification → JSON
 """
 
 import os
+import sys
 import json
 import hashlib
+import traceback
 from datetime import datetime, timedelta
 from typing import List, Dict, Any
 from openai import OpenAI
@@ -74,8 +76,12 @@ def recherche_tavily(query: str, max_results: int = 10) -> List[Dict[str, Any]]:
         
         return resultats
     
+    except requests.exceptions.RequestException as e:
+        print(f"❌ Erreur HTTP Tavily pour '{query}': {e}")
+        return []
     except Exception as e:
-        print(f"❌ Erreur Tavily pour '{query}': {e}")
+        print(f"❌ Erreur inattendue Tavily pour '{query}': {e}")
+        traceback.print_exc()
         return []
 
 
@@ -85,7 +91,7 @@ def recherche_tavily(query: str, max_results: int = 10) -> List[Dict[str, Any]]:
 
 def collecter_articles_bruts() -> List[Dict[str, Any]]:
     """
-    Lance 12-15 recherches ciblées sur différents thèmes IA/LLM
+    Lance 12 recherches ciblées sur différents thèmes IA/LLM
     
     Returns:
         Liste brute d'articles (avec doublons potentiels)
@@ -128,6 +134,10 @@ def collecter_articles_bruts() -> List[Dict[str, Any]]:
             })
     
     print(f"✅ {len(articles_bruts)} articles bruts collectés")
+    
+    if len(articles_bruts) == 0:
+        print("⚠️  Aucun article collecté - vérifier la connexion Tavily")
+    
     return articles_bruts
 
 
@@ -150,6 +160,28 @@ def filtrer_et_classifier(articles_bruts: List[Dict[str, Any]]) -> Dict[str, Any
         Dictionnaire JSON structuré prêt pour Agent 2
     """
     
+    if len(articles_bruts) == 0:
+        print("⚠️  Pas d'articles à filtrer, création d'un JSON vide")
+        date_fin = datetime.now()
+        date_debut = date_fin - timedelta(days=7)
+        return {
+            "articles": [],
+            "statistiques": {
+                "articles_bruts": 0,
+                "doublons_supprimes": 0,
+                "articles_non_pertinents": 0,
+                "articles_finaux": 0
+            },
+            "date_collecte": date_fin.strftime('%Y-%m-%d'),
+            "periode": {
+                "debut": date_debut.strftime('%Y-%m-%d'),
+                "fin": date_fin.strftime('%Y-%m-%d')
+            },
+            "model_utilise": MODEL_COLLECTEUR,
+            "themes": {}
+        }
+    
+    print(f"🤖 Création client OpenAI...")
     client = OpenAI(api_key=OPENAI_API_KEY)
     
     # Calculer dates
@@ -158,6 +190,7 @@ def filtrer_et_classifier(articles_bruts: List[Dict[str, Any]]) -> Dict[str, Any
     
     # Préparer les articles pour le prompt (limiter à 100 pour éviter dépassement tokens)
     articles_input = articles_bruts[:100]
+    print(f"📝 Préparation de {len(articles_input)} articles pour GPT-4o-mini...")
     
     # Créer un texte compact pour GPT
     articles_text = "\n\n".join([
@@ -222,7 +255,7 @@ def filtrer_et_classifier(articles_bruts: List[Dict[str, Any]]) -> Dict[str, Any
 
 Génère le JSON maintenant :"""
 
-    print("🤖 Filtrage et classification avec GPT-4o-mini...")
+    print("🤖 Appel API GPT-4o-mini pour filtrage...")
     
     try:
         response = client.chat.completions.create(
@@ -236,16 +269,17 @@ Génère le JSON maintenant :"""
         )
         
         # Extraire le JSON de la réponse
-        content = response.usage.completion_tokens
-        print(f"📊 Tokens utilisés : {response.usage.total_tokens} (prompt: {response.usage.prompt_tokens}, completion: {content})")
+        print(f"📊 Tokens utilisés : {response.usage.total_tokens} (prompt: {response.usage.prompt_tokens}, completion: {response.usage.completion_tokens})")
         
         json_text = response.choices[0].message.content.strip()
         
         # Nettoyer les backticks markdown si présents
         if json_text.startswith('```'):
-            json_text = json_text.split('```')[1]
-            if json_text.startswith('json'):
-                json_text = json_text[4:]
+            lines = json_text.split('\n')
+            json_text = '\n'.join(lines[1:-1]) if len(lines) > 2 else json_text
+            json_text = json_text.replace('```json', '').replace('```', '').strip()
+        
+        print(f"📝 Parsing de la réponse JSON ({len(json_text)} caractères)...")
         
         # Parser le JSON
         data = json.loads(json_text)
@@ -272,15 +306,18 @@ Génère le JSON maintenant :"""
         data['themes'] = themes_count
         data['statistiques']['articles_finaux'] = len(data['articles'])
         
+        print(f"✅ Filtrage terminé : {len(data['articles'])} articles retenus")
+        
         return data
     
     except json.JSONDecodeError as e:
         print(f"❌ Erreur parsing JSON : {e}")
-        print(f"Réponse brute : {json_text[:500]}...")
+        print(f"Réponse brute (premiers 500 car) : {json_text[:500]}...")
         raise
     
     except Exception as e:
         print(f"❌ Erreur GPT-4o-mini : {e}")
+        traceback.print_exc()
         raise
 
 
@@ -296,11 +333,14 @@ def sauvegarder_json(data: Dict[str, Any], filepath: str) -> None:
         data: Données à sauvegarder
         filepath: Chemin du fichier
     """
+    print(f"💾 Sauvegarde du JSON dans {filepath}...")
+    
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
     
-    print(f"💾 JSON sauvegardé : {filepath}")
-    print(f"📊 Taille : {os.path.getsize(filepath)} octets")
+    file_size = os.path.getsize(filepath)
+    print(f"✅ JSON sauvegardé : {filepath}")
+    print(f"📊 Taille : {file_size} octets ({file_size / 1024:.2f} KB)")
 
 
 # ================================================================================
@@ -310,51 +350,77 @@ def sauvegarder_json(data: Dict[str, Any], filepath: str) -> None:
 def main():
     """Point d'entrée principal de l'agent collecteur"""
     
-    print("=" * 80)
-    print("🤖 AGENT 1 - COLLECTEUR IA (GPT-4o-mini)")
-    print("=" * 80)
-    print(f"⏰ Exécution : {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
-    print()
+    try:
+        print("=" * 80)
+        print("🤖 AGENT 1 - COLLECTEUR IA (GPT-4o-mini)")
+        print("=" * 80)
+        print(f"⏰ Exécution : {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
+        print(f"📂 Répertoire de travail : {os.getcwd()}")
+        print()
+        
+        # Vérifier les clés API
+        print("🔑 Vérification des clés API...")
+        if not OPENAI_API_KEY:
+            print("❌ ERREUR CRITIQUE : OPENAI_API_KEY manquante")
+            sys.exit(1)
+        else:
+            print(f"✅ OPENAI_API_KEY présente ({OPENAI_API_KEY[:10]}...)")
+        
+        if not TAVILY_API_KEY:
+            print("❌ ERREUR CRITIQUE : TAVILY_API_KEY manquante")
+            sys.exit(1)
+        else:
+            print(f"✅ TAVILY_API_KEY présente ({TAVILY_API_KEY[:10]}...)")
+        
+        print()
+        
+        # Étape 1 : Collecte brute via Tavily
+        print("📡 ÉTAPE 1/3 : Collecte d'articles via Tavily")
+        print("-" * 80)
+        articles_bruts = collecter_articles_bruts()
+        print()
+        
+        # Étape 2 : Filtrage et classification via GPT-4o-mini
+        print("🧹 ÉTAPE 2/3 : Filtrage et classification (GPT-4o-mini)")
+        print("-" * 80)
+        data_filtree = filtrer_et_classifier(articles_bruts)
+        print()
+        
+        # Étape 3 : Sauvegarde JSON
+        print("💾 ÉTAPE 3/3 : Sauvegarde du JSON structuré")
+        print("-" * 80)
+        sauvegarder_json(data_filtree, OUTPUT_JSON)
+        print()
+        
+        # Résumé final
+        print("=" * 80)
+        print("✅ AGENT 1 TERMINÉ AVEC SUCCÈS")
+        print("=" * 80)
+        print(f"📊 Statistiques finales :")
+        print(f"   - Articles bruts collectés : {data_filtree['statistiques']['articles_bruts']}")
+        print(f"   - Articles après filtrage : {data_filtree['statistiques']['articles_finaux']}")
+        print(f"   - Doublons supprimés : {data_filtree['statistiques'].get('doublons_supprimes', 0)}")
+        print()
+        print(f"📂 Fichier JSON : {OUTPUT_JSON}")
+        print(f"🔗 Prêt pour Agent 2 (Synthèse)")
+        print()
+        
+        sys.exit(0)
     
-    # Vérifier les clés API
-    if not OPENAI_API_KEY:
-        print("❌ OPENAI_API_KEY manquante")
-        return
+    except KeyboardInterrupt:
+        print("\n⚠️  Interruption manuelle (Ctrl+C)")
+        sys.exit(130)
     
-    if not TAVILY_API_KEY:
-        print("❌ TAVILY_API_KEY manquante")
-        return
-    
-    # Étape 1 : Collecte brute via Tavily
-    print("📡 ÉTAPE 1/3 : Collecte d'articles via Tavily")
-    print("-" * 80)
-    articles_bruts = collecter_articles_bruts()
-    print()
-    
-    # Étape 2 : Filtrage et classification via GPT-4o-mini
-    print("🧹 ÉTAPE 2/3 : Filtrage et classification (GPT-4o-mini)")
-    print("-" * 80)
-    data_filtree = filtrer_et_classifier(articles_bruts)
-    print()
-    
-    # Étape 3 : Sauvegarde JSON
-    print("💾 ÉTAPE 3/3 : Sauvegarde du JSON structuré")
-    print("-" * 80)
-    sauvegarder_json(data_filtree, OUTPUT_JSON)
-    print()
-    
-    # Résumé final
-    print("=" * 80)
-    print("✅ AGENT 1 TERMINÉ AVEC SUCCÈS")
-    print("=" * 80)
-    print(f"📊 Statistiques finales :")
-    print(f"   - Articles bruts collectés : {data_filtree['statistiques']['articles_bruts']}")
-    print(f"   - Articles après filtrage : {data_filtree['statistiques']['articles_finaux']}")
-    print(f"   - Doublons supprimés : {data_filtree['statistiques'].get('doublons_supprimes', 0)}")
-    print()
-    print(f"📂 Fichier JSON : {OUTPUT_JSON}")
-    print(f"🔗 Prêt pour Agent 2 (Synthèse)")
-    print()
+    except Exception as e:
+        print("\n" + "=" * 80)
+        print("❌ ERREUR FATALE")
+        print("=" * 80)
+        print(f"Type d'erreur : {type(e).__name__}")
+        print(f"Message : {e}")
+        print("\nTraceback complet :")
+        traceback.print_exc()
+        print("=" * 80)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
