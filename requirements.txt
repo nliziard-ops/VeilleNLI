@@ -1,3 +1,14 @@
-anthropic>=0.34.0
+# Dependencies pour VeilleNLI - Système 2 agents OpenAI
+
+# OpenAI API
+openai>=1.54.0
+
+# Google Drive API
 google-api-python-client>=2.100.0
 google-auth>=2.23.0
+
+# HTTP requests pour Tavily
+requests>=2.31.0
+
+# Ancien système Anthropic (à supprimer en Phase 5)
+anthropic>=0.34.0
