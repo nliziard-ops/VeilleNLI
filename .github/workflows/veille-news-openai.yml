@@ -1,4 +1,4 @@
-name: Agents Veille News - OpenAI (2 agents)
+name: 📰 Veille Actualités OpenAI
 
 on:
   # Exécution quotidienne à 6h Paris
