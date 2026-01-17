@@ -2,6 +2,12 @@ name: Mise à jour des données de veille
 
 on:
   workflow_dispatch:
+  # Déclenchement automatique après synchronisation des Markdown
+  workflow_run:
+    workflows: ["📋 Sync Markdown vers GitHub Pages"]
+    types:
+      - completed
+  # Backup hebdomadaire (optionnel - garde si tu veux un run indépendant le lundi)
   schedule:
     - cron: '0 8 * * 1'  # Tous les lundis à 9h Paris
 
@@ -10,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    # Ne s'exécute que si Sync Markdown a réussi (ou déclenchement manuel/schedule)
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' }}
     
     steps:
       - name: 📥 Checkout du repository
