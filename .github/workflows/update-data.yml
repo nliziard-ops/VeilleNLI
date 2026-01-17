@@ -70,15 +70,19 @@ jobs:
           git add docs/data.json
           git commit -m "🤖 Mise à jour automatique de data.json - $(date '+%Y-%m-%d %H:%M')"
           
-          # Pull avec rebase et push avec retry
+          # Pull avec rebase et push avec retry + gestion des conflits
           max_retries=3
           retry_count=0
           
           while [ $retry_count -lt $max_retries ]; do
             echo "🔄 Tentative de push ($((retry_count + 1))/$max_retries)..."
             
-            # Pull les derniers changements
-            if git pull --rebase origin main; then
+            # Nettoyer tout état de rebase/merge en cours
+            git rebase --abort 2>/dev/null || true
+            git merge --abort 2>/dev/null || true
+            
+            # Pull avec stratégie ours (notre version gagne en cas de conflit sur data.json)
+            if git pull --rebase -X ours origin main; then
               # Push les modifications
               if git push origin main; then
                 echo "✅ Modifications commitées et pushées avec succès"
