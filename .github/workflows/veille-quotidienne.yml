@@ -13,10 +13,10 @@ env:
 
 jobs:
   # ============================================
-  # JOB 1 : VEILLE IA (Collecte + Synthèse)
+  # ÉTAPE 1.1 : VEILLE IA - COLLECTE
   # ============================================
-  veille-ia-collecteur:
-    name: "IA - Collecteur (GPT-4o-mini)"
+  step-1-1-veille-ia-collecteur:
+    name: "1.1 - IA Collecteur (GPT-4o-mini)"
     runs-on: ubuntu-latest
     
     steps:
@@ -49,10 +49,13 @@ jobs:
           path: articles_filtres_ia.json
           retention-days: 1
 
-  veille-ia-synthese:
-    name: "IA - Synthèse (GPT-4o)"
+  # ============================================
+  # ÉTAPE 1.2 : VEILLE IA - SYNTHÈSE
+  # ============================================
+  step-1-2-veille-ia-synthese:
+    name: "1.2 - IA Synthèse (GPT-4o)"
     runs-on: ubuntu-latest
-    needs: veille-ia-collecteur
+    needs: step-1-1-veille-ia-collecteur
     
     steps:
       - name: 📥 Checkout code
@@ -86,10 +89,10 @@ jobs:
           echo "✅ VeilleIA.md uploadé sur Google Drive"
 
   # ============================================
-  # JOB 2 : VEILLE NEWS (Collecte + Synthèse)
+  # ÉTAPE 2.1 : VEILLE NEWS - COLLECTE (parallèle)
   # ============================================
-  veille-news-collecteur:
-    name: "News - Collecteur (GPT-4o-mini)"
+  step-2-1-veille-news-collecteur:
+    name: "2.1 - News Collecteur (GPT-4o-mini)"
     runs-on: ubuntu-latest
     
     steps:
@@ -122,10 +125,13 @@ jobs:
           path: articles_filtres_news.json
           retention-days: 1
 
-  veille-news-synthese:
-    name: "News - Synthèse (GPT-4o)"
+  # ============================================
+  # ÉTAPE 2.2 : VEILLE NEWS - SYNTHÈSE
+  # ============================================
+  step-2-2-veille-news-synthese:
+    name: "2.2 - News Synthèse (GPT-4o)"
     runs-on: ubuntu-latest
-    needs: veille-news-collecteur
+    needs: step-2-1-veille-news-collecteur
     
     steps:
       - name: 📥 Checkout code
@@ -159,12 +165,12 @@ jobs:
           echo "✅ VeilleNews.md uploadé sur Google Drive"
 
   # ============================================
-  # JOB 3 : VALIDATION (attend les 2)
+  # ÉTAPE 3 : VALIDATION (attend 1.2 ET 2.2)
   # ============================================
-  validation-markdown:
-    name: "Validation Markdown"
+  step-3-validation-markdown:
+    name: "3 - Validation Markdown"
     runs-on: ubuntu-latest
-    needs: [veille-ia-synthese, veille-news-synthese]  # ✅ ATTEND LES DEUX !
+    needs: [step-1-2-veille-ia-synthese, step-2-2-veille-news-synthese]  # ✅ ATTEND LES DEUX !
     
     steps:
       - name: 📥 Checkout code
@@ -191,12 +197,12 @@ jobs:
           echo "✅ VeilleIA.md et VeilleNews.md validés"
 
   # ============================================
-  # JOB 4 : SYNC MARKDOWN (attend validation)
+  # ÉTAPE 4 : SYNC MARKDOWN (attend 3)
   # ============================================
-  sync-markdown:
-    name: "Sync Markdown → GitHub"
+  step-4-sync-markdown:
+    name: "4 - Sync Markdown → GitHub"
     runs-on: ubuntu-latest
-    needs: validation-markdown
+    needs: step-3-validation-markdown
     
     steps:
       - name: 📥 Checkout code
@@ -268,9 +274,9 @@ jobs:
           else
             git commit -m "📋 Sync Markdown depuis Google Drive [auto]"
             
-            # Retry logic
+            # Retry logic avec gestion des conflits
             for i in {1..3}; do
-              git pull --rebase origin main && git push && break || {
+              git pull --rebase -X ours origin main && git push && break || {
                 echo "⚠️  Tentative $i échouée, retry..."
                 sleep 2
               }
@@ -278,12 +284,12 @@ jobs:
           fi
 
   # ============================================
-  # JOB 5 : UPDATE DATA JSON (attend sync)
+  # ÉTAPE 5 : UPDATE DATA JSON (attend 4)
   # ============================================
-  update-data-json:
-    name: "Génération data.json"
+  step-5-update-data-json:
+    name: "5 - Génération data.json"
     runs-on: ubuntu-latest
-    needs: sync-markdown
+    needs: step-4-sync-markdown
     permissions:
       contents: write
     
@@ -354,28 +360,39 @@ jobs:
           exit 1
 
   # ============================================
-  # JOB 6 : SUMMARY
+  # ÉTAPE 6 : SUMMARY (attend 5)
   # ============================================
-  summary:
-    name: "Résumé final"
+  step-6-summary:
+    name: "6 - Résumé final"
     runs-on: ubuntu-latest
-    needs: update-data-json
+    needs: step-5-update-data-json
     if: always()
     
     steps:
       - name: 📊 Workflow Summary
         run: |
-          echo "=================================="
+          echo "=========================================="
           echo "✅ VEILLE QUOTIDIENNE TERMINÉE"
-          echo "=================================="
+          echo "=========================================="
+          echo ""
+          echo "📊 Pipeline exécuté :"
+          echo "  1.1 → IA Collecteur (GPT-4o-mini)"
+          echo "  1.2 → IA Synthèse (GPT-4o)"
+          echo "  2.1 → News Collecteur (GPT-4o-mini)"
+          echo "  2.2 → News Synthèse (GPT-4o)"
+          echo "  3   → Validation Markdown"
+          echo "  4   → Sync Markdown → GitHub"
+          echo "  5   → Génération data.json"
+          echo "  6   → Résumé final"
           echo ""
           echo "📄 Fichiers générés :"
-          echo "  - VeilleIA.md (Google Drive)"
-          echo "  - VeilleNews.md (Google Drive)"
-          echo "  - docs/markdown/*.md (GitHub)"
-          echo "  - docs/data.json (GitHub)"
+          echo "  ☁️  VeilleIA.md (Google Drive)"
+          echo "  ☁️  VeilleNews.md (Google Drive)"
+          echo "  📁 docs/markdown/*.md (GitHub)"
+          echo "  📊 docs/data.json (GitHub)"
           echo ""
-          echo "🌐 Site disponible :"
+          echo "🌐 Site mis à jour :"
           echo "  https://nliziard-ops.github.io/VeilleNLI/"
           echo ""
-          echo "⏰ Prochaine exécution : demain 6h"
+          echo "⏰ Prochaine exécution : demain 6h00 Paris"
+          echo "=========================================="
