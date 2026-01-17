@@ -1,0 +1,381 @@
+name: 🤖 Veille Quotidienne (IA + News)
+
+on:
+  # Exécution quotidienne à 6h Paris (5h UTC en hiver, 4h UTC en été)
+  schedule:
+    - cron: '0 5 * * *'  # 6h Paris (hiver)
+  
+  # Déclenchement manuel
+  workflow_dispatch:
+
+env:
+  TZ: Europe/Paris
+
+jobs:
+  # ============================================
+  # JOB 1 : VEILLE IA (Collecte + Synthèse)
+  # ============================================
+  veille-ia-collecteur:
+    name: "IA - Collecteur (GPT-4o-mini)"
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: 🚀 Run Collecteur IA
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+        run: |
+          echo "🔍 Lancement Agent Collecteur IA..."
+          python agents/agent_collecteur_ia.py
+      
+      - name: 📤 Upload JSON filtré (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: articles-filtres-ia
+          path: articles_filtres_ia.json
+          retention-days: 1
+
+  veille-ia-synthese:
+    name: "IA - Synthèse (GPT-4o)"
+    runs-on: ubuntu-latest
+    needs: veille-ia-collecteur
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: 📥 Download JSON filtré
+        uses: actions/download-artifact@v4
+        with:
+          name: articles-filtres-ia
+          path: .
+      
+      - name: 🚀 Run Synthèse IA
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GOOGLE_DRIVE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+        run: |
+          echo "📝 Lancement Agent Synthèse IA..."
+          python agents/agent_synthese_ia.py
+          echo "✅ VeilleIA.md uploadé sur Google Drive"
+
+  # ============================================
+  # JOB 2 : VEILLE NEWS (Collecte + Synthèse)
+  # ============================================
+  veille-news-collecteur:
+    name: "News - Collecteur (GPT-4o-mini)"
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: 🚀 Run Collecteur News
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+        run: |
+          echo "🔍 Lancement Agent Collecteur News..."
+          python agents/agent_collecteur_news.py
+      
+      - name: 📤 Upload JSON filtré (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: articles-filtres-news
+          path: articles_filtres_news.json
+          retention-days: 1
+
+  veille-news-synthese:
+    name: "News - Synthèse (GPT-4o)"
+    runs-on: ubuntu-latest
+    needs: veille-news-collecteur
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: 📥 Download JSON filtré
+        uses: actions/download-artifact@v4
+        with:
+          name: articles-filtres-news
+          path: .
+      
+      - name: 🚀 Run Synthèse News
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GOOGLE_DRIVE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+        run: |
+          echo "📝 Lancement Agent Synthèse News..."
+          python agents/agent_synthese_news.py
+          echo "✅ VeilleNews.md uploadé sur Google Drive"
+
+  # ============================================
+  # JOB 3 : VALIDATION (attend les 2)
+  # ============================================
+  validation-markdown:
+    name: "Validation Markdown"
+    runs-on: ubuntu-latest
+    needs: [veille-ia-synthese, veille-news-synthese]  # ✅ ATTEND LES DEUX !
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install google-api-python-client google-auth
+      
+      - name: 🔍 Validate Markdown files
+        env:
+          GOOGLE_DRIVE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+        run: |
+          echo "🔍 Validation des fichiers Markdown..."
+          python agents/agent_validateur_markdown.py
+          echo "✅ VeilleIA.md et VeilleNews.md validés"
+
+  # ============================================
+  # JOB 4 : SYNC MARKDOWN (attend validation)
+  # ============================================
+  sync-markdown:
+    name: "Sync Markdown → GitHub"
+    runs-on: ubuntu-latest
+    needs: validation-markdown
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install google-api-python-client google-auth
+      
+      - name: ⬇️ Download from Google Drive
+        env:
+          GOOGLE_DRIVE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+        run: |
+          python - <<'EOF'
+          import os
+          import json
+          from google.oauth2 import service_account
+          from googleapiclient.discovery import build
+          from googleapiclient.http import MediaIoBaseDownload
+          import io
+
+          credentials = service_account.Credentials.from_service_account_info(
+              json.loads(os.environ['GOOGLE_DRIVE_CREDENTIALS']),
+              scopes=['https://www.googleapis.com/auth/drive.readonly']
+          )
+          service = build('drive', 'v3', credentials=credentials)
+          folder_id = os.environ['GOOGLE_DRIVE_FOLDER_ID']
+
+          for filename in ['VeilleIA.md', 'VeilleNews.md']:
+              query = f"name='{filename}' and '{folder_id}' in parents"
+              results = service.files().list(q=query, fields="files(id)").execute()
+              files = results.get('files', [])
+              
+              if files:
+                  file_id = files[0]['id']
+                  request = service.files().get_media(fileId=file_id)
+                  fh = io.BytesIO()
+                  downloader = MediaIoBaseDownload(fh, request)
+                  done = False
+                  while not done:
+                      _, done = downloader.next_chunk()
+                  
+                  os.makedirs('docs/markdown', exist_ok=True)
+                  with open(f'docs/markdown/{filename}', 'wb') as f:
+                      f.write(fh.getvalue())
+                  print(f"✅ {filename} téléchargé")
+              else:
+                  print(f"⚠️  {filename} introuvable")
+          EOF
+      
+      - name: 💾 Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          git add docs/markdown/*.md
+          
+          if git diff --staged --quiet; then
+            echo "✅ Aucun changement à commiter"
+          else
+            git commit -m "📋 Sync Markdown depuis Google Drive [auto]"
+            
+            # Retry logic
+            for i in {1..3}; do
+              git pull --rebase origin main && git push && break || {
+                echo "⚠️  Tentative $i échouée, retry..."
+                sleep 2
+              }
+            done
+          fi
+
+  # ============================================
+  # JOB 5 : UPDATE DATA JSON (attend sync)
+  # ============================================
+  update-data-json:
+    name: "Génération data.json"
+    runs-on: ubuntu-latest
+    needs: sync-markdown
+    permissions:
+      contents: write
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
+      
+      - name: 🔨 Génération de data.json
+        env:
+          GOOGLE_DRIVE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+        run: |
+          echo "🚀 Génération de data.json..."
+          python agents/agent_generateur_json.py
+          echo "✅ data.json généré"
+          ls -lh docs/data.json
+      
+      - name: 💾 Commit and push data.json
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          if git diff --quiet docs/data.json; then
+            echo "ℹ️ Aucune modification dans data.json"
+            exit 0
+          fi
+          
+          git add docs/data.json
+          git commit -m "🤖 Mise à jour automatique de data.json - $(date '+%Y-%m-%d %H:%M')"
+          
+          # Push avec retry et gestion conflits
+          max_retries=3
+          retry_count=0
+          
+          while [ $retry_count -lt $max_retries ]; do
+            echo "🔄 Tentative de push ($((retry_count + 1))/$max_retries)..."
+            
+            git rebase --abort 2>/dev/null || true
+            git merge --abort 2>/dev/null || true
+            
+            if git pull --rebase -X ours origin main; then
+              if git push origin main; then
+                echo "✅ data.json pushé avec succès"
+                exit 0
+              fi
+            fi
+            
+            retry_count=$((retry_count + 1))
+            if [ $retry_count -lt $max_retries ]; then
+              sleep 5
+            fi
+          done
+          
+          echo "❌ Échec du push"
+          exit 1
+
+  # ============================================
+  # JOB 6 : SUMMARY
+  # ============================================
+  summary:
+    name: "Résumé final"
+    runs-on: ubuntu-latest
+    needs: update-data-json
+    if: always()
+    
+    steps:
+      - name: 📊 Workflow Summary
+        run: |
+          echo "=================================="
+          echo "✅ VEILLE QUOTIDIENNE TERMINÉE"
+          echo "=================================="
+          echo ""
+          echo "📄 Fichiers générés :"
+          echo "  - VeilleIA.md (Google Drive)"
+          echo "  - VeilleNews.md (Google Drive)"
+          echo "  - docs/markdown/*.md (GitHub)"
+          echo "  - docs/data.json (GitHub)"
+          echo ""
+          echo "🌐 Site disponible :"
+          echo "  https://nliziard-ops.github.io/VeilleNLI/"
+          echo ""
+          echo "⏰ Prochaine exécution : demain 6h"
