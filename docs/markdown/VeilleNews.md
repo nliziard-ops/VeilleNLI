@@ -1,206 +1,214 @@
 ```markdown
 ---
 agent: Veille Actualités (2 agents OpenAI)
-date: 2026-01-11
+date: 2026-01-17
 catégorie: Actualités Générales
 modèles: GPT-4o-mini (collecte) + GPT-4o (synthèse)
 ---
 
-# Veille hebdomadaire – Semaine du 04/01/2026 au 11/01/2026
+# Veille hebdomadaire – Semaine du 10/01/2026 au 17/01/2026
 
-**Édition [Focus Monde et France]**
+**Édition Perspective**
 
 ---
 
 ## Introduction
 
-La première semaine de 2026 a été marquée par des événements climatiques et économiques majeurs, avec des impacts notables sur le territoire français et à l’international. La tempête Goretti, qui a frappé le littoral français, illustre une fois de plus l’urgence climatique. En parallèle, les débats sur la transition énergétique et les tensions commerciales internationales, notamment autour de l'accord Mercosur, ont animé la sphère politique. Enfin, les défis économiques s'intensifient, avec des indicateurs alarmants sur les défaillances d’entreprises.
+Cette semaine, l'actualité a été marquée par des annonces politiques et économiques majeures en France, notamment avec la présentation du budget 2026. À l'international, les manifestations en Iran continuent de captiver l'attention, mettant l'Union européenne face à des responsabilités diplomatiques. Sur le front écologique, la France peine à tenir ses engagements climatiques, tandis que l'innovation technologique tricolore fait parler d'elle au CES 2026. Enfin, le procès de Marine Le Pen et les défis de l'économie française complètent un tableau riche en enjeux politiques et économiques.
 
 ---
 
-## [SUJET 1/6] – Tempête Goretti : des dégâts considérables sur le littoral français
+## [SUJET 1/6] – Budget 2026 : Sébastien Lecornu dévoile les priorités gouvernementales
 
 ### Résumé
-La tempête Goretti a balayé le littoral français, provoquant des vents violents atteignant 153 km/h, notamment à Belle-Île et Bréhat. Si le bilan humain reste heureusement limité, les dégâts matériels sont importants, touchant principalement les infrastructures côtières et les habitations. Les autorités locales et nationales se mobilisent pour évaluer les dommages et planifier les réparations.
+Le Premier ministre Sébastien Lecornu a présenté les grandes lignes du budget 2026, qui met l'accent sur le pouvoir d'achat avec une augmentation significative de la prime d'activité. Ce budget s'inscrit dans une volonté d'apaiser les tensions sociales, alors que le gouvernement entame des négociations délicates avec les partis de gauche pour obtenir un consensus.
 
 ### Points de vue des médias
 
-**Franceinfo**
-Selon Franceinfo, cette tempête, bien que prévisible, a mis en lumière des lacunes dans la gestion des risques climatiques, notamment sur le littoral breton. Le média insiste sur l’urgence de renforcer les infrastructures face aux événements météorologiques extrêmes.
+**Le Monde**  
+Le quotidien souligne l'importance stratégique de ce budget pour renforcer le soutien aux classes moyennes et populaires, tout en notant un défi budgétaire lié à l'inflation et aux dépenses publiques croissantes.
 
-**Ouest-France**
-Ouest-France s’attarde sur les conséquences économiques locales, notamment pour les commerces et les ports de pêche, déjà fragilisés par les tempêtes passées. Des témoignages d’habitants soulignent des inquiétudes croissantes face à la récurrence de ces événements.
+**Les Échos**  
+Les Échos mettent en avant les ajustements fiscaux prévus pour les entreprises, saluant des mesures favorables à l’investissement tout en insistant sur les interrogations concernant le financement de ces réformes.
 
-**Mer et Marine**
-Mer et Marine souligne les risques pour la sécurité maritime, avec des alertes qui ont permis d’éviter des drames en mer. Le média évoque également le défi croissant pour les services de sauvetage face à des conditions climatiques de plus en plus extrêmes.
+**Mediapart**  
+Mediapart se montre critique, évoquant un budget qui reste insuffisant face à la précarité grandissante et dénonçant un "manque de courage" sur les réformes fiscales structurelles.
 
 ### Implications
-- **Politiques** : Appels à renforcer les plans de prévention des risques climatiques.
-- **Économiques** : Impact direct sur les secteurs locaux (pêche, tourisme).
-- **Sociales** : Préoccupation croissante des populations exposées.
-- **Environnementales** : Accent sur la nécessité d’adapter les infrastructures au changement climatique.
+- **Politiques** : Renforcement ou affaiblissement de l'exécutif selon l'issue des négociations parlementaires.
+- **Économiques** : Potentiel impact sur le déficit public et sur la confiance des investisseurs.
+- **Sociales** : Mesures susceptibles de réduire les tensions sociales, mais insuffisantes pour certains syndicats.
+- **Environnementales** : Peu de dispositions spécifiquement orientées vers la transition écologique.
 
 ### Sources
-- [Franceinfo] – https://france3-regions.franceinfo.fr/bretagne/finistere/morlaix/direct-tempete-goretti-des-rafales-records-a-belle-ile-brehat-ou-dans-le-tregor-mais-des-degats-limites-3278462.html
-- [Ouest-France] – https://www.ouest-france.fr/pays-de-la-loire/
-- [Mer et Marine] – https://www.meretmarine.com/fr
+- [Le Monde](https://www.lemonde.fr/politique/)
+- [Les Échos](https://www.lesechos.fr/)
+- [Mediapart](https://www.mediapart.fr/)
 
 ---
 
-## [SUJET 2/6] – Les enjeux de la transition énergétique en France
+## [SUJET 2/6] – Manifestations en Iran : l’Union européenne sous pression
 
 ### Résumé
-La France vise la neutralité carbone d'ici 2050, un objectif ambitieux soutenu par des investissements dans les énergies renouvelables et des mesures pour réduire les émissions de gaz à effet de serre. Cependant, des défis subsistent, notamment en matière de financement et d'acceptation sociale des projets énergétiques.
+Les manifestations en Iran se prolongent, provoquées par des restrictions sur les droits des femmes et une répression croissante. L'Union européenne, et la France en particulier, sont appelées à jouer un rôle plus actif dans la défense des droits humains, notamment par des sanctions économiques et diplomatiques renforcées.
 
 ### Points de vue des médias
 
-**France 24**
-France 24 met en avant les engagements du gouvernement, tout en soulignant les retards accumulés dans certains secteurs comme l’éolien offshore. Le média insiste sur l’importance d’une planification rigoureuse pour atteindre les objectifs climatiques.
+**Franceinfo**  
+Franceinfo met en avant les appels des ONG à une action forte de l’UE, notamment via des sanctions ciblées contre les dirigeants iraniens.
 
-**Les Échos**
-Les Échos pointent les obstacles économiques, notamment le coût élevé des infrastructures nécessaires et les résistances locales aux projets comme les parcs éoliens. Une analyse critique des priorités budgétaires est proposée.
+**Le Figaro**  
+Le Figaro insiste sur le dilemme stratégique de l'Europe, entre défense des droits humains et impératifs géopolitiques liés à la stabilité régionale.
+
+**The Guardian**  
+The Guardian critique l'inaction relative des puissances occidentales, appelant à une réponse plus vigoureuse pour soutenir les manifestants.
 
 ### Implications
-- **Politiques** : Nécessité d’accélérer les réformes réglementaires.
-- **Économiques** : Opportunités pour les entreprises du secteur des énergies renouvelables.
-- **Sociales** : Opposition locale à certains projets.
-- **Environnementales** : Réduction des émissions, mais défis sur la biodiversité.
+- **Politiques** : Pression accrue sur l'UE pour adopter des sanctions plus dures.
+- **Économiques** : Risques sur les relations commerciales avec l’Iran.
+- **Sociales** : Soutien international aux droits des femmes et à la démocratie.
+- **Environnementales** : Aucun lien direct observable.
 
 ### Sources
-- [France 24] – https://www.france24.com/fr/
+- [Franceinfo](https://www.franceinfo.fr/)
+- [The Guardian](https://www.theguardian.com/)
 
 ---
 
-## [SUJET 3/6] – Emmanuel Macron s'oppose à l'accord commercial avec le Mercosur
+## [SUJET 3/6] – Le procès de Marine Le Pen : conséquences politiques majeures
 
 ### Résumé
-Lors d’une réunion à Bruxelles, Emmanuel Macron a annoncé que la France s’opposerait à l'accord commercial avec le Mercosur, invoquant des préoccupations environnementales liées à la déforestation en Amazonie et des pratiques agricoles non conformes aux standards européens.
+Marine Le Pen fait face à un procès en appel sur des soupçons de détournement de fonds européens. Ce dossier judiciaire intervient à un moment critique pour le Rassemblement National, alors que le parti prépare sa stratégie pour les élections présidentielles de 2027.
 
 ### Points de vue des médias
 
-**Franceinfo**
-Franceinfo salue la position de la France comme un acte fort en faveur de la protection de l’environnement, mais souligne les tensions que cette décision pourrait provoquer au sein de l’Union européenne.
+**Le Monde**  
+Le journal souligne que ce procès pourrait affaiblir l’image de rigueur que Marine Le Pen tente de projeter, tout en notant que ses soutiens la considèrent comme une victime du "système judiciaire".
 
-**Le Monde**
-Le Monde analyse la décision comme une tentative de repositionnement stratégique de Macron à l’approche des élections, en s’alignant sur des préoccupations écologiques croissantes parmi les électeurs.
+**Le Figaro**  
+Le Figaro rapporte que l’issue du procès pourrait paradoxalement renforcer la mobilisation des électeurs du RN, qui pourraient y voir une forme de persécution politique.
 
 ### Implications
-- **Politiques** : Renforcement de la position française sur l’écologie.
-- **Économiques** : Impact potentiel sur les relations commerciales.
-- **Sociales** : Soutien des ONG et des écologistes.
-- **Environnementales** : Signal fort contre la déforestation.
+- **Politiques** : Potentiel impact sur la candidature de Marine Le Pen pour 2027.
+- **Économiques** : Aucun impact direct.
+- **Sociales** : Polarisation accrue entre électeurs pro et anti-RN.
+- **Environnementales** : Aucun lien direct.
 
 ### Sources
-- [Franceinfo] – https://www.franceinfo.fr/politique/
+- [Le Monde](https://www.lemonde.fr/politique/)
+- [Le Figaro](https://www.lefigaro.fr/politique)
 
 ---
 
-## [SUJET 4/6] – Les défaillances d'entreprises atteignent un niveau record en France
+## [SUJET 4/6] – Transition énergétique : la France à la traîne
 
 ### Résumé
-Les défaillances d’entreprises en France ont atteint un niveau record au début de 2026, dépassant les chiffres observés lors de la crise de 2008. Les secteurs les plus touchés incluent le commerce de détail et la construction.
+La France est en retard sur ses engagements climatiques, alors que la loi sur l’énergie est en cours de finalisation. Les experts appellent à des mesures ambitieuses pour accélérer la transition énergétique, notamment dans les secteurs du transport et du bâtiment.
 
 ### Points de vue des médias
 
-**Les Échos**
-Les Échos attribuent cette hausse à la fin des aides gouvernementales post-Covid et au ralentissement de la demande intérieure. Le média appelle à des mesures d’urgence pour éviter une cascade de faillites.
+**Les Échos**  
+Les Échos mettent en avant les investissements prévus, mais s'interrogent sur leur suffisance face à l'ampleur des défis.
 
-**BFM Business**
-BFM Business insiste sur le rôle des taux d’intérêt élevés, qui compliquent l'accès au crédit pour les PME. Une réforme fiscale est jugée nécessaire pour redonner de la compétitivité aux entreprises.
+**Mediapart**  
+Mediapart critique un manque de volonté politique, pointant des objectifs trop modestes pour respecter les accords internationaux.
 
 ### Implications
-- **Politiques** : Pression pour des mesures de soutien.
-- **Économiques** : Fragilité accrue des PME.
-- **Sociales** : Augmentation du chômage.
-- **Environnementales** : Moindre priorité donnée à la transition énergétique.
+- **Politiques** : Pression accrue sur le gouvernement pour des mesures plus ambitieuses.
+- **Économiques** : Opportunités pour le secteur des énergies renouvelables.
+- **Sociales** : Impact sur les ménages via d’éventuelles hausses des coûts énergétiques.
+- **Environnementales** : Conséquences cruciales pour les objectifs climatiques.
 
 ### Sources
-- [Les Échos] – https://www.lesechos.fr/economie-france/conjoncture/les-defaillances-dentreprises-au-plus-haut-en-france-2208540
+- [Les Échos](https://www.lesechos.fr/)
+- [Mediapart](https://www.mediapart.fr/)
 
 ---
 
-## [SUJET 5/6] – La France face aux défis économiques de 2026
+## [SUJET 5/6] – Les entreprises françaises au CES 2026
 
 ### Résumé
-Les économistes identifient plusieurs défis pour la France en 2026, dont la gestion de la dette publique, l’adaptation à la transition énergétique et la compétitivité industrielle. Les experts appellent à un plan de relance ambitieux pour éviter une stagnation.
+Au CES de Las Vegas, les entreprises françaises ont dévoilé des innovations technologiques remarquées, notamment dans les domaines de l’intelligence artificielle et de la santé connectée. Cependant, elles restent confrontées à des défis de financement et de compétitivité.
 
 ### Points de vue des médias
 
-**Les Échos**
-Les Échos se concentrent sur l’urgence d’une réforme fiscale pour soutenir les entreprises et encourager l’investissement.
+**BFM TV**  
+BFM TV met en avant les réussites de startups françaises, mais pointe un manque de soutien public pour les aider à s’imposer à l’international.
 
-**Le Figaro**
-Le Figaro critique le manque de vision à long terme du gouvernement, appelant à plus de rigueur budgétaire.
+**Les Échos**  
+Les Échos soulignent l’importance stratégique de ces innovations pour la souveraineté numérique française.
 
 ### Implications
-- **Politiques** : Appel à des réformes structurelles.
-- **Économiques** : Risque de ralentissement prolongé.
-- **Sociales** : Inégalités croissantes.
-- **Environnementales** : Priorité financière réduite pour les projets verts.
+- **Politiques** : Nécessité d’un soutien accru à l’innovation.
+- **Économiques** : Potentiel de croissance pour la tech française.
+- **Sociales** : Création d’emplois dans les secteurs innovants.
+- **Environnementales** : Innovations liées aux technologies durables.
 
 ### Sources
-- [Les Échos] – https://www.lesechos.fr/
+- [BFM TV](https://www.bfmtv.com/)
+- [Les Échos](https://www.lesechos.fr/)
 
 ---
 
-## [SUJET 6/6] – Donald Trump envisage d'acheter une île arctique pour contrer la Chine et la Russie
+## [SUJET 6/6] – Économie française : reprise fragile
 
 ### Résumé
-Donald Trump a exprimé son intérêt pour l’achat d’une île arctique afin de contrer l’influence croissante de la Chine et de la Russie dans cette région stratégique. Cette déclaration, bien que controversée, reflète les tensions géopolitiques croissantes dans l’Arctique.
+L'économie française montre des signes de reprise, malgré des obstacles persistants tels que l'inflation et une faible compétitivité. Les prévisions restent prudentes pour 2026.
 
 ### Points de vue des médias
 
-**Le Point**
-Le Point qualifie cette initiative de « coup médiatique », mais souligne les enjeux géopolitiques réels de l’Arctique.
+**Les Échos**  
+Le journal met en avant une reprise encouragée par la consommation, mais souligne les inquiétudes liées à l’endettement public.
 
-**The Guardian**
-The Guardian critique cette approche comme irréaliste, mais met en avant la nécessité de réguler les ambitions des grandes puissances dans la région.
+**Le Figaro**  
+Le Figaro insiste sur la nécessité de réformes structurelles pour améliorer la compétitivité.
 
 ### Implications
-- **Politiques** : Escalade des tensions internationales.
-- **Économiques** : Intérêt croissant pour les ressources arctiques.
-- **Sociales** : Opposition des populations locales.
-- **Environnementales** : Risques pour la biodiversité arctique.
+- **Politiques** : Pression pour des réformes économiques.
+- **Économiques** : Risque d'une reprise inégale.
+- **Sociales** : Impact sur le pouvoir d’achat des ménages.
+- **Environnementales** : Aucun lien direct.
 
 ### Sources
-- [Le Point] – https://www.lepoint.fr/
+- [Les Échos](https://www.lesechos.fr/)
+- [Le Figaro](https://www.lefigaro.fr/)
 
 ---
 
 ## Autres sujets de la semaine
 
-### L’impact de la tempête Goretti sur l’économie locale
-**Thème** : Nantes & Région Ouest  
-**Résumé** : Des commerces et infrastructures fortement impactés par les vents violents, avec des estimations de pertes économiques en cours.  
-**Source** : Ouest-France – https://www.ouest-france.fr/pays-de-la-loire/
+### Les enjeux de la transition écologique pour les entreprises
+**Thème** : Écologie & Transition  
+**Résumé** : Les entreprises françaises adoptent des initiatives pour répondre aux exigences croissantes en matière de transition écologique.  
+**Source** : [Ouest-France](https://www.ouest-france.fr/economie/entreprises/)
 
-### Les innovations françaises au CES 2026
-**Thème** : Technologie & Innovation  
-**Résumé** : Les startups françaises brillent au CES, avec des technologies innovantes dans les domaines de la santé et de la mobilité.  
-**Source** : Maddyness – https://www.maddyness.com/2026/01/08/ces-2026-les-5-innovations-de-la-french-tech-quil-ne-fallait-pas-manquer-a-las-vegas/
+### La natalité en berne : un enjeu pour l'avenir de la France
+**Thème** : Société  
+**Résumé** : La France enregistre une baisse de la natalité, posant des défis démographiques et économiques pour l’avenir.  
+**Source** : [Le Figaro](https://www.lefigaro.fr/politique)
 
 ---
 
 ## Synthèse finale
 
 ### Événements majeurs
-1. Tempête Goretti et ses impacts climatiques et économiques.
-2. Opposition de la France à l’accord Mercosur.
-3. Défaillances record d’entreprises en France.
+1. Annonce du budget 2026 par Sébastien Lecornu.
+2. Pressions internationales sur l’Iran et sur l’UE.
+3. Lente reprise de l’économie française.
 
 ### Divergences éditoriales clés
-- Transition énergétique : urgence ou obstacle économique ?
-- Opposition au Mercosur : posture écologique ou politique électorale ?
+- Budget 2026 : soutien social vs financement incertain.
+- Transition énergétique : objectifs insuffisants selon certains médias.
 
 ### Implications possibles
-- **Politiques** : Pressions accrues sur les réformes climatiques et économiques.
-- **Économiques** : Fragilité des entreprises françaises face aux chocs.
-- **Sociales** : Inquiétudes croissantes sur les impacts climatiques et économiques.
-- **Environnementales** : Nécessité d’accélérer les mesures d’adaptation.
+- **Politiques** : Négociations parlementaires sensibles.
+- **Économiques** : Défis de compétitivité pour les entreprises françaises.
+- **Sociales** : Pressions sur le pouvoir d’achat et les droits humains.
+- **Environnementales** : Urgence d’accélérer la transition énergétique.
 
 ### À surveiller la semaine prochaine
-- Développements sur la tempête Goretti.
-- Réactions internationales à l’opposition de Macron sur le Mercosur.
+- Débats parlementaires sur le budget 2026.
+- Évolution des manifestations en Iran.
 
 ---
 
