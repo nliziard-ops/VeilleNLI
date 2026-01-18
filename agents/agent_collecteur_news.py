@@ -77,21 +77,39 @@ def recherche_tavily(query: str, max_results: int = 10) -> List[Dict[str, Any]]:
 # ================================================================================
 
 def collecter_articles_bruts() -> List[Dict[str, Any]]:
-    """Lance 10 recherches ciblées sur actualités françaises/internationales"""
+    """Lance 13 recherches ciblées sur actualités françaises/internationales"""
     
-    # Requêtes ciblées pour actualités
-    # ⏰ TOUTES les requêtes incluent un marqueur temporel (cette semaine, derniers jours, récentes)
+    # Requêtes optimisées - Scénario C : Stratégique avec ajouts locaux (13 requêtes)
+    # Structure par catégories pour maximiser la couverture nationale et régionale
     requetes = [
-        "actualités France cette semaine",
-        "politique française derniers jours",
-        "économie France entreprises cette semaine",
-        "international Europe actualités récentes",
-        "écologie transition énergétique France dernière semaine",
-        "actualités Nantes Pays de la Loire cette semaine",
-        "Bretagne actualités derniers jours",
-        "technologie innovation France cette semaine",
-        "société France actualités récentes",
-        "mer littoral Atlantique derniers jours"
+        # === POLITIQUE & ÉCONOMIE (2) ===
+        "politique française derniers jours",                    # Gouvernement, lois, débats
+        "économie France entreprises cette semaine",             # CAC40, startups, fusions
+        
+        # === INTERNATIONAL (1) ===
+        "international Europe actualités récentes",              # UE, guerre Ukraine, géopolitique
+        
+        # === SOCIÉTÉ (3) ===
+        "écologie transition France cette semaine",              # Climat, énergies renouvelables
+        "société France actualités récentes",                    # Mouvements sociaux, éducation
+        "santé France système hospitalier cette semaine",        # Santé publique, hôpitaux, réformes
+        
+        # === CULTURE (2) ===
+        "culture France spectacles expositions cette semaine",   # Théâtre, musées, festivals nationaux
+        "culture Nantes événements actualités récentes",         # Culture locale Nantes (Machines, Folle Journée)
+        
+        # === TECHNOLOGIE (1) ===
+        "technologie innovation France cette semaine",           # Tech française, startups
+        
+        # === JUSTICE (1) ===
+        "justice France procès affaires cette semaine",          # Procès médiatisés, décisions judiciaires
+        
+        # === RÉGIONAL NANTES/BRETAGNE (2) ===
+        "actualités Nantes Pays de la Loire cette semaine",      # Actualités locales Nantes
+        "Bretagne actualités derniers jours",                    # Actualités Bretagne
+        
+        # === OCÉAN & SPORTS NAUTIQUES (1) ===
+        "océan pollution sports nautiques voile surf cette semaine"  # Maritime, voile, surf, pollution océans
     ]
     
     print(f"🔍 Lancement de {len(requetes)} recherches Tavily...")
@@ -151,7 +169,7 @@ def filtrer_et_classifier(articles_bruts: List[Dict[str, Any]]) -> Dict[str, Any
     date_fin = datetime.now()
     date_debut = date_fin - timedelta(days=7)
     
-    articles_input = articles_bruts[:150]
+    articles_input = articles_bruts[:160]
     print(f"📝 Préparation de {len(articles_input)} articles pour GPT-4o-mini...")
     
     articles_text = "\n\n".join([
@@ -169,16 +187,20 @@ def filtrer_et_classifier(articles_bruts: List[Dict[str, Any]]) -> Dict[str, Any
 **TA MISSION** :
 1. Supprimer les doublons (même sujet, sources différentes → garder la meilleure)
 2. Filtrer les articles pertinents pour un cadre français cultivé
-3. Exclure : people, fait divers mineurs, sports (sauf événements majeurs)
+3. Exclure : people, fait divers mineurs, sports (sauf événements majeurs et sports nautiques)
 4. Classifier chaque article dans UN thème principal :
    - Politique française
    - Économie & Entreprises
    - International & Europe
    - Écologie & Transition
    - Société
+   - Santé & Hôpitaux
    - Technologie & Innovation
+   - Culture & Spectacles
+   - Justice & Procès
    - Nantes & Région Ouest
-   - Culture
+   - Bretagne & Littoral
+   - Océan & Sports nautiques
 
 5. Attribuer un score de pertinence (1-10)
 
@@ -207,7 +229,7 @@ def filtrer_et_classifier(articles_bruts: List[Dict[str, Any]]) -> Dict[str, Any
 ```
 
 **CONSIGNES** :
-- Vise 8-12 articles finaux (les plus importants)
+- Vise 10-15 articles finaux (les plus importants)
 - Reformule les snippets
 - Détecte les doublons
 - Privilégie sources françaises sérieuses (Le Monde, Figaro, Échos, Libération, Ouest-France)
@@ -224,7 +246,7 @@ Génère le JSON maintenant :"""
                 {"role": "user", "content": prompt}
             ],
             temperature=0.3,
-            max_tokens=3000
+            max_tokens=4000
         )
         
         print(f"📊 Tokens utilisés : {response.usage.total_tokens}")
