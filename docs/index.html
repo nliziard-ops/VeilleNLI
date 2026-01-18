@@ -679,7 +679,7 @@
                     data.introduction += line + ' ';
                 }
                 
-                // Détecter section Synthèse (CORRECTION: sauvegarder l'article en cours)
+                // Détecter section Synthèse (sauvegarder l'article en cours)
                 if (line.includes('## Synthèse')) {
                     // Sauvegarder l'article en cours avant d'entrer dans la synthèse
                     if (currentArticle && !inOtherTopics) {
@@ -717,12 +717,16 @@
                     data.synthesis[synthesisSubsection] += line + '\n';
                 }
                 
-                // Détecter section "Autres sujets"
+                // Détecter section "Autres sujets" - CORRECTION: sauvegarder l'article en cours
                 if (line.includes('## Autres sujets')) {
+                    // Sauvegarder l'article en cours avant d'entrer dans "Autres sujets"
+                    if (currentArticle && !inOtherTopics) {
+                        data.mainArticles.push(currentArticle);
+                        currentArticle = null;
+                    }
                     inOtherTopics = true;
                     inSynthesis = false;
                     currentSection = 'otherTopics';
-                    currentArticle = null;
                     continue;
                 }
                 
