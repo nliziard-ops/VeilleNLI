@@ -122,7 +122,7 @@ def collecter_articles_bruts() -> List[Dict[str, Any]]:
     articles_bruts = []
     for i, query in enumerate(requetes, 1):
         print(f"  [{i}/{len(requetes)}] {query}")
-        resultats = recherche_tavily(query, max_results=8)
+        resultats = recherche_tavily(query, max_results=12)
         
         for res in resultats:
             articles_bruts.append({
@@ -188,8 +188,8 @@ def filtrer_et_classifier(articles_bruts: List[Dict[str, Any]]) -> Dict[str, Any
     date_fin = datetime.now()
     date_debut = date_fin - timedelta(days=7)
     
-    # Préparer les articles pour le prompt (limiter à 100 pour éviter dépassement tokens)
-    articles_input = articles_bruts[:100]
+    # Préparer les articles pour le prompt (limiter à 150 pour gérer l'augmentation)
+    articles_input = articles_bruts[:150]
     print(f"📝 Préparation de {len(articles_input)} articles pour GPT-4o-mini...")
     
     # Créer un texte compact pour GPT
