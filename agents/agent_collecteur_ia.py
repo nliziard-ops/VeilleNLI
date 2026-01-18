@@ -91,7 +91,7 @@ def recherche_tavily(query: str, max_results: int = 10) -> List[Dict[str, Any]]:
 
 def collecter_articles_bruts() -> List[Dict[str, Any]]:
     """
-    Lance 12 recherches ciblées sur différents thèmes IA/LLM
+    Lance 15 recherches ciblées sur différents thèmes IA/LLM
     
     Returns:
         Liste brute d'articles (avec doublons potentiels)
@@ -101,21 +101,40 @@ def collecter_articles_bruts() -> List[Dict[str, Any]]:
     date_fin = datetime.now()
     date_debut = date_fin - timedelta(days=7)
     
-    # Requêtes ciblées pour maximiser la couverture
-    # ⏰ TOUTES les requêtes incluent un marqueur temporel (this week, last 7 days, recent)
+    # Requêtes optimisées - Scénario 2 : Équilibré (15 requêtes)
+    # Structure par catégories stratégiques pour maximiser la couverture
     requetes = [
-        "AI LLM news this week",
-        "OpenAI GPT announcements last 7 days",
-        "Anthropic Claude updates this week",
-        "Google Gemini AI news this week",
-        "Meta Llama releases last 7 days",
-        "AI regulation Europe recent news",
-        "AI research papers this week",
-        "AI cybersecurity threats recent",
-        "enterprise AI applications this week",
-        "AI hardware chips news last 7 days",
-        "AI France startup news this week",
-        "open source AI models recent releases"
+        # === AGENTIQUE & MULTIMODAL (3) ===
+        "AI autonomous agents recent developments",      # Agentique : AutoGPT, agents Google/Microsoft
+        "large language models breakthroughs this week", # LLM : nouveaux modèles, benchmarks
+        "multimodal AI vision language this week",       # Multimodal : GPT-4V, Gemini Vision
+        
+        # === REASONING MODELS (1) ===
+        "AI reasoning models o1 o3 R1 this week",       # OpenAI o1/o3, DeepSeek R1
+        
+        # === ACTEURS OCCIDENTAUX (4) ===
+        "OpenAI GPT announcements last 7 days",         # OpenAI : GPT-4.5, GPT-5, nouveaux produits
+        "Anthropic Claude updates this week",           # Anthropic : Claude 3.5, 4
+        "Google Gemini AI news this week",              # Google : Gemini, DeepMind
+        "Meta Llama releases last 7 days",              # Meta : Llama 3, 4
+        
+        # === ACTEURS FRANCE/CHINE (2) ===
+        "Mistral AI news this week",                    # Mistral AI France : levées de fonds, modèles
+        "DeepSeek AI China news this week",             # DeepSeek : V3, R1 (buzz récent)
+        
+        # === OPEN SOURCE & RECHERCHE (2) ===
+        "open source AI models recent releases",        # Open source : nouveaux modèles communautaires
+        "AI research papers this week",                 # Recherche : ArXiv, conférences
+        
+        # === HARDWARE & INFRASTRUCTURE (1) ===
+        "AI hardware accelerators GPUs TPUs this week", # Hardware : NVIDIA, AMD, Google TPU, Groq
+        
+        # === SOCIÉTÉ & RÉGULATION (2) ===
+        "AI regulation Europe recent news",             # Régulation : AI Act, RGPD
+        "AI safety alignment this week",                # Safety : alignment, risques existentiels
+        
+        # === FRANCE & B2B (1) ===
+        "AI France enterprise startup this week"        # France B2B : startups, adoption entreprises
     ]
     
     print(f"🔍 Lancement de {len(requetes)} recherches Tavily...")
@@ -189,8 +208,8 @@ def filtrer_et_classifier(articles_bruts: List[Dict[str, Any]]) -> Dict[str, Any
     date_fin = datetime.now()
     date_debut = date_fin - timedelta(days=7)
     
-    # Préparer les articles pour le prompt (limiter à 150 pour gérer l'augmentation)
-    articles_input = articles_bruts[:150]
+    # Préparer les articles pour le prompt (limiter à 180 pour gérer l'augmentation de 15 requêtes)
+    articles_input = articles_bruts[:180]
     print(f"📝 Préparation de {len(articles_input)} articles pour GPT-4o-mini...")
     
     # Créer un texte compact pour GPT
@@ -212,15 +231,17 @@ def filtrer_et_classifier(articles_bruts: List[Dict[str, Any]]) -> Dict[str, Any
 3. Exclure : annonces mineures, marketing produits, tutoriels basiques
 4. Classifier chaque article dans UN thème principal :
    - Nouveaux modèles LLM
+   - Agents autonomes & Agentic AI
+   - Multimodal AI (vision, audio, vidéo)
+   - Reasoning & Chain-of-thought
    - Open source & écosystèmes
    - Recherche scientifique
    - Régulation & gouvernance
+   - Safety & Alignment
    - Industrie & investissements
-   - Cybersécurité & risques
-   - Applications entreprises
    - Hardware & compute
-   - Europe & France
-   - Nantes & Région Ouest
+   - France & Europe
+   - Chine & Asie
 
 5. Attribuer un score de pertinence (1-10) selon l'importance de l'actualité
 
@@ -249,7 +270,7 @@ def filtrer_et_classifier(articles_bruts: List[Dict[str, Any]]) -> Dict[str, Any
 ```
 
 **CONSIGNES** :
-- Vise 12-18 articles finaux maximum (les plus importants)
+- Vise 15-20 articles finaux maximum (les plus importants)
 - Reformule les snippets (pas de copier-coller)
 - Détecte les doublons même avec titres légèrement différents
 - Sois strict sur la pertinence (ignorer le bruit médiatique)
@@ -266,7 +287,7 @@ Génère le JSON maintenant :"""
                 {"role": "user", "content": prompt}
             ],
             temperature=0.3,  # Peu créatif, très factuel
-            max_tokens=4000
+            max_tokens=5000   # Augmenté pour gérer plus d'articles
         )
         
         # Extraire le JSON de la réponse
