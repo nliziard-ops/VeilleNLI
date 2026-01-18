@@ -80,17 +80,18 @@ def collecter_articles_bruts() -> List[Dict[str, Any]]:
     """Lance 10 recherches ciblées sur actualités françaises/internationales"""
     
     # Requêtes ciblées pour actualités
+    # ⏰ TOUTES les requêtes incluent un marqueur temporel (cette semaine, derniers jours, récentes)
     requetes = [
-        "actualités France semaine",
-        "politique française actualité",
-        "économie France entreprises",
-        "international Europe actualités",
-        "écologie transition énergétique France",
-        "actualités Nantes Pays de la Loire",
-        "Bretagne Belle-Île actualités",
-        "technologie innovation France",
-        "société France actualités",
-        "mer littoral Atlantique actualités"
+        "actualités France cette semaine",
+        "politique française derniers jours",
+        "économie France entreprises cette semaine",
+        "international Europe actualités récentes",
+        "écologie transition énergétique France dernière semaine",
+        "actualités Nantes Pays de la Loire cette semaine",
+        "Bretagne actualités derniers jours",
+        "technologie innovation France cette semaine",
+        "société France actualités récentes",
+        "mer littoral Atlantique derniers jours"
     ]
     
     print(f"🔍 Lancement de {len(requetes)} recherches Tavily...")
