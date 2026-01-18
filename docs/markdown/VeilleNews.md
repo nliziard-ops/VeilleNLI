@@ -8,182 +8,190 @@ modèles: GPT-4o-mini (collecte) + GPT-4o (synthèse)
 
 # Veille hebdomadaire – Semaine du 11/01/2026 au 18/01/2026
 
-**Édition Perspective**
+**Édition Perspectives Hebdo**
 
 ---
 
 ## Introduction
 
-Cette semaine a été marquée par des tensions politiques internes en France autour du budget 2026, un enjeu clé pour la majorité. Sur le plan écologique, la transition énergétique revient au premier plan, tandis que l'adoption imminente de l’accord Mercosur souligne les défis économiques et environnementaux à l’échelle internationale. En parallèle, la situation économique française se complique avec une hausse des faillites d’entreprises et la décision de maintenir la surtaxe sur les grands groupes. Enfin, l'actualité judiciaire s’invite dans le débat politique avec le retour de Marine Le Pen devant les tribunaux.
+La semaine écoulée a été marquée par des tensions politiques et sociales en France, avec un focus sur l'adoption du budget 2026 et les défis budgétaires plus larges. Parallèlement, des dossiers internationaux comme la situation en Iran ou les menaces commerciales de Donald Trump ont pesé sur les relations diplomatiques. Sur le plan environnemental, le ministère de la Transition écologique a intensifié ses positions contre les énergies fossiles, tandis que la crise de l'hôpital public continue de susciter des inquiétudes majeures.
 
 ---
 
-## [SUJET 1/6] – Budget 2026 : tensions au sein du gouvernement
+## [SUJET 1/6] – Budget 2026 : Sébastien Lecornu en quête d'accords avec les socialistes
 
 ### Résumé
-Le projet de budget 2026 provoque une série de divisions au sein de la majorité présidentielle. Les discussions portent sur des ajustements fiscaux, des coupes budgétaires et des négociations avec les socialistes pour éviter une motion de censure. Cette situation met en lumière les fragilités de l’alliance gouvernementale face à des choix économiques complexes.
+Le ministre des Finances Sébastien Lecornu est engagé dans des négociations sensibles avec le Parti socialiste pour faire adopter le budget 2026. Craignant une impasse parlementaire et les conséquences d’un rejet, le gouvernement pourrait recourir une nouvelle fois au 49.3, un outil constitutionnel qui reste controversé.
 
 ### Points de vue des médias
 
 **Le Figaro**  
-Le journal souligne les tensions croissantes au sein du gouvernement, notamment entre l’aile réformatrice et les socialistes, qui exigent des concessions sur les dépenses sociales. Il s’interroge également sur la capacité de l’exécutif à maintenir une cohésion suffisante pour éviter une crise politique.
+Le quotidien met en avant les efforts de Lecornu pour trouver un compromis, soulignant que cet accord pourrait consolider une majorité parlementaire fragile. Cependant, le recours au 49.3 est présenté comme une issue probable.
 
-**Libération**  
-Libération adopte un ton critique, dénonçant un projet de budget jugé "austère" et insensible aux besoins des classes populaires. Le média insiste sur la fragilité des alliances parlementaires et le risque d’un blocage institutionnel.
-
-**Les Échos**  
-Les Échos se concentrent sur l’impact économique des mesures budgétaires, notamment la volonté de réduire le déficit public à 3 % du PIB, un objectif jugé ambitieux mais nécessaire pour répondre aux attentes européennes.
+**Le Monde**  
+Le journal adopte une perspective critique, expliquant que ces négociations révèlent les limites du dialogue politique actuel. Il met aussi en avant les tensions internes au sein du Parti socialiste, divisé sur l'opportunité d’un soutien au gouvernement.
 
 ### Implications
-- **Politiques** : Risque accru de fractures au sein de la majorité, affaiblissant l’exécutif face aux prochaines échéances.
-- **Économiques** : Tensions sur les investissements publics et incertitudes sur la croissance.
-- **Sociales** : Réactions potentielles des syndicats face aux coupes budgétaires envisagées.
+- **Politiques** : Renforcement ou affaiblissement potentiel du gouvernement en fonction de l'issue des négociations.
+- **Économiques** : Incertitudes budgétaires susceptibles d’affecter la planification des investissements publics.
+- **Sociales** : Polarisation accrue de l’opinion publique sur le recours au 49.3.
 
 ### Sources
-- [Budget 2026 : tensions au sein du gouvernement](https://www.lefigaro.fr/politique)
+- [Le Figaro](https://www.lefigaro.fr/politique)
 
 ---
 
-## [SUJET 2/6] – Transition énergétique : enjeux et perspectives
+## [SUJET 2/6] – Impasse budgétaire : quelles conséquences pour la diplomatie française ?
 
 ### Résumé
-La France s’engage à intensifier ses efforts pour atteindre ses objectifs climatiques à horizon 2030 et 2050. Les défis incluent l’accélération des énergies renouvelables, la rénovation thermique des bâtiments et une réduction significative des émissions de CO2 dans les secteurs des transports et de l’industrie.
+L'absence d'un accord sur le budget 2026 pourrait limiter la diplomatie française, notamment dans le financement des engagements à l’international. Bien que la dette publique ne soit pas un facteur immédiat, le climat d’instabilité politique pourrait nuire à la crédibilité de la France sur la scène mondiale.
+
+### Points de vue des médias
+
+**Le Monde**  
+Le média insiste sur les répercussions possibles en matière de politique étrangère, citant des retards dans le financement de programmes d’aide internationale.
+
+**Franceinfo**  
+Franceinfo souligne que cette instabilité budgétaire pourrait également affecter les initiatives européennes où la France joue un rôle clé, comme les politiques climatiques.
+
+### Implications
+- **Politiques** : Fragilisation du leadership français en Europe.
+- **Économiques** : Risques sur les financements de projets internationaux.
+- **Sociales** : Perceptions d’une France affaiblie sur le plan diplomatique.
+
+### Sources
+- [Le Monde](https://www.lemonde.fr/politique/)
+
+---
+
+## [SUJET 3/6] – Le ministère de la Transition écologique s'oppose à des projets d'hydrocarbures
+
+### Résumé
+Le ministère de la Transition écologique a réaffirmé son opposition à certains projets d’exploration d’hydrocarbures en Outre-mer. Ces projets, soutenus par des élus locaux et des entreprises énergétiques, seront examinés prochainement au Sénat.
+
+### Points de vue des médias
+
+**Le Figaro**  
+Le quotidien met en lumière les tensions entre le gouvernement et les élus locaux, qui défendent ces projets comme nécessaires pour l’emploi et l’indépendance énergétique.
+
+**Les Échos**  
+Les Échos adoptent une approche plus analytique, expliquant que cette opposition s’inscrit dans la stratégie climatique française, mais qu’elle pourrait freiner certains territoires ultramarins.
+
+### Implications
+- **Politiques** : Conflits entre Paris et les collectivités locales.
+- **Économiques** : Impact sur les investissements dans les Outre-mer.
+- **Environnementales** : Affirmation d’un cap écologique national.
+
+### Sources
+- [Le Figaro](https://www.lefigaro.fr/flash-eco/le-ministere-de-la-transition-ecologique-s-oppose-a-la-relance-des-hydrocarbures-en-outre-mer-20260116)
+
+---
+
+## [SUJET 4/6] – La crise de l'hôpital public en France
+
+### Résumé
+Le système hospitalier français traverse une crise profonde : pénuries de personnel, endettement croissant et conditions de travail dégradées. Les grèves et manifestations se multiplient, notamment dans les grandes villes.
 
 ### Points de vue des médias
 
 **Franceinfo**  
-Le média met en avant les ambitions françaises et les difficultés structurelles, notamment le retard pris sur l’installation des éoliennes et panneaux solaires. Il insiste sur la nécessité d’un cadre réglementaire renforcé.
+Franceinfo insiste sur l’urgence de réformes structurelles, mettant en avant les témoignages de soignants sur le terrain.
 
 **Le Monde**  
-Le Monde souligne les contradictions entre les objectifs affichés et les réalités budgétaires, critiquant un manque de moyens alloués pour atteindre les cibles fixées.
+Le journal adopte un ton plus généraliste, expliquant que cette crise résulte de décennies de sous-financement et d’une gestion inadaptée.
+
+### Implications
+- **Politiques** : Pression accrue sur le gouvernement pour des réformes.
+- **Sociales** : Aggravation des inégalités d'accès aux soins.
+
+### Sources
+- [Franceinfo](https://www.franceinfo.fr/sante/hopital/crise/)
+
+---
+
+## [SUJET 5/6] – Déclaration conjointe sur la situation en Iran
+
+### Résumé
+La France, le Royaume-Uni et l'Allemagne ont publié une déclaration commune dénonçant les violations des droits humains en Iran. Cette initiative marque un effort diplomatique coordonné entre les trois puissances.
+
+### Points de vue des médias
+
+**L'Élysée**  
+Le communiqué officiel insiste sur l’importance de protéger les populations civiles et de promouvoir les droits fondamentaux.
 
 **Mediapart**  
-Mediapart adopte un ton plus militant, dénonçant le poids des lobbys industriels qui freinent la transition, notamment dans le secteur automobile.
+Le média critique une approche jugée insuffisamment ferme, notamment sur le volet des sanctions.
 
 ### Implications
-- **Politiques** : Pression accrue sur le gouvernement pour accélérer les réformes écologiques.
-- **Économiques** : Opportunités de croissance dans les secteurs des énergies renouvelables.
-- **Environnementales** : Réduction des émissions en ligne de mire, mais retard préoccupant.
+- **Politiques** : Renforcement de la coopération européenne.
+- **Diplomatiques** : Tensions accrues avec l’Iran.
 
 ### Sources
-- [Transition énergétique : enjeux et perspectives](https://www.franceinfo.fr/ecologie)
+- [Élysée](https://www.elysee.fr/toutes-les-actualites)
 
 ---
 
-## [SUJET 3/6] – Marine Le Pen de retour au tribunal
+## [SUJET 6/6] – Motion de censure de La France insoumise échoue
 
 ### Résumé
-Marine Le Pen a comparu cette semaine devant la justice dans le cadre d’une affaire liée à des soupçons d’emplois fictifs au Parlement européen. Cette procédure relance les débats sur son rôle politique et son positionnement en vue des prochaines échéances électorales.
+La motion de censure déposée par La France insoumise contre le gouvernement a échoué, permettant l'adoption du budget via le 49.3. Cet échec illustre les divisions au sein de l'opposition parlementaire.
 
 ### Points de vue des médias
+
+**Mediapart**  
+Le média critique l’incapacité de l’opposition à s’unir, soulignant la marginalisation croissante de LFI.
 
 **Le Figaro**  
-Le Figaro met en avant le caractère sensible de l’affaire, qui pourrait ternir l’image de Marine Le Pen, particulièrement à un moment où elle tente de rassembler au-delà de sa base électorale.
-
-**Le Monde**  
-Le Monde analyse les implications politiques de cette procédure, soulignant que cela pourrait renforcer l’argumentaire de ses opposants politiques sur la probité des dirigeants.
+Le Figaro interprète cet échec comme une confirmation de la solidité tactique du gouvernement.
 
 ### Implications
-- **Politiques** : Impact potentiel sur les intentions de vote en vue des présidentielles.
-- **Médiatiques** : Attention accrue sur les questions d’éthique et de transparence.
+- **Politiques** : Polarisation croissante entre majorité et opposition.
+- **Sociales** : Désillusion chez une partie des électeurs.
 
 ### Sources
-- [Marine Le Pen de retour au tribunal](https://www.lefigaro.fr/actualite-france)
-
----
-
-## [SUJET 4/6] – Adoption imminente de l'accord Mercosur
-
-### Résumé
-L’accord commercial entre l’Union européenne et les pays du Mercosur (Brésil, Argentine, Uruguay, Paraguay) est sur le point d’être adopté. Ce traité suscite des débats sur son impact économique et environnemental, notamment en ce qui concerne la déforestation en Amazonie et les normes agricoles.
-
-### Points de vue des médias
-
-**Le Monde**  
-Le journal met en avant les critiques des ONG et des écologistes, qui pointent du doigt un texte favorable aux intérêts économiques au détriment de la protection de l’environnement.
-
-**Les Échos**  
-Les Échos adoptent une perspective économique, soulignant les opportunités pour les entreprises européennes, notamment dans l’agroalimentaire et les services.
-
-### Implications
-- **Économiques** : Opportunités pour les exportateurs européens, mais concurrence accrue pour les agriculteurs français.
-- **Environnementales** : Risques pour la biodiversité et la lutte contre la déforestation.
-
-### Sources
-- [Adoption imminente de l'accord Mercosur](https://www.lemonde.fr/)
-
----
-
-## [SUJET 5/6] – Faillites d'entreprises en hausse en France
-
-### Résumé
-Les faillites d’entreprises atteignent un niveau record en France, conséquence d’une consommation en berne et d’un environnement fiscal jugé contraignant. Ce phénomène touche particulièrement les PME et certains secteurs comme la restauration et le commerce de détail.
-
-### Points de vue des médias
-
-**Le Point**  
-Le média attribue cette hausse aux prélèvements sociaux et fiscaux, ainsi qu’à l’inflation qui pèse sur le pouvoir d’achat des ménages.
-
-**Les Échos**  
-Les Échos insistent sur la nécessité de réformes structurelles pour améliorer la compétitivité des entreprises françaises.
-
-### Sources
-- [Faillites d'entreprises en hausse en France](https://www.lepoint.fr/)
-
----
-
-## [SUJET 6/6] – La France maintient la surtaxe sur les grandes entreprises
-
-### Résumé
-Le gouvernement français a décidé de prolonger la surtaxe exceptionnelle sur les grandes entreprises en 2026, une mesure controversée mais qui pourrait générer jusqu’à 8 milliards d’euros de recettes.
-
-### Points de vue des médias
-
-**Les Échos**  
-Les Échos soulignent les critiques des organisations patronales, qui dénoncent une mesure dissuasive pour les investissements.
-
-**Libération**  
-Libération met en avant les attentes sociales, jugeant cette mesure nécessaire pour financer des politiques publiques ambitieuses.
-
-### Sources
-- [La France maintient la surtaxe sur les grandes entreprises](https://investir.lesechos.fr/marches-indices/economie-politique/france-la-surtaxe-sur-les-grandes-entreprises-serait-maintenue-au-niveau-de-2025-echos-2210286)
+- [Mediapart](https://www.mediapart.fr/)
 
 ---
 
 ## Autres sujets de la semaine
 
-### Les États-Unis gèlent les visas permanents pour 75 pays
-**Thème** : International  
-**Résumé** : Washington suspend les visas permanents pour 75 pays, une mesure liée à la sécurité nationale.  
-**Source** : [France 24](https://www.france24.com/fr/)
+### Donald Trump menace d'imposer des droits de douane à l'Europe
+**Thème** : International & Europe  
+**Résumé** : Donald Trump a menacé plusieurs pays européens, dont la France, d’instaurer de nouveaux droits de douane, accentuant les tensions transatlantiques.  
+**Source** : [BFM](https://www.bfmtv.com/politique/)
 
-### Élections municipales à Nantes : enjeux et candidats
-**Thème** : Nantes & Région Ouest  
-**Résumé** : Les élections municipales nantaises attirent l’attention, avec des batailles serrées annoncées entre droite et centre.  
-**Source** : [Ouest-France](https://www.ouest-france.fr/pays-de-la-loire/nantes-44000/)
+### Les médecins libéraux manifestent à Paris
+**Thème** : Santé & Hôpitaux  
+**Résumé** : Des médecins libéraux ont protesté à Paris contre ce qu’ils considèrent comme une dérive autoritaire du système de santé.  
+**Source** : [Le Dauphiné](https://www.ledauphine.com/sante/2026/01/10/une-derive-autoritaire-du-systeme-de-sante-les-medecins-liberaux-dans-la-rue-ce-samedi)
 
 ### Manifestation de soutien aux Iraniens à Nantes
 **Thème** : Nantes & Région Ouest  
-**Résumé** : Plusieurs centaines de Nantais ont manifesté pour soutenir les mouvements contestataires en Iran.  
-**Source** : [France 3](https://france3-regions.franceinfo.fr/pays-de-la-loire/)
+**Résumé** : Plusieurs centaines de personnes ont manifesté à Nantes en solidarité avec les protestataires iraniens.  
+**Source** : [Franceinfo](https://france3-regions.franceinfo.fr/pays-de-la-loire/)
 
 ---
 
 ## Synthèse finale
 
 ### Événements majeurs
-1. Tensions autour du budget 2026 en France.
-2. Transition énergétique : défis français pour 2030 et 2050.
-3. Adoption imminente de l’accord Mercosur.
+1. Adoption du budget 2026 sous tensions politiques.
+2. Opposition croissante à des projets énergétiques en Outre-mer.
+3. Déclaration conjointe sur les droits humains en Iran.
 
 ### Divergences éditoriales clés
-- Perception contrastée des mesures budgétaires entre austérité et nécessité économique.
-- Critiques écologiques sur le Mercosur contre opportunités économiques.
+- Le recours au 49.3 : entre nécessité institutionnelle et critique démocratique.
+- La politique écologique française : entre ambition et opposition locale.
+
+### Implications possibles
+- **Politiques** : Climat parlementaire tendu, pression sur le gouvernement.
+- **Économiques** : Incertitudes budgétaires et investissements.
+- **Sociales** : Polarisation accrue et mobilisations.
+- **Environnementales** : Renforcement des engagements écologiques.
 
 ### À surveiller la semaine prochaine
-- Débats parlementaires sur le budget 2026.
-- Réactions internationales à l'accord Mercosur.
-- Dynamique des élections municipales à Nantes.
+- Négociations finales sur le budget 2026.
+- Évolutions diplomatiques en Iran et en Europe.
 
 ---
 
