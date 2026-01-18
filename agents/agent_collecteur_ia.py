@@ -102,19 +102,20 @@ def collecter_articles_bruts() -> List[Dict[str, Any]]:
     date_debut = date_fin - timedelta(days=7)
     
     # Requêtes ciblées pour maximiser la couverture
+    # ⏰ TOUTES les requêtes incluent un marqueur temporel (this week, last 7 days, recent)
     requetes = [
         "AI LLM news this week",
-        "OpenAI GPT latest announcements",
-        "Anthropic Claude updates",
-        "Google Gemini AI news",
-        "Meta Llama open source",
-        "AI regulation Europe 2026",
+        "OpenAI GPT announcements last 7 days",
+        "Anthropic Claude updates this week",
+        "Google Gemini AI news this week",
+        "Meta Llama releases last 7 days",
+        "AI regulation Europe recent news",
         "AI research papers this week",
-        "AI cybersecurity threats",
-        "enterprise AI applications",
-        "AI hardware chips news",
-        "AI France Nantes startup",
-        "open source AI models"
+        "AI cybersecurity threats recent",
+        "enterprise AI applications this week",
+        "AI hardware chips news last 7 days",
+        "AI France startup news this week",
+        "open source AI models recent releases"
     ]
     
     print(f"🔍 Lancement de {len(requetes)} recherches Tavily...")
