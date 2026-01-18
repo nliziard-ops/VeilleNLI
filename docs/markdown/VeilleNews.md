@@ -1,12 +1,12 @@
 ```markdown
 ---
 agent: Veille Actualités (2 agents OpenAI)
-date: 2026-01-17
+date: 2026-01-18
 catégorie: Actualités Générales
 modèles: GPT-4o-mini (collecte) + GPT-4o (synthèse)
 ---
 
-# Veille hebdomadaire – Semaine du 10/01/2026 au 17/01/2026
+# Veille hebdomadaire – Semaine du 11/01/2026 au 18/01/2026
 
 **Édition Perspective**
 
@@ -14,201 +14,176 @@ modèles: GPT-4o-mini (collecte) + GPT-4o (synthèse)
 
 ## Introduction
 
-Cette semaine, l'actualité a été marquée par des annonces politiques et économiques majeures en France, notamment avec la présentation du budget 2026. À l'international, les manifestations en Iran continuent de captiver l'attention, mettant l'Union européenne face à des responsabilités diplomatiques. Sur le front écologique, la France peine à tenir ses engagements climatiques, tandis que l'innovation technologique tricolore fait parler d'elle au CES 2026. Enfin, le procès de Marine Le Pen et les défis de l'économie française complètent un tableau riche en enjeux politiques et économiques.
+Cette semaine a été marquée par des tensions politiques internes en France autour du budget 2026, un enjeu clé pour la majorité. Sur le plan écologique, la transition énergétique revient au premier plan, tandis que l'adoption imminente de l’accord Mercosur souligne les défis économiques et environnementaux à l’échelle internationale. En parallèle, la situation économique française se complique avec une hausse des faillites d’entreprises et la décision de maintenir la surtaxe sur les grands groupes. Enfin, l'actualité judiciaire s’invite dans le débat politique avec le retour de Marine Le Pen devant les tribunaux.
 
 ---
 
-## [SUJET 1/6] – Budget 2026 : Sébastien Lecornu dévoile les priorités gouvernementales
+## [SUJET 1/6] – Budget 2026 : tensions au sein du gouvernement
 
 ### Résumé
-Le Premier ministre Sébastien Lecornu a présenté les grandes lignes du budget 2026, qui met l'accent sur le pouvoir d'achat avec une augmentation significative de la prime d'activité. Ce budget s'inscrit dans une volonté d'apaiser les tensions sociales, alors que le gouvernement entame des négociations délicates avec les partis de gauche pour obtenir un consensus.
+Le projet de budget 2026 provoque une série de divisions au sein de la majorité présidentielle. Les discussions portent sur des ajustements fiscaux, des coupes budgétaires et des négociations avec les socialistes pour éviter une motion de censure. Cette situation met en lumière les fragilités de l’alliance gouvernementale face à des choix économiques complexes.
 
 ### Points de vue des médias
 
-**Le Monde**  
-Le quotidien souligne l'importance stratégique de ce budget pour renforcer le soutien aux classes moyennes et populaires, tout en notant un défi budgétaire lié à l'inflation et aux dépenses publiques croissantes.
+**Le Figaro**  
+Le journal souligne les tensions croissantes au sein du gouvernement, notamment entre l’aile réformatrice et les socialistes, qui exigent des concessions sur les dépenses sociales. Il s’interroge également sur la capacité de l’exécutif à maintenir une cohésion suffisante pour éviter une crise politique.
+
+**Libération**  
+Libération adopte un ton critique, dénonçant un projet de budget jugé "austère" et insensible aux besoins des classes populaires. Le média insiste sur la fragilité des alliances parlementaires et le risque d’un blocage institutionnel.
 
 **Les Échos**  
-Les Échos mettent en avant les ajustements fiscaux prévus pour les entreprises, saluant des mesures favorables à l’investissement tout en insistant sur les interrogations concernant le financement de ces réformes.
-
-**Mediapart**  
-Mediapart se montre critique, évoquant un budget qui reste insuffisant face à la précarité grandissante et dénonçant un "manque de courage" sur les réformes fiscales structurelles.
+Les Échos se concentrent sur l’impact économique des mesures budgétaires, notamment la volonté de réduire le déficit public à 3 % du PIB, un objectif jugé ambitieux mais nécessaire pour répondre aux attentes européennes.
 
 ### Implications
-- **Politiques** : Renforcement ou affaiblissement de l'exécutif selon l'issue des négociations parlementaires.
-- **Économiques** : Potentiel impact sur le déficit public et sur la confiance des investisseurs.
-- **Sociales** : Mesures susceptibles de réduire les tensions sociales, mais insuffisantes pour certains syndicats.
-- **Environnementales** : Peu de dispositions spécifiquement orientées vers la transition écologique.
+- **Politiques** : Risque accru de fractures au sein de la majorité, affaiblissant l’exécutif face aux prochaines échéances.
+- **Économiques** : Tensions sur les investissements publics et incertitudes sur la croissance.
+- **Sociales** : Réactions potentielles des syndicats face aux coupes budgétaires envisagées.
 
 ### Sources
-- [Le Monde](https://www.lemonde.fr/politique/)
-- [Les Échos](https://www.lesechos.fr/)
-- [Mediapart](https://www.mediapart.fr/)
+- [Budget 2026 : tensions au sein du gouvernement](https://www.lefigaro.fr/politique)
 
 ---
 
-## [SUJET 2/6] – Manifestations en Iran : l’Union européenne sous pression
+## [SUJET 2/6] – Transition énergétique : enjeux et perspectives
 
 ### Résumé
-Les manifestations en Iran se prolongent, provoquées par des restrictions sur les droits des femmes et une répression croissante. L'Union européenne, et la France en particulier, sont appelées à jouer un rôle plus actif dans la défense des droits humains, notamment par des sanctions économiques et diplomatiques renforcées.
+La France s’engage à intensifier ses efforts pour atteindre ses objectifs climatiques à horizon 2030 et 2050. Les défis incluent l’accélération des énergies renouvelables, la rénovation thermique des bâtiments et une réduction significative des émissions de CO2 dans les secteurs des transports et de l’industrie.
 
 ### Points de vue des médias
 
 **Franceinfo**  
-Franceinfo met en avant les appels des ONG à une action forte de l’UE, notamment via des sanctions ciblées contre les dirigeants iraniens.
+Le média met en avant les ambitions françaises et les difficultés structurelles, notamment le retard pris sur l’installation des éoliennes et panneaux solaires. Il insiste sur la nécessité d’un cadre réglementaire renforcé.
 
-**Le Figaro**  
-Le Figaro insiste sur le dilemme stratégique de l'Europe, entre défense des droits humains et impératifs géopolitiques liés à la stabilité régionale.
+**Le Monde**  
+Le Monde souligne les contradictions entre les objectifs affichés et les réalités budgétaires, critiquant un manque de moyens alloués pour atteindre les cibles fixées.
 
-**The Guardian**  
-The Guardian critique l'inaction relative des puissances occidentales, appelant à une réponse plus vigoureuse pour soutenir les manifestants.
+**Mediapart**  
+Mediapart adopte un ton plus militant, dénonçant le poids des lobbys industriels qui freinent la transition, notamment dans le secteur automobile.
 
 ### Implications
-- **Politiques** : Pression accrue sur l'UE pour adopter des sanctions plus dures.
-- **Économiques** : Risques sur les relations commerciales avec l’Iran.
-- **Sociales** : Soutien international aux droits des femmes et à la démocratie.
-- **Environnementales** : Aucun lien direct observable.
+- **Politiques** : Pression accrue sur le gouvernement pour accélérer les réformes écologiques.
+- **Économiques** : Opportunités de croissance dans les secteurs des énergies renouvelables.
+- **Environnementales** : Réduction des émissions en ligne de mire, mais retard préoccupant.
 
 ### Sources
-- [Franceinfo](https://www.franceinfo.fr/)
-- [The Guardian](https://www.theguardian.com/)
+- [Transition énergétique : enjeux et perspectives](https://www.franceinfo.fr/ecologie)
 
 ---
 
-## [SUJET 3/6] – Le procès de Marine Le Pen : conséquences politiques majeures
+## [SUJET 3/6] – Marine Le Pen de retour au tribunal
 
 ### Résumé
-Marine Le Pen fait face à un procès en appel sur des soupçons de détournement de fonds européens. Ce dossier judiciaire intervient à un moment critique pour le Rassemblement National, alors que le parti prépare sa stratégie pour les élections présidentielles de 2027.
+Marine Le Pen a comparu cette semaine devant la justice dans le cadre d’une affaire liée à des soupçons d’emplois fictifs au Parlement européen. Cette procédure relance les débats sur son rôle politique et son positionnement en vue des prochaines échéances électorales.
+
+### Points de vue des médias
+
+**Le Figaro**  
+Le Figaro met en avant le caractère sensible de l’affaire, qui pourrait ternir l’image de Marine Le Pen, particulièrement à un moment où elle tente de rassembler au-delà de sa base électorale.
+
+**Le Monde**  
+Le Monde analyse les implications politiques de cette procédure, soulignant que cela pourrait renforcer l’argumentaire de ses opposants politiques sur la probité des dirigeants.
+
+### Implications
+- **Politiques** : Impact potentiel sur les intentions de vote en vue des présidentielles.
+- **Médiatiques** : Attention accrue sur les questions d’éthique et de transparence.
+
+### Sources
+- [Marine Le Pen de retour au tribunal](https://www.lefigaro.fr/actualite-france)
+
+---
+
+## [SUJET 4/6] – Adoption imminente de l'accord Mercosur
+
+### Résumé
+L’accord commercial entre l’Union européenne et les pays du Mercosur (Brésil, Argentine, Uruguay, Paraguay) est sur le point d’être adopté. Ce traité suscite des débats sur son impact économique et environnemental, notamment en ce qui concerne la déforestation en Amazonie et les normes agricoles.
 
 ### Points de vue des médias
 
 **Le Monde**  
-Le journal souligne que ce procès pourrait affaiblir l’image de rigueur que Marine Le Pen tente de projeter, tout en notant que ses soutiens la considèrent comme une victime du "système judiciaire".
+Le journal met en avant les critiques des ONG et des écologistes, qui pointent du doigt un texte favorable aux intérêts économiques au détriment de la protection de l’environnement.
 
-**Le Figaro**  
-Le Figaro rapporte que l’issue du procès pourrait paradoxalement renforcer la mobilisation des électeurs du RN, qui pourraient y voir une forme de persécution politique.
+**Les Échos**  
+Les Échos adoptent une perspective économique, soulignant les opportunités pour les entreprises européennes, notamment dans l’agroalimentaire et les services.
 
 ### Implications
-- **Politiques** : Potentiel impact sur la candidature de Marine Le Pen pour 2027.
-- **Économiques** : Aucun impact direct.
-- **Sociales** : Polarisation accrue entre électeurs pro et anti-RN.
-- **Environnementales** : Aucun lien direct.
+- **Économiques** : Opportunités pour les exportateurs européens, mais concurrence accrue pour les agriculteurs français.
+- **Environnementales** : Risques pour la biodiversité et la lutte contre la déforestation.
 
 ### Sources
-- [Le Monde](https://www.lemonde.fr/politique/)
-- [Le Figaro](https://www.lefigaro.fr/politique)
+- [Adoption imminente de l'accord Mercosur](https://www.lemonde.fr/)
 
 ---
 
-## [SUJET 4/6] – Transition énergétique : la France à la traîne
+## [SUJET 5/6] – Faillites d'entreprises en hausse en France
 
 ### Résumé
-La France est en retard sur ses engagements climatiques, alors que la loi sur l’énergie est en cours de finalisation. Les experts appellent à des mesures ambitieuses pour accélérer la transition énergétique, notamment dans les secteurs du transport et du bâtiment.
+Les faillites d’entreprises atteignent un niveau record en France, conséquence d’une consommation en berne et d’un environnement fiscal jugé contraignant. Ce phénomène touche particulièrement les PME et certains secteurs comme la restauration et le commerce de détail.
+
+### Points de vue des médias
+
+**Le Point**  
+Le média attribue cette hausse aux prélèvements sociaux et fiscaux, ainsi qu’à l’inflation qui pèse sur le pouvoir d’achat des ménages.
+
+**Les Échos**  
+Les Échos insistent sur la nécessité de réformes structurelles pour améliorer la compétitivité des entreprises françaises.
+
+### Sources
+- [Faillites d'entreprises en hausse en France](https://www.lepoint.fr/)
+
+---
+
+## [SUJET 6/6] – La France maintient la surtaxe sur les grandes entreprises
+
+### Résumé
+Le gouvernement français a décidé de prolonger la surtaxe exceptionnelle sur les grandes entreprises en 2026, une mesure controversée mais qui pourrait générer jusqu’à 8 milliards d’euros de recettes.
 
 ### Points de vue des médias
 
 **Les Échos**  
-Les Échos mettent en avant les investissements prévus, mais s'interrogent sur leur suffisance face à l'ampleur des défis.
+Les Échos soulignent les critiques des organisations patronales, qui dénoncent une mesure dissuasive pour les investissements.
 
-**Mediapart**  
-Mediapart critique un manque de volonté politique, pointant des objectifs trop modestes pour respecter les accords internationaux.
-
-### Implications
-- **Politiques** : Pression accrue sur le gouvernement pour des mesures plus ambitieuses.
-- **Économiques** : Opportunités pour le secteur des énergies renouvelables.
-- **Sociales** : Impact sur les ménages via d’éventuelles hausses des coûts énergétiques.
-- **Environnementales** : Conséquences cruciales pour les objectifs climatiques.
+**Libération**  
+Libération met en avant les attentes sociales, jugeant cette mesure nécessaire pour financer des politiques publiques ambitieuses.
 
 ### Sources
-- [Les Échos](https://www.lesechos.fr/)
-- [Mediapart](https://www.mediapart.fr/)
-
----
-
-## [SUJET 5/6] – Les entreprises françaises au CES 2026
-
-### Résumé
-Au CES de Las Vegas, les entreprises françaises ont dévoilé des innovations technologiques remarquées, notamment dans les domaines de l’intelligence artificielle et de la santé connectée. Cependant, elles restent confrontées à des défis de financement et de compétitivité.
-
-### Points de vue des médias
-
-**BFM TV**  
-BFM TV met en avant les réussites de startups françaises, mais pointe un manque de soutien public pour les aider à s’imposer à l’international.
-
-**Les Échos**  
-Les Échos soulignent l’importance stratégique de ces innovations pour la souveraineté numérique française.
-
-### Implications
-- **Politiques** : Nécessité d’un soutien accru à l’innovation.
-- **Économiques** : Potentiel de croissance pour la tech française.
-- **Sociales** : Création d’emplois dans les secteurs innovants.
-- **Environnementales** : Innovations liées aux technologies durables.
-
-### Sources
-- [BFM TV](https://www.bfmtv.com/)
-- [Les Échos](https://www.lesechos.fr/)
-
----
-
-## [SUJET 6/6] – Économie française : reprise fragile
-
-### Résumé
-L'économie française montre des signes de reprise, malgré des obstacles persistants tels que l'inflation et une faible compétitivité. Les prévisions restent prudentes pour 2026.
-
-### Points de vue des médias
-
-**Les Échos**  
-Le journal met en avant une reprise encouragée par la consommation, mais souligne les inquiétudes liées à l’endettement public.
-
-**Le Figaro**  
-Le Figaro insiste sur la nécessité de réformes structurelles pour améliorer la compétitivité.
-
-### Implications
-- **Politiques** : Pression pour des réformes économiques.
-- **Économiques** : Risque d'une reprise inégale.
-- **Sociales** : Impact sur le pouvoir d’achat des ménages.
-- **Environnementales** : Aucun lien direct.
-
-### Sources
-- [Les Échos](https://www.lesechos.fr/)
-- [Le Figaro](https://www.lefigaro.fr/)
+- [La France maintient la surtaxe sur les grandes entreprises](https://investir.lesechos.fr/marches-indices/economie-politique/france-la-surtaxe-sur-les-grandes-entreprises-serait-maintenue-au-niveau-de-2025-echos-2210286)
 
 ---
 
 ## Autres sujets de la semaine
 
-### Les enjeux de la transition écologique pour les entreprises
-**Thème** : Écologie & Transition  
-**Résumé** : Les entreprises françaises adoptent des initiatives pour répondre aux exigences croissantes en matière de transition écologique.  
-**Source** : [Ouest-France](https://www.ouest-france.fr/economie/entreprises/)
+### Les États-Unis gèlent les visas permanents pour 75 pays
+**Thème** : International  
+**Résumé** : Washington suspend les visas permanents pour 75 pays, une mesure liée à la sécurité nationale.  
+**Source** : [France 24](https://www.france24.com/fr/)
 
-### La natalité en berne : un enjeu pour l'avenir de la France
-**Thème** : Société  
-**Résumé** : La France enregistre une baisse de la natalité, posant des défis démographiques et économiques pour l’avenir.  
-**Source** : [Le Figaro](https://www.lefigaro.fr/politique)
+### Élections municipales à Nantes : enjeux et candidats
+**Thème** : Nantes & Région Ouest  
+**Résumé** : Les élections municipales nantaises attirent l’attention, avec des batailles serrées annoncées entre droite et centre.  
+**Source** : [Ouest-France](https://www.ouest-france.fr/pays-de-la-loire/nantes-44000/)
+
+### Manifestation de soutien aux Iraniens à Nantes
+**Thème** : Nantes & Région Ouest  
+**Résumé** : Plusieurs centaines de Nantais ont manifesté pour soutenir les mouvements contestataires en Iran.  
+**Source** : [France 3](https://france3-regions.franceinfo.fr/pays-de-la-loire/)
 
 ---
 
 ## Synthèse finale
 
 ### Événements majeurs
-1. Annonce du budget 2026 par Sébastien Lecornu.
-2. Pressions internationales sur l’Iran et sur l’UE.
-3. Lente reprise de l’économie française.
+1. Tensions autour du budget 2026 en France.
+2. Transition énergétique : défis français pour 2030 et 2050.
+3. Adoption imminente de l’accord Mercosur.
 
 ### Divergences éditoriales clés
-- Budget 2026 : soutien social vs financement incertain.
-- Transition énergétique : objectifs insuffisants selon certains médias.
-
-### Implications possibles
-- **Politiques** : Négociations parlementaires sensibles.
-- **Économiques** : Défis de compétitivité pour les entreprises françaises.
-- **Sociales** : Pressions sur le pouvoir d’achat et les droits humains.
-- **Environnementales** : Urgence d’accélérer la transition énergétique.
+- Perception contrastée des mesures budgétaires entre austérité et nécessité économique.
+- Critiques écologiques sur le Mercosur contre opportunités économiques.
 
 ### À surveiller la semaine prochaine
 - Débats parlementaires sur le budget 2026.
-- Évolution des manifestations en Iran.
+- Réactions internationales à l'accord Mercosur.
+- Dynamique des élections municipales à Nantes.
 
 ---
 
