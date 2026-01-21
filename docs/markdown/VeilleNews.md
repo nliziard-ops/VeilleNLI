@@ -1,217 +1,196 @@
 ```markdown
 ---
 agent: Veille Actualités (2 agents OpenAI)
-date: 2026-01-20
+date: 2026-01-21
 catégorie: Actualités Générales
 modèles: GPT-4o-mini (collecte) + GPT-4o (synthèse)
 ---
 
-# Veille hebdomadaire – Semaine du 13/01/2026 au 20/01/2026
+# Veille hebdomadaire – Semaine du 14/01/2026 au 21/01/2026
 
-**Édition : Perspectives et Défis**
+**Édition : "Regards sur l'actualité"**
 
 ---
 
 ## Introduction
 
-La semaine a été marquée par d'importants débats politiques et sociaux en France, notamment autour du budget 2026 et de la réforme sur la fin de vie, deux sujets polarisants qui cristallisent les tensions entre majorité et opposition. Sur le plan international, des préoccupations économiques liées aux menaces commerciales de Donald Trump et à l'évolution de la situation en Iran mobilisent l'attention des dirigeants européens. Enfin, la transition écologique s’impose comme un thème transversal, aussi bien dans les priorités électorales que dans les politiques publiques.
+La semaine écoulée a été marquée par des tensions politiques croissantes en France, avec le recours au 49.3 par le Premier ministre Sébastien Lecornu pour imposer le budget 2026, au milieu d'une instabilité gouvernementale notable. À l'international, les préoccupations autour des droits humains en Iran ont conduit à une mobilisation européenne. Sur le plan domestique, la crise des hôpitaux publics met en lumière des failles systémiques persistantes. Les enjeux économiques, sociaux et géopolitiques s'entrelacent, dessinant un climat médiatique tendu et polarisé.
 
 ---
 
-## [SUJET 1/6] – Budget 2026 : le gouvernement opte pour le 49.3
+## [SUJET 1/6] – Budget 2026 : Lecornu engage la responsabilité de son gouvernement
 
 ### Résumé
-Le Premier ministre a annoncé le recours à l'article 49.3 de la Constitution pour faire adopter le budget 2026, en raison de l'absence de majorité à l'Assemblée nationale. Cette décision, bien que légale, a provoqué de vives critiques de l'opposition, qui dénonce un passage en force et accuse le gouvernement de contourner le débat démocratique.
+Le Premier ministre Sébastien Lecornu a activé l'article 49.3 de la Constitution pour adopter le budget 2026 sans vote parlementaire, face à une opposition divisée mais virulente. Ce recours controversé, justifié par l'urgence économique, révèle les difficultés de l'exécutif à obtenir une majorité stable et alimente les critiques sur la gouvernance actuelle.
+
+### Points de vue des médias
+
+**Le Monde**  
+Le quotidien met l'accent sur le caractère stratégique de cette manœuvre, soulignant les risques politiques encourus par Lecornu, notamment la possibilité de motions de censure déposées par l'opposition.
+
+**Ouest-France**  
+Ouest-France insiste sur l'instabilité politique croissante, décrivant un gouvernement sous pression, incapable de rassembler une majorité parlementaire solide.
+
+**Franceinfo**  
+Franceinfo adopte un ton analytique, évoquant les potentielles conséquences sur la crédibilité gouvernementale et la montée des tensions avec les partis d'opposition.
+
+### Implications
+- **Politiques** : Affaiblissement potentiel du gouvernement, multiplication des motions de censure.
+- **Économiques** : Adoption accélérée de mesures budgétaires controversées, impact sur les finances publiques.
+- **Sociales** : Renforcement du mécontentement populaire, risque de mobilisation sociale accrue.
+- **Environnementales** : Absence de débat approfondi sur les lignes budgétaires liées à la transition écologique.
+
+### Sources
+- [Le Monde](https://www.lemonde.fr/politique/)
+- [Ouest-France](https://www.ouest-france.fr/politique/)
+- [Franceinfo](https://www.franceinfo.fr/politique/)
+
+---
+
+## [SUJET 2/6] – Instabilité politique en France : le nouveau gouvernement Lecornu
+
+### Résumé
+La formation du nouveau gouvernement Lecornu intervient dans un contexte d'incertitude, marqué par des divisions internes et des critiques externes. Les nominations récentes n'ont pas suffi à apaiser les tensions, notamment entre l'exécutif et les partis d'opposition.
+
+### Points de vue des médias
+
+**Ouest-France**  
+Le média régional souligne les fractures politiques majeures, particulièrement entre Lecornu et les groupes parlementaires de gauche, qui dénoncent un manque de dialogue.
+
+**Le Monde**  
+Le Monde analyse la composition du gouvernement, notant un équilibre précaire entre technocrates et figures politiques, destiné à rassurer les marchés financiers et une partie de l'opinion publique.
+
+### Implications
+- **Politiques** : Renforcement de l'instabilité, risque de dissolution de l'Assemblée nationale.
+- **Économiques** : Incertitudes sur la mise en œuvre des réformes budgétaires et fiscales.
+- **Sociales** : Aggravation des tensions entre citoyens et institutions.
+
+### Sources
+- [Ouest-France](https://www.ouest-france.fr/politique/)
+- [Le Monde](https://www.lemonde.fr/politique/)
+
+---
+
+## [SUJET 3/6] – Le Premier ministre face à l'impasse budgétaire
+
+### Résumé
+Confronté à une impasse budgétaire, le Premier ministre a dû choisir entre l’utilisation du 49.3 ou des ordonnances pour faire passer le budget. Ce dilemme illustre les limites de la gouvernance actuelle et l'absence d'une majorité parlementaire claire.
+
+### Points de vue des médias
+
+**Franceinfo**  
+Franceinfo met en lumière les conséquences à long terme de ces choix sur la démocratie et la stabilité institutionnelle.
+
+**20 Minutes**  
+20 Minutes pointe du doigt les critiques émanant des partis d'opposition, notamment La France Insoumise, qui accuse le gouvernement de contourner le débat démocratique.
+
+### Implications
+- **Politiques** : Fragilisation de la légitimité démocratique de l’exécutif.
+- **Économiques** : Adoption rapide mais controversée des mesures budgétaires.
+- **Sociales** : Multiplication des mouvements de contestation.
+
+### Sources
+- [Franceinfo](https://www.franceinfo.fr/politique/)
+- [20 Minutes](https://www.20minutes.fr/politique/)
+
+---
+
+## [SUJET 4/6] – Réforme de la santé : crise à l'hôpital public
+
+### Résumé
+Les hôpitaux publics français traversent une crise profonde, aggravée par des années de sous-financement et de difficultés de recrutement. Le gouvernement promet des réformes, mais les professionnels de santé estiment ces mesures insuffisantes.
+
+### Points de vue des médias
+
+**Franceinfo**  
+L’article met en lumière les témoignages des soignants, décrivant une situation critique, avec des services saturés et des personnels en souffrance.
+
+### Implications
+- **Politiques** : Nécessité d’un plan d’urgence pour éviter une aggravation de la crise.
+- **Sociales** : Dégradation de l'accès aux soins, tensions sociales accrues.
+- **Économiques** : Coût élevé des réformes nécessaires.
+
+### Sources
+- [Franceinfo](https://www.franceinfo.fr/sante/hopital/crise/)
+
+---
+
+## [SUJET 5/6] – Situation des droits humains en Iran : réunion européenne
+
+### Résumé
+Face à la répression accrue en Iran, l’Union européenne a organisé une réunion pour discuter des actions à entreprendre. Des sanctions supplémentaires sont envisagées.
 
 ### Points de vue des médias
 
 **Le Figaro**  
-Le quotidien met en avant la justification du gouvernement, qui invoque la nécessité d’éviter un blocage budgétaire dans un contexte économique tendu. Cependant, il souligne les risques politiques pour la majorité, notamment la fragilisation de son image.
-
-**Mediapart**  
-Une critique plus virulente, dénonçant un "déni démocratique". Le média insiste sur les tensions croissantes entre le gouvernement et une partie de la société civile, qui voit dans le 49.3 un outil autoritaire.
-
-**Franceinfo**  
-Adopte un ton plus factuel, rappelant que l’utilisation du 49.3, bien que controversée, est une pratique courante sous la Cinquième République. L’article met l’accent sur les négociations en coulisses avec des partis d’opposition.
+Le journal met l’accent sur la fermeté des pays européens, mais souligne l'absence de consensus sur des mesures concrètes.
 
 ### Implications
-- **Politiques** : Risque de motion de censure par l’opposition, accentuation des tensions entre majorité et opposition.
-- **Économiques** : Adoption rapide du budget, mais au prix d’une instabilité politique qui pourrait inquiéter les marchés.
-- **Sociales** : Renforcement du sentiment d’un éloignement entre les citoyens et leurs représentants.
-- **Environnementales** : Peu d’impact direct, mais des critiques émergent sur le manque de priorités écologiques dans le budget.
+- **Politiques** : Renforcement des tensions diplomatiques.
+- **Économiques** : Impact potentiel sur les relations commerciales avec l’Iran.
 
 ### Sources
-- [Budget 2026 : le gouvernement opte pour le 49.3](https://www.lefigaro.fr/politique)
+- [Le Figaro](https://www.lefigaro.fr/international)
 
 ---
 
-## [SUJET 2/6] – Réforme de la fin de vie : débats au Sénat
+## [SUJET 6/6] – Budget 2026 : tensions entre le gouvernement et LFI
 
 ### Résumé
-Le Sénat entame cette semaine l’examen d’une proposition de loi sur l’aide active à mourir. Ce sujet, hautement sensible, divise les parlementaires entre défenseurs d’une avancée pour les droits individuels et opposants arguant de risques éthiques et sociétaux.
+La France Insoumise (LFI) s’oppose fermement à l’utilisation du 49.3 pour adopter le budget, dénonçant une "dérive autoritaire". Le conflit s’intensifie dans un climat politique déjà tendu.
 
 ### Points de vue des médias
 
-**Le Parisien**  
-Le journal met en lumière les témoignages poignants de familles et de patients, appelant à une réforme pour éviter des situations de souffrance insupportable. Il insiste sur l’urgence d’un cadre légal clair.
-
-**La Croix**  
-Prend une position critique, rappelant les enjeux éthiques et le risque de dérives. L’article met en avant les réticences des professionnels de santé et les inquiétudes des associations religieuses.
-
-**France Culture**  
-Adopte une approche analytique, en explorant les expériences des pays ayant déjà légalisé l’aide à mourir, comme la Belgique et les Pays-Bas, pour en tirer des leçons.
+**20 Minutes**  
+Le média décrit une opposition vocale de LFI, appelant à des manifestations et à une motion de censure.
 
 ### Implications
-- **Politiques** : Possible fracture au sein des partis, notamment chez Les Républicains et Renaissance.
-- **Économiques** : Accélération du débat sur les investissements dans les soins palliatifs.
-- **Sociales** : Questionnement sur les valeurs fondamentales de la société française.
-- **Environnementales** : Sans objet.
+- **Politiques** : Polarisation accrue entre majorité et opposition.
+- **Sociales** : Mobilisation possible des sympathisants de gauche.
 
 ### Sources
-- [Réforme de la fin de vie : débats au Sénat](https://www.leparisien.fr/societe/)
-
----
-
-## [SUJET 3/6] – Accord sur le budget : Sébastien Lecornu en négociations
-
-### Résumé
-Pour éviter une motion de censure, Sébastien Lecornu mène des négociations serrées avec les socialistes et d'autres groupes d'opposition. Ces discussions visent à trouver des compromis sur des amendements clés du budget 2026, notamment en matière de fiscalité et d’investissements publics.
-
-### Points de vue des médias
-
-**Franceinfo**  
-Souligne les efforts du ministre pour instaurer un dialogue constructif, malgré les tensions persistantes. L’article met en avant les points d’accord potentiels, notamment sur le logement social.
-
-**Le Monde**  
-Analyse les enjeux stratégiques pour le gouvernement : rallier une partie de l’opposition sans paraître céder sur des aspects fondamentaux du budget.
-
-**Challenges**  
-Fait état des concessions possibles, notamment sur des mesures fiscales concernant les PME, pour apaiser les tensions avec les socialistes.
-
-### Implications
-- **Politiques** : Renforcement de l’image de Sébastien Lecornu comme négociateur, mais critiques possibles sur les compromis jugés insuffisants.
-- **Économiques** : Impact positif si un accord est trouvé, évitant une instabilité budgétaire.
-- **Sociales** : Réactions mitigées selon les concessions faites.
-- **Environnementales** : Possible impact sur les budgets alloués à la transition écologique.
-
-### Sources
-- [Accord sur le budget : Sébastien Lecornu en négociations](https://www.franceinfo.fr/politique/)
-
----
-
-## [SUJET 4/6] – Les enjeux de la transition écologique en France
-
-### Résumé
-La Cour des comptes a publié un rapport accablant sur les retards de la France dans ses engagements climatiques. Elle appelle à des actions plus ambitieuses et des investissements massifs pour atteindre les objectifs de neutralité carbone d'ici 2050.
-
-### Points de vue des médias
-
-**Le Monde**  
-Met en avant les lacunes actuelles, notamment dans le secteur des transports et de l’énergie, et critique le manque de cohérence des politiques publiques.
-
-**Les Échos**  
-Souligne les défis financiers pour le gouvernement, notamment la mobilisation de fonds privés pour compléter les investissements publics.
-
-**Ouest-France**  
-Insiste sur les attentes croissantes des citoyens, notamment dans les territoires ruraux, en matière de transition écologique.
-
-### Implications
-- **Politiques** : Pression accrue sur le gouvernement pour intensifier ses efforts.
-- **Économiques** : Nécessité de réorienter les investissements.
-- **Sociales** : Mobilisation citoyenne croissante autour de la question climatique.
-- **Environnementales** : Importance cruciale des prochaines décisions pour respecter les engagements climatiques.
-
-### Sources
-- [Les enjeux de la transition écologique en France](https://www.lemonde.fr/politique/)
-
----
-
-## [SUJET 5/6] – Élections municipales 2026 : la transition écologique au cœur des préoccupations
-
-### Résumé
-Un sondage révèle que 68 % des Français considèrent la transition écologique comme une priorité pour les élections municipales de 2026, avec des attentes élevées envers les maires pour des actions concrètes.
-
-### Points de vue des médias
-
-**Challenges**  
-Analyse les attentes des électeurs et souligne l’importance du rôle des municipalités dans la lutte contre le changement climatique.
-
-**Ouest-France**  
-Met l’accent sur les initiatives locales déjà en place, notamment dans les Pays de la Loire, en matière de rénovation énergétique et de mobilité douce.
-
-### Implications
-- **Politiques** : Les candidats devront intégrer des propositions écologiques fortes dans leurs programmes.
-- **Économiques** : Opportunités pour les entreprises locales spécialisées dans les énergies renouvelables.
-- **Sociales** : Renforcement de l’engagement citoyen à l’échelle locale.
-- **Environnementales** : Dynamique positive si les promesses électorales se traduisent en actions.
-
-### Sources
-- [Élections municipales 2026 : la transition écologique au cœur des préoccupations](https://www.challenges.fr/entreprise/green-economie/)
-
----
-
-## [SUJET 6/6] – La crise de l'hôpital public : un état des lieux
-
-### Résumé
-Les hôpitaux publics français continuent de faire face à une crise structurelle, marquée par des budgets insuffisants, un endettement croissant et une pénurie de personnel.
-
-### Points de vue des médias
-
-**Franceinfo**  
-Dresse un tableau alarmant des conditions de travail, aggravées par la pandémie et le vieillissement de la population.
-
-**Le Monde**  
-Met en lumière les revendications des syndicats, qui réclament une revalorisation des salaires et des recrutements massifs.
-
-### Implications
-- **Politiques** : Risque de mouvements sociaux dans le secteur de la santé.
-- **Économiques** : Augmentation des dépenses publiques nécessaires.
-- **Sociales** : Répercussions directes sur la qualité des soins.
-- **Environnementales** : Développement de pratiques hospitalières durables en question.
-
-### Sources
-- [La crise de l'hôpital public : un état des lieux](https://www.franceinfo.fr/sante/hopital/crise/)
+- [20 Minutes](https://www.20minutes.fr/politique/)
 
 ---
 
 ## Autres sujets de la semaine
 
-### Les menaces de Trump sur les droits de douane européens
-**Thème** : International & Europe  
-**Résumé** : Donald Trump a menacé de nouveaux droits de douane sur les produits européens, ravivant les tensions commerciales transatlantiques.  
-**Source** : [Le Figaro](https://www.lefigaro.fr/international)
-
-### Situation en Iran : déclaration conjointe des dirigeants européens
-**Thème** : International & Europe  
-**Résumé** : Les dirigeants européens ont publié une déclaration commune appelant à une désescalade en Iran.  
-**Source** : [Élysée](https://www.elysee.fr/toutes-les-actualites)
-
-### L'impact de la transition énergétique sur l'économie
-**Thème** : Économie & Entreprises  
-**Résumé** : Les entreprises françaises doivent s'adapter aux nouvelles exigences climatiques, nécessitant d'importants investissements.  
+### Budget 2026 : hausse de la prime d'activité annoncée
+**Thème** : Économie  
+**Résumé** : Le gouvernement a annoncé une augmentation de la prime d'activité pour encourager l'adoption du budget 2026.  
 **Source** : [Les Échos](https://www.lesechos.fr/economie-france)
+
+### Refus de la France de participer au Conseil de la paix de Trump
+**Thème** : International  
+**Résumé** : La France refuse de participer au Conseil de la paix proposé par Trump, provoquant des tensions commerciales.  
+**Source** : [Franceinfo](https://www.franceinfo.fr/politique/)
+
+### Défaillances d'entreprises en hausse en 2025
+**Thème** : Économie  
+**Résumé** : Les défaillances d'entreprises ont augmenté de 3,1 %, soulevant des inquiétudes sur la santé économique française.  
+**Source** : [BFM](https://www.bfmtv.com/economie/)
 
 ---
 
 ## Synthèse finale
 
 ### Événements majeurs
-1. Adoption du budget 2026 via le 49.3, suscitant des tensions politiques.
-2. Débats intenses au Sénat sur la réforme de la fin de vie.
-3. Transition écologique au cœur des priorités municipales et nationales.
+1. Recours au 49.3 pour le budget 2026.
+2. Crise persistante à l’hôpital public.
+3. Mobilisation européenne face à la répression en Iran.
 
 ### Divergences éditoriales clés
-- Opposition sur l’utilisation du 49.3, entre nécessité et déni démocratique.
-- Réforme de la fin de vie : débat éthique contre progrès social.
+- Approches variées sur l’efficacité du 49.3.
+- Analyse divergente sur la réponse européenne à l’Iran.
 
 ### Implications possibles
-- **Politiques** : Montée des tensions à l’approche des municipales.
-- **Économiques** : Renforcement des priorités budgétaires sur l’écologie.
-- **Sociales** : Mobilisation accrue autour des enjeux climatiques et sociétaux.
+- **Politiques** : Instabilité institutionnelle accrue.
+- **Économiques** : Réformes controversées.
+- **Sociales** : Potentiel de contestation généralisée.
 
 ### À surveiller la semaine prochaine
-- Évolution des motions de censure contre le gouvernement.
-- Réactions des professionnels de santé face à la crise hospitalière.
+- Réactions aux motions de censure.
+- Suite des discussions sur la santé publique.
 
 ---
 
