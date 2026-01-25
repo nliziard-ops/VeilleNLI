@@ -80,7 +80,7 @@ jobs:
           retention-days: 1
   
   # ==================================================================================
-  # JOB 3 : FORMATTER ET UPLOAD
+  # JOB 3 : FORMATTER ET UPLOAD GOOGLE DRIVE
   # ==================================================================================
   formatter-and-upload:
     name: 📝 Mise en forme et Upload
@@ -121,7 +121,207 @@ jobs:
         run: |
           python agents/agent_formatter.py
       
-      - name: ✅ Job completed
+      - name: ✅ Upload completed
         run: |
-          echo "✅ Deep Research terminé avec succès"
-          echo "📄 VeilleIA.md et VeilleNews.md uploadés sur Google Drive"
+          echo "✅ VeilleIA.md et VeilleNews.md uploadés sur Google Drive"
+
+  # ==================================================================================
+  # JOB 4 : SYNC MARKDOWN → GITHUB
+  # ==================================================================================
+  sync-markdown-to-github:
+    name: 📂 Sync Markdown → GitHub
+    runs-on: ubuntu-latest
+    needs: formatter-and-upload
+    timeout-minutes: 5
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 🐍 Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install google-api-python-client google-auth
+      
+      - name: ⬇️ Download Markdown from Google Drive
+        env:
+          GOOGLE_DRIVE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+        run: |
+          python - <<'EOF'
+          import os
+          import json
+          from google.oauth2 import service_account
+          from googleapiclient.discovery import build
+          from googleapiclient.http import MediaIoBaseDownload
+          import io
+
+          credentials = service_account.Credentials.from_service_account_info(
+              json.loads(os.environ['GOOGLE_DRIVE_CREDENTIALS']),
+              scopes=['https://www.googleapis.com/auth/drive.readonly']
+          )
+          service = build('drive', 'v3', credentials=credentials)
+          folder_id = os.environ['GOOGLE_DRIVE_FOLDER_ID']
+
+          for filename in ['VeilleIA.md', 'VeilleNews.md']:
+              query = f"name='{filename}' and '{folder_id}' in parents"
+              results = service.files().list(q=query, fields="files(id, name)").execute()
+              files = results.get('files', [])
+              
+              if files:
+                  file_id = files[0]['id']
+                  request = service.files().get_media(fileId=file_id)
+                  fh = io.BytesIO()
+                  downloader = MediaIoBaseDownload(fh, request)
+                  done = False
+                  while not done:
+                      _, done = downloader.next_chunk()
+                  
+                  os.makedirs('docs/markdown', exist_ok=True)
+                  with open(f'docs/markdown/{filename}', 'wb') as f:
+                      f.write(fh.getvalue())
+                  print(f"✅ {filename} téléchargé")
+              else:
+                  print(f"⚠️  {filename} introuvable")
+          EOF
+      
+      - name: 💾 Commit Markdown files
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          git add docs/markdown/*.md
+          
+          if git diff --staged --quiet; then
+            echo "✅ Aucun changement à commiter"
+          else
+            git commit -m "📋 Sync Markdown depuis Google Drive [Deep Research]"
+            
+            # Retry logic avec gestion des conflits
+            for i in {1..3}; do
+              git pull --rebase -X ours origin main && git push && break || {
+                echo "⚠️  Tentative $i échouée, retry..."
+                sleep 2
+              }
+            done
+          fi
+
+  # ==================================================================================
+  # JOB 5 : GÉNÉRATION DATA.JSON
+  # ==================================================================================
+  generate-data-json:
+    name: 📊 Génération data.json
+    runs-on: ubuntu-latest
+    needs: sync-markdown-to-github
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      
+      - name: 🐍 Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
+      
+      - name: 🔨 Generate data.json
+        env:
+          GOOGLE_DRIVE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+        run: |
+          echo "🚀 Génération de data.json..."
+          python agents/agent_generateur_json.py
+          echo "✅ data.json généré"
+          ls -lh docs/data.json
+      
+      - name: 💾 Commit data.json
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          if git diff --quiet docs/data.json; then
+            echo "ℹ️ Aucune modification dans data.json"
+            exit 0
+          fi
+          
+          git add docs/data.json
+          git commit -m "📊 Mise à jour data.json [Deep Research] - $(date '+%Y-%m-%d %H:%M')"
+          
+          # Push avec retry et gestion conflits
+          max_retries=3
+          retry_count=0
+          
+          while [ $retry_count -lt $max_retries ]; do
+            echo "🔄 Tentative de push ($((retry_count + 1))/$max_retries)..."
+            
+            git rebase --abort 2>/dev/null || true
+            git merge --abort 2>/dev/null || true
+            
+            if git pull --rebase -X ours origin main; then
+              if git push origin main; then
+                echo "✅ data.json pushé avec succès"
+                exit 0
+              fi
+            fi
+            
+            retry_count=$((retry_count + 1))
+            if [ $retry_count -lt $max_retries ]; then
+              sleep 5
+            fi
+          done
+          
+          echo "❌ Échec du push après $max_retries tentatives"
+          exit 1
+
+  # ==================================================================================
+  # JOB 6 : RÉSUMÉ FINAL
+  # ==================================================================================
+  summary:
+    name: ✅ Résumé final
+    runs-on: ubuntu-latest
+    needs: generate-data-json
+    if: always()
+    
+    steps:
+      - name: 📊 Workflow Summary
+        run: |
+          echo "=========================================="
+          echo "✅ DEEP RESEARCH QUOTIDIEN TERMINÉ"
+          echo "=========================================="
+          echo ""
+          echo "📊 Pipeline exécuté :"
+          echo "  1 → Deep Research IA (o1)"
+          echo "  2 → Deep Research News (o1)"
+          echo "  3 → Formatter + Upload (GPT-4o-mini)"
+          echo "  4 → Sync Markdown → GitHub"
+          echo "  5 → Génération data.json"
+          echo "  6 → Résumé final"
+          echo ""
+          echo "📄 Fichiers générés :"
+          echo "  ☁️  VeilleIA.md (Google Drive)"
+          echo "  ☁️  VeilleNews.md (Google Drive)"
+          echo "  📁 docs/markdown/*.md (GitHub)"
+          echo "  📊 docs/data.json (GitHub)"
+          echo ""
+          echo "🌐 Site mis à jour :"
+          echo "  https://nliziard-ops.github.io/VeilleNLI/"
+          echo ""
+          echo "⏰ Prochaine exécution : demain 6h00 Paris"
+          echo "=========================================="
