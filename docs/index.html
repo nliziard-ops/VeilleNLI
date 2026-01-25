@@ -717,8 +717,8 @@
                     data.synthesis[synthesisSubsection] += line + '\n';
                 }
                 
-                // Détecter section "Autres sujets" - CORRECTION: sauvegarder l'article en cours
-                if (line.includes('## Autres sujets')) {
+                // Détecter section "Autres actualités de la semaine" OU "Autres sujets" - CORRECTION: sauvegarder l'article en cours
+                if (line.includes('## Autres actualités de la semaine') || line.includes('## Autres sujets')) {
                     // Sauvegarder l'article en cours avant d'entrer dans "Autres sujets"
                     if (currentArticle && !inOtherTopics) {
                         data.mainArticles.push(currentArticle);
@@ -743,6 +743,7 @@
                     !inSynthesis &&
                     !line.includes('Introduction') && 
                     !line.includes('Synthèse') &&
+                    !line.includes('Autres actualités de la semaine') &&
                     !line.includes('Autres sujets')) {
                     
                     // Sauvegarder l'article précédent
@@ -815,9 +816,9 @@
                     }
                 }
                 
-                // Autres articles (format: ### Titre)
+                // Autres articles (format: ### [Titre] ou ### Titre)
                 if (inOtherTopics && line.startsWith('###')) {
-                    const title = line.replace('###', '').trim();
+                    const title = line.replace('###', '').replace(/[\[\]]/g, '').trim();
                     const otherArticle = {
                         title: title,
                         theme: '',
@@ -829,8 +830,9 @@
                     i++;
                     while (i < lines.length && !lines[i].startsWith('###') && !lines[i].startsWith('##')) {
                         const contentLine = lines[i].trim();
-                        if (contentLine.startsWith('**Thème**')) {
-                            otherArticle.theme = contentLine.replace('**Thème**', '').replace(':', '').trim();
+                        // Support **Thème** ET **Catégorie**
+                        if (contentLine.startsWith('**Thème**') || contentLine.startsWith('**Catégorie**')) {
+                            otherArticle.theme = contentLine.replace('**Thème**', '').replace('**Catégorie**', '').replace(':', '').trim();
                         } else if (contentLine.startsWith('**Résumé**')) {
                             otherArticle.summary = contentLine.replace('**Résumé**', '').replace(':', '').trim();
                         } else if (contentLine.startsWith('**Source**')) {
