@@ -1,12 +1,12 @@
-name: 🤖 Veille Quotidienne (IA + News)
+name: 🤖 Veille Quotidienne (IA + News) - DÉSACTIVÉ
+
+# Ce workflow a été remplacé par deep-research-daily.yml
+# Utilise maintenant OpenAI Deep Research (o1) au lieu de Tavily
+# Désactivé le : 2026-01-25
 
 on:
-  # Exécution quotidienne à 6h Paris (5h UTC en hiver, 4h UTC en été)
-  schedule:
-    - cron: '0 5 * * *'  # 6h Paris (hiver)
-  
-  # Déclenchement manuel
-  workflow_dispatch:
+  # Désactivé - Ne se déclenche plus automatiquement
+  workflow_dispatch:  # Garde possibilité de déclenchement manuel si besoin
 
 env:
   TZ: Europe/Paris
