@@ -1,0 +1,127 @@
+name: Deep Research Quotidien
+
+on:
+  schedule:
+    # Tous les jours à 6h00 Paris (5h00 UTC en hiver, 4h00 UTC en été)
+    - cron: '0 5 * * *'
+  workflow_dispatch:  # Permet déclenchement manuel
+
+jobs:
+  # ==================================================================================
+  # JOB 1 : DEEP RESEARCH IA
+  # ==================================================================================
+  deep-research-ia:
+    name: 🔬 Deep Research IA
+    runs-on: ubuntu-latest
+    timeout-minutes: 15  # Timeout pour recherche longue
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: 🐍 Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install openai
+      
+      - name: 🔍 Execute Deep Research IA
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python agents/deep_research_ia.py
+      
+      - name: 📤 Upload research_ia.md artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: research-ia
+          path: research_ia.md
+          retention-days: 1
+  
+  # ==================================================================================
+  # JOB 2 : DEEP RESEARCH NEWS
+  # ==================================================================================
+  deep-research-news:
+    name: 📰 Deep Research News
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: 🐍 Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install openai
+      
+      - name: 🔍 Execute Deep Research News
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python agents/deep_research_news.py
+      
+      - name: 📤 Upload research_news.md artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: research-news
+          path: research_news.md
+          retention-days: 1
+  
+  # ==================================================================================
+  # JOB 3 : FORMATTER ET UPLOAD
+  # ==================================================================================
+  formatter-and-upload:
+    name: 📝 Mise en forme et Upload
+    runs-on: ubuntu-latest
+    needs: [deep-research-ia, deep-research-news]  # Attend les 2 recherches
+    timeout-minutes: 10
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: 🐍 Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install openai google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
+      
+      - name: 📥 Download research_ia.md
+        uses: actions/download-artifact@v4
+        with:
+          name: research-ia
+      
+      - name: 📥 Download research_news.md
+        uses: actions/download-artifact@v4
+        with:
+          name: research-news
+      
+      - name: 📝 Execute Formatter
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GOOGLE_DRIVE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+        run: |
+          python agents/agent_formatter.py
+      
+      - name: ✅ Job completed
+        run: |
+          echo "✅ Deep Research terminé avec succès"
+          echo "📄 VeilleIA.md et VeilleNews.md uploadés sur Google Drive"
