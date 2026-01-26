@@ -29,7 +29,7 @@ OUTPUT_MARKDOWN = "research_news.md"
 REQUEST_TIMEOUT = 600  # 10 minutes
 
 # Limite tokens de sortie
-MAX_TOKENS = 2000
+MAX_OUTPUT_TOKENS = 2000
 
 
 # ================================================================================
@@ -111,7 +111,6 @@ PÉRIODE ANALYSÉE : du {date_debut.strftime('%d/%m/%Y')} au {date_fin.strftime(
 
 FORMAT DE SORTIE MARKDOWN :
 
-```markdown
 # Recherche Deep - Actualités
 Date : {date_fin.strftime('%Y-%m-%d')}
 Période : {date_debut.strftime('%d/%m/%Y')} - {date_fin.strftime('%d/%m/%Y')}
@@ -156,7 +155,6 @@ Période : {date_debut.strftime('%d/%m/%Y')} - {date_fin.strftime('%d/%m/%Y')}
   - Kitesurf : [X]
   - Wingfoil : [X]
 - Sources utilisées : [Liste des principaux médias]
-```
 
 CONSIGNES CRITIQUES :
 - UTILISE LA RECHERCHE WEB pour CHAQUE zone géographique et thème
@@ -203,22 +201,26 @@ def executer_deep_research() -> str:
     print("🌐 Web search activé pour URLs réelles")
     
     try:
-        response = client.chat.completions.create(
+        # API GPT-5.2 : client.responses.create()
+        response = client.responses.create(
             model=MODEL_DEEP_RESEARCH,
-            messages=[
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ],
+            input=prompt,  # Format GPT-5.2 : input au lieu de messages
+            max_output_tokens=MAX_OUTPUT_TOKENS,
             tools={
                 "web_search": {}  # Active l'outil de recherche web GPT-5.2
             },
-            max_tokens=MAX_TOKENS,  # CORRIGÉ: max_tokens au lieu de max_output_tokens
-            timeout=REQUEST_TIMEOUT
+            tool_choice="auto",
+            temperature=0.3,
+            top_p=0.95,
+            presence_penalty=0.2,
+            frequency_penalty=0.0,
+            response_format={
+                "type": "text"
+            }
         )
         
-        markdown_content = response.choices[0].message.content.strip()
+        # Récupération du contenu GPT-5.2 : response.output_text
+        markdown_content = response.output_text.strip()
         
         # Nettoyer les backticks markdown si présents
         if markdown_content.startswith('```markdown'):
@@ -227,7 +229,7 @@ def executer_deep_research() -> str:
             markdown_content = markdown_content.replace('```markdown', '').replace('```', '').strip()
         
         print(f"✅ Recherche terminée")
-        print(f"📊 Tokens utilisés : {response.usage.total_tokens}")
+        print(f"📊 Tokens générés : {response.usage.output_tokens}")
         print(f"📝 Markdown généré : {len(markdown_content)} caractères")
         
         return markdown_content
