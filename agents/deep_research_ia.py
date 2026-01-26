@@ -1,8 +1,8 @@
 """
 Agent Deep Research IA
-Modèle : GPT-4o avec web_search activé
+Modèle : GPT-5.2 avec web_search activé
 Rôle : Recherche approfondie sur actualités IA/LLM → Markdown structuré
-Budget estimé : ~0.05-0.10€ par recherche
+Budget estimé : Variable selon usage
 """
 
 import os
@@ -19,14 +19,17 @@ from openai import OpenAI
 
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 
-# Modèle avec web search
-MODEL_DEEP_RESEARCH = "gpt-4o"  # GPT-4o avec capacité web_search
+# Modèle GPT-5.2 avec web search
+MODEL_DEEP_RESEARCH = "gpt-5.2"
 
 # Fichier de sortie
 OUTPUT_MARKDOWN = "research_ia.md"
 
 # Timeout (recherches longues)
 REQUEST_TIMEOUT = 600  # 10 minutes
+
+# Limite output tokens
+MAX_OUTPUT_TOKENS = 2000
 
 
 # ================================================================================
@@ -162,12 +165,12 @@ Effectue ta recherche web approfondie maintenant et génère le Markdown complet
 
 
 # ================================================================================
-# DEEP RESEARCH AVEC GPT-4o + WEB SEARCH
+# DEEP RESEARCH AVEC GPT-5.2 + WEB SEARCH
 # ================================================================================
 
 def executer_deep_research() -> str:
     """
-    Lance une recherche approfondie via GPT-4o avec web_search
+    Lance une recherche approfondie via GPT-5.2 avec web_search
     
     Returns:
         Markdown structuré avec articles trouvés et URLs réelles
@@ -181,7 +184,7 @@ def executer_deep_research() -> str:
     
     prompt = generer_prompt_deep_research()
     
-    print(f"🔍 Lancement Deep Research avec web_search (timeout {REQUEST_TIMEOUT}s)...")
+    print(f"🔍 Lancement Deep Research GPT-5.2 avec web_search (timeout {REQUEST_TIMEOUT}s)...")
     print("⏳ Cette recherche peut prendre 2-4 minutes...")
     print("🌐 Web search activé pour URLs réelles")
     
@@ -194,11 +197,10 @@ def executer_deep_research() -> str:
                     "content": prompt
                 }
             ],
-            tools=[
-                {
-                    "type": "web_search"
-                }
-            ],
+            tools={
+                "web_search": {}  # Active l'outil de recherche web GPT-5.2
+            },
+            max_output_tokens=MAX_OUTPUT_TOKENS,
             timeout=REQUEST_TIMEOUT
         )
         
@@ -212,14 +214,6 @@ def executer_deep_research() -> str:
         
         print(f"✅ Recherche terminée")
         print(f"📊 Tokens utilisés : {response.usage.total_tokens}")
-        
-        # Estimation coût GPT-4o
-        # gpt-4o : ~$2.50/1M input tokens, ~$10/1M output tokens
-        cost_input = (response.usage.prompt_tokens / 1_000_000) * 2.50
-        cost_output = (response.usage.completion_tokens / 1_000_000) * 10
-        cost_total = cost_input + cost_output
-        
-        print(f"💰 Coût estimé : ${cost_total:.4f} (GPT-4o + web_search)")
         print(f"📝 Markdown généré : {len(markdown_content)} caractères")
         
         return markdown_content
@@ -261,7 +255,7 @@ def main():
     
     try:
         print("=" * 80)
-        print("🔬 DEEP RESEARCH IA - GPT-4o avec Web Search")
+        print("🔬 DEEP RESEARCH IA - GPT-5.2 avec Web Search")
         print("=" * 80)
         print(f"⏰ Exécution : {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
         print(f"📂 Répertoire : {os.getcwd()}")
@@ -286,7 +280,7 @@ def main():
         print("=" * 80)
         print(f"📄 Fichier : {OUTPUT_MARKDOWN}")
         print(f"🔗 Prêt pour agent de mise en forme")
-        print(f"✅ URLs réelles vérifiables (web_search activé)")
+        print(f"✅ URLs réelles vérifiables (GPT-5.2 web_search)")
         print()
         
         sys.exit(0)
