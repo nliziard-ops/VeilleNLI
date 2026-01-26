@@ -443,4 +443,743 @@
         
         .other-topic-source {
             font-size: 0.75rem;
-            color
+            color: var(--color-text-muted);
+        }
+        
+        .other-topic-source a {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+        
+        .other-topic-source a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Sections spéciales (Synthèse) */
+        .synthesis-section {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-2xl);
+        }
+        
+        .synthesis-section h3 {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: var(--spacing-md);
+            letter-spacing: -0.02em;
+        }
+        
+        .synthesis-section h4 {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .synthesis-section p,
+        .synthesis-section li {
+            font-size: 0.9375rem;
+            color: var(--color-text-muted);
+            line-height: 1.7;
+        }
+        
+        .synthesis-section ul {
+            list-style: none;
+            margin-left: 0;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .synthesis-section li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .synthesis-section li::before {
+            content: "•";
+            color: var(--color-accent);
+            font-weight: bold;
+            position: absolute;
+            left: 0.5rem;
+        }
+        
+        /* Loading & Error States */
+        .loading, .error {
+            text-align: center;
+            padding: var(--spacing-2xl);
+            font-family: var(--font-sans);
+            color: var(--color-text-muted);
+        }
+        
+        .error {
+            color: #dc2626;
+        }
+        
+        /* Introduction */
+        .introduction {
+            font-family: var(--font-serif);
+            font-size: 1.0625rem;
+            line-height: 1.8;
+            color: var(--color-text);
+            margin-bottom: var(--spacing-2xl);
+            padding: var(--spacing-lg);
+            background: var(--color-surface);
+            border-left: 3px solid var(--color-accent);
+            border-radius: var(--radius-md);
+        }
+        
+        /* Footer */
+        footer {
+            max-width: 1200px;
+            margin: var(--spacing-2xl) auto 0;
+            padding: var(--spacing-xl) var(--spacing-lg);
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+            border-top: 1px solid var(--color-border);
+        }
+        
+        /* Links */
+        a {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: var(--spacing-md);
+                align-items: flex-start;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .modal-content {
+                max-height: 90vh;
+            }
+            
+            .modal-header,
+            .modal-body {
+                padding: var(--spacing-lg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        
+        // Configuration
+        const GITHUB_PROXY_URL = 'https://raw.githubusercontent.com/nliziard-ops/VeilleNLI/main/docs/markdown/';
+        
+        // Fonction pour convertir les URLs en liens HTML cliquables
+        function linkifyText(text) {
+            if (!text) return text;
+            
+            // Regex pour détecter les URLs (http, https, www)
+            const urlRegex = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/g;
+            
+            return text.replace(urlRegex, (url) => {
+                // Ajouter http:// si l'URL commence par www.
+                const href = url.startsWith('www.') ? `http://${url}` : url;
+                return `<a href="${href}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+            });
+        }
+        
+        // Fonction pour vérifier si une ligne contient un lien actif
+        function hasActiveLink(text) {
+            if (!text) return false;
+            // Cherche si le texte contient une URL (http, https, www)
+            const urlRegex = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/;
+            return urlRegex.test(text);
+        }
+        
+        // Parser Markdown amélioré pour extraire les sections
+        function parseMarkdown(markdown) {
+            if (!markdown) return null;
+            
+            const lines = markdown.split('\n');
+            const data = {
+                metadata: {},
+                title: '',
+                edition: '',
+                introduction: '',
+                mainArticles: [],
+                otherArticles: [],
+                synthesis: {
+                    keyPoints: '',
+                    signals: '',
+                    toWatch: '',
+                    majorEvents: '',
+                    divergences: '',
+                    implications: ''
+                }
+            };
+            
+            let currentSection = null;
+            let currentArticle = null;
+            let inOtherTopics = false;
+            let currentSubsection = null;
+            let inSynthesis = false;
+            let synthesisSubsection = null;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                
+                // Metadata YAML
+                if (line.startsWith('agent:')) data.metadata.agent = line.replace('agent:', '').trim();
+                if (line.startsWith('date:')) data.metadata.date = line.replace('date:', '').trim();
+                if (line.startsWith('catégorie:')) data.metadata.category = line.replace('catégorie:', '').trim();
+                
+                // Title
+                if (line.startsWith('# ') && !data.title) {
+                    data.title = line.replace('# ', '').replace(/\*\*/g, '').trim();
+                }
+                
+                // Edition
+                if (line.startsWith('**Édition') || line.startsWith('**Edition')) {
+                    data.edition = line.replace(/\*\*/g, '').trim();
+                }
+                
+                // Introduction
+                if (line.startsWith('## Introduction')) {
+                    currentSection = 'introduction';
+                    inSynthesis = false;
+                    continue;
+                }
+                
+                if (currentSection === 'introduction' && line && !line.startsWith('##') && !line.startsWith('---')) {
+                    data.introduction += line + ' ';
+                }
+                
+                // Détecter section Synthèse (sauvegarder l'article en cours)
+                if (line.includes('## Synthèse')) {
+                    // Sauvegarder l'article en cours avant d'entrer dans la synthèse
+                    if (currentArticle && !inOtherTopics) {
+                        data.mainArticles.push(currentArticle);
+                        currentArticle = null;
+                    }
+                    inSynthesis = true;
+                    currentSection = 'synthesis';
+                    synthesisSubsection = null;
+                    continue;
+                }
+                
+                // Sous-sections de la synthèse
+                if (inSynthesis && line.startsWith('###')) {
+                    const subsection = line.replace('###', '').replace(/\*\*/g, '').trim().toLowerCase();
+                    
+                    if (subsection.includes('points clés') || subsection.includes('points cles')) {
+                        synthesisSubsection = 'keyPoints';
+                    } else if (subsection.includes('signaux faibles') || subsection.includes('opportunités') || subsection.includes('opportunites')) {
+                        synthesisSubsection = 'signals';
+                    } else if (subsection.includes('à surveiller') || subsection.includes('a surveiller')) {
+                        synthesisSubsection = 'toWatch';
+                    } else if (subsection.includes('événements majeurs') || subsection.includes('evenements majeurs')) {
+                        synthesisSubsection = 'majorEvents';
+                    } else if (subsection.includes('divergences')) {
+                        synthesisSubsection = 'divergences';
+                    } else if (subsection.includes('implications')) {
+                        synthesisSubsection = 'implications';
+                    }
+                    continue;
+                }
+                
+                // Contenu de la synthèse
+                if (inSynthesis && synthesisSubsection && line && !line.startsWith('###') && !line.startsWith('##')) {
+                    data.synthesis[synthesisSubsection] += line + '\n';
+                }
+                
+                // Détecter section "Autres sujets" ou "Autres actualités" - FIX 1
+                if (line.includes('## Autres sujets') || line.includes('## Autres actualités')) {
+                    // Sauvegarder l'article en cours avant d'entrer dans "Autres sujets"
+                    if (currentArticle && !inOtherTopics) {
+                        data.mainArticles.push(currentArticle);
+                        currentArticle = null;
+                    }
+                    inOtherTopics = true;
+                    inSynthesis = false;
+                    currentSection = 'otherTopics';
+                    continue;
+                }
+                
+                // Fin de l'édition = fin des autres sujets
+                if (line.includes('**Fin de l\'édition**') || line.includes('Fin de l\'édition')) {
+                    inOtherTopics = false;
+                    inSynthesis = false;
+                    currentSection = null;
+                }
+                
+                // Articles principaux (format: ## [THEME] – Titre ou ## THEME – Titre)
+                if (line.match(/^##\s+\[?[A-ZÉÈÀÂÊÎÔÛÙÇ]/i) && 
+                    !inOtherTopics && 
+                    !inSynthesis &&
+                    !line.includes('Introduction') && 
+                    !line.includes('Synthèse') &&
+                    !line.includes('Autres sujets') &&
+                    !line.includes('Autres actualités')) {
+                    
+                    // Sauvegarder l'article précédent
+                    if (currentArticle && !inOtherTopics) {
+                        data.mainArticles.push(currentArticle);
+                    }
+                    
+                    // Extraire thème et titre
+                    const titleMatch = line.match(/##\s+\[?([^\]–-]+)\]?\s*[–-]\s*(.+)/);
+                    currentArticle = {
+                        theme: titleMatch ? titleMatch[1].trim() : '',
+                        title: titleMatch ? titleMatch[2].trim() : line.replace(/^##\s+/, '').trim(),
+                        summary: '',
+                        pointsDeVue: [],
+                        analysis: '',
+                        signals: '',
+                        sources: []
+                    };
+                    currentSection = 'mainArticle';
+                    currentSubsection = null;
+                    inSynthesis = false;
+                    continue;
+                }
+                
+                // Sous-sections des articles principaux
+                if (currentSection === 'mainArticle' && line.startsWith('###')) {
+                    const subsection = line.replace('###', '').replace(/\*\*/g, '').trim().toLowerCase();
+                    
+                    if (subsection.includes('résumé')) {
+                        currentSubsection = 'summary';
+                    } else if (subsection.includes('points de vue') || subsection.includes('points de vue des médias')) {
+                        currentSubsection = 'pointsDeVue';
+                    } else if (subsection.includes('analyse') || subsection.includes('implications')) {
+                        currentSubsection = 'analysis';
+                    } else if (subsection.includes('signaux faibles') || subsection.includes('fiabilité')) {
+                        currentSubsection = 'signals';
+                    } else if (subsection.includes('sources')) {
+                        currentSubsection = 'sources';
+                    }
+                    continue;
+                }
+                
+                // Contenu des sous-sections
+                if (currentArticle && currentSubsection) {
+                    if (currentSubsection === 'summary' && line && !line.startsWith('###')) {
+                        currentArticle.summary += line + ' ';
+                    } else if (currentSubsection === 'pointsDeVue') {
+                        // Détecter un média (format **Media Name**)
+                        if (line.startsWith('**') && line.endsWith('**')) {
+                            const media = line.replace(/\*\*/g, '').trim();
+                            let content = '';
+                            i++;
+                            while (i < lines.length && !lines[i].startsWith('**') && !lines[i].startsWith('###') && !lines[i].startsWith('##')) {
+                                if (lines[i].trim()) content += lines[i].trim() + ' ';
+                                i++;
+                            }
+                            i--;
+                            currentArticle.pointsDeVue.push({ media, content: content.trim() });
+                        }
+                    } else if (currentSubsection === 'analysis' && line && !line.startsWith('###')) {
+                        currentArticle.analysis += line + ' ';
+                    } else if (currentSubsection === 'signals' && line && !line.startsWith('###')) {
+                        currentArticle.signals += line + ' ';
+                    } else if (currentSubsection === 'sources' && line.startsWith('-')) {
+                        const sourceText = line.replace(/^-\s*/, '').trim();
+                        // Ne garder que les sources qui contiennent un lien
+                        if (hasActiveLink(sourceText)) {
+                            currentArticle.sources.push(sourceText);
+                        }
+                    }
+                }
+                
+                // Autres articles (format: ### Titre)
+                if (inOtherTopics && line.startsWith('###')) {
+                    const title = line.replace('###', '').trim();
+                    const otherArticle = {
+                        title: title,
+                        theme: '',
+                        summary: '',
+                        source: ''
+                    };
+                    
+                    // Lire les lignes suivantes pour ce sujet
+                    i++;
+                    while (i < lines.length && !lines[i].startsWith('###') && !lines[i].startsWith('##')) {
+                        const contentLine = lines[i].trim();
+                        // FIX 2: Support de "Catégorie" en plus de "Thème"
+                        if (contentLine.startsWith('**Thème**') || contentLine.startsWith('**Catégorie**')) {
+                            otherArticle.theme = contentLine.replace('**Thème**', '').replace('**Catégorie**', '').replace(':', '').trim();
+                        } else if (contentLine.startsWith('**Résumé**')) {
+                            otherArticle.summary = contentLine.replace('**Résumé**', '').replace(':', '').trim();
+                        } else if (contentLine.startsWith('**Source**')) {
+                            otherArticle.source = contentLine.replace('**Source**', '').replace(':', '').trim();
+                        }
+                        i++;
+                    }
+                    i--;
+                    
+                    data.otherArticles.push(otherArticle);
+                }
+            }
+            
+            // Ajouter le dernier article principal (si pas déjà ajouté)
+            if (currentArticle && !inOtherTopics) {
+                data.mainArticles.push(currentArticle);
+            }
+            
+            // Nettoyer les espaces
+            data.introduction = data.introduction.trim();
+            Object.keys(data.synthesis).forEach(key => {
+                data.synthesis[key] = data.synthesis[key].trim();
+            });
+            
+            return data;
+        }
+        
+        // Composant Modal
+        function ArticleModal({ article, onClose }) {
+            useEffect(() => {
+                // Empêcher le scroll du body quand la modal est ouverte
+                document.body.style.overflow = 'hidden';
+                return () => {
+                    document.body.style.overflow = 'unset';
+                };
+            }, []);
+            
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <div className="modal-header-content">
+                                <div className="modal-title-group">
+                                    <div className="modal-theme">{article.theme}</div>
+                                    <h2 className="modal-title">{article.title}</h2>
+                                </div>
+                                <button className="modal-close" onClick={onClose}>×</button>
+                            </div>
+                        </div>
+                        
+                        <div className="modal-body">
+                            <div className="modal-section">
+                                <h4>Résumé</h4>
+                                <p>{article.summary}</p>
+                            </div>
+                            
+                            {article.pointsDeVue && article.pointsDeVue.length > 0 && (
+                                <div className="modal-section">
+                                    <h4>Points de vue croisés</h4>
+                                    {article.pointsDeVue.map((pdv, i) => (
+                                        <div key={i} className="modal-pdv-item">
+                                            <strong>{pdv.media}</strong>
+                                            <p>{pdv.content}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                            
+                            {article.analysis && (
+                                <div className="modal-section">
+                                    <h4>Analyse & Implications</h4>
+                                    <p>{article.analysis}</p>
+                                </div>
+                            )}
+                            
+                            {article.signals && (
+                                <div className="modal-section">
+                                    <h4>Signaux faibles</h4>
+                                    <p>{article.signals}</p>
+                                </div>
+                            )}
+                            
+                            {article.sources && article.sources.length > 0 && (
+                                <div className="modal-section">
+                                    <h4>Sources</h4>
+                                    <ul>
+                                        {article.sources.map((source, i) => (
+                                            <li key={i} dangerouslySetInnerHTML={{__html: linkifyText(source)}} />
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        
+        // Composant Article Card
+        function ArticleCard({ article, index }) {
+            const [showModal, setShowModal] = useState(false);
+            
+            return (
+                <>
+                    <div className="article-card">
+                        <div className="card-header">
+                            <div className="card-theme">{article.theme}</div>
+                            <h3 className="card-title">{article.title}</h3>
+                        </div>
+                        
+                        <div className="card-summary">
+                            {article.summary}
+                        </div>
+                        
+                        <div className="card-footer">
+                            <button 
+                                className="read-more-btn"
+                                onClick={() => setShowModal(true)}
+                            >
+                                Lire plus
+                                <svg viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                                </svg>
+                            </button>
+                            <div className="card-sources">
+                                {article.sources && article.sources.length > 0 && `${article.sources.length} source${article.sources.length > 1 ? 's' : ''}`}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {showModal && (
+                        <ArticleModal 
+                            article={article} 
+                            onClose={() => setShowModal(false)} 
+                        />
+                    )}
+                </>
+            );
+        }
+        
+        // Composant Other Topic
+        function OtherTopic({ article }) {
+            return (
+                <div className="other-topic-item">
+                    <h4 className="other-topic-title">{article.title}</h4>
+                    <div className="other-topic-meta">
+                        {article.theme && <span className="other-topic-theme">{article.theme}</span>}
+                    </div>
+                    <p className="other-topic-summary">{article.summary}</p>
+                    {article.source && (
+                        <div className="other-topic-source" dangerouslySetInnerHTML={{
+                            __html: 'Source : ' + linkifyText(article.source)
+                        }} />
+                    )}
+                </div>
+            );
+        }
+        
+        // Composant Synthèse
+        function SynthesisSection({ synthesis, category }) {
+            // Déterminer quelles sections afficher selon la catégorie
+            const sectionsToShow = category === 'ia' 
+                ? ['keyPoints', 'signals', 'toWatch']
+                : ['majorEvents', 'divergences', 'implications', 'toWatch'];
+            
+            const sectionTitles = {
+                keyPoints: 'Points clés de la semaine',
+                signals: 'Signaux faibles & opportunités',
+                toWatch: 'À surveiller la semaine prochaine',
+                majorEvents: 'Événements majeurs',
+                divergences: 'Divergences éditoriales clés',
+                implications: 'Implications possibles'
+            };
+            
+            // Vérifier s'il y a du contenu à afficher
+            const hasContent = sectionsToShow.some(key => synthesis[key] && synthesis[key].trim());
+            
+            if (!hasContent) return null;
+            
+            return (
+                <div className="synthesis-section">
+                    <h3>Synthèse hebdomadaire</h3>
+                    {sectionsToShow.map(key => {
+                        if (!synthesis[key] || !synthesis[key].trim()) return null;
+                        
+                        return (
+                            <div key={key}>
+                                <h4>{sectionTitles[key]}</h4>
+                                <div dangerouslySetInnerHTML={{
+                                    __html: linkifyText(synthesis[key])
+                                        .split('\n')
+                                        .filter(line => line.trim())
+                                        .map(line => {
+                                            if (line.trim().startsWith('- ')) {
+                                                return '<li>' + line.replace(/^-\s*/, '') + '</li>';
+                                            }
+                                            return '<p>' + line + '</p>';
+                                        })
+                                        .join('')
+                                        .replace(/(<li>.*?<\/li>)/s, '<ul>$1</ul>')
+                                }} />
+                            </div>
+                        );
+                    })}
+                </div>
+            );
+        }
+        
+        // Composant principal
+        function App() {
+            const [activeTab, setActiveTab] = useState('ia');
+            const [data, setData] = useState(null);
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState(null);
+            
+            useEffect(() => {
+                loadMarkdown(activeTab);
+            }, [activeTab]);
+            
+            async function loadMarkdown(type) {
+                setLoading(true);
+                setError(null);
+                
+                try {
+                    const filename = type === 'ia' ? 'VeilleIA.md' : 'VeilleNews.md';
+                    const response = await fetch(GITHUB_PROXY_URL + filename + '?t=' + Date.now());
+                    
+                    if (!response.ok) {
+                        throw new Error('Impossible de charger les données');
+                    }
+                    
+                    let markdown = await response.text();
+                    
+                    // Nettoyer les backticks parasites générés par l'agent GPT-4o
+                    // Retirer ```markdown au début et ``` à la fin si présents
+                    markdown = markdown.trim();
+                    if (markdown.startsWith('```markdown')) {
+                        markdown = markdown.replace(/^```markdown\n?/, '');
+                    }
+                    if (markdown.startsWith('```')) {
+                        markdown = markdown.replace(/^```\n?/, '');
+                    }
+                    if (markdown.endsWith('```')) {
+                        markdown = markdown.replace(/\n?```$/, '');
+                    }
+                    
+                    const parsedData = parseMarkdown(markdown);
+                    setData(parsedData);
+                } catch (err) {
+                    setError(err.message);
+                } finally {
+                    setLoading(false);
+                }
+            }
+            
+            return (
+                <>
+                    <header>
+                        <div className="header-content">
+                            <div>
+                                <h1>VeilleNLI</h1>
+                                <div className="header-meta">
+                                    {data?.metadata?.date && `Semaine du ${new Date(data.metadata.date).toLocaleDateString('fr-FR')}`}
+                                </div>
+                            </div>
+                            <nav>
+                                <button 
+                                    className={`nav-btn ${activeTab === 'ia' ? 'active' : ''}`}
+                                    onClick={() => setActiveTab('ia')}
+                                >
+                                    Veille IA
+                                </button>
+                                <button 
+                                    className={`nav-btn ${activeTab === 'news' ? 'active' : ''}`}
+                                    onClick={() => setActiveTab('news')}
+                                >
+                                    Actualités
+                                </button>
+                            </nav>
+                        </div>
+                    </header>
+                    
+                    <main>
+                        {loading && <div className="loading">Chargement...</div>}
+                        {error && <div className="error">Erreur : {error}</div>}
+                        
+                        {data && !loading && (
+                            <>
+                                <div className="section-header">
+                                    <h2 className="section-title">{data.title}</h2>
+                                    {data.edition && <p className="section-subtitle">{data.edition}</p>}
+                                </div>
+                                
+                                {data.introduction && (
+                                    <div className="introduction">
+                                        {data.introduction}
+                                    </div>
+                                )}
+                                
+                                {/* Section Synthèse */}
+                                {data.synthesis && (
+                                    <SynthesisSection 
+                                        synthesis={data.synthesis} 
+                                        category={data.metadata.category}
+                                    />
+                                )}
+                                
+                                {data.mainArticles && data.mainArticles.length > 0 && (
+                                    <>
+                                        <h3 className="section-title" style={{fontSize: '1.5rem', marginBottom: 'var(--spacing-lg)'}}>
+                                            Sujets principaux
+                                        </h3>
+                                        <div className="cards-grid">
+                                            {data.mainArticles.map((article, index) => (
+                                                <ArticleCard key={index} article={article} index={index} />
+                                            ))}
+                                        </div>
+                                    </>
+                                )}
+                                
+                                {data.otherArticles && data.otherArticles.length > 0 && (
+                                    <div className="other-topics">
+                                        <h3 className="section-title" style={{fontSize: '1.5rem', marginBottom: 'var(--spacing-lg)'}}>
+                                            Autres sujets de la semaine
+                                        </h3>
+                                        <div className="other-topics-list">
+                                            {data.otherArticles.map((article, index) => (
+                                                <OtherTopic key={index} article={article} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </main>
+                    
+                    <footer>
+                        <p>VeilleNLI - Veille automatisée par système 2-agents OpenAI</p>
+                        <p>Agent 1 (GPT-4o-mini) : Collecte et filtrage | Agent 2 (GPT-4o) : Synthèse</p>
+                    </footer>
+                </>
+            );
+        }
+        
+        // Rendu
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
