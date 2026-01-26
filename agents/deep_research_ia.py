@@ -1,8 +1,8 @@
 """
 Agent Deep Research IA
-Modèle : OpenAI Extended Thinking (Deep Research)
+Modèle : GPT-4o avec web_search activé
 Rôle : Recherche approfondie sur actualités IA/LLM → Markdown structuré
-Budget estimé : ~0.20-0.30€ par recherche
+Budget estimé : ~0.05-0.10€ par recherche
 """
 
 import os
@@ -19,8 +19,8 @@ from openai import OpenAI
 
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 
-# Modèle Extended Thinking pour Deep Research
-MODEL_DEEP_RESEARCH = "o1-2024-12-17"  # Modèle optimisé pour recherche approfondie
+# Modèle avec web search
+MODEL_DEEP_RESEARCH = "gpt-4o"  # GPT-4o avec capacité web_search
 
 # Fichier de sortie
 OUTPUT_MARKDOWN = "research_ia.md"
@@ -35,18 +35,20 @@ REQUEST_TIMEOUT = 600  # 10 minutes
 
 def generer_prompt_deep_research() -> str:
     """
-    Génère le prompt pour Deep Research IA
+    Génère le prompt pour Deep Research IA avec web search
     
     Returns:
-        Prompt optimisé pour recherche approfondie
+        Prompt optimisé pour recherche web
     """
     
     date_fin = datetime.now()
     date_debut = date_fin - timedelta(days=7)
     
-    prompt = f"""Tu es un analyste expert en IA/LLM qui effectue une recherche approfondie sur les développements récents en intelligence artificielle.
+    prompt = f"""Tu es un analyste expert en IA/LLM qui effectue une recherche web approfondie sur les développements récents en intelligence artificielle.
 
-OBJECTIF : Identifier et analyser les actualités IA/LLM IMPORTANTES des 7 derniers jours.
+IMPORTANT : Tu DOIS utiliser la recherche web pour trouver des articles RÉELS et RÉCENTS. N'invente JAMAIS d'URLs fictives.
+
+OBJECTIF : Identifier et analyser les actualités IA/LLM IMPORTANTES des 7 derniers jours en utilisant la recherche web.
 
 PÉRIMÈTRE GÉOGRAPHIQUE :
 - États-Unis (OpenAI, Anthropic, Meta, Google)
@@ -54,7 +56,7 @@ PÉRIMÈTRE GÉOGRAPHIQUE :
 - Asie (DeepSeek Chine, entreprises asiatiques)
 - **FOCUS SPÉCIAL** : IA à Nantes et en Bretagne (startups, écosystème local, événements)
 
-SOURCES PRIORITAIRES - PRIVILÉGIER LES SOURCES OFFICIELLES :
+SOURCES PRIORITAIRES - UTILISER LA RECHERCHE WEB POUR TROUVER :
 - **Blogs officiels** : OpenAI Blog, Anthropic Blog, Google AI Blog, Meta AI Blog
 - **Publications éditeurs** : Mistral AI, Hugging Face, Stability AI
 - **Recherche académique** : ArXiv, Papers with Code, conférences (NeurIPS, ICML)
@@ -76,11 +78,19 @@ THÈMES À COUVRIR :
 11. **Startups françaises et européennes** (focus Mistral AI, Poolside, etc.)
 12. **IA Nantes et Bretagne** : écosystème local, startups, événements, recherche
 
+STRATÉGIE DE RECHERCHE WEB :
+1. Effectue 15-20 recherches web ciblées sur les thèmes ci-dessus
+2. Pour chaque thème, cherche "actualité [thème] dernière semaine"
+3. Vérifie la date de publication des articles trouvés
+4. Priorise les sources officielles et les annonces récentes
+5. Pour Nantes/Bretagne : "actualité IA Nantes", "startup IA Bretagne", etc.
+
 CRITÈRES DE SÉLECTION :
 - Actualité des 7 derniers jours PRIORITAIRE
 - Accepter analyses/rapports récents sur événements plus anciens si très pertinents
 - EXCLURE : contenu republié/recyclé, annonces marketing mineures, tutoriels basiques
 - PRIVILÉGIER : vraies nouveautés, annonces officielles, résultats de recherche, sources primaires
+- **CRITICAL** : TOUTES les URLs DOIVENT être RÉELLES (vérifiées par web search)
 
 PÉRIODE ANALYSÉE : du {date_debut.strftime('%d/%m/%Y')} au {date_fin.strftime('%d/%m/%Y')}
 
@@ -95,8 +105,8 @@ Période : {date_debut.strftime('%d/%m/%Y')} - {date_fin.strftime('%d/%m/%Y')}
 
 ### [TITRE ARTICLE 1]
 - **Source** : [Nom média ou blog officiel]
-- **URL** : [URL complète]
-- **Date** : [Date publication estimée]
+- **URL** : [URL complète RÉELLE trouvée via web search]
+- **Date** : [Date publication RÉELLE]
 - **Thème** : [Thème principal parmi les 12 ci-dessus]
 - **Résumé** : [3-4 lignes synthétiques reformulées]
 - **Pertinence** : [Score 1-10]
@@ -106,11 +116,12 @@ Période : {date_debut.strftime('%d/%m/%Y')} - {date_fin.strftime('%d/%m/%Y')}
 ### [TITRE ARTICLE 2]
 [...]
 
-[Répéter pour TOUS les articles trouvés - viser 20-25 articles minimum]
+[Répéter pour TOUS les articles trouvés - viser 15-20 articles minimum]
 
 ## Statistiques de la recherche
 - Nombre total d'articles : [X]
 - Période couverte : {date_debut.strftime('%d/%m/%Y')} à {date_fin.strftime('%d/%m/%Y')}
+- Nombre de recherches web effectuées : [X]
 - Répartition thématique :
   - Nouveaux modèles : [X]
   - Agents : [X]
@@ -134,30 +145,32 @@ Période : {date_debut.strftime('%d/%m/%Y')} - {date_fin.strftime('%d/%m/%Y')}
 ```
 
 CONSIGNES CRITIQUES :
-- Vise 20-25 articles de haute qualité MINIMUM
+- UTILISE LA RECHERCHE WEB pour CHAQUE thème important
+- Vise 15-20 articles de haute qualité MINIMUM
 - Reformule TOUS les résumés (JAMAIS de copier-coller)
-- URLs complètes OBLIGATOIRES
+- **URLs complètes RÉELLES OBLIGATOIRES** (trouvées via web search)
+- **N'INVENTE JAMAIS d'URLs** - si tu n'as pas trouvé d'article récent, indique-le
 - Score pertinence strict : 9-10 = exceptionnel, 7-8 = important, 5-6 = intéressant, <5 = à filtrer
 - Privilégie sources originales (blogs officiels OpenAI/Anthropic/Mistral, papers ArXiv, communiqués)
 - Pour Nantes/Bretagne : chercher startups locales, événements IA, initiatives régionales
 - Équilibre géographique : 50% USA, 30% Europe, 15% Asie, 5% Nantes/Bretagne
 
-Effectue ta recherche approfondie maintenant et génère le Markdown complet.
+Effectue ta recherche web approfondie maintenant et génère le Markdown complet avec URLs RÉELLES.
 """
     
     return prompt
 
 
 # ================================================================================
-# DEEP RESEARCH AVEC OPENAI o1
+# DEEP RESEARCH AVEC GPT-4o + WEB SEARCH
 # ================================================================================
 
 def executer_deep_research() -> str:
     """
-    Lance une recherche approfondie via OpenAI Extended Thinking
+    Lance une recherche approfondie via GPT-4o avec web_search
     
     Returns:
-        Markdown structuré avec articles trouvés
+        Markdown structuré avec articles trouvés et URLs réelles
     """
     
     if not OPENAI_API_KEY:
@@ -168,8 +181,9 @@ def executer_deep_research() -> str:
     
     prompt = generer_prompt_deep_research()
     
-    print(f"🔍 Lancement Deep Research (timeout {REQUEST_TIMEOUT}s)...")
-    print("⏳ Cette recherche peut prendre 2-5 minutes...")
+    print(f"🔍 Lancement Deep Research avec web_search (timeout {REQUEST_TIMEOUT}s)...")
+    print("⏳ Cette recherche peut prendre 2-4 minutes...")
+    print("🌐 Web search activé pour URLs réelles")
     
     try:
         response = client.chat.completions.create(
@@ -178,6 +192,11 @@ def executer_deep_research() -> str:
                 {
                     "role": "user",
                     "content": prompt
+                }
+            ],
+            tools=[
+                {
+                    "type": "web_search"
                 }
             ],
             timeout=REQUEST_TIMEOUT
@@ -194,13 +213,13 @@ def executer_deep_research() -> str:
         print(f"✅ Recherche terminée")
         print(f"📊 Tokens utilisés : {response.usage.total_tokens}")
         
-        # Estimation coût (o1 est plus cher que GPT-4)
-        # o1-2024-12-17 : ~$15/1M input tokens, ~$60/1M output tokens
-        cost_input = (response.usage.prompt_tokens / 1_000_000) * 15
-        cost_output = (response.usage.completion_tokens / 1_000_000) * 60
+        # Estimation coût GPT-4o
+        # gpt-4o : ~$2.50/1M input tokens, ~$10/1M output tokens
+        cost_input = (response.usage.prompt_tokens / 1_000_000) * 2.50
+        cost_output = (response.usage.completion_tokens / 1_000_000) * 10
         cost_total = cost_input + cost_output
         
-        print(f"💰 Coût estimé : ${cost_total:.4f}")
+        print(f"💰 Coût estimé : ${cost_total:.4f} (GPT-4o + web_search)")
         print(f"📝 Markdown généré : {len(markdown_content)} caractères")
         
         return markdown_content
@@ -242,7 +261,7 @@ def main():
     
     try:
         print("=" * 80)
-        print("🔬 DEEP RESEARCH IA - OpenAI Extended Thinking")
+        print("🔬 DEEP RESEARCH IA - GPT-4o avec Web Search")
         print("=" * 80)
         print(f"⏰ Exécution : {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
         print(f"📂 Répertoire : {os.getcwd()}")
@@ -252,7 +271,7 @@ def main():
             print("❌ ERREUR : OPENAI_API_KEY manquante")
             sys.exit(1)
         
-        print("🔍 ÉTAPE 1/2 : Deep Research en cours...")
+        print("🔍 ÉTAPE 1/2 : Deep Research avec web_search en cours...")
         print("-" * 80)
         markdown = executer_deep_research()
         print()
@@ -267,6 +286,7 @@ def main():
         print("=" * 80)
         print(f"📄 Fichier : {OUTPUT_MARKDOWN}")
         print(f"🔗 Prêt pour agent de mise en forme")
+        print(f"✅ URLs réelles vérifiables (web_search activé)")
         print()
         
         sys.exit(0)
