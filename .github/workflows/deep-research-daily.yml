@@ -30,6 +30,14 @@ jobs:
           pip install --upgrade pip
           pip install openai
       
+      - name: 🔍 Debug - Check OpenAI version
+        run: |
+          echo "📦 Version OpenAI installée :"
+          python -c "import openai; print(openai.__version__)"
+          echo ""
+          echo "📋 Attributs disponibles :"
+          python -c "import openai; print([attr for attr in dir(openai.OpenAI(api_key='test')) if not attr.startswith('_')])"
+      
       - name: 🔍 Execute Deep Research IA
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -65,6 +73,11 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install openai
+      
+      - name: 🔍 Debug - Check OpenAI version
+        run: |
+          echo "📦 Version OpenAI installée :"
+          python -c "import openai; print(openai.__version__)"
       
       - name: 🔍 Execute Deep Research News
         env:
@@ -307,8 +320,8 @@ jobs:
           echo "=========================================="
           echo ""
           echo "📊 Pipeline exécuté :"
-          echo "  1 → Deep Research IA (o1)"
-          echo "  2 → Deep Research News (o1)"
+          echo "  1 → Deep Research IA (GPT-5.2)"
+          echo "  2 → Deep Research News (GPT-5.2)"
           echo "  3 → Formatter + Upload (GPT-4o-mini)"
           echo "  4 → Sync Markdown → GitHub"
           echo "  5 → Génération data.json"
