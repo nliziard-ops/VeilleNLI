@@ -28,8 +28,8 @@ OUTPUT_MARKDOWN = "research_news.md"
 # Timeout (recherches longues)
 REQUEST_TIMEOUT = 600  # 10 minutes
 
-# Limite output tokens
-MAX_OUTPUT_TOKENS = 2000
+# Limite tokens de sortie
+MAX_TOKENS = 2000
 
 
 # ================================================================================
@@ -214,7 +214,7 @@ def executer_deep_research() -> str:
             tools={
                 "web_search": {}  # Active l'outil de recherche web GPT-5.2
             },
-            max_output_tokens=MAX_OUTPUT_TOKENS,
+            max_tokens=MAX_TOKENS,  # CORRIGÉ: max_tokens au lieu de max_output_tokens
             timeout=REQUEST_TIMEOUT
         )
         
