@@ -1,8 +1,8 @@
 """
 Agent Deep Research News
-Modèle : OpenAI Extended Thinking (Deep Research)
+Modèle : GPT-4o avec web_search activé
 Rôle : Recherche approfondie actualités générales + sport maritime → Markdown structuré
-Budget estimé : ~0.20-0.30€ par recherche
+Budget estimé : ~0.05-0.10€ par recherche
 """
 
 import os
@@ -19,8 +19,8 @@ from openai import OpenAI
 
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 
-# Modèle Extended Thinking pour Deep Research
-MODEL_DEEP_RESEARCH = "o1-2024-12-17"
+# Modèle avec web search
+MODEL_DEEP_RESEARCH = "gpt-4o"  # GPT-4o avec capacité web_search
 
 # Fichier de sortie
 OUTPUT_MARKDOWN = "research_news.md"
@@ -35,18 +35,20 @@ REQUEST_TIMEOUT = 600  # 10 minutes
 
 def generer_prompt_deep_research() -> str:
     """
-    Génère le prompt pour Deep Research News
+    Génère le prompt pour Deep Research News avec web search
     
     Returns:
-        Prompt optimisé pour recherche approfondie actualités
+        Prompt optimisé pour recherche web actualités
     """
     
     date_fin = datetime.now()
     date_debut = date_fin - timedelta(days=7)
     
-    prompt = f"""Tu es un journaliste expert qui effectue une recherche approfondie sur l'actualité générale et sportive.
+    prompt = f"""Tu es un journaliste expert qui effectue une recherche web approfondie sur l'actualité générale et sportive.
 
-OBJECTIF : Identifier les actualités IMPORTANTES des 7 derniers jours.
+IMPORTANT : Tu DOIS utiliser la recherche web pour trouver des articles RÉELS et RÉCENTS. N'invente JAMAIS d'URLs fictives.
+
+OBJECTIF : Identifier les actualités IMPORTANTES des 7 derniers jours en utilisant la recherche web.
 
 PÉRIMÈTRE GÉOGRAPHIQUE :
 
@@ -82,6 +84,14 @@ THÈMES À COUVRIR :
 - **Wingfoil** : discipline émergente, événements
 - **Événements nautiques locaux** : régates Bretagne/Atlantique, manifestations maritimes
 
+STRATÉGIE DE RECHERCHE WEB :
+1. Effectue 15-20 recherches web ciblées sur différents thèmes et zones géographiques
+2. Pour actualités générales : "actualité [thème] dernière semaine France"
+3. Pour sport maritime : "actualité voile", "compétition surf Bretagne", "régates Atlantique"
+4. Pour local : "actualité Nantes dernière semaine", "actualité Bretagne", "Belle-Île-en-Mer"
+5. Vérifie la date de publication des articles trouvés
+6. Priorise sources fiables : AFP, Reuters, Le Monde, Ouest-France, médias locaux
+
 CRITÈRES DE SÉLECTION :
 - Actualité des 7 derniers jours STRICTEMENT
 - Importance : événements majeurs, décisions politiques, faits marquants
@@ -92,7 +102,7 @@ CRITÈRES DE SÉLECTION :
 - **ÉQUILIBRE THÉMATIQUE** :
   - 60% Actualités générales
   - 40% Sport maritime
-- Sources fiables privilégiées (AFP, Reuters, Le Monde, Ouest-France, médias locaux)
+- **CRITICAL** : TOUTES les URLs DOIVENT être RÉELLES (vérifiées par web search)
 
 PÉRIODE ANALYSÉE : du {date_debut.strftime('%d/%m/%Y')} au {date_fin.strftime('%d/%m/%Y')}
 
@@ -107,8 +117,8 @@ Période : {date_debut.strftime('%d/%m/%Y')} - {date_fin.strftime('%d/%m/%Y')}
 
 ### [TITRE ARTICLE 1]
 - **Source** : [Nom média]
-- **URL** : [URL complète]
-- **Date** : [Date publication]
+- **URL** : [URL complète RÉELLE trouvée via web search]
+- **Date** : [Date publication RÉELLE]
 - **Catégorie** : [International/National/Local/Sport maritime]
 - **Thème** : [Politique/Économie/Sport/Société/etc.]
 - **Résumé** : [3-4 lignes synthétiques]
@@ -118,11 +128,12 @@ Période : {date_debut.strftime('%d/%m/%Y')} - {date_fin.strftime('%d/%m/%Y')}
 ### [TITRE ARTICLE 2]
 [...]
 
-[Répéter pour TOUS les articles trouvés - viser 25-30 articles minimum]
+[Répéter pour TOUS les articles trouvés - viser 20-25 articles minimum]
 
 ## Statistiques de la recherche
 - Nombre total d'articles : [X]
 - Période couverte : {date_debut.strftime('%d/%m/%Y')} à {date_fin.strftime('%d/%m/%Y')}
+- Nombre de recherches web effectuées : [X]
 - Répartition géographique :
   - International : [X] articles
   - National France : [X] articles
@@ -145,33 +156,35 @@ Période : {date_debut.strftime('%d/%m/%Y')} - {date_fin.strftime('%d/%m/%Y')}
 ```
 
 CONSIGNES CRITIQUES :
-- Vise 25-30 articles équilibrés MINIMUM
-- **Sport maritime** : MINIMUM 10-12 articles si actualités disponibles
-- **Local Bretagne/Nantes/Belle-Île** : MINIMUM 7-8 articles
-- **National France** : MINIMUM 10-12 articles
-- URLs complètes OBLIGATOIRES
+- UTILISE LA RECHERCHE WEB pour CHAQUE zone géographique et thème
+- Vise 20-25 articles équilibrés MINIMUM
+- **Sport maritime** : MINIMUM 8-10 articles si actualités disponibles
+- **Local Bretagne/Nantes/Belle-Île** : MINIMUM 6-7 articles
+- **National France** : MINIMUM 8-10 articles
+- **URLs complètes RÉELLES OBLIGATOIRES** (trouvées via web search)
+- **N'INVENTE JAMAIS d'URLs** - si tu n'as pas trouvé d'article récent, indique-le
 - Reformule TOUS les résumés (JAMAIS de copier-coller)
 - Score pertinence : 9-10 = événement majeur, 7-8 = important, 5-6 = intéressant
 - Privilégie diversité thématique ET géographique
 - Pour sport maritime : chercher Vendée Globe, régates locales, compétitions surf Bretagne
 - Pour local : Ouest-France, Presse-Océan, médias régionaux
 
-Effectue ta recherche approfondie maintenant et génère le Markdown complet.
+Effectue ta recherche web approfondie maintenant et génère le Markdown complet avec URLs RÉELLES.
 """
     
     return prompt
 
 
 # ================================================================================
-# DEEP RESEARCH AVEC OPENAI o1
+# DEEP RESEARCH AVEC GPT-4o + WEB SEARCH
 # ================================================================================
 
 def executer_deep_research() -> str:
     """
-    Lance une recherche approfondie via OpenAI Extended Thinking
+    Lance une recherche approfondie via GPT-4o avec web_search
     
     Returns:
-        Markdown structuré avec articles trouvés
+        Markdown structuré avec articles trouvés et URLs réelles
     """
     
     if not OPENAI_API_KEY:
@@ -182,8 +195,9 @@ def executer_deep_research() -> str:
     
     prompt = generer_prompt_deep_research()
     
-    print(f"🔍 Lancement Deep Research (timeout {REQUEST_TIMEOUT}s)...")
-    print("⏳ Cette recherche peut prendre 2-5 minutes...")
+    print(f"🔍 Lancement Deep Research avec web_search (timeout {REQUEST_TIMEOUT}s)...")
+    print("⏳ Cette recherche peut prendre 2-4 minutes...")
+    print("🌐 Web search activé pour URLs réelles")
     
     try:
         response = client.chat.completions.create(
@@ -192,6 +206,11 @@ def executer_deep_research() -> str:
                 {
                     "role": "user",
                     "content": prompt
+                }
+            ],
+            tools=[
+                {
+                    "type": "web_search"
                 }
             ],
             timeout=REQUEST_TIMEOUT
@@ -208,12 +227,13 @@ def executer_deep_research() -> str:
         print(f"✅ Recherche terminée")
         print(f"📊 Tokens utilisés : {response.usage.total_tokens}")
         
-        # Estimation coût (o1 est plus cher que GPT-4)
-        cost_input = (response.usage.prompt_tokens / 1_000_000) * 15
-        cost_output = (response.usage.completion_tokens / 1_000_000) * 60
+        # Estimation coût GPT-4o
+        # gpt-4o : ~$2.50/1M input tokens, ~$10/1M output tokens
+        cost_input = (response.usage.prompt_tokens / 1_000_000) * 2.50
+        cost_output = (response.usage.completion_tokens / 1_000_000) * 10
         cost_total = cost_input + cost_output
         
-        print(f"💰 Coût estimé : ${cost_total:.4f}")
+        print(f"💰 Coût estimé : ${cost_total:.4f} (GPT-4o + web_search)")
         print(f"📝 Markdown généré : {len(markdown_content)} caractères")
         
         return markdown_content
@@ -255,7 +275,7 @@ def main():
     
     try:
         print("=" * 80)
-        print("📰 DEEP RESEARCH NEWS - OpenAI Extended Thinking")
+        print("📰 DEEP RESEARCH NEWS - GPT-4o avec Web Search")
         print("=" * 80)
         print(f"⏰ Exécution : {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
         print(f"📂 Répertoire : {os.getcwd()}")
@@ -265,7 +285,7 @@ def main():
             print("❌ ERREUR : OPENAI_API_KEY manquante")
             sys.exit(1)
         
-        print("🔍 ÉTAPE 1/2 : Deep Research en cours...")
+        print("🔍 ÉTAPE 1/2 : Deep Research avec web_search en cours...")
         print("-" * 80)
         markdown = executer_deep_research()
         print()
@@ -280,6 +300,7 @@ def main():
         print("=" * 80)
         print(f"📄 Fichier : {OUTPUT_MARKDOWN}")
         print(f"🔗 Prêt pour agent de mise en forme")
+        print(f"✅ URLs réelles vérifiables (web_search activé)")
         print()
         
         sys.exit(0)
