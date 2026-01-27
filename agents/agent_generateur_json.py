@@ -232,8 +232,11 @@ def parser_sections(contenu_md: str) -> Tuple[List[Dict], List[Dict]]:
     section_actuelle = None
     capture = False
     
-    # Sections à exclure - LIGNE 236 CORRIGEE SANS APOSTROPHE
-    exclusions = ["introduction", "table des matieres", "synthese finale", "fin de l edition", "fin de l edition"]
+    # Sections à exclure - CORRIGÉ : variantes "Autres sujets" vs "Autres actualités"
+    exclusions = ["introduction", "table des matieres", "synthese finale", "fin de l'edition", "fin de l edition"]
+    
+    # Pattern spécial pour "Autres sujets" / "Autres actualités"
+    autres_pattern = re.compile(r'##\s+Autres\s+(sujets|actualit[eé]s)', re.IGNORECASE)
     
     for ligne in lignes:
         ligne_clean = ligne.strip()
@@ -243,7 +246,17 @@ def parser_sections(contenu_md: str) -> Tuple[List[Dict], List[Dict]]:
             titre = ligne_clean[3:].strip().replace('**', '')
             titre_lower = titre.lower()
             
-            # Vérifier si on doit exclure cette section
+            # Vérifier si c'est la section "Autres sujets/actualités" - STOP ici
+            if autres_pattern.search(ligne_clean):
+                # Sauvegarder la section précédente
+                if section_actuelle and capture:
+                    sections.append(section_actuelle)
+                # STOP : ne pas capturer "Autres sujets"
+                capture = False
+                section_actuelle = None
+                break
+            
+            # Vérifier si on doit exclure cette section (introduction, synthèse...)
             if any(excl in titre_lower for excl in exclusions):
                 # Sauvegarder la section précédente avant d'exclure
                 if section_actuelle and capture:
