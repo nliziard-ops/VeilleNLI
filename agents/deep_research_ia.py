@@ -190,6 +190,7 @@ def executer_deep_research() -> str:
     
     try:
         # API GPT-5.2 avec client.responses.create()
+        # SYNTAXE CORRIGÉE : generation_config pour les paramètres de génération
         response = client.responses.create(
             model=MODEL_DEEP_RESEARCH,
             input=prompt,  # Format GPT-5.2: input au lieu de messages
@@ -198,10 +199,11 @@ def executer_deep_research() -> str:
                 "web_search": {}
             },
             tool_choice="auto",
-            temperature=0.3,
-            top_p=0.95,
-            presence_penalty=0.2,
-            frequency_penalty=0.0,
+            generation_config={
+                "temperature": 0.3,
+                "presence_penalty": 0.2,
+                "frequency_penalty": 0.0
+            },
             response_format={
                 "type": "text"
             }
