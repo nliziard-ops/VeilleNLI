@@ -1,8 +1,8 @@
 """
-Agent Deep Research News
-Modèle : GPT-5.2 avec web_search activé
-Rôle : Recherche approfondie actualités générales + sport maritime → Markdown structuré
-Budget estimé : Variable selon usage
+Agent de Veille News avec Recherche Web
+Modèle : GPT-5.2 avec web_search
+Rôle : Recherche web actualités générales + sport maritime → Analyse → Synthèse Markdown
+Budget estimé : ~0.10€ par exécution
 """
 
 import os
@@ -20,7 +20,7 @@ from openai import OpenAI
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 
 # Modèle GPT-5.2 avec web search
-MODEL_DEEP_RESEARCH = "gpt-5.2"
+MODEL_GPT52 = "gpt-5.2"
 
 # Fichier de sortie
 OUTPUT_MARKDOWN = "research_news.md"
@@ -33,25 +33,31 @@ MAX_OUTPUT_TOKENS = 2000
 
 
 # ================================================================================
-# PROMPT DEEP RESEARCH NEWS
+# PROMPT RECHERCHE WEB NEWS
 # ================================================================================
 
-def generer_prompt_deep_research() -> str:
+def generer_prompt_recherche() -> str:
     """
-    Génère le prompt pour Deep Research News avec web search
+    Génère le prompt pour recherche web news avec synthèse
     
     Returns:
-        Prompt optimisé pour recherche web actualités
+        Prompt optimisé pour recherche web + analyse + synthèse
     """
     
     date_fin = datetime.now()
     date_debut = date_fin - timedelta(days=7)
     
-    prompt = f"""Tu es un journaliste expert qui effectue une recherche web approfondie sur l'actualité générale et sportive.
+    prompt = f"""Tu es un journaliste expert. Ta mission comporte 3 étapes :
 
-IMPORTANT : Tu DOIS utiliser la recherche web pour trouver des articles RÉELS et RÉCENTS. N'invente JAMAIS d'URLs fictives.
+ÉTAPE 1 : RECHERCHE WEB
+Utilise l'outil de recherche web pour trouver des articles RÉELS et RÉCENTS sur l'actualité générale et sportive.
+N'invente JAMAIS d'URLs fictives.
 
-OBJECTIF : Identifier les actualités IMPORTANTES des 7 derniers jours en utilisant la recherche web.
+ÉTAPE 2 : ANALYSE
+Analyse les articles trouvés pour identifier les plus pertinents.
+
+ÉTAPE 3 : SYNTHÈSE MARKDOWN
+Génère un document Markdown structuré avec les articles sélectionnés.
 
 PÉRIMÈTRE GÉOGRAPHIQUE :
 
@@ -87,7 +93,7 @@ THÈMES À COUVRIR :
 - **Wingfoil** : discipline émergente, événements
 - **Événements nautiques locaux** : régates Bretagne/Atlantique, manifestations maritimes
 
-STRATÉGIE DE RECHERCHE WEB :
+STRATÉGIE DE RECHERCHE :
 1. Effectue 15-20 recherches web ciblées sur différents thèmes et zones géographiques
 2. Pour actualités générales : "actualité [thème] dernière semaine France"
 3. Pour sport maritime : "actualité voile", "compétition surf Bretagne", "régates Atlantique"
@@ -105,13 +111,13 @@ CRITÈRES DE SÉLECTION :
 - **ÉQUILIBRE THÉMATIQUE** :
   - 60% Actualités générales
   - 40% Sport maritime
-- **CRITICAL** : TOUTES les URLs DOIVENT être RÉELLES (vérifiées par web search)
+- **CRITICAL** : TOUTES les URLs DOIVENT être RÉELLES (trouvées par web search)
 
 PÉRIODE ANALYSÉE : du {date_debut.strftime('%d/%m/%Y')} au {date_fin.strftime('%d/%m/%Y')}
 
 FORMAT DE SORTIE MARKDOWN :
 
-# Recherche Deep - Actualités
+# Veille Actualités - Recherche Web
 Date : {date_fin.strftime('%Y-%m-%d')}
 Période : {date_debut.strftime('%d/%m/%Y')} - {date_fin.strftime('%d/%m/%Y')}
 
@@ -170,19 +176,22 @@ CONSIGNES CRITIQUES :
 - Pour sport maritime : chercher Vendée Globe, régates locales, compétitions surf Bretagne
 - Pour local : Ouest-France, Presse-Océan, médias régionaux
 
-Effectue ta recherche web approfondie maintenant et génère le Markdown complet avec URLs RÉELLES.
+Effectue maintenant :
+1. RECHERCHE WEB (15-20 recherches)
+2. ANALYSE des résultats
+3. SYNTHÈSE au format Markdown avec URLs RÉELLES
 """
     
     return prompt
 
 
 # ================================================================================
-# DEEP RESEARCH AVEC GPT-5.2 + WEB SEARCH
+# RECHERCHE WEB AVEC GPT-5.2
 # ================================================================================
 
-def executer_deep_research() -> str:
+def executer_recherche_web() -> str:
     """
-    Lance une recherche approfondie via GPT-5.2 avec web_search
+    Lance une recherche web via GPT-5.2, analyse et synthétise
     
     Returns:
         Markdown structuré avec articles trouvés et URLs réelles
@@ -194,31 +203,22 @@ def executer_deep_research() -> str:
     print("🤖 Initialisation client OpenAI...")
     client = OpenAI(api_key=OPENAI_API_KEY)
     
-    prompt = generer_prompt_deep_research()
+    prompt = generer_prompt_recherche()
     
-    print(f"🔍 Lancement Deep Research GPT-5.2 avec web_search (timeout {REQUEST_TIMEOUT}s)...")
+    print(f"🔍 Lancement recherche web GPT-5.2 (timeout {REQUEST_TIMEOUT}s)...")
     print("⏳ Cette recherche peut prendre 2-4 minutes...")
     print("🌐 Web search activé pour URLs réelles")
+    print("📊 Étapes : Recherche → Analyse → Synthèse")
     
     try:
         # API GPT-5.2 : client.responses.create()
-        # SYNTAXE CORRIGÉE : generation_config pour les paramètres de génération
+        # SYNTAXE CORRIGÉE selon documentation OpenAI
         response = client.responses.create(
-            model=MODEL_DEEP_RESEARCH,
-            input=prompt,  # Format GPT-5.2 : input au lieu de messages
+            model=MODEL_GPT52,
+            input=prompt,
             max_output_tokens=MAX_OUTPUT_TOKENS,
-            tools={
-                "web_search": {}  # Active l'outil de recherche web GPT-5.2
-            },
-            tool_choice="auto",
-            generation_config={
-                "temperature": 0.3,
-                "presence_penalty": 0.2,
-                "frequency_penalty": 0.0
-            },
-            response_format={
-                "type": "text"
-            }
+            temperature=0.3,  # Au niveau racine, pas dans generation_config
+            tools=[{"type": "web_search"}]  # Liste d'outils, pas dict
         )
         
         # Récupération du contenu GPT-5.2 : response.output_text
@@ -230,7 +230,7 @@ def executer_deep_research() -> str:
             markdown_content = '\n'.join(lines[1:-1]) if len(lines) > 2 else markdown_content
             markdown_content = markdown_content.replace('```markdown', '').replace('```', '').strip()
         
-        print(f"✅ Recherche terminée")
+        print(f"✅ Recherche et synthèse terminées")
         print(f"📊 Tokens générés : {response.usage.output_tokens}")
         print(f"📝 Markdown généré : {len(markdown_content)} caractères")
         
@@ -273,7 +273,7 @@ def main():
     
     try:
         print("=" * 80)
-        print("📰 DEEP RESEARCH NEWS - GPT-5.2 avec Web Search")
+        print("📰 VEILLE NEWS - GPT-5.2 avec Recherche Web")
         print("=" * 80)
         print(f"⏰ Exécution : {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
         print(f"📂 Répertoire : {os.getcwd()}")
@@ -283,9 +283,9 @@ def main():
             print("❌ ERREUR : OPENAI_API_KEY manquante")
             sys.exit(1)
         
-        print("🔍 ÉTAPE 1/2 : Deep Research avec web_search en cours...")
+        print("🔍 ÉTAPE 1/2 : Recherche web + Analyse + Synthèse")
         print("-" * 80)
-        markdown = executer_deep_research()
+        markdown = executer_recherche_web()
         print()
         
         print("💾 ÉTAPE 2/2 : Sauvegarde du résultat")
@@ -294,7 +294,7 @@ def main():
         print()
         
         print("=" * 80)
-        print("✅ DEEP RESEARCH NEWS TERMINÉ")
+        print("✅ VEILLE NEWS TERMINÉE")
         print("=" * 80)
         print(f"📄 Fichier : {OUTPUT_MARKDOWN}")
         print(f"🔗 Prêt pour agent de mise en forme")
