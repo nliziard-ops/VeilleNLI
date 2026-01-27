@@ -132,27 +132,35 @@ def parser_markdown(contenu: str) -> Dict:
         if section_actuelle == 'introduction' and ligne and not ligne.startswith('##'):
             data['introduction'] += ligne + ' '
         
-        # Articles principaux (détection : ## [THEME] – Titre)
-        match = re.match(r'^##\s+\[?([^\]–-]+)\]?\s*[–-]\s*(.+)', ligne)
-        if match and '## Autres sujets' not in ligne and '## Introduction' not in ligne:
-            if article_actuel:
-                data['articles_principaux'].append(article_actuel)
-            
-            article_actuel = {
-                'theme': match.group(1).strip(),
-                'titre': match.group(2).strip(),
-                'contenu_brut': []
-            }
-            section_actuelle = 'article_principal'
-            continue
-        
-        # Section "Autres sujets"
-        if '## Autres sujets' in ligne:
+        # Section "Autres sujets" - détection flexible
+        if ligne.startswith('##') and ('Autres sujets' in ligne or 'Autres actualités' in ligne):
             if article_actuel:
                 data['articles_principaux'].append(article_actuel)
                 article_actuel = None
             section_actuelle = 'autres_sujets'
             continue
+        
+        # Articles principaux - REGEX CORRIGÉ pour capturer TOUS les formats
+        # Formats supportés : ## [THEME] – Titre OU ## THEME – Titre OU ## SUJET X – Titre
+        if ligne.startswith('## ') and section_actuelle != 'autres_sujets' and 'Introduction' not in ligne:
+            # Essayer d'extraire thème et titre
+            match = re.match(r'^##\s+(.+?)\s+[–—-]\s+(.+)$', ligne)
+            if match:
+                if article_actuel:
+                    data['articles_principaux'].append(article_actuel)
+                
+                theme_brut = match.group(1).strip()
+                # Nettoyer les crochets si présents
+                theme = theme_brut.strip('[]').strip()
+                titre = match.group(2).strip()
+                
+                article_actuel = {
+                    'theme': theme,
+                    'titre': titre,
+                    'contenu_brut': []
+                }
+                section_actuelle = 'article_principal'
+                continue
         
         # Contenu article principal
         if section_actuelle == 'article_principal' and article_actuel and ligne:
