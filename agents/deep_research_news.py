@@ -9,7 +9,7 @@ import os
 import sys
 import traceback
 from datetime import datetime, timedelta
-from typing import Dict, Any
+from typing import List, Tuple
 from openai import OpenAI
 
 
@@ -28,8 +28,8 @@ OUTPUT_MARKDOWN = "research_news.md"
 # Timeout (recherches longues)
 REQUEST_TIMEOUT = 600  # 10 minutes
 
-# Limite tokens de sortie
-MAX_OUTPUT_TOKENS = 2000
+# Limite tokens de sortie — 4000 pour couvrir 20-25 articles avec résumés
+MAX_OUTPUT_TOKENS = 4000
 
 
 # ================================================================================
@@ -38,15 +38,15 @@ MAX_OUTPUT_TOKENS = 2000
 
 def generer_prompt_recherche() -> str:
     """
-    Génère le prompt pour recherche web news avec synthèse
-    
+    Génère le prompt pour recherche web news avec synthèse.
+
     Returns:
         Prompt optimisé pour recherche web + analyse + synthèse
     """
-    
+
     date_fin = datetime.now()
     date_debut = date_fin - timedelta(days=7)
-    
+
     prompt = f"""Tu es un journaliste expert. Ta mission comporte 3 étapes :
 
 ÉTAPE 1 : RECHERCHE WEB
@@ -181,8 +181,79 @@ Effectue maintenant :
 2. ANALYSE des résultats
 3. SYNTHÈSE au format Markdown avec URLs RÉELLES
 """
-    
+
     return prompt
+
+
+# ================================================================================
+# EXTRACTION DES CITATIONS RÉELLES depuis response.output
+# ================================================================================
+
+def extraire_citations(response) -> List[Tuple[str, str]]:
+    """
+    Extrait les url_citation annotations depuis les sorties du modèle.
+    Ces citations sont les URLs réelles récupérées par le web_search —
+    elles sont fiables contrairement aux URLs que le modèle peut inventer
+    dans le texte généré.
+
+    Args:
+        response: Objet de réponse OpenAI responses.create()
+
+    Returns:
+        Liste de tuples (titre, url) extraits des annotations
+    """
+    citations: List[Tuple[str, str]] = []
+
+    for item in response.output:
+        # Les messages de type 'message' contiennent les annotations
+        if hasattr(item, 'content') and item.content:
+            for block in item.content:
+                if hasattr(block, 'annotations') and block.annotations:
+                    for annotation in block.annotations:
+                        if (
+                            hasattr(annotation, 'type')
+                            and annotation.type == 'url_citation'
+                            and hasattr(annotation, 'url')
+                            and hasattr(annotation, 'title')
+                        ):
+                            citations.append((annotation.title, annotation.url))
+
+    return citations
+
+
+def injecter_citations_dans_markdown(markdown: str, citations: List[Tuple[str, str]]) -> str:
+    """
+    Ajoute une section "Sources vérifiées" à la fin du markdown avec
+    les URLs réelles extraites par le web_search. Cette section sert
+    de référence fiable si le modèle a inventé des URLs dans le texte.
+
+    Args:
+        markdown: Contenu markdown généré par le modèle
+        citations: Liste de tuples (titre, url) issus des annotations
+
+    Returns:
+        Markdown enrichi avec la section sources vérifiées
+    """
+    if not citations:
+        print("⚠️  Aucune citation extraite des annotations — vérifie que web_search s'est bien activé")
+        return markdown
+
+    # Dédupliquer par URL
+    seen_urls: set = set()
+    unique_citations: List[Tuple[str, str]] = []
+    for titre, url in citations:
+        if url not in seen_urls:
+            seen_urls.add(url)
+            unique_citations.append((titre, url))
+
+    # Construire la section
+    section = "\n\n## Sources vérifiées (extraites par web_search)\n"
+    section += f"*{len(unique_citations)} URLs réelles récupérées par le moteur de recherche*\n\n"
+    for titre, url in unique_citations:
+        section += f"- [{titre}]({url})\n"
+
+    print(f"📎 {len(unique_citations)} citations réelles injectées dans le markdown")
+    return markdown + section
 
 
 # ================================================================================
@@ -191,51 +262,62 @@ Effectue maintenant :
 
 def executer_recherche_web() -> str:
     """
-    Lance une recherche web via GPT-5.2, analyse et synthétise
-    
+    Lance une recherche web via GPT-5.2, analyse et synthétise.
+    Extrait les citations réelles depuis les annotations de la réponse.
+
     Returns:
-        Markdown structuré avec articles trouvés et URLs réelles
+        Markdown structuré avec articles trouvés et sources vérifiées
     """
-    
+
     if not OPENAI_API_KEY:
         raise ValueError("❌ OPENAI_API_KEY manquante")
-    
+
     print("🤖 Initialisation client OpenAI...")
     client = OpenAI(api_key=OPENAI_API_KEY)
-    
+
     prompt = generer_prompt_recherche()
-    
+
     print(f"🔍 Lancement recherche web GPT-5.2 (timeout {REQUEST_TIMEOUT}s)...")
     print("⏳ Cette recherche peut prendre 2-4 minutes...")
     print("🌐 Web search activé pour URLs réelles")
-    print("📊 Étapes : Recherche → Analyse → Synthèse")
-    
+    print("📊 Étapes : Recherche → Analyse → Synthèse → Extraction citations")
+
     try:
-        # API GPT-5.2 : client.responses.create()
-        # SYNTAXE CORRIGÉE selon documentation OpenAI
+        # Appel API responses.create() avec web_search
+        # ⚠️  temperature n'est PAS un paramètre valide sur responses.create()
+        # Le comportement est contrôlé par reasoning.effort
         response = client.responses.create(
             model=MODEL_GPT52,
             input=prompt,
             max_output_tokens=MAX_OUTPUT_TOKENS,
-            temperature=0.3,  # Au niveau racine, pas dans generation_config
-            tools=[{"type": "web_search"}]  # Liste d'outils, pas dict
+            reasoning={"effort": "medium"},  # Équilibre qualité / coût / latence
+            tools=[{"type": "web_search"}],
+            # Localisation pour contextualiser les recherches
+            # Syntaxe selon doc : paramètre au niveau racine de l'appel
         )
-        
-        # Récupération du contenu GPT-5.2 : response.output_text
+
+        # Récupération du texte généré
         markdown_content = response.output_text.strip()
-        
+
         # Nettoyer les backticks markdown si présents
         if markdown_content.startswith('```markdown'):
             lines = markdown_content.split('\n')
             markdown_content = '\n'.join(lines[1:-1]) if len(lines) > 2 else markdown_content
             markdown_content = markdown_content.replace('```markdown', '').replace('```', '').strip()
-        
+
+        # Extraction des citations réelles depuis les annotations
+        citations = extraire_citations(response)
+        print(f"🔗 Citations extraites des annotations : {len(citations)}")
+
+        # Injection de la section sources vérifiées
+        markdown_content = injecter_citations_dans_markdown(markdown_content, citations)
+
         print(f"✅ Recherche et synthèse terminées")
         print(f"📊 Tokens générés : {response.usage.output_tokens}")
         print(f"📝 Markdown généré : {len(markdown_content)} caractères")
-        
+
         return markdown_content
-    
+
     except Exception as e:
         print(f"❌ Erreur lors de la recherche : {e}")
         traceback.print_exc()
@@ -248,17 +330,17 @@ def executer_recherche_web() -> str:
 
 def sauvegarder_markdown(contenu: str, filepath: str) -> None:
     """
-    Sauvegarde le Markdown généré
-    
+    Sauvegarde le Markdown généré.
+
     Args:
         contenu: Contenu Markdown
         filepath: Chemin du fichier
     """
     print(f"💾 Sauvegarde dans {filepath}...")
-    
+
     with open(filepath, 'w', encoding='utf-8') as f:
         f.write(contenu)
-    
+
     file_size = os.path.getsize(filepath)
     print(f"✅ Fichier sauvegardé : {filepath}")
     print(f"📊 Taille : {file_size} octets ({file_size / 1024:.2f} KB)")
@@ -270,7 +352,7 @@ def sauvegarder_markdown(contenu: str, filepath: str) -> None:
 
 def main():
     """Point d'entrée principal"""
-    
+
     try:
         print("=" * 80)
         print("📰 VEILLE NEWS - GPT-5.2 avec Recherche Web")
@@ -278,31 +360,31 @@ def main():
         print(f"⏰ Exécution : {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
         print(f"📂 Répertoire : {os.getcwd()}")
         print()
-        
+
         if not OPENAI_API_KEY:
             print("❌ ERREUR : OPENAI_API_KEY manquante")
             sys.exit(1)
-        
+
         print("🔍 ÉTAPE 1/2 : Recherche web + Analyse + Synthèse")
         print("-" * 80)
         markdown = executer_recherche_web()
         print()
-        
+
         print("💾 ÉTAPE 2/2 : Sauvegarde du résultat")
         print("-" * 80)
         sauvegarder_markdown(markdown, OUTPUT_MARKDOWN)
         print()
-        
+
         print("=" * 80)
         print("✅ VEILLE NEWS TERMINÉE")
         print("=" * 80)
         print(f"📄 Fichier : {OUTPUT_MARKDOWN}")
         print(f"🔗 Prêt pour agent de mise en forme")
-        print(f"✅ URLs réelles vérifiables (GPT-5.2 web_search)")
+        print(f"✅ Citations réelles extraites des annotations web_search")
         print()
-        
+
         sys.exit(0)
-    
+
     except Exception as e:
         print("\n" + "=" * 80)
         print("❌ ERREUR FATALE")
