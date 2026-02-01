@@ -1,6 +1,6 @@
 # VeilleNLI
 
-Système de veille automatisée sur l'Intelligence Artificielle et les actualités générales, propulsé par **OpenAI Deep Research (o1)**.
+Système de veille automatisée sur l'Intelligence Artificielle et les actualités générales, propulsé par **ChatGPT-4 Turbo** (OpenAI).
 
 ## 🌐 Site web
 
@@ -10,49 +10,62 @@ Système de veille automatisée sur l'Intelligence Artificielle et les actualit�
 
 ## 📋 Description
 
-VeilleNLI génère quotidiennement deux veilles hebdomadaires via **Deep Research** :
+VeilleNLI génère quotidiennement deux veilles hebdomadaires via un **pipeline 4-agents** :
 
-- **Veille IA & LLM** : Actualités IA, modèles de langage, recherche, régulation, startups (focus Nantes/Bretagne)
-- **Veille Actualités** : Politique, économie, international, sport maritime (voile, surf, kitesurf, wingfoil), local (Bretagne, Nantes, Belle-Île)
+- **Veille IA & LLM** : Actualités IA depuis sources institutionnelles (Anthropic, OpenAI, Mistral, DeepSeek, etc.)
+- **Veille Actualités** : Presse nationale/internationale/locale (35% int, 35% nat, 30% local Bretagne)
 
-### Architecture Deep Research (OpenAI o1)
+### Architecture 4-agents (ChatGPT-4 Turbo)
 
-Le système utilise un **workflow unique** avec **6 jobs séquentiels** :
+Le système utilise **2 pipelines parallèles** de 2 agents chacun :
 
-1. **Deep Research IA** (OpenAI o1) : Recherche approfondie IA/LLM → `research_ia.md`
-2. **Deep Research News** (OpenAI o1) : Recherche approfondie actualités → `research_news.md`
-3. **Formatter** (GPT-4o-mini) : Mise en forme élégante → Upload Google Drive
-4. **Sync Markdown** : Télécharge depuis Google Drive → `docs/markdown/`
-5. **Générateur JSON** : Parse Markdown → `data.json`
-6. **Commit GitHub** : Push sur main → GitHub Pages
+**Pipeline IA :**
+1. **Agent Recherche IA** (GPT-4 Turbo + web_search) : Collecte factuelle depuis sites institutionnels → `recherche_ia_brute.json`
+2. **Agent Synthèse IA** (GPT-4 Turbo) : Sélectionne 6 sujets (3 tendances + 3 tech) + analyse approfondie → `VeilleIA.md`
+
+**Pipeline News :**
+1. **Agent Recherche News** (GPT-4 Turbo + web_search) : Collecte factuelle depuis presse → `recherche_news_brute.json`
+2. **Agent Synthèse News** (GPT-4 Turbo) : Sélectionne 6 sujets (2 int + 2 nat + 2 local) + analyse approfondie → `VeilleNews.md`
+
+Puis : Validation → Sync GitHub → Génération data.json → Commit → GitHub Pages
 
 ---
 
 ## ✨ Fonctionnalités
 
-### Deep Research
+### Recherche Web Factuelle (Agents 1 & 2)
 
-- ✅ **Recherche approfondie** avec OpenAI Extended Thinking (o1)
-- ✅ **Sources officielles prioritaires** : OpenAI Blog, Anthropic Blog, Mistral AI, ArXiv
-- ✅ **Couverture géographique** : USA, Europe, Asie, France, Nantes, Bretagne
-- ✅ **Sport maritime** : Voile, course au large, surf, planche à voile, kitesurf, wingfoil
-- ✅ **Local Bretagne** : Actualités Bretagne, Pays de la Loire, Nantes, Belle-Île-en-Mer
+- ✅ **ChatGPT-4 Turbo** avec capacité `web_search` native
+- ✅ **Sources IA institutionnelles** : Anthropic, OpenAI, Mistral, DeepSeek, The Hacker News, DeepLearning.AI, Google AI, NVIDIA AI
+- ✅ **Presse internationale** : Le Grand Continent, El País, BBC, Reuters
+- ✅ **Presse nationale** : Le Figaro, Le Monde, Le Monde Diplomatique
+- ✅ **Presse locale Bretagne** : Ouest-France, Le Télégramme
+- ✅ **Collecte pure sans interprétation** : Titre, résumé court, synthèse complète, source, URL
 
-### Génération de contenu
+### Synthèse Analytique (Agents 3 & 4)
 
-- ✅ **6 sujets principaux** traités en profondeur :
-  - Résumé (3-5 lignes)
-  - Points de vue croisés (3+ sources)
-  - Analyse & implications
-  - Signaux faibles (veille IA uniquement)
-  - Sources complètes
+**Veille IA - 6 sujets sélectionnés :**
+- **3 premiers** : Tendances qui font parler (buzz, controverses, ruptures)
+- **3 suivants** : Sujets technologiques (avancées, modèles, hardware)
 
-- ✅ **Autres sujets** en format condensé :
-  - Thème
-  - Résumé court (2-3 lignes)
-  - Source unique
+**Veille News - 6 sujets répartition obligatoire :**
+- **2 internationaux** (géopolitique, économie mondiale)
+- **2 nationaux** (France : politique, économie, société)
+- **2 locaux** (Bretagne/Pays de Loire : politique locale, sports maritimes, mer)
 
-### Frontend web
+**Pour chaque sujet :**
+- Résumé court (3-4 lignes)
+- Synthèse approfondie (15-25 lignes) : contexte, faits, impacts, analyse
+- Divergences entre sources
+- Toutes les sources citées avec URLs
+
+**Autres sujets (liste compacte) :**
+- Titre
+- Résumé court (2-3 lignes)
+- Synthèse (5-8 lignes)
+- Source unique avec URL
+
+### Frontend Web
 
 - ✅ Design sobre et élégant (Crimson Text + IBM Plex Sans)
 - ✅ Navigation IA / Actualités
@@ -72,114 +85,128 @@ Le système utilise un **workflow unique** avec **6 jobs séquentiels** :
 
 ### Relancer manuellement
 
-1. **Workflow complet (Deep Research)** :  
-   https://github.com/nliziard-ops/VeilleNLI/actions/workflows/deep-research-daily.yml  
+1. **Workflow complet (4-agents)** :  
+   https://github.com/nliziard-ops/VeilleNLI/actions/workflows/veille-openai-complete.yml  
    → Cliquer "Run workflow"
 
 2. **Le workflow exécute automatiquement** :
-   - Recherches Deep approfondies (IA + News en parallèle)
-   - Mise en forme et upload Google Drive
+   - Recherches web parallèles (IA + News)
+   - Synthèses analytiques
+   - Upload Google Drive
    - Sync Markdown vers GitHub
    - Génération data.json
    - Commit sur GitHub
    - Le site se met à jour automatiquement
 
-**Durée totale** : ~8-12 minutes
+**Durée totale** : ~5-8 minutes
 
 ---
 
 ## 📊 Coûts
 
-**Architecture Deep Research (OpenAI o1 + GPT-4o-mini)**
+**Architecture 4-agents ChatGPT-4 Turbo**
 
-| Composant | Modèle | Coût/jour |
-|-----------|--------|-----------|
-| Deep Research IA | o1-2024-12-17 | ~0.25€ |
-| Deep Research News | o1-2024-12-17 | ~0.25€ |
-| Formatter IA | GPT-4o-mini | ~0.005€ |
-| Formatter News | GPT-4o-mini | ~0.005€ |
-| **TOTAL** | - | **~0.51€** |
+| Agent | Modèle | Tokens | Coût/jour |
+|-------|--------|--------|------------|
+| Recherche IA | GPT-4 Turbo | ~5K | ~0.06€ |
+| Synthèse IA | GPT-4 Turbo | ~10K | ~0.12€ |
+| Recherche News | GPT-4 Turbo | ~5K | ~0.06€ |
+| Synthèse News | GPT-4 Turbo | ~10K | ~0.12€ |
+| **TOTAL** | - | ~30K | **~0.36€** |
 
-**Par mois** : ~15.30€  
-**Budget jusqu'à fin mars (65 jours)** : ~33€
+**Par mois** : ~10.80€  
+**Budget jusqu'à fin mars (60 jours)** : ~21.60€
 
 ### Optimisations appliquées
 
-- ✅ Deep Research : 2 recherches approfondies au lieu de 28 requêtes Tavily
-- ✅ Formatter économique : GPT-4o-mini au lieu de GPT-4
-- ✅ Exécution parallèle des recherches (gain de temps)
-- ✅ Timeout adapté : 15 minutes par recherche
-- ✅ Artifacts inter-jobs pour réduire les coûts de stockage
+- ✅ GPT-4 Turbo au lieu de GPT-4 (3x moins cher)
+- ✅ web_search natif (pas de Tavily API)
+- ✅ Token limits : 8K recherche, 12K synthèse
+- ✅ Exécution parallèle (recherches IA + News simultanées)
+- ✅ Température optimisée : 0.1 (recherche), 0.7 (synthèse)
 
-### Amélioration vs ancien système (Tavily)
+### Comparaison architectures
 
-| Critère | Ancien (Tavily) | Nouveau (Deep Research) |
-|---------|-----------------|-------------------------|
+| Critère | Ancien (Tavily) | Nouveau (ChatGPT-4 Turbo) |
+|---------|-----------------|---------------------------|
 | **Qualité** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
 | **Fraîcheur** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **Couverture** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **Sport maritime** | ❌ | ✅ |
-| **Local Bretagne** | ❌ | ✅ |
-| **IA Nantes** | ❌ | ✅ |
-| **Coût/jour** | ~0.18€ | ~0.51€ |
+| **Sources** | Tavily API | Sites directs |
+| **Analyse** | Superficielle | Approfondie |
+| **Divergences** | ❌ | ✅ |
+| **Coût/jour** | ~0.18€ | ~0.36€ |
 
 ---
 
-## 🏗️ Architecture technique
+## 🏭 Architecture technique
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│          Workflow Deep Research (6h Paris)                   │
+│     Workflow Veille OpenAI Complète (6h Paris)              │
 │                                                              │
 │  ┌─────────────────────┐    ┌─────────────────────┐        │
-│  │ 1. Deep Research IA │    │ 2. Deep Research    │        │
-│  │    (o1, parallèle)  │    │    News (o1)        │        │
-│  │                     │    │    (parallèle)      │        │
-│  │ → research_ia.md    │    │ → research_news.md  │        │
-│  └──────────┬──────────┘    └──────────┬──────────┘        │
-│             └────────────┬──────────────┘                   │
-│                          ↓                                   │
-│             ┌────────────────────────────┐                  │
-│             │ 3. Formatter               │                  │
-│             │    (GPT-4o-mini)           │                  │
-│             │                            │                  │
-│             │ Lit les 2 research         │                  │
-│             │ Structure élégante         │                  │
-│             │                            │                  │
-│             │ → VeilleIA.md              │                  │
-│             │ → VeilleNews.md            │                  │
-│             │ Upload Google Drive        │                  │
-│             └────────────┬───────────────┘                  │
-│                          ↓                                   │
-│             ┌────────────────────────────┐                  │
-│             │ 4. Sync Markdown           │                  │
-│             │                            │                  │
-│             │ Download Google Drive      │                  │
-│             │ → docs/markdown/*.md       │                  │
-│             │ Commit GitHub              │                  │
-│             └────────────┬───────────────┘                  │
-│                          ↓                                   │
-│             ┌────────────────────────────┐                  │
-│             │ 5. Générateur JSON         │                  │
-│             │                            │                  │
-│             │ Parse Markdown             │                  │
-│             │ → docs/data.json           │                  │
-│             │ Commit GitHub              │                  │
-│             └────────────┬───────────────┘                  │
-│                          ↓                                   │
-│             ┌────────────────────────────┐                  │
-│             │ 6. Résumé final            │                  │
-│             │                            │                  │
-│             │ Statistiques               │                  │
-│             │ Pipeline OK                │                  │
-│             └────────────────────────────┘                  │
+│  │ 1.1 Recherche IA      │    │ 2.1 Recherche News  │        │
+│  │ GPT-4 Turbo          │    │ GPT-4 Turbo         │        │
+│  │ web_search           │    │ web_search          │        │
+│  │                       │    │                     │        │
+│  │ Sources inst. IA     │    │ Presse int/nat/loc  │        │
+│  │                       │    │                     │        │
+│  │ → recherche_ia.json   │    │ → recherche_news.json│        │
+│  └───────────┬──────────┘    └──────────┬──────────┘        │
+│             │                        │                   │
+│             ↓                        ↓                   │
+│  ┌───────────┴──────────┐    ┌──────────┴──────────┐        │
+│  │ 1.2 Synthèse IA       │    │ 2.2 Synthèse News   │        │
+│  │ GPT-4 Turbo          │    │ GPT-4 Turbo         │        │
+│  │                       │    │                     │        │
+│  │ Sélection 6 sujets :  │    │ Sélection 6 sujets :│        │
+│  │ - 3 tendances        │    │ - 2 internationaux  │        │
+│  │ - 3 tech             │    │ - 2 nationaux       │        │
+│  │                       │    │ - 2 locaux          │        │
+│  │ Analyse approfondie  │    │ Analyse approfondie │        │
+│  │ Divergences sources  │    │ Divergences sources │        │
+│  │                       │    │                     │        │
+│  │ → VeilleIA.md        │    │ → VeilleNews.md     │        │
+│  │ Upload Google Drive  │    │ Upload Google Drive │        │
+│  └───────────┬──────────┘    └──────────┬──────────┘        │
+│             └────────┬───────────────────────┘                   │
+│                        ↓                                   │
+│            ┌────────────────────────────┐                  │
+│            │ 3. Validation Markdown     │                  │
+│            │                            │                  │
+│            │ Vérifie VeilleIA.md       │                  │
+│            │ Vérifie VeilleNews.md     │                  │
+│            └────────────┬───────────────┘                  │
+│                         ↓                                   │
+│            ┌────────────────────────────┐                  │
+│            │ 4. Sync Markdown → GitHub │                  │
+│            │                            │                  │
+│            │ Download Google Drive      │                  │
+│            │ → docs/markdown/*.md      │                  │
+│            │ Commit GitHub              │                  │
+│            └────────────┬───────────────┘                  │
+│                         ↓                                   │
+│            ┌────────────────────────────┐                  │
+│            │ 5. Génération data.json   │                  │
+│            │                            │                  │
+│            │ Parse Markdown             │                  │
+│            │ → docs/data.json          │                  │
+│            │ Commit GitHub              │                  │
+│            └────────────┬───────────────┘                  │
+│                         ↓                                   │
+│            ┌────────────────────────────┐                  │
+│            │ 6. Résumé final           │                  │
+│            │                            │                  │
+│            │ Statistiques               │                  │
+│            │ Pipeline OK                │                  │
+│            └────────────────────────────┘                  │
 └──────────────────────────────────────────────────────────────┘
-                          ↓
-         ┌────────────────────────────┐
-         │   Frontend React           │
-         │   GitHub Pages             │
-         │   Fetch data.json          │
-         └────────────────────────────┘
+                         ↓
+        ┌────────────────────────────┐
+        │   Frontend React           │
+        │   GitHub Pages             │
+        │   Fetch data.json          │
+        └────────────────────────────┘
 ```
 
 ---
@@ -189,19 +216,24 @@ Le système utilise un **workflow unique** avec **6 jobs séquentiels** :
 ```
 VeilleNLI/
 ├── agents/
-│   ├── deep_research_ia.py         # Deep Research IA (o1)
-│   ├── deep_research_news.py       # Deep Research News (o1)
-│   ├── agent_formatter.py          # Formatter (GPT-4o-mini)
+│   ├── agent_recherche_ia.py       # [ACTIF] Recherche IA (GPT-4 Turbo + web_search)
+│   ├── agent_recherche_news.py     # [ACTIF] Recherche News (GPT-4 Turbo + web_search)
+│   ├── agent_synthese_ia_v2.py     # [ACTIF] Synthèse IA (GPT-4 Turbo)
+│   ├── agent_synthese_news_v2.py   # [ACTIF] Synthèse News (GPT-4 Turbo)
+│   ├── agent_validateur_markdown.py # Validation Markdown
 │   ├── agent_generateur_json.py    # Générateur data.json
 │   │
 │   ├── agent_collecteur_ia.py      # [INACTIF] Ancien système Tavily
-│   ├── agent_collecteur_news.py    # [INACTIF] Ancien système
-│   ├── agent_synthese_ia.py        # [INACTIF] Ancien système
-│   └── agent_synthese_news.py      # [INACTIF] Ancien système
+│   ├── agent_collecteur_news.py    # [INACTIF] Ancien système Tavily
+│   ├── agent_synthese_ia.py        # [INACTIF] Ancienne synthèse
+│   ├── agent_synthese_news.py      # [INACTIF] Ancienne synthèse
+│   ├── deep_research_ia.py         # [INACTIF] Ancien Deep Research
+│   └── deep_research_news.py       # [INACTIF] Ancien Deep Research
 │
 ├── .github/workflows/
-│   ├── deep-research-daily.yml     # [ACTIF] Workflow Deep Research
-│   └── veille-quotidienne.yml      # [DÉSACTIVÉ] Ancien workflow Tavily
+│   ├── veille-openai-complete.yml  # [ACTIF] Workflow 4-agents
+│   ├── deep-research-daily.yml     # [INACTIF] Ancien workflow Deep Research
+│   └── veille-quotidienne.yml      # [INACTIF] Ancien workflow Tavily
 │
 ├── docs/
 │   ├── index.html                  # Frontend React
@@ -211,7 +243,7 @@ VeilleNLI/
 │       └── VeilleNews.md           # Markdown News
 │
 ├── README.md                       # Ce fichier
-├── DEEP_RESEARCH_MIGRATION.md      # Documentation migration Deep Research
+├── ARCHITECTURE_4_AGENTS.md        # Documentation architecture 4-agents
 └── requirements.txt                # Dépendances Python
 ```
 
@@ -220,8 +252,8 @@ VeilleNLI/
 ## 🛠️ Technologies
 
 - **Backend** : Python 3.11+
-- **LLM Deep Research** : OpenAI o1 (`o1-2024-12-17`)
-- **LLM Formatter** : OpenAI GPT-4o-mini (`gpt-4o-mini-2024-07-18`)
+- **LLM** : OpenAI GPT-4 Turbo (`gpt-4-turbo-preview`)
+- **Recherche Web** : Capacité `web_search` native ChatGPT
 - **Storage** : Google Drive API
 - **Frontend** : React 18, Babel, Marked.js
 - **Hosting** : GitHub Pages
@@ -232,7 +264,7 @@ VeilleNLI/
 ## 🔐 Secrets GitHub requis
 
 ```
-OPENAI_API_KEY              # Clé API OpenAI (o1 + GPT-4o-mini)
+OPENAI_API_KEY              # Clé API OpenAI (GPT-4 Turbo)
 GOOGLE_DRIVE_CREDENTIALS    # JSON service account Google Drive
 GOOGLE_DRIVE_FOLDER_ID      # ID du dossier Google Drive
 ```
@@ -245,9 +277,10 @@ GOOGLE_DRIVE_FOLDER_ID      # ID du dossier Google Drive
 
 Cadre supérieur, ingénieur, basé à Nantes. Centres d'intérêt :
 
-- **IA/LLM** : Modèles de langage, recherche, open source, régulation, startups Nantes/Bretagne
-- **Actualités** : Politique, économie, international, écologie, sport maritime (voile, surf, kitesurf)
-- **Local** : Nantes, Bretagne, Pays de la Loire, Belle-Île-en-Mer
+- **IA/LLM** : Modèles de langage, recherche, open source, régulation, startups
+- **Actualités** : Politique, économie, international, écologie
+- **Sports maritimes** : Voile, course au large, surf, kitesurf, wingfoil
+- **Local** : Nantes, Bretagne, Pays de Loire, Belle-Île-en-Mer
 
 ---
 
@@ -256,7 +289,7 @@ Cadre supérieur, ingénieur, basé à Nantes. Centres d'intérêt :
 - **Fréquence** : Quotidienne à 6h00 (Paris)
 - **Format** : Hebdomadaire (cumul de la semaine)
 - **Mise à jour** : Automatique (workflow → GitHub → GitHub Pages)
-- **Durée** : ~8-12 minutes par exécution
+- **Durée** : ~5-8 minutes par exécution
 
 ---
 
@@ -264,7 +297,7 @@ Cadre supérieur, ingénieur, basé à Nantes. Centres d'intérêt :
 
 ### GitHub Actions
 
-- **Workflow actif** : "Deep Research Quotidien"
+- **Workflow actif** : "Veille OpenAI Complète"
 - **Logs** : Disponibles dans Actions → Dernier run
 - **Jobs** : 6 jobs séquentiels (2 parallèles au début)
 
@@ -273,8 +306,8 @@ Cadre supérieur, ingénieur, basé à Nantes. Centres d'intérêt :
 - ✅ Taille de `data.json` : ~20-50 KB
 - ✅ Nombre de sujets IA : 6 principaux + 15-20 autres
 - ✅ Nombre de sujets News : 6 principaux + 15-20 autres
-- ✅ Coût quotidien : ~0.51€
-- ✅ Temps d'exécution : 8-12 min
+- ✅ Coût quotidien : ~0.36€
+- ✅ Temps d'exécution : 5-8 min
 
 ---
 
@@ -286,25 +319,28 @@ Cadre supérieur, ingénieur, basé à Nantes. Centres d'intérêt :
 # 1. Installer les dépendances
 pip install -r requirements.txt
 
-# 2. Tester Deep Research IA
+# 2. Tester Recherche IA
 export OPENAI_API_KEY="sk-..."
-python agents/deep_research_ia.py
+python agents/agent_recherche_ia.py
 
-# 3. Tester Deep Research News
-python agents/deep_research_news.py
-
-# 4. Tester le Formatter (nécessite research*.md)
+# 3. Tester Synthèse IA (nécessite recherche_ia_brute.json)
 export GOOGLE_DRIVE_CREDENTIALS='{"type":"service_account",...}'
 export GOOGLE_DRIVE_FOLDER_ID="1xxx"
-python agents/agent_formatter.py
+python agents/agent_synthese_ia_v2.py
 
-# 5. Tester le générateur JSON
+# 4. Tester Recherche News
+python agents/agent_recherche_news.py
+
+# 5. Tester Synthèse News
+python agents/agent_synthese_news_v2.py
+
+# 6. Tester le générateur JSON
 python agents/agent_generateur_json.py
 
-# 6. Vérifier data.json
+# 7. Vérifier data.json
 cat docs/data.json | python -m json.tool
 
-# 7. Servir le site localement
+# 8. Servir le site localement
 cd docs
 python -m http.server 8000
 # Ouvrir http://localhost:8000
@@ -316,7 +352,7 @@ python -m http.server 8000
 - Vérifier les secrets GitHub (Settings → Secrets)
 - Consulter les logs du workflow (chaque job a ses logs)
 - Vérifier les quotas OpenAI
-- Timeout Deep Research : augmenter à 20 min si nécessaire
+- Vérifier connectivité web_search
 
 **Site n'affiche rien** :
 - Ouvrir la console (F12)
@@ -328,27 +364,28 @@ python -m http.server 8000
 - Relancer le workflow manuellement
 - Consulter les logs du générateur JSON (Job 5)
 
-**Deep Research timeout** :
-- Les recherches o1 peuvent prendre 2-5 minutes
-- Timeout actuel : 15 minutes (confortable)
-- Si timeout fréquent : augmenter à 20 min dans le workflow
+**Recherche web ne fonctionne pas** :
+- Vérifier que GPT-4 Turbo a accès à web_search
+- Consulter les logs des agents de recherche (Jobs 1.1 et 2.1)
+- Vérifier les URLs des sources institutionnelles
 
 ---
 
-## 📖 Documentation
+## 📚 Documentation
 
-- **DEEP_RESEARCH_MIGRATION.md** : Documentation migration vers Deep Research
+- **ARCHITECTURE_4_AGENTS.md** : Documentation complète architecture 4-agents
+- **DEEP_RESEARCH_MIGRATION.md** : Historique migration Deep Research
 - **MIGRATION_COMPLETE.md** : Historique migration Anthropic → OpenAI
 
 ---
 
-## 🎉 Migration Deep Research terminée
+## 🎉 Migration 4-agents ChatGPT-4 Turbo terminée
 
-**✅ Statut** : Production stable (janvier 2026)  
-**✅ Architecture** : Deep Research (o1) + Formatter (GPT-4o-mini)  
-**✅ Qualité** : Excellente (recherche approfondie)  
-**✅ Couverture** : Sport maritime + Local Bretagne + IA Nantes  
-**✅ Budget** : ~0.51€/jour (~33€ jusqu'à fin mars)
+**✅ Statut** : Production stable (février 2026)  
+**✅ Architecture** : 4-agents GPT-4 Turbo (Recherche + Synthèse)  
+**✅ Qualité** : Excellente (analyse approfondie avec divergences)  
+**✅ Sources** : Institutionnelles (IA) + Presse référence (News)  
+**✅ Budget** : ~0.36€/jour (~21.60€ jusqu'à fin mars)
 
 ---
 
@@ -364,10 +401,10 @@ Tous droits réservés.
 
 ---
 
-## 📞 Contact
+## 📧 Contact
 
 GitHub : [@nliziard-ops](https://github.com/nliziard-ops)
 
 ---
 
-*Dernière mise à jour : 25 janvier 2026 - Migration Deep Research*
+*Dernière mise à jour : 01 février 2026 - Migration Architecture 4-agents ChatGPT-4 Turbo*
