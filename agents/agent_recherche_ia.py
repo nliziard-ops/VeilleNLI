@@ -11,7 +11,7 @@ import json
 import hashlib
 import traceback
 from datetime import datetime, timedelta
-from typing import List, Dict, Any
+from typing import Dict, Any
 from openai import OpenAI
 
 
@@ -68,7 +68,6 @@ def rechercher_actualites_ia() -> Dict[str, Any]:
     sources_text = "\n".join([f"- {source}" for source in SOURCES_IA])
     
     # Construire prompt de recherche factuelle
-    # IMPORTANT : Utiliser simple string au lieu de f-string pour éviter conflits accolades JSON
     prompt = f"""Tu es un collecteur d'informations factuelles sur l'Intelligence Artificielle.
 
 **PÉRIODE** : du {date_debut.strftime('%d/%m/%Y')} au {date_fin.strftime('%d/%m/%Y')}
@@ -117,7 +116,7 @@ Ajoute aussi :
 - sources_consultees (liste)
 
 **CONSIGNES CRITIQUES** :
-- Recherche 15-25 actualités maximum
+- Recherche 10-15 actualités maximum (limite tokens)
 - UNIQUEMENT des faits vérifiables (annonces officielles, chiffres, dates)
 - AUCUNE interprétation, analyse, opinion
 - AUCUNE spéculation sur impacts futurs
@@ -149,7 +148,7 @@ Génère le JSON maintenant, sans préambule."""
                 }
             ],
             temperature=0.1,  # Très factuel, pas créatif
-            max_tokens=8000   # Limite pour gérer 15-25 articles
+            max_tokens=4000   # Limite modèle gpt-4-turbo-preview = 4096 max
         )
         
         print(f"📊 Tokens utilisés : {response.usage.total_tokens} (prompt: {response.usage.prompt_tokens}, completion: {response.usage.completion_tokens})")
