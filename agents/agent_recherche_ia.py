@@ -1,6 +1,6 @@
 """
 Agent 1 - Recherche Web IA
-Modèle : GPT-4 Turbo (ChatGPT)
+Modèle : GPT-5.2 (OpenAI)
 Rôle : Collecte factuelle d'informations depuis sites institutionnels IA
 Sans interprétation ni analyse - Restitution brute : catégorie, titre, résumé, synthèse, source+lien
 """
@@ -21,8 +21,8 @@ from openai import OpenAI
 
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 
-# Modèle ChatGPT-4 Turbo pour recherche web avec fonction web_search
-MODEL_RECHERCHE = "gpt-4-turbo-preview"
+# Modèle GPT-5.2 pour recherche web avec web_search tool
+MODEL_RECHERCHE = "gpt-5.2"
 
 # Fichier de sortie
 OUTPUT_JSON = "recherche_ia_brute.json"
@@ -41,12 +41,12 @@ SOURCES_IA = [
 
 
 # ================================================================================
-# RECHERCHE WEB AVEC CHATGPT-4 TURBO
+# RECHERCHE WEB AVEC GPT-5.2
 # ================================================================================
 
 def rechercher_actualites_ia() -> Dict[str, Any]:
     """
-    Utilise ChatGPT-4 Turbo avec capacité web_search pour collecter
+    Utilise GPT-5.2 avec web_search tool (live web access) pour collecter
     les actualités factuelles depuis les sources institutionnelles IA.
     
     Returns:
@@ -102,65 +102,58 @@ def rechercher_actualites_ia() -> Dict[str, Any]:
 **FORMAT DE SORTIE JSON - STRUCTURE OBLIGATOIRE** :
 Réponds UNIQUEMENT avec un JSON valide suivant ce format exact :
 
-Articles sous forme de liste avec pour chaque article :
-- categorie (string)
-- titre (string)
-- resume_court (string de 2-3 lignes)
-- synthese_complete (string factuelle)
-- source (string, nom du site)
-- url (string, URL complète)
-- date_publication (string format YYYY-MM-DD)
-
-Ajoute aussi :
-- periode avec debut et fin
-- sources_consultees (liste)
+{{
+  "articles": [
+    {{
+      "categorie": "Nouveaux modèles LLM",
+      "titre": "Titre exact de l'article",
+      "resume_court": "Résumé factuel en 2-3 lignes maximum",
+      "synthese_complete": "Contenu complet factuel",
+      "source": "Nom du site (ex: Anthropic, OpenAI)",
+      "url": "https://url-complete.com",
+      "date_publication": "2026-02-01"
+    }}
+  ],
+  "periode": {{
+    "debut": "{date_debut.strftime('%Y-%m-%d')}",
+    "fin": "{date_fin.strftime('%Y-%m-%d')}"
+  }},
+  "sources_consultees": ["Anthropic", "OpenAI"]
+}}
 
 **CONSIGNES CRITIQUES** :
-- Recherche 10-15 actualités maximum (limite tokens)
-- UNIQUEMENT des faits vérifiables (annonces officielles, chiffres, dates)
+- Recherche 10-15 actualités maximum
+- UNIQUEMENT des faits vérifiables
 - AUCUNE interprétation, analyse, opinion
-- AUCUNE spéculation sur impacts futurs
 - Citations exactes quand pertinent
 - URLs complètes obligatoires
-- Synthèse complète = retranscription factuelle du contenu
 
 **IMPORTANT** :
 Tu es un COLLECTEUR, pas un ANALYSTE. Tu ne portes AUCUN jugement.
-Tu retranscris les informations telles qu'elles apparaissent sur les sites.
-
-Utilise la fonction web_search pour accéder aux sites institutionnels.
+Utilise web_search pour accéder aux sites institutionnels.
 Génère le JSON maintenant, sans préambule."""
 
-    print("🌐 Lancement recherche web ChatGPT-4 Turbo...")
+    print("🌐 Lancement recherche web GPT-5.2 avec web_search (LIVE WEB)...")
     
     try:
-        # Appel API ChatGPT-4 Turbo avec web_search capability
-        response = client.chat.completions.create(
+        # Appel API GPT-5.2 avec Responses API + web_search tool + LIVE WEB
+        response = client.responses.create(
             model=MODEL_RECHERCHE,
-            messages=[
-                {
-                    "role": "system",
-                    "content": "Tu es un collecteur d'informations factuelles. Tu réponds UNIQUEMENT en JSON valide, sans markdown, sans commentaires. Tu utilises la fonction web_search pour accéder aux sites web."
-                },
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ],
-            temperature=0.1,  # Très factuel, pas créatif
-            max_tokens=4000   # RÉDUIT : max 4096 pour gpt-4-turbo-preview
+            tools=[{"type": "web_search", "external_web_access": True}],  # LIVE WEB = True
+            input=prompt,
+            max_tokens=8000  # Spécifié par Nicolas
         )
         
         print(f"📊 Tokens utilisés : {response.usage.total_tokens} (prompt: {response.usage.prompt_tokens}, completion: {response.usage.completion_tokens})")
         
-        # Coût GPT-4 Turbo : ~$0.01/1K input, ~$0.03/1K output
+        # Coût GPT-5.2 (estimation, à vérifier)
         cost_input = (response.usage.prompt_tokens / 1000) * 0.01
         cost_output = (response.usage.completion_tokens / 1000) * 0.03
         cost_total = cost_input + cost_output
         print(f"💰 Coût estimé : ${cost_total:.4f}")
         
-        # Extraire JSON
-        json_text = response.choices[0].message.content.strip()
+        # Extraire JSON depuis output_text
+        json_text = response.output_text.strip()
         
         # Nettoyer les backticks markdown si présents
         if json_text.startswith('```'):
@@ -199,7 +192,7 @@ Génère le JSON maintenant, sans préambule."""
         raise
     
     except Exception as e:
-        print(f"❌ Erreur ChatGPT-4 Turbo : {e}")
+        print(f"❌ Erreur GPT-5.2 : {e}")
         traceback.print_exc()
         raise
 
@@ -235,7 +228,7 @@ def main():
     
     try:
         print("=" * 80)
-        print("🤖 AGENT 1 - RECHERCHE WEB IA (ChatGPT-4 Turbo)")
+        print("🤖 AGENT 1 - RECHERCHE WEB IA (GPT-5.2 + LIVE WEB SEARCH)")
         print("=" * 80)
         print(f"⏰ Exécution : {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
         print(f"📂 Répertoire de travail : {os.getcwd()}")
@@ -252,7 +245,7 @@ def main():
         print()
         
         # Recherche web
-        print("📡 RECHERCHE WEB FACTUELLE IA")
+        print("📡 RECHERCHE WEB FACTUELLE IA (GPT-5.2)")
         print("-" * 80)
         print("Sources institutionnelles :")
         for source in SOURCES_IA:
