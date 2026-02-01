@@ -289,7 +289,7 @@ Génère le Markdown complet maintenant, sans préambule :"""
                 }
             ],
             temperature=0.7,  # Créativité modérée pour analyse
-            max_tokens=12000  # Augmenté pour 6 synthèses approfondies
+            max_tokens=4000  # RÉDUIT : max 4096 pour gpt-4-turbo-preview
         )
         
         markdown_content = response.choices[0].message.content.strip()
