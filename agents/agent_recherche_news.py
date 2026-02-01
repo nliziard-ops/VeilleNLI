@@ -133,7 +133,7 @@ Ajoute aussi :
 - sources_consultees (liste)
 
 **CONSIGNES CRITIQUES** :
-- Vise 12-18 actualités maximum (limite tokens)
+- Vise 15-20 actualités maximum (limite tokens)
 - Respecte la distribution : ~35% international, ~35% national, ~30% local
 - UNIQUEMENT des faits vérifiables
 - AUCUNE interprétation, analyse, opinion
@@ -166,7 +166,7 @@ Génère le JSON maintenant, sans préambule."""
                 }
             ],
             temperature=0.1,  # Très factuel
-            max_tokens=4000   # Limite modèle gpt-4-turbo-preview = 4096 max
+            max_tokens=4000   # RÉDUIT : max 4096 pour gpt-4-turbo-preview
         )
         
         print(f"📊 Tokens utilisés : {response.usage.total_tokens} (prompt: {response.usage.prompt_tokens}, completion: {response.usage.completion_tokens})")

@@ -148,7 +148,7 @@ Génère le JSON maintenant, sans préambule."""
                 }
             ],
             temperature=0.1,  # Très factuel, pas créatif
-            max_tokens=4000   # Limite modèle gpt-4-turbo-preview = 4096 max
+            max_tokens=4000   # RÉDUIT : max 4096 pour gpt-4-turbo-preview
         )
         
         print(f"📊 Tokens utilisés : {response.usage.total_tokens} (prompt: {response.usage.prompt_tokens}, completion: {response.usage.completion_tokens})")
