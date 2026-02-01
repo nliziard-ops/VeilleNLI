@@ -1,0 +1,396 @@
+name: 🤖 Veille OpenAI Complète (4 agents GPT-4 Turbo)
+
+# Pipeline 4-agents OpenAI : Recherche factuelle + Synthèse analytique
+# Architecture : Recherche IA → Synthèse IA | Recherche News → Synthèse News → Sync + Site
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Tous les jours à 6h00 Paris
+  workflow_dispatch:  # Déclenchement manuel
+
+env:
+  TZ: Europe/Paris
+
+jobs:
+  # ============================================
+  # ÉTAPE 1.1 : RECHERCHE IA (parallèle avec 2.1)
+  # ============================================
+  step-1-1-recherche-ia:
+    name: "1.1 - Recherche IA (GPT-4 Turbo)"
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: 🚀 Run Recherche IA
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          echo "🔍 Lancement Agent Recherche IA..."
+          python agents/agent_recherche_ia.py
+      
+      - name: 📤 Upload JSON brut (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: recherche-ia-brute
+          path: recherche_ia_brute.json
+          retention-days: 1
+
+  # ============================================
+  # ÉTAPE 1.2 : SYNTHÈSE IA (attend 1.1)
+  # ============================================
+  step-1-2-synthese-ia:
+    name: "1.2 - Synthèse IA (GPT-4 Turbo)"
+    runs-on: ubuntu-latest
+    needs: step-1-1-recherche-ia
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: 📥 Download JSON brut IA
+        uses: actions/download-artifact@v4
+        with:
+          name: recherche-ia-brute
+          path: .
+      
+      - name: 🚀 Run Synthèse IA
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GOOGLE_DRIVE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+        run: |
+          echo "📝 Lancement Agent Synthèse IA..."
+          python agents/agent_synthese_ia_v2.py
+          echo "✅ VeilleIA.md uploadé sur Google Drive"
+
+  # ============================================
+  # ÉTAPE 2.1 : RECHERCHE NEWS (parallèle avec 1.1)
+  # ============================================
+  step-2-1-recherche-news:
+    name: "2.1 - Recherche News (GPT-4 Turbo)"
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: 🚀 Run Recherche News
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          echo "🔍 Lancement Agent Recherche News..."
+          python agents/agent_recherche_news.py
+      
+      - name: 📤 Upload JSON brut (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: recherche-news-brute
+          path: recherche_news_brute.json
+          retention-days: 1
+
+  # ============================================
+  # ÉTAPE 2.2 : SYNTHÈSE NEWS (attend 2.1)
+  # ============================================
+  step-2-2-synthese-news:
+    name: "2.2 - Synthèse News (GPT-4 Turbo)"
+    runs-on: ubuntu-latest
+    needs: step-2-1-recherche-news
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: 📥 Download JSON brut News
+        uses: actions/download-artifact@v4
+        with:
+          name: recherche-news-brute
+          path: .
+      
+      - name: 🚀 Run Synthèse News
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GOOGLE_DRIVE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+        run: |
+          echo "📝 Lancement Agent Synthèse News..."
+          python agents/agent_synthese_news_v2.py
+          echo "✅ VeilleNews.md uploadé sur Google Drive"
+
+  # ============================================
+  # ÉTAPE 3 : VALIDATION (attend 1.2 ET 2.2)
+  # ============================================
+  step-3-validation-markdown:
+    name: "3 - Validation Markdown"
+    runs-on: ubuntu-latest
+    needs: [step-1-2-synthese-ia, step-2-2-synthese-news]
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install google-api-python-client google-auth
+      
+      - name: 🔍 Validate Markdown files
+        env:
+          GOOGLE_DRIVE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+        run: |
+          echo "🔍 Validation des fichiers Markdown..."
+          python agents/agent_validateur_markdown.py
+          echo "✅ VeilleIA.md et VeilleNews.md validés"
+
+  # ============================================
+  # ÉTAPE 4 : SYNC MARKDOWN → GITHUB (attend 3)
+  # ============================================
+  step-4-sync-markdown:
+    name: "4 - Sync Markdown → GitHub"
+    runs-on: ubuntu-latest
+    needs: step-3-validation-markdown
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install google-api-python-client google-auth
+      
+      - name: ⬇️ Download from Google Drive
+        env:
+          GOOGLE_DRIVE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+        run: |
+          python - <<'EOF'
+          import os
+          import json
+          from google.oauth2 import service_account
+          from googleapiclient.discovery import build
+          from googleapiclient.http import MediaIoBaseDownload
+          import io
+
+          credentials = service_account.Credentials.from_service_account_info(
+              json.loads(os.environ['GOOGLE_DRIVE_CREDENTIALS']),
+              scopes=['https://www.googleapis.com/auth/drive.readonly']
+          )
+          service = build('drive', 'v3', credentials=credentials)
+          folder_id = os.environ['GOOGLE_DRIVE_FOLDER_ID']
+
+          for filename in ['VeilleIA.md', 'VeilleNews.md']:
+              query = f"name='{filename}' and '{folder_id}' in parents"
+              results = service.files().list(q=query, fields="files(id)").execute()
+              files = results.get('files', [])
+              
+              if files:
+                  file_id = files[0]['id']
+                  request = service.files().get_media(fileId=file_id)
+                  fh = io.BytesIO()
+                  downloader = MediaIoBaseDownload(fh, request)
+                  done = False
+                  while not done:
+                      _, done = downloader.next_chunk()
+                  
+                  os.makedirs('docs/markdown', exist_ok=True)
+                  with open(f'docs/markdown/{filename}', 'wb') as f:
+                      f.write(fh.getvalue())
+                  print(f"✅ {filename} téléchargé")
+              else:
+                  print(f"⚠️  {filename} introuvable")
+          EOF
+      
+      - name: 💾 Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          git add docs/markdown/*.md
+          
+          if git diff --staged --quiet; then
+            echo "✅ Aucun changement à commiter"
+          else
+            git commit -m "📋 Sync Markdown depuis Google Drive [auto]"
+            
+            # Retry logic avec gestion des conflits
+            for i in {1..3}; do
+              git pull --rebase -X ours origin main && git push && break || {
+                echo "⚠️  Tentative $i échouée, retry..."
+                sleep 2
+              }
+            done
+          fi
+
+  # ============================================
+  # ÉTAPE 5 : GÉNÉRATION data.json (attend 4)
+  # ============================================
+  step-5-update-data-json:
+    name: "5 - Génération data.json"
+    runs-on: ubuntu-latest
+    needs: step-4-sync-markdown
+    permissions:
+      contents: write
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
+      
+      - name: 🔨 Génération de data.json
+        env:
+          GOOGLE_DRIVE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+        run: |
+          echo "🚀 Génération de data.json..."
+          python agents/agent_generateur_json.py
+          echo "✅ data.json généré"
+          ls -lh docs/data.json
+      
+      - name: 💾 Commit and push data.json
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          if git diff --quiet docs/data.json; then
+            echo "ℹ️ Aucune modification dans data.json"
+            exit 0
+          fi
+          
+          git add docs/data.json
+          git commit -m "🤖 Mise à jour automatique data.json - $(date '+%Y-%m-%d %H:%M')"
+          
+          # Push avec retry
+          max_retries=3
+          retry_count=0
+          
+          while [ $retry_count -lt $max_retries ]; do
+            echo "🔄 Tentative de push ($((retry_count + 1))/$max_retries)..."
+            
+            git rebase --abort 2>/dev/null || true
+            git merge --abort 2>/dev/null || true
+            
+            if git pull --rebase -X ours origin main; then
+              if git push origin main; then
+                echo "✅ data.json pushé avec succès"
+                exit 0
+              fi
+            fi
+            
+            retry_count=$((retry_count + 1))
+            if [ $retry_count -lt $max_retries ]; then
+              sleep 5
+            fi
+          done
+          
+          echo "❌ Échec du push"
+          exit 1
+
+  # ============================================
+  # ÉTAPE 6 : RÉSUMÉ FINAL (attend 5)
+  # ============================================
+  step-6-summary:
+    name: "6 - Résumé final"
+    runs-on: ubuntu-latest
+    needs: step-5-update-data-json
+    if: always()
+    
+    steps:
+      - name: 📊 Workflow Summary
+        run: |
+          echo "=========================================="
+          echo "✅ VEILLE OPENAI COMPLÈTE TERMINÉE"
+          echo "=========================================="
+          echo ""
+          echo "📊 Pipeline 4-agents exécuté :"
+          echo "  1.1 → Recherche IA (GPT-4 Turbo web search)"
+          echo "  1.2 → Synthèse IA (GPT-4 Turbo analytique)"
+          echo "  2.1 → Recherche News (GPT-4 Turbo web search)"
+          echo "  2.2 → Synthèse News (GPT-4 Turbo analytique)"
+          echo "  3   → Validation Markdown"
+          echo "  4   → Sync Markdown → GitHub"
+          echo "  5   → Génération data.json"
+          echo "  6   → Résumé final"
+          echo ""
+          echo "📄 Fichiers générés :"
+          echo "  ☁️  VeilleIA.md (Google Drive)"
+          echo "  ☁️  VeilleNews.md (Google Drive)"
+          echo "  📁 docs/markdown/*.md (GitHub)"
+          echo "  📊 docs/data.json (GitHub)"
+          echo ""
+          echo "🌐 Site mis à jour :"
+          echo "  https://nliziard-ops.github.io/VeilleNLI/"
+          echo ""
+          echo "⏰ Prochaine exécution : demain 6h00 Paris"
+          echo "=========================================="
