@@ -44,18 +44,18 @@ SOURCES_IA = [
 # RECHERCHE WEB AVEC CHATGPT-4 TURBO
 # ================================================================================
 
-def rechercher_actualites_ia() -> List[Dict[str, Any]]:
+def rechercher_actualites_ia() -> Dict[str, Any]:
     """
     Utilise ChatGPT-4 Turbo avec capacité web_search pour collecter
     les actualités factuelles depuis les sources institutionnelles IA.
     
     Returns:
-        Liste d'articles bruts avec métadonnées
+        Dictionnaire JSON avec articles
     """
     
     if not OPENAI_API_KEY:
         print("❌ OPENAI_API_KEY manquante")
-        return []
+        return {"articles": []}
     
     print(f"🔍 Création client OpenAI pour recherche web...")
     client = OpenAI(api_key=OPENAI_API_KEY)
@@ -64,13 +64,17 @@ def rechercher_actualites_ia() -> List[Dict[str, Any]]:
     date_fin = datetime.now()
     date_debut = date_fin - timedelta(days=7)
     
+    # Préparer liste sources
+    sources_text = "\n".join([f"- {source}" for source in SOURCES_IA])
+    
     # Construire prompt de recherche factuelle
+    # IMPORTANT : Utiliser simple string au lieu de f-string pour éviter conflits accolades JSON
     prompt = f"""Tu es un collecteur d'informations factuelles sur l'Intelligence Artificielle.
 
 **PÉRIODE** : du {date_debut.strftime('%d/%m/%Y')} au {date_fin.strftime('%d/%m/%Y')}
 
 **SOURCES PRIORITAIRES À CONSULTER** :
-{chr(10).join([f"- {source}" for source in SOURCES_IA])}
+{sources_text}
 
 **TA MISSION - COLLECTE FACTUELLE UNIQUEMENT** :
 1. Recherche les actualités IA/LLM publiées cette semaine sur ces sources institutionnelles
@@ -97,30 +101,20 @@ def rechercher_actualites_ia() -> List[Dict[str, Any]]:
    - "Asie" (Chine, DeepSeek, Baidu)
 
 **FORMAT DE SORTIE JSON - STRUCTURE OBLIGATOIRE** :
-```json
-{
-  "articles": [
-    {
-      "categorie": "Nouveaux modèles LLM",
-      "titre": "Titre exact de l'article",
-      "resume_court": "Résumé factuel en 2-3 lignes maximum",
-      "synthese_complete": "Contenu complet factuel de l'article : qui a fait quoi, quand, avec quels résultats mesurables, quelles annonces officielles. Rester strictement factuel sans analyse ni interprétation.",
-      "source": "Nom du site (ex: Anthropic, OpenAI, Mistral AI)",
-      "url": "https://url-complete-de-l-article.com",
-      "date_publication": "2026-02-01"
-    }
-  ],
-  "periode": {
-    "debut": "{date_debut.strftime('%Y-%m-%d')}",
-    "fin": "{date_fin.strftime('%Y-%m-%d')}"
-  },
-  "sources_consultees": [
-    "Anthropic",
-    "OpenAI",
-    "..."
-  ]
-}
-```
+Réponds UNIQUEMENT avec un JSON valide suivant ce format exact :
+
+Articles sous forme de liste avec pour chaque article :
+- categorie (string)
+- titre (string)
+- resume_court (string de 2-3 lignes)
+- synthese_complete (string factuelle)
+- source (string, nom du site)
+- url (string, URL complète)
+- date_publication (string format YYYY-MM-DD)
+
+Ajoute aussi :
+- periode avec debut et fin
+- sources_consultees (liste)
 
 **CONSIGNES CRITIQUES** :
 - Recherche 15-25 actualités maximum
@@ -136,7 +130,7 @@ Tu es un COLLECTEUR, pas un ANALYSTE. Tu ne portes AUCUN jugement.
 Tu retranscris les informations telles qu'elles apparaissent sur les sites.
 
 Utilise la fonction web_search pour accéder aux sites institutionnels.
-Génère le JSON maintenant, sans préambule :"""
+Génère le JSON maintenant, sans préambule."""
 
     print("🌐 Lancement recherche web ChatGPT-4 Turbo...")
     
@@ -184,9 +178,16 @@ Génère le JSON maintenant, sans préambule :"""
         data['model_utilise'] = MODEL_RECHERCHE
         data['agent'] = "Recherche IA"
         
+        # Vérifier structure
+        if 'periode' not in data:
+            data['periode'] = {
+                'debut': date_debut.strftime('%Y-%m-%d'),
+                'fin': date_fin.strftime('%Y-%m-%d')
+            }
+        
         # Générer IDs uniques
         for article in data.get('articles', []):
-            hash_input = f"{article['url']}{article['titre']}"
+            hash_input = f"{article.get('url', '')}{article.get('titre', '')}"
             article['id'] = hashlib.md5(hash_input.encode()).hexdigest()[:12]
         
         print(f"✅ Recherche terminée : {len(data.get('articles', []))} articles collectés")
