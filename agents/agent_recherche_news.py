@@ -11,7 +11,7 @@ import json
 import hashlib
 import traceback
 from datetime import datetime, timedelta
-from typing import List, Dict, Any
+from typing import Dict, Any
 from openai import OpenAI
 
 
@@ -70,13 +70,16 @@ def rechercher_actualites_news() -> Dict[str, Any]:
     date_fin = datetime.now()
     date_debut = date_fin - timedelta(days=7)
     
+    # Préparer liste sources
+    sources_text = "\n".join([f"- {source}" for source in SOURCES_NEWS])
+    
     # Construire prompt de recherche factuelle
     prompt = f"""Tu es un collecteur d'informations factuelles d'actualités.
 
 **PÉRIODE** : du {date_debut.strftime('%d/%m/%Y')} au {date_fin.strftime('%d/%m/%Y')}
 
 **SOURCES PRIORITAIRES À CONSULTER** :
-{chr(10).join([f"- {source}" for source in SOURCES_NEWS])}
+{sources_text}
 
 **DISTRIBUTION GÉOGRAPHIQUE CIBLE** :
 - 35% International (géopolitique, économie mondiale, crises)
@@ -96,7 +99,7 @@ def rechercher_actualites_news() -> Dict[str, Any]:
 3. Catégorise chaque actualité dans l'un de ces thèmes :
    **INTERNATIONAL** :
    - "Géopolitique" (conflits, diplomatie, relations internationales)
-   - "Économie mondiale" (marchs, commerce, crises)
+   - "Économie mondiale" (marchés, commerce, crises)
    - "Environnement" (climat, biodiversité, catastrophes)
    
    **FRANCE** :
@@ -112,36 +115,22 @@ def rechercher_actualites_news() -> Dict[str, Any]:
    - "Culture Bretagne" (événements, patrimoine)
 
 **FORMAT DE SORTIE JSON - STRUCTURE OBLIGATOIRE** :
-```json
-{
-  "articles": [
-    {
-      "categorie": "Géopolitique",
-      "zone_geo": "International",
-      "titre": "Titre exact de l'article",
-      "resume_court": "Résumé factuel en 2-3 lignes maximum",
-      "synthese_complete": "Contenu complet factuel : qui a dit quoi, quels événements, quels chiffres, quelles décisions. Rester strictement factuel.",
-      "source": "Nom du média (ex: Le Monde, Ouest-France)",
-      "url": "https://url-complete.com",
-      "date_publication": "2026-02-01"
-    }
-  ],
-  "periode": {
-    "debut": "{date_debut.strftime('%Y-%m-%d')}",
-    "fin": "{date_fin.strftime('%Y-%m-%d')}"
-  },
-  "repartition": {
-    "international": 0,
-    "national": 0,
-    "local": 0
-  },
-  "sources_consultees": [
-    "Le Monde",
-    "Ouest-France",
-    "..."
-  ]
-}
-```
+Réponds UNIQUEMENT avec un JSON valide suivant ce format exact :
+
+Articles sous forme de liste avec pour chaque article :
+- categorie (string)
+- zone_geo (string : "International", "National" ou "Local")
+- titre (string)
+- resume_court (string de 2-3 lignes)
+- synthese_complete (string factuelle)
+- source (string, nom du média)
+- url (string, URL complète)
+- date_publication (string format YYYY-MM-DD)
+
+Ajoute aussi :
+- periode avec debut et fin
+- repartition avec international, national, local (nombres)
+- sources_consultees (liste)
 
 **CONSIGNES CRITIQUES** :
 - Vise 20-30 actualités maximum
@@ -158,7 +147,7 @@ Tu es un COLLECTEUR, pas un ANALYSTE.
 Tu retranscris les informations telles qu'elles apparaissent.
 
 Utilise la fonction web_search pour accéder aux sites de presse.
-Génère le JSON maintenant, sans préambule :"""
+Génère le JSON maintenant, sans préambule."""
 
     print("🌐 Lancement recherche web ChatGPT-4 Turbo...")
     
@@ -206,13 +195,20 @@ Génère le JSON maintenant, sans préambule :"""
         data['model_utilise'] = MODEL_RECHERCHE
         data['agent'] = "Recherche News"
         
+        # Vérifier structure
+        if 'periode' not in data:
+            data['periode'] = {
+                'debut': date_debut.strftime('%Y-%m-%d'),
+                'fin': date_fin.strftime('%Y-%m-%d')
+            }
+        
         # Calculer répartition géographique
         if 'repartition' not in data:
             data['repartition'] = {'international': 0, 'national': 0, 'local': 0}
         
         for article in data.get('articles', []):
             # Générer ID unique
-            hash_input = f"{article['url']}{article['titre']}"
+            hash_input = f"{article.get('url', '')}{article.get('titre', '')}"
             article['id'] = hashlib.md5(hash_input.encode()).hexdigest()[:12]
             
             # Compter répartition
