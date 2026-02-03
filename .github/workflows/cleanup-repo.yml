@@ -51,12 +51,12 @@ jobs:
           echo "  • requirements.txt, README.md"
           echo "  • docs/ (site web)"
           echo ""
-          echo "Pour continuer, validez manuellement l'étape suivante"
+          echo "Exécution automatique avec --yes (pas de confirmation interactive)"
       
       - name: 🗑️ Exécution du nettoyage
         run: |
-          echo "🗑️ Exécution du nettoyage..."
-          python scripts/cleanup_repository.py --execute
+          echo "🗑️ Exécution du nettoyage avec --yes..."
+          python scripts/cleanup_repository.py --execute --yes
       
       - name: 📊 Vérification post-nettoyage
         run: |
