@@ -2,7 +2,7 @@
 Agent Recherche IA v3 - Collecte PURE
 Modèle : GPT-5.2 (OpenAI Responses API)
 Rôle : Collecte factuelle brute SANS tri, SANS analyse, SANS synthèse
-Budget : 10000 tokens max
+Budget : 8000 tokens max
 """
 
 import os
@@ -17,7 +17,7 @@ from openai import OpenAI
 # Configuration
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 MODEL_RECHERCHE = "gpt-5.2"
-MAX_TOKENS = 10000
+MAX_TOKENS = 8000
 OUTPUT_JSON = "recherche_ia_brute.json"
 MAX_ARTICLES = 25
 
