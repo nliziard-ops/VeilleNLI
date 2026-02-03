@@ -1,79 +1,29 @@
-# VeilleNLI
+# 🤖 VeilleNLI - Veille Automatisée IA & Actualités
 
-Système de veille automatisée sur l'Intelligence Artificielle et les actualités générales, propulsé par **ChatGPT-4 Turbo** (OpenAI).
+Système de veille quotidienne automatisé propulsé par **OpenAI GPT-5.2** et **GPT-4o-mini**.
 
-## 🌐 Site web
-
-**https://nliziard-ops.github.io/VeilleNLI/**
+🌐 **Site web** : https://nliziard-ops.github.io/VeilleNLI/
 
 ---
 
 ## 📋 Description
 
-VeilleNLI génère quotidiennement deux veilles hebdomadaires via un **pipeline 4-agents** :
+VeilleNLI génère **quotidiennement à 6h** deux veilles complètes :
 
-- **Veille IA & LLM** : Actualités IA depuis sources institutionnelles (Anthropic, OpenAI, Mistral, DeepSeek, etc.)
-- **Veille Actualités** : Presse nationale/internationale/locale (35% int, 35% nat, 30% local Bretagne)
+- **🤖 Veille IA & LLM** : Actualités IA depuis sources institutionnelles
+- **📰 Veille Actualités** : Presse internationale, nationale et locale (Bretagne)
 
-### Architecture 4-agents (ChatGPT-4 Turbo)
-
-Le système utilise **2 pipelines parallèles** de 2 agents chacun :
+### Architecture v3 : 4 agents séparés (Collecte | Synthèse)
 
 **Pipeline IA :**
-1. **Agent Recherche IA** (GPT-4 Turbo + web_search) : Collecte factuelle depuis sites institutionnels → `recherche_ia_brute.json`
-2. **Agent Synthèse IA** (GPT-4 Turbo) : Sélectionne 6 sujets (3 tendances + 3 tech) + analyse approfondie → `VeilleIA.md`
+1. **Agent Recherche IA v3** (GPT-5.2, 10k tokens) : Collecte brute → `recherche_ia_brute.json`
+2. **Agent Synthèse IA v3** (GPT-5.2 Pro, 8k tokens) : Sélection 6 sujets (3 buzz + 3 tech) + analyse → `VeilleIA.md`
 
 **Pipeline News :**
-1. **Agent Recherche News** (GPT-4 Turbo + web_search) : Collecte factuelle depuis presse → `recherche_news_brute.json`
-2. **Agent Synthèse News** (GPT-4 Turbo) : Sélectionne 6 sujets (2 int + 2 nat + 2 local) + analyse approfondie → `VeilleNews.md`
+1. **Agent Recherche News v3** (GPT-5.2, 10k tokens) : Collecte brute → `recherche_news_brute.json`
+2. **Agent Synthèse News v3** (GPT-5.2 Pro, 8k tokens) : Sélection 6 sujets (2 int + 2 nat + 2 local) + analyse → `VeilleNews.md`
 
-Puis : Validation → Sync GitHub → Génération data.json → Commit → GitHub Pages
-
----
-
-## ✨ Fonctionnalités
-
-### Recherche Web Factuelle (Agents 1 & 2)
-
-- ✅ **ChatGPT-4 Turbo** avec capacité `web_search` native
-- ✅ **Sources IA institutionnelles** : Anthropic, OpenAI, Mistral, DeepSeek, The Hacker News, DeepLearning.AI, Google AI, NVIDIA AI
-- ✅ **Presse internationale** : Le Grand Continent, El País, BBC, Reuters
-- ✅ **Presse nationale** : Le Figaro, Le Monde, Le Monde Diplomatique
-- ✅ **Presse locale Bretagne** : Ouest-France, Le Télégramme
-- ✅ **Collecte pure sans interprétation** : Titre, résumé court, synthèse complète, source, URL
-
-### Synthèse Analytique (Agents 3 & 4)
-
-**Veille IA - 6 sujets sélectionnés :**
-- **3 premiers** : Tendances qui font parler (buzz, controverses, ruptures)
-- **3 suivants** : Sujets technologiques (avancées, modèles, hardware)
-
-**Veille News - 6 sujets répartition obligatoire :**
-- **2 internationaux** (géopolitique, économie mondiale)
-- **2 nationaux** (France : politique, économie, société)
-- **2 locaux** (Bretagne/Pays de Loire : politique locale, sports maritimes, mer)
-
-**Pour chaque sujet :**
-- Résumé court (3-4 lignes)
-- Synthèse approfondie (15-25 lignes) : contexte, faits, impacts, analyse
-- Divergences entre sources
-- Toutes les sources citées avec URLs
-
-**Autres sujets (liste compacte) :**
-- Titre
-- Résumé court (2-3 lignes)
-- Synthèse (5-8 lignes)
-- Source unique avec URL
-
-### Frontend Web
-
-- ✅ Design sobre et élégant (Crimson Text + IBM Plex Sans)
-- ✅ Navigation IA / Actualités
-- ✅ Cards avec bouton **"Lire +"** pour dérouler le détail
-- ✅ Section **"Autres sujets"** en bas de page
-- ✅ Responsive design
-- ✅ Parser Markdown avancé
-- ✅ Chargement dynamique depuis `data.json`
+Puis : **Validation → Sync GitHub → data.json → GitHub Pages**
 
 ---
 
@@ -83,168 +33,103 @@ Puis : Validation → Sync GitHub → Génération data.json → Commit → GitH
 
 👉 **https://nliziard-ops.github.io/VeilleNLI/**
 
-### Relancer manuellement
+### Exécution manuelle
 
-1. **Workflow complet (4-agents)** :  
-   https://github.com/nliziard-ops/VeilleNLI/actions/workflows/veille-openai-complete.yml  
-   → Cliquer "Run workflow"
+1. Aller sur [Actions](https://github.com/nliziard-ops/VeilleNLI/actions/workflows/veille-openai-v3.yml)
+2. Cliquer sur **"Run workflow"**
 
-2. **Le workflow exécute automatiquement** :
-   - Recherches web parallèles (IA + News)
-   - Synthèses analytiques
-   - Upload Google Drive
-   - Sync Markdown vers GitHub
-   - Génération data.json
-   - Commit sur GitHub
-   - Le site se met à jour automatiquement
-
-**Durée totale** : ~5-8 minutes
+**Durée** : ~4-6 minutes
 
 ---
 
-## 📊 Coûts
+## 💰 Coûts (Optimisés)
 
-**Architecture 4-agents ChatGPT-4 Turbo**
+| Composant | Modèle | Coût/jour | Coût/mois |
+|-----------|--------|-----------|-----------|
+| Recherche IA | GPT-5.2 (10k tokens) | ~0.05€ | ~1.50€ |
+| Synthèse IA | GPT-5.2 Pro (8k tokens) | ~0.15€ | ~4.50€ |
+| Recherche News | GPT-5.2 (10k tokens) | ~0.05€ | ~1.50€ |
+| Synthèse News | GPT-5.2 Pro (8k tokens) | ~0.15€ | ~4.50€ |
+| **TOTAL** | - | **~0.40€** | **~12€** |
 
-| Agent | Modèle | Tokens | Coût/jour |
-|-------|--------|--------|------------|
-| Recherche IA | GPT-4 Turbo | ~5K | ~0.06€ |
-| Synthèse IA | GPT-4 Turbo | ~10K | ~0.12€ |
-| Recherche News | GPT-4 Turbo | ~5K | ~0.06€ |
-| Synthèse News | GPT-4 Turbo | ~10K | ~0.12€ |
-| **TOTAL** | - | ~30K | **~0.36€** |
-
-**Par mois** : ~10.80€  
-**Budget jusqu'à fin mars (60 jours)** : ~21.60€
+**Budget actuel** : 40€/mois (reste ~28€ de marge)
 
 ### Optimisations appliquées
 
-- ✅ GPT-4 Turbo au lieu de GPT-4 (3x moins cher)
-- ✅ web_search natif (pas de Tavily API)
-- ✅ Token limits : 8K recherche, 12K synthèse
-- ✅ Exécution parallèle (recherches IA + News simultanées)
-- ✅ Température optimisée : 0.1 (recherche), 0.7 (synthèse)
-
-### Comparaison architectures
-
-| Critère | Ancien (Tavily) | Nouveau (ChatGPT-4 Turbo) |
-|---------|-----------------|---------------------------|
-| **Qualité** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **Fraîcheur** | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **Sources** | Tavily API | Sites directs |
-| **Analyse** | Superficielle | Approfondie |
-| **Divergences** | ❌ | ✅ |
-| **Coût/jour** | ~0.18€ | ~0.36€ |
+- ✅ GPT-5.2 avec recherche web native (pas de Tavily)
+- ✅ Agents séparés (collecte pure vs synthèse)
+- ✅ Token limits stricts (10k recherche, 8k synthèse)
+- ✅ Température optimisée (0.1 collecte, 0.7 synthèse)
+- ✅ Exécutions parallèles (IA + News simultanées)
 
 ---
 
-## 🏭 Architecture technique
+## 🏗️ Architecture Technique
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│     Workflow Veille OpenAI Complète (6h Paris)              │
-│                                                              │
-│  ┌─────────────────────┐    ┌─────────────────────┐        │
-│  │ 1.1 Recherche IA      │    │ 2.1 Recherche News  │        │
-│  │ GPT-4 Turbo          │    │ GPT-4 Turbo         │        │
-│  │ web_search           │    │ web_search          │        │
-│  │                       │    │                     │        │
-│  │ Sources inst. IA     │    │ Presse int/nat/loc  │        │
-│  │                       │    │                     │        │
-│  │ → recherche_ia.json   │    │ → recherche_news.json│        │
-│  └───────────┬──────────┘    └──────────┬──────────┘        │
-│             │                        │                   │
-│             ↓                        ↓                   │
-│  ┌───────────┴──────────┐    ┌──────────┴──────────┐        │
-│  │ 1.2 Synthèse IA       │    │ 2.2 Synthèse News   │        │
-│  │ GPT-4 Turbo          │    │ GPT-4 Turbo         │        │
-│  │                       │    │                     │        │
-│  │ Sélection 6 sujets :  │    │ Sélection 6 sujets :│        │
-│  │ - 3 tendances        │    │ - 2 internationaux  │        │
-│  │ - 3 tech             │    │ - 2 nationaux       │        │
-│  │                       │    │ - 2 locaux          │        │
-│  │ Analyse approfondie  │    │ Analyse approfondie │        │
-│  │ Divergences sources  │    │ Divergences sources │        │
-│  │                       │    │                     │        │
-│  │ → VeilleIA.md        │    │ → VeilleNews.md     │        │
-│  │ Upload Google Drive  │    │ Upload Google Drive │        │
-│  └───────────┬──────────┘    └──────────┬──────────┘        │
-│             └────────┬───────────────────────┘                   │
-│                        ↓                                   │
-│            ┌────────────────────────────┐                  │
-│            │ 3. Validation Markdown     │                  │
-│            │                            │                  │
-│            │ Vérifie VeilleIA.md       │                  │
-│            │ Vérifie VeilleNews.md     │                  │
-│            └────────────┬───────────────┘                  │
-│                         ↓                                   │
-│            ┌────────────────────────────┐                  │
-│            │ 4. Sync Markdown → GitHub │                  │
-│            │                            │                  │
-│            │ Download Google Drive      │                  │
-│            │ → docs/markdown/*.md      │                  │
-│            │ Commit GitHub              │                  │
-│            └────────────┬───────────────┘                  │
-│                         ↓                                   │
-│            ┌────────────────────────────┐                  │
-│            │ 5. Génération data.json   │                  │
-│            │                            │                  │
-│            │ Parse Markdown             │                  │
-│            │ → docs/data.json          │                  │
-│            │ Commit GitHub              │                  │
-│            └────────────┬───────────────┘                  │
-│                         ↓                                   │
-│            ┌────────────────────────────┐                  │
-│            │ 6. Résumé final           │                  │
-│            │                            │                  │
-│            │ Statistiques               │                  │
-│            │ Pipeline OK                │                  │
-│            └────────────────────────────┘                  │
-└──────────────────────────────────────────────────────────────┘
-                         ↓
-        ┌────────────────────────────┐
-        │   Frontend React           │
-        │   GitHub Pages             │
-        │   Fetch data.json          │
-        └────────────────────────────┘
+┌─────────────────────────────────────────────────────┐
+│  Workflow v3 (quotidien 6h Paris)                   │
+├─────────────────────────────────────────────────────┤
+│                                                     │
+│  1.1 Recherche IA v3  ║  2.1 Recherche News v3     │
+│      (GPT-5.2)        ║      (GPT-5.2)             │
+│      10k tokens       ║      10k tokens            │
+│      ↓                ║      ↓                     │
+│  recherche_ia.json    ║  recherche_news.json       │
+│      ↓                ║      ↓                     │
+│  1.2 Synthèse IA v3   ║  2.2 Synthèse News v3      │
+│      (GPT-5.2 Pro)    ║      (GPT-5.2 Pro)         │
+│      8k tokens        ║      8k tokens             │
+│      ↓                ║      ↓                     │
+│  VeilleIA.md          ║  VeilleNews.md             │
+│  (Google Drive)       ║  (Google Drive)            │
+│                                                     │
+├─────────────────────────────────────────────────────┤
+│                                                     │
+│  3. Validation Markdown                             │
+│  4. Sync → GitHub (docs/markdown/)                  │
+│  5. Génération data.json                            │
+│  6. Résumé final                                    │
+│                                                     │
+└─────────────────────────────────────────────────────┘
+                    ↓
+         ┌────────────────────┐
+         │  Frontend React    │
+         │  GitHub Pages      │
+         └────────────────────┘
 ```
 
 ---
 
-## 📁 Structure du projet
+## 📁 Structure du Projet
 
 ```
 VeilleNLI/
-├── agents/
-│   ├── agent_recherche_ia.py       # [ACTIF] Recherche IA (GPT-4 Turbo + web_search)
-│   ├── agent_recherche_news.py     # [ACTIF] Recherche News (GPT-4 Turbo + web_search)
-│   ├── agent_synthese_ia_v2.py     # [ACTIF] Synthèse IA (GPT-4 Turbo)
-│   ├── agent_synthese_news_v2.py   # [ACTIF] Synthèse News (GPT-4 Turbo)
-│   ├── agent_validateur_markdown.py # Validation Markdown
-│   ├── agent_generateur_json.py    # Générateur data.json
-│   │
-│   ├── agent_collecteur_ia.py      # [INACTIF] Ancien système Tavily
-│   ├── agent_collecteur_news.py    # [INACTIF] Ancien système Tavily
-│   ├── agent_synthese_ia.py        # [INACTIF] Ancienne synthèse
-│   ├── agent_synthese_news.py      # [INACTIF] Ancienne synthèse
-│   ├── deep_research_ia.py         # [INACTIF] Ancien Deep Research
-│   └── deep_research_news.py       # [INACTIF] Ancien Deep Research
-│
 ├── .github/workflows/
-│   ├── veille-openai-complete.yml  # [ACTIF] Workflow 4-agents
-│   ├── deep-research-daily.yml     # [INACTIF] Ancien workflow Deep Research
-│   └── veille-quotidienne.yml      # [INACTIF] Ancien workflow Tavily
+│   ├── veille-openai-v3.yml       # [ACTIF] Pipeline quotidien 4-agents
+│   └── cleanup-repo.yml           # Workflow de nettoyage (manuel)
 │
-├── docs/
-│   ├── index.html                  # Frontend React
-│   ├── data.json                   # Données structurées
+├── agents/
+│   ├── agent_recherche_ia_v3.py       # [ACTIF] Collecte IA
+│   ├── agent_synthese_ia_v3.py        # [ACTIF] Synthèse IA
+│   ├── agent_recherche_news_v3.py     # [ACTIF] Collecte News
+│   ├── agent_synthese_news_v3.py      # [ACTIF] Synthèse News
+│   ├── agent_validateur_markdown.py   # Validation Markdown
+│   └── agent_generateur_json.py       # Génération data.json
+│
+├── scripts/
+│   ├── list_openai_models.py          # Lister modèles OpenAI
+│   └── cleanup_repository.py          # Script de nettoyage
+│
+├── docs/                              # GitHub Pages
+│   ├── index.html                     # Frontend React
+│   ├── data.json                      # Données structurées
 │   └── markdown/
-│       ├── VeilleIA.md             # Markdown IA
-│       └── VeilleNews.md           # Markdown News
+│       ├── VeilleIA.md
+│       └── VeilleNews.md
 │
-├── README.md                       # Ce fichier
-├── ARCHITECTURE_4_AGENTS.md        # Documentation architecture 4-agents
-└── requirements.txt                # Dépendances Python
+├── README.md                          # Ce fichier
+└── requirements.txt                   # Dépendances Python
 ```
 
 ---
@@ -252,8 +137,7 @@ VeilleNLI/
 ## 🛠️ Technologies
 
 - **Backend** : Python 3.11+
-- **LLM** : OpenAI GPT-4 Turbo (`gpt-4-turbo-preview`)
-- **Recherche Web** : Capacité `web_search` native ChatGPT
+- **LLM** : OpenAI GPT-5.2 / GPT-5.2 Pro
 - **Storage** : Google Drive API
 - **Frontend** : React 18, Babel, Marked.js
 - **Hosting** : GitHub Pages
@@ -261,35 +145,95 @@ VeilleNLI/
 
 ---
 
-## 🔐 Secrets GitHub requis
+## 🔐 Secrets GitHub
 
+```bash
+OPENAI_API_KEY              # Clé API OpenAI (GPT-5.2)
+GOOGLE_DRIVE_CREDENTIALS    # Service account Google Drive (JSON)
+GOOGLE_DRIVE_FOLDER_ID      # ID du dossier de stockage
 ```
-OPENAI_API_KEY              # Clé API OpenAI (GPT-4 Turbo)
-GOOGLE_DRIVE_CREDENTIALS    # JSON service account Google Drive
-GOOGLE_DRIVE_FOLDER_ID      # ID du dossier Google Drive
-```
-
-**Note** : `TAVILY_API_KEY` et `ANTHROPIC_API_KEY` ne sont plus utilisés
 
 ---
 
-## 🎯 Profil du lecteur
+## 🧹 Nettoyage du Repository
 
-Cadre supérieur, ingénieur, basé à Nantes. Centres d'intérêt :
+Le repository a été **nettoyé** pour ne conserver que les fichiers essentiels du workflow v3.
 
-- **IA/LLM** : Modèles de langage, recherche, open source, régulation, startups
-- **Actualités** : Politique, économie, international, écologie
-- **Sports maritimes** : Voile, course au large, surf, kitesurf, wingfoil
-- **Local** : Nantes, Bretagne, Pays de Loire, Belle-Île-en-Mer
+### Méthode 1 : Workflow GitHub Actions (Recommandé)
+
+1. Aller sur [Actions](https://github.com/nliziard-ops/VeilleNLI/actions/workflows/cleanup-repo.yml)
+2. Cliquer sur **"Run workflow"**
+3. Confirmer l'exécution
+
+**Le workflow va** :
+- Supprimer tous les workflows obsolètes
+- Supprimer toutes les documentations de migration
+- Supprimer tous les agents v1 et v2
+- Supprimer les dossiers `archive/` et `config/`
+- Commit et push automatique
+
+### Méthode 2 : Script Python local
+
+```bash
+# Simulation (affiche ce qui serait supprimé)
+python scripts/cleanup_repository.py
+
+# Exécution réelle
+python scripts/cleanup_repository.py --execute
+```
+
+### Fichiers conservés après nettoyage
+
+**Workflows** :
+- ✅ `veille-openai-v3.yml` (actif)
+- ✅ `cleanup-repo.yml` (nettoyage)
+
+**Agents** :
+- ✅ `agent_recherche_ia_v3.py`
+- ✅ `agent_synthese_ia_v3.py`
+- ✅ `agent_recherche_news_v3.py`
+- ✅ `agent_synthese_news_v3.py`
+- ✅ `agent_validateur_markdown.py`
+- ✅ `agent_generateur_json.py`
+
+**Autres** :
+- ✅ `docs/` (site web complet)
+- ✅ `scripts/list_openai_models.py`
+- ✅ `README.md`
+- ✅ `requirements.txt`
 
 ---
 
-## 📅 Exécution
+## 🧪 Tests Locaux
 
-- **Fréquence** : Quotidienne à 6h00 (Paris)
-- **Format** : Hebdomadaire (cumul de la semaine)
-- **Mise à jour** : Automatique (workflow → GitHub → GitHub Pages)
-- **Durée** : ~5-8 minutes par exécution
+```bash
+# 1. Installation
+pip install -r requirements.txt
+
+# 2. Variables d'environnement
+export OPENAI_API_KEY="sk-..."
+export GOOGLE_DRIVE_CREDENTIALS='{"type":"service_account",...}'
+export GOOGLE_DRIVE_FOLDER_ID="1xxx"
+
+# 3. Test Recherche IA
+python agents/agent_recherche_ia_v3.py
+
+# 4. Test Synthèse IA (nécessite recherche_ia_brute.json)
+python agents/agent_synthese_ia_v3.py
+
+# 5. Test Recherche News
+python agents/agent_recherche_news_v3.py
+
+# 6. Test Synthèse News
+python agents/agent_synthese_news_v3.py
+
+# 7. Validation JSON
+cat docs/data.json | python -m json.tool
+
+# 8. Servir le site localement
+cd docs && python -m http.server 8000
+# → http://localhost:8000
+```
 
 ---
 
@@ -297,114 +241,68 @@ Cadre supérieur, ingénieur, basé à Nantes. Centres d'intérêt :
 
 ### GitHub Actions
 
-- **Workflow actif** : "Veille OpenAI Complète"
-- **Logs** : Disponibles dans Actions → Dernier run
-- **Jobs** : 6 jobs séquentiels (2 parallèles au début)
+- **Workflow actif** : [Veille OpenAI v3](https://github.com/nliziard-ops/VeilleNLI/actions/workflows/veille-openai-v3.yml)
+- **Dernière exécution** : Vérifier la page Actions
+- **Schedule** : Quotidien à 6h00 (Europe/Paris)
 
 ### Métriques clés
 
-- ✅ Taille de `data.json` : ~20-50 KB
-- ✅ Nombre de sujets IA : 6 principaux + 15-20 autres
-- ✅ Nombre de sujets News : 6 principaux + 15-20 autres
-- ✅ Coût quotidien : ~0.36€
-- ✅ Temps d'exécution : 5-8 min
+| Métrique | Valeur cible |
+|----------|--------------|
+| Durée d'exécution | 4-6 minutes |
+| Taille data.json | 30-60 KB |
+| Sujets IA | 6 principaux + 15-20 autres |
+| Sujets News | 6 principaux + 15-20 autres |
+| Coût quotidien | ~0.40€ |
+| Taux de succès | >95% |
 
 ---
 
-## 🔧 Maintenance
+## 🔧 Dépannage
 
-### Tests locaux
+### Workflow échoue
 
-```bash
-# 1. Installer les dépendances
-pip install -r requirements.txt
+1. **Vérifier les secrets** : Settings → Secrets and variables → Actions
+2. **Consulter les logs** : Actions → Dernier workflow → Chaque job a ses logs
+3. **Quotas OpenAI** : Vérifier sur platform.openai.com
 
-# 2. Tester Recherche IA
-export OPENAI_API_KEY="sk-..."
-python agents/agent_recherche_ia.py
+### Site n'affiche rien
 
-# 3. Tester Synthèse IA (nécessite recherche_ia_brute.json)
-export GOOGLE_DRIVE_CREDENTIALS='{"type":"service_account",...}'
-export GOOGLE_DRIVE_FOLDER_ID="1xxx"
-python agents/agent_synthese_ia_v2.py
+1. **Ouvrir la console** : F12 dans le navigateur
+2. **Vérifier data.json** : https://nliziard-ops.github.io/VeilleNLI/data.json
+3. **Valider le JSON** : Copier-coller sur jsonlint.com
 
-# 4. Tester Recherche News
-python agents/agent_recherche_news.py
+### Données manquantes
 
-# 5. Tester Synthèse News
-python agents/agent_synthese_news_v2.py
-
-# 6. Tester le générateur JSON
-python agents/agent_generateur_json.py
-
-# 7. Vérifier data.json
-cat docs/data.json | python -m json.tool
-
-# 8. Servir le site localement
-cd docs
-python -m http.server 8000
-# Ouvrir http://localhost:8000
-```
-
-### Dépannage
-
-**Workflow échoue** :
-- Vérifier les secrets GitHub (Settings → Secrets)
-- Consulter les logs du workflow (chaque job a ses logs)
-- Vérifier les quotas OpenAI
-- Vérifier connectivité web_search
-
-**Site n'affiche rien** :
-- Ouvrir la console (F12)
-- Vérifier que `data.json` est accessible
-- Vérifier le format JSON (validateur en ligne)
-
-**Données manquantes** :
-- Vérifier les fichiers Markdown sur Google Drive
-- Relancer le workflow manuellement
-- Consulter les logs du générateur JSON (Job 5)
-
-**Recherche web ne fonctionne pas** :
-- Vérifier que GPT-4 Turbo a accès à web_search
-- Consulter les logs des agents de recherche (Jobs 1.1 et 2.1)
-- Vérifier les URLs des sources institutionnelles
+1. **Vérifier Google Drive** : Les fichiers `VeilleIA.md` et `VeilleNews.md` doivent exister
+2. **Relancer le workflow** : Actions → Run workflow
+3. **Consulter Job 5** : Logs du générateur JSON
 
 ---
 
-## 📚 Documentation
+## 🎯 Profil du Lecteur
 
-- **ARCHITECTURE_4_AGENTS.md** : Documentation complète architecture 4-agents
-- **DEEP_RESEARCH_MIGRATION.md** : Historique migration Deep Research
-- **MIGRATION_COMPLETE.md** : Historique migration Anthropic → OpenAI
-
----
-
-## 🎉 Migration 4-agents ChatGPT-4 Turbo terminée
-
-**✅ Statut** : Production stable (février 2026)  
-**✅ Architecture** : 4-agents GPT-4 Turbo (Recherche + Synthèse)  
-**✅ Qualité** : Excellente (analyse approfondie avec divergences)  
-**✅ Sources** : Institutionnelles (IA) + Presse référence (News)  
-**✅ Budget** : ~0.36€/jour (~21.60€ jusqu'à fin mars)
+- **Tech** : IA/LLM, recherche, startups, régulation
+- **Actualités** : Politique, économie, international
+- **Sports maritimes** : Voile, surf, kitesurf, wingfoil
+- **Local** : Nantes, Bretagne, Belle-Île-en-Mer
 
 ---
 
-## 🤝 Contribution
+## 📅 Historique
 
-Projet personnel de Nicolas Liziard.
-
----
-
-## 📄 Licence
-
-Tous droits réservés.
+- **Février 2026** : Migration v3 - Architecture séparée (Collecte | Synthèse)
+- **Janvier 2026** : Migration OpenAI GPT-5.2
+- **Décembre 2025** : Architecture 4-agents OpenAI
+- **Novembre 2025** : Migration Anthropic → OpenAI
+- **Octobre 2025** : Création du projet (Anthropic Claude)
 
 ---
 
-## 📧 Contact
+## 📝 Licence
 
-GitHub : [@nliziard-ops](https://github.com/nliziard-ops)
+Tous droits réservés - Nicolas Liziard (@nliziard-ops)
 
 ---
 
-*Dernière mise à jour : 01 février 2026 - Migration Architecture 4-agents ChatGPT-4 Turbo*
+*Dernière mise à jour : Février 2026 - Architecture v3 (GPT-5.2)*
