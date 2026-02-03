@@ -5,10 +5,9 @@ Supprime tous les fichiers et dossiers obsolètes pour ne garder que le nécessa
 pour le workflow "Veille OpenAI v3 - Architecture Séparée (Collecte | Synthèse)"
 
 Usage:
-    python scripts/cleanup_repository.py
-    
-Ou via GitHub CLI:
-    gh workflow run cleanup-repo.yml
+    python scripts/cleanup_repository.py                    # Simulation
+    python scripts/cleanup_repository.py --execute          # Exécution avec confirmation
+    python scripts/cleanup_repository.py --execute --yes    # Exécution sans confirmation (CI/CD)
 """
 import os
 import sys
@@ -224,14 +223,22 @@ def main():
     print()
     
     # Mode d'exécution
-    if '--execute' in sys.argv or '-x' in sys.argv:
+    execute_mode = '--execute' in sys.argv or '-x' in sys.argv
+    skip_confirmation = '--yes' in sys.argv or '-y' in sys.argv
+    
+    if execute_mode:
         dry_run = False
         print("⚠️  MODE EXÉCUTION: Les fichiers seront réellement supprimés!")
         print()
-        confirm = input("Taper 'OUI' pour confirmer: ")
-        if confirm != 'OUI':
-            print("❌ Opération annulée")
-            sys.exit(1)
+        
+        # Demander confirmation seulement si --yes n'est pas présent
+        if not skip_confirmation:
+            confirm = input("Taper 'OUI' pour confirmer: ")
+            if confirm != 'OUI':
+                print("❌ Opération annulée")
+                sys.exit(1)
+        else:
+            print("✅ Confirmation automatique (--yes)")
     else:
         dry_run = True
         print("🔍 MODE SIMULATION (utilisez --execute pour supprimer réellement)")
@@ -256,6 +263,9 @@ def main():
         print()
         print("Pour effectuer le nettoyage réel, exécutez:")
         print("  python scripts/cleanup_repository.py --execute")
+        print()
+        print("Pour skip la confirmation (CI/CD):")
+        print("  python scripts/cleanup_repository.py --execute --yes")
     else:
         print("✅ NETTOYAGE TERMINÉ")
         print()
