@@ -5,7 +5,12 @@ name: 🧹 Nettoyage Repository (Manuel)
 # À exécuter manuellement via GitHub Actions
 
 on:
-  workflow_dispatch:  # Déclenchement manuel uniquement
+  workflow_dispatch:  # Déclenchement manuel
+  push:              # TEMPORAIRE : juste pour activer le workflow
+    branches:
+      - main
+    paths:
+      - '.github/workflows/cleanup-repo.yml'
 
 jobs:
   cleanup:
@@ -62,13 +67,13 @@ jobs:
           echo "📊 État du repository après nettoyage:"
           echo ""
           echo "Workflows restants:"
-          ls -lh .github/workflows/
+          ls -lh .github/workflows/ || echo "Aucun workflow"
           echo ""
           echo "Agents restants:"
-          ls -lh agents/
+          ls -lh agents/ || echo "Aucun agent"
           echo ""
           echo "Scripts restants:"
-          ls -lh scripts/
+          ls -lh scripts/ || echo "Aucun script"
       
       - name: 💾 Commit et push
         run: |
@@ -106,9 +111,9 @@ Conservation uniquement :
           echo "============================================"
           echo ""
           echo "Le repository ne contient plus que :"
-          echo "  • 1 workflow actif (veille-openai-v3.yml)"
+          echo "  • 2 workflows (veille-openai-v3.yml + cleanup-repo.yml)"
           echo "  • 6 agents Python (v3 uniquement)"
-          echo "  • 1 script utilitaire"
+          echo "  • 2 scripts utilitaires"
           echo "  • Fichiers de base (README, requirements)"
           echo "  • Site web (docs/)"
           echo ""
