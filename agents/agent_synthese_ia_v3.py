@@ -1,13 +1,13 @@
 """
-Agent Synthèse IA v3 - ANALYSE COMPLÈTE
+Agent Synthèse IA v3 - Analyse COMPLÈTE
 Modèle : GPT-5.2 Pro (OpenAI Responses API)
-Rôle : Sélectionner 6 sujets + Synthétiser selon template
-Max tokens : 8000
+Rôle : Analyser TOUS les articles, sélectionner Top 6 + Autres
+Budget : 8000 tokens max
 """
 
 import os
-import json
 import sys
+import json
 import traceback
 from datetime import datetime
 from typing import Dict, Any
@@ -17,6 +17,7 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
 import io
 
+# Configuration
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 GOOGLE_CREDENTIALS = json.loads(os.environ.get('GOOGLE_DRIVE_CREDENTIALS'))
 FOLDER_ID = os.environ.get('GOOGLE_DRIVE_FOLDER_ID')
@@ -29,8 +30,8 @@ OUTPUT_MARKDOWN = "VeilleIA.md"
 
 def generer_synthese_markdown(data: Dict[str, Any]) -> str:
     """
-    Analyse TOUS les articles et génère le markdown structuré.
-    Sélectionne 6 sujets principaux + liste "Autres sujets".
+    Génère le markdown de synthèse à partir du JSON brut.
+    Sélectionne 6 sujets principaux + liste les autres.
     """
     client = OpenAI(api_key=OPENAI_API_KEY)
     
@@ -40,95 +41,82 @@ def generer_synthese_markdown(data: Dict[str, Any]) -> str:
     if nb_articles == 0:
         print("⚠️  Aucun article à analyser")
         return f"""---
-agent: Synthèse IA v3
+agent: Synthèse IA v3 (GPT-5.2 Pro)
 date: {datetime.now().strftime('%Y-%m-%d')}
 catégorie: Intelligence Artificielle
 ---
 
-# Veille IA – Semaine du {data.get('periode', {}).get('debut', 'N/A')} au {data.get('periode', {}).get('fin', 'N/A')}
+# Veille IA – Aucune actualité disponible
 
-**Aucune actualité collectée cette semaine.**
+**Période :** {data.get('periode', {}).get('debut', '')} au {data.get('periode', {}).get('fin', '')}
+
+Aucune actualité n'a été collectée pour cette période.
 """
     
-    print(f"📊 Analyse de {nb_articles} articles collectés")
+    print(f"📊 Analyse de {nb_articles} articles...")
     
     # Construction du contexte pour l'agent de synthèse
     articles_text = ""
     for i, art in enumerate(articles, 1):
-        articles_text += f"\n[ARTICLE {i}]\n"
+        articles_text += f"\n--- ARTICLE {i}/{nb_articles} ---\n"
         articles_text += f"Titre: {art.get('titre', 'N/A')}\n"
         articles_text += f"Source: {art.get('source', 'N/A')}\n"
         articles_text += f"URL: {art.get('url', 'N/A')}\n"
         articles_text += f"Date: {art.get('date_publication', 'N/A')}\n"
-        articles_text += f"Catégorie: {art.get('categorie', 'N/A')}\n"
-        articles_text += f"Contenu: {art.get('contenu_brut', 'N/A')}\n"
-        articles_text += "-" * 80 + "\n"
+        articles_text += f"Catégorie: {art.get('categorie_auto', 'N/A')}\n"
+        articles_text += f"Contenu:\n{art.get('contenu_brut', 'N/A')}\n"
     
-    # PROMPT DE SYNTHÈSE STRUCTURÉE
-    prompt = f"""Tu es un analyste IA expert. Tu dois analyser TOUS les articles collectés et produire une veille structurée.
+    # Prompt de synthèse
+    periode_debut = data.get('periode', {}).get('debut', 'N/A')
+    periode_fin = data.get('periode', {}).get('fin', 'N/A')
+    
+    prompt = f"""Tu es un analyste IA senior. Tu dois analyser TOUS les articles ci-dessous et produire une veille structurée.
 
-ARTICLES COLLECTÉS ({nb_articles} au total) :
+ARTICLES À ANALYSER ({nb_articles} articles) :
 {articles_text}
 
-PÉRIODE : {data.get('periode', {}).get('debut', 'N/A')} au {data.get('periode', {}).get('fin', 'N/A')}
-
 MISSION :
-1. Sélectionne les 6 sujets LES PLUS PERTINENTS selon ces critères :
-   - Couverture multi-sources (plusieurs sources parlent du même sujet = priorité)
-   - Importance/impact dans le domaine IA
-   - Nouveauté/fraîcheur de l'information
-   - Équilibre : 3 sujets "buzz/tendances" + 3 sujets "tech/recherche"
+1. Sélectionne les 6 sujets les PLUS IMPORTANTS selon ces critères :
+   - Couverture multi-sources (plusieurs sources parlent du même sujet = prioritaire)
+   - Importance / impact (buzz médiatique, annonces majeures)
+   - Nouveauté (infos vraiment récentes, pas de redites)
+   - Diversité : 3 sujets "tendances/buzz" + 3 sujets "techniques/recherche"
 
-2. Pour chaque sujet des TOP 6 :
-   - Résumé : 3-4 lignes synthétiques
-   - Points de vue croisés : analyse comparative des sources (si multi-sources)
+2. Pour CHAQUE sujet des 6 sélectionnés, génère :
+   - Résumé : 3-4 lignes max
+   - Points de vue croisés : si plusieurs sources, comparer les angles
    - Analyse & implications : impacts sectoriels, opportunités, risques
    - Signaux faibles : tendances émergentes détectées
-   - Sources : liste des URLs
+   - Sources : liste des URLs utilisées
 
-3. Pour les autres articles (non top 6) :
-   - Liste compacte dans "Autres sujets de la semaine"
-   - Format : Titre + Thème + Résumé 1-2 lignes + Source + URL
+3. Pour les AUTRES articles (non top 6) :
+   - Liste compacte avec titre, thème, résumé 1 ligne, source + URL
 
-4. Synthèse finale :
-   - Points clés de la semaine
-   - Divergences d'analyse notables
-   - Signaux faibles & opportunités
-   - Risques & menaces
-   - À surveiller la semaine prochaine
-
-FORMAT MARKDOWN STRICT (sans emojis) :
-
+FORMAT MARKDOWN STRICT :
 ---
-agent: Synthèse IA v3
+agent: Synthèse IA v3 (GPT-5.2 Pro)
 date: {datetime.now().strftime('%Y-%m-%d')}
 catégorie: Intelligence Artificielle
 ---
 
-# Veille IA & LLM – Semaine du {data.get('periode', {}).get('debut', 'N/A')} au {data.get('periode', {}).get('fin', 'N/A')}
-
-**Édition [Nom thématique]**
-
----
+# Veille IA & LLM – Semaine du {periode_debut} au {periode_fin}
 
 ## Introduction
-
-[Paragraphe de contexte global de la semaine]
+[2-3 paragraphes de contexte général de la semaine]
 
 ---
 
 ## [SUJET 1/6] – [Titre du sujet]
 
 ### Résumé
-[3-4 lignes synthétiques]
+[3-4 lignes]
 
 ### Points de vue croisés
-
 **[Source1]**
-[Analyse de cette source]
+[Analyse angle source 1]
 
 **[Source2]**
-[Analyse de cette source]
+[Analyse angle source 2]
 
 ### Analyse & implications
 - Impacts sectoriels : [...]
@@ -144,7 +132,7 @@ catégorie: Intelligence Artificielle
 
 ---
 
-[RÉPÉTER POUR SUJETS 2/6, 3/6, 4/6, 5/6, 6/6]
+[... Répéter pour SUJET 2/6 à SUJET 6/6 ...]
 
 ---
 
@@ -152,45 +140,46 @@ catégorie: Intelligence Artificielle
 
 ### [Titre sujet secondaire]
 **Thème** : [Catégorie]
-**Résumé** : [1-2 lignes]
-**Source** : [Nom source] – [URL]
+**Résumé** : [1 ligne]
+**Source** : [[Nom source]] – [URL]
 
-[RÉPÉTER pour les autres articles non retenus dans le top 6]
+[... Répéter pour tous les autres articles ...]
 
 ---
 
 ## Synthèse finale
 
 ### Points clés de la semaine
-[Liste numérotée]
+[Liste 3-5 points clés]
 
 ### Divergences d'analyse notables
-[Analyse]
+[Si des sources divergent sur un sujet]
 
 ### Signaux faibles & opportunités
-[Liste]
+[Tendances émergentes détectées]
 
 ### Risques & menaces
-[Analyse]
+[Éléments d'attention]
 
 ### À surveiller la semaine prochaine
-[Liste]
+[Pistes de veille future]
 
 ---
 
 **Fin de l'édition**
-*Veille générée par Synthèse IA v3 (OpenAI GPT-5.2 Pro)*
+*Veille générée par Synthèse IA v3 (GPT-5.2 Pro)*
 
-IMPORTANT : Réponds UNIQUEMENT le markdown, sans texte avant/après.
+IMPORTANT :
+- Pas d'emoji dans le markdown
+- URLs complètes et valides
+- Respect strict de la structure
+- Synthèses denses et factuelles
 """
 
-    print("=" * 80)
-    print("🧠 SYNTHÈSE ANALYTIQUE - GPT-5.2 PRO")
-    print(f"🎯 Max tokens : {MAX_TOKENS}")
-    print("=" * 80)
+    print(f"🤖 Lancement GPT-5.2 Pro (max {MAX_TOKENS} tokens)...")
     
     try:
-        # SYNTAXE OFFICIELLE OPENAI - Responses API
+        # Appel OpenAI Responses API (pas de web search ici)
         response = client.responses.create(
             model=MODEL_SYNTHESE,
             input=prompt,
@@ -202,89 +191,109 @@ IMPORTANT : Réponds UNIQUEMENT le markdown, sans texte avant/après.
         
         markdown_content = response.output_text.strip()
         
-        print(f"✅ Markdown généré : {len(markdown_content)} caractères")
+        # Vérification basique
+        if len(markdown_content) < 500:
+            print("⚠️  ATTENTION : Markdown généré très court")
+        
+        if "SUJET 1/6" not in markdown_content:
+            print("⚠️  ATTENTION : Structure [SUJET 1/6] non détectée")
         
         return markdown_content
     
     except Exception as e:
-        print(f"❌ Erreur synthèse : {e}")
+        print(f"❌ Erreur génération markdown : {e}")
         traceback.print_exc()
         raise
 
 
 def uploader_vers_drive(contenu: str) -> None:
     """Upload du markdown vers Google Drive"""
-    print("\n📤 Upload vers Google Drive...")
+    print(f"📤 Upload vers Google Drive : {OUTPUT_MARKDOWN}...")
     
-    credentials = service_account.Credentials.from_service_account_info(
-        GOOGLE_CREDENTIALS, 
-        scopes=['https://www.googleapis.com/auth/drive']
-    )
-    service = build('drive', 'v3', credentials=credentials)
+    try:
+        credentials = service_account.Credentials.from_service_account_info(
+            GOOGLE_CREDENTIALS,
+            scopes=['https://www.googleapis.com/auth/drive']
+        )
+        service = build('drive', 'v3', credentials=credentials)
+        
+        # Recherche du fichier existant
+        query = f"name='{OUTPUT_MARKDOWN}' and '{FOLDER_ID}' in parents"
+        results = service.files().list(q=query, fields="files(id)").execute()
+        files = results.get('files', [])
+        
+        # Préparation du média
+        media = MediaIoBaseUpload(
+            io.BytesIO(contenu.encode('utf-8')),
+            mimetype='text/markdown',
+            resumable=True
+        )
+        
+        # Update ou Create
+        if files:
+            file_id = files[0]['id']
+            service.files().update(fileId=file_id, media_body=media).execute()
+            print(f"✅ {OUTPUT_MARKDOWN} mis à jour (ID: {file_id})")
+        else:
+            file_metadata = {
+                'name': OUTPUT_MARKDOWN,
+                'parents': [FOLDER_ID]
+            }
+            file = service.files().create(
+                body=file_metadata,
+                media_body=media,
+                fields='id'
+            ).execute()
+            print(f"✅ {OUTPUT_MARKDOWN} créé (ID: {file.get('id')})")
     
-    # Recherche fichier existant
-    query = f"name='{OUTPUT_MARKDOWN}' and '{FOLDER_ID}' in parents"
-    results = service.files().list(q=query, fields="files(id, name)").execute()
-    files = results.get('files', [])
-    
-    media = MediaIoBaseUpload(
-        io.BytesIO(contenu.encode('utf-8')), 
-        mimetype='text/markdown', 
-        resumable=True
-    )
-    
-    if files:
-        # Mise à jour
-        file_id = files[0]['id']
-        service.files().update(fileId=file_id, media_body=media).execute()
-        print(f"✅ {OUTPUT_MARKDOWN} mis à jour (ID: {file_id})")
-    else:
-        # Création
-        file_metadata = {
-            'name': OUTPUT_MARKDOWN,
-            'parents': [FOLDER_ID]
-        }
-        file = service.files().create(
-            body=file_metadata,
-            media_body=media,
-            fields='id'
-        ).execute()
-        print(f"✅ {OUTPUT_MARKDOWN} créé (ID: {file.get('id')})")
+    except Exception as e:
+        print(f"❌ Erreur upload Google Drive : {e}")
+        traceback.print_exc()
+        raise
 
 
 def main():
     """Point d'entrée principal"""
     try:
-        print("\n" + "=" * 80)
+        print("=" * 80)
         print("🤖 AGENT SYNTHÈSE IA v3 - ANALYSE COMPLÈTE")
-        print("=" * 80 + "\n")
+        print("=" * 80)
+        print(f"📂 Input : {INPUT_JSON}")
+        print(f"📄 Output : {OUTPUT_MARKDOWN}")
+        print(f"💰 Budget : {MAX_TOKENS} tokens max")
+        print()
         
         # Lecture du JSON brut
-        print(f"📥 Lecture de {INPUT_JSON}...")
+        if not os.path.exists(INPUT_JSON):
+            print(f"❌ Fichier introuvable : {INPUT_JSON}")
+            sys.exit(1)
+        
         with open(INPUT_JSON, 'r', encoding='utf-8') as f:
             data = json.load(f)
         
-        print(f"✅ {len(data.get('articles', []))} articles chargés")
+        print(f"📊 {data.get('nb_articles', 0)} articles à analyser")
+        print()
         
         # Génération synthèse
-        synthese = generer_synthese_markdown(data)
+        markdown = generer_synthese_markdown(data)
+        
+        print()
+        print(f"✅ Markdown généré ({len(markdown)} caractères)")
         
         # Upload vers Google Drive
-        uploader_vers_drive(synthese)
+        uploader_vers_drive(markdown)
         
-        print("\n" + "=" * 80)
-        print("✅ SYNTHÈSE TERMINÉE")
-        print("=" * 80 + "\n")
+        print()
+        print("=" * 80)
+        print("✅ SYNTHÈSE IA TERMINÉE")
+        print("=" * 80)
         
         sys.exit(0)
     
-    except FileNotFoundError:
-        print(f"❌ Fichier {INPUT_JSON} introuvable")
-        sys.exit(1)
-    
     except Exception as e:
-        print(f"\n❌ ERREUR FATALE : {e}\n")
-        traceback.print_exc()
+        print()
+        print(f"❌ ÉCHEC : {e}")
+        print("=" * 80)
         sys.exit(1)
 
 
