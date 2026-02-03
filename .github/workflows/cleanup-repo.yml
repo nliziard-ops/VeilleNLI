@@ -1,0 +1,118 @@
+name: 🧹 Nettoyage Repository (Manuel)
+
+# Workflow de nettoyage du repository
+# Supprime tous les fichiers et dossiers obsolètes
+# À exécuter manuellement via GitHub Actions
+
+on:
+  workflow_dispatch:  # Déclenchement manuel uniquement
+
+jobs:
+  cleanup:
+    name: Nettoyage des fichiers obsolètes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: 🔍 Simulation du nettoyage
+        run: |
+          echo "🔍 Mode simulation activé"
+          python scripts/cleanup_repository.py
+      
+      - name: ⚠️ Confirmation requise
+        run: |
+          echo "=================================="
+          echo "⚠️  ATTENTION : NETTOYAGE DESTRUCTIF"
+          echo "=================================="
+          echo ""
+          echo "Ce workflow va supprimer définitivement :"
+          echo "  • 36 fichiers obsolètes"
+          echo "  • 2 dossiers (archive/, config/)"
+          echo ""
+          echo "Fichiers conservés :"
+          echo "  • .github/workflows/veille-openai-v3.yml"
+          echo "  • agents/*_v3.py (recherche + synthèse)"
+          echo "  • agents/agent_validateur_markdown.py"
+          echo "  • agents/agent_generateur_json.py"
+          echo "  • scripts/list_openai_models.py"
+          echo "  • requirements.txt, README.md"
+          echo "  • docs/ (site web)"
+          echo ""
+          echo "Pour continuer, validez manuellement l'étape suivante"
+      
+      - name: 🗑️ Exécution du nettoyage
+        run: |
+          echo "🗑️ Exécution du nettoyage..."
+          python scripts/cleanup_repository.py --execute
+      
+      - name: 📊 Vérification post-nettoyage
+        run: |
+          echo "📊 État du repository après nettoyage:"
+          echo ""
+          echo "Workflows restants:"
+          ls -lh .github/workflows/
+          echo ""
+          echo "Agents restants:"
+          ls -lh agents/
+          echo ""
+          echo "Scripts restants:"
+          ls -lh scripts/
+      
+      - name: 💾 Commit et push
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          git add -A
+          
+          if git diff --staged --quiet; then
+            echo "ℹ️ Aucun fichier supprimé (déjà propre)"
+          else
+            git commit -m "🧹 Nettoyage automatique du repository
+
+Suppression des fichiers et dossiers obsolètes :
+- Workflows désactivés et anciens
+- Documentation de migration
+- Agents v1, v2 et versions intermédiaires
+- Dossiers archive/ et config/
+
+Conservation uniquement :
+- Workflow veille-openai-v3.yml (actif)
+- Agents v3 + validateur + générateur JSON
+- Site web docs/
+- README.md et requirements.txt"
+            
+            git push origin main
+            
+            echo "✅ Nettoyage terminé et committé"
+          fi
+      
+      - name: 🎉 Résumé
+        run: |
+          echo "============================================"
+          echo "✅ NETTOYAGE TERMINÉ"
+          echo "============================================"
+          echo ""
+          echo "Le repository ne contient plus que :"
+          echo "  • 1 workflow actif (veille-openai-v3.yml)"
+          echo "  • 6 agents Python (v3 uniquement)"
+          echo "  • 1 script utilitaire"
+          echo "  • Fichiers de base (README, requirements)"
+          echo "  • Site web (docs/)"
+          echo ""
+          echo "🌐 Vérifiez le site :"
+          echo "  https://nliziard-ops.github.io/VeilleNLI/"
+          echo ""
+          echo "============================================"
