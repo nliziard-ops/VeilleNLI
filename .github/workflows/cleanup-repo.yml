@@ -1,12 +1,8 @@
 name: 🧹 Nettoyage Repository (Manuel)
 
-# Workflow de nettoyage du repository
-# Supprime tous les fichiers et dossiers obsolètes
-# À exécuter manuellement via GitHub Actions
-
 on:
-  workflow_dispatch:  # Déclenchement manuel
-  push:              # TEMPORAIRE : juste pour activer le workflow
+  workflow_dispatch:
+  push:
     branches:
       - main
     paths:
@@ -85,19 +81,9 @@ jobs:
           if git diff --staged --quiet; then
             echo "ℹ️ Aucun fichier supprimé (déjà propre)"
           else
-            git commit -m "🧹 Nettoyage automatique du repository
-
-Suppression des fichiers et dossiers obsolètes :
-- Workflows désactivés et anciens
-- Documentation de migration
-- Agents v1, v2 et versions intermédiaires
-- Dossiers archive/ et config/
-
-Conservation uniquement :
-- Workflow veille-openai-v3.yml (actif)
-- Agents v3 + validateur + générateur JSON
-- Site web docs/
-- README.md et requirements.txt"
+            git commit -m "🧹 Nettoyage automatique du repository" \
+                       -m "Suppression fichiers obsolètes (workflows, docs, agents v1/v2)" \
+                       -m "Conservation: workflow v3, agents v3, site web"
             
             git push origin main
             
