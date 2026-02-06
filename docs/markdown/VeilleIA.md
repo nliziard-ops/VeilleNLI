@@ -1,148 +1,139 @@
 ---
 agent: Synthèse IA v3
-date: 2026-02-05
+date: 2026-02-06
 ---
 
-# Veille IA – Semaine du 2026-01-29 au 2026-02-05
+# Veille IA – Semaine du 2026-01-30 au 2026-02-06
 
 ## Introduction
-La semaine est marquée par une accélération de l’industrialisation de l’IA générative : partenariats structurants autour de la donnée d’entreprise (OpenAI–Snowflake), offres d’accompagnement pour passer du pilote à la production (AWS), et annonces orientées “adoption” (Europe, éducation).
+La semaine est dominée par une double dynamique : (1) la consolidation produit des plateformes d’IA (modèles, apps, navigateur, agents) et (2) la montée en puissance des enjeux d’intégration “in-the-loop” dans les workflows (entreprise, science) avec, en miroir, une pression accrue sur la sécurité opérationnelle.
 
-En parallèle, la surface d’attaque “agents + outils + connecteurs” devient un thème central : exfiltration via URLs, prompt injection indirecte, et exposition publique d’infrastructures LLM (Ollama/MCP). Le signal net : plus l’IA devient actionnable (tool-calling, navigation, automatisation), plus la sécurité se déplace vers des modèles de contrôle “contextuels” (autorisation, provenance, redirections, garde-fous sur les paramètres).
+On observe aussi un alignement des roadmaps autour de l’agentic AI (exécution d’actions, navigation, tool-calling) et des fondations industrielles (capacité de calcul, chaîne d’approvisionnement). Côté écosystème open source, la compétition se déplace vers la multimodalité, la licence permissive et la diffusion d’artefacts.
 
 ---
 
-## [SUJET 1/6] – OpenAI × Snowflake : l’IA “frontier” au plus près des données d’entreprise (200 M$)
+## [SUJET 1/6] – Dépréciation accélérée des modèles “legacy” dans ChatGPT (échéance 13 fév. 2026) [BUZZ]
 
 ### Résumé
-OpenAI et Snowflake annoncent un partenariat pluriannuel (200 M$) pour intégrer des modèles OpenAI dans Snowflake (Cortex AI, Snowflake Intelligence) et faciliter la création d’agents/applications ancrés dans les données d’entreprise. L’objectif affiché : interroger, automatiser et opérer directement sur les environnements data Snowflake. C’est un pas de plus vers des “AI-native data platforms”.
+OpenAI annonce le retrait dans ChatGPT de GPT‑4o, GPT‑4.1, GPT‑4.1 mini et o4‑mini au 13 février 2026 (en plus de retraits déjà annoncés côté GPT‑5 Instant/Thinking). L’API n’est pas concernée “à ce stade”, signalant une séparation plus nette entre offres consumer et offres développeurs. Le mouvement acte une cadence de renouvellement plus rapide et une rationalisation de la gamme côté ChatGPT.
 
 ### Points de vue croisés
-**OpenAI (partenariat Snowflake)**
-L’angle est “frontier intelligence” intégrée au stack data : réduire la friction entre modèles, gouvernance et données, et accélérer les agents orientés métiers.
-
-**AWS (framework de passage à la prod)**
-AWS insiste sur la difficulté récurrente : passer du POC à la production exige gouvernance, MLOps, sécurité, et pilotage de la valeur. Le partenariat OpenAI–Snowflake s’inscrit dans cette logique : packager davantage la mise en production via une plateforme data dominante.
+**OpenAI (blog produit)**  
+Met en avant une transition motivée par des améliorations et une simplification de l’expérience ChatGPT, sans impact immédiat API.  
+**OpenAI (Help Center + release notes)**  
+Confirme la liste et la date, détaille la mécanique de migration et le statut “reste en API”, suggérant une stratégie de déploiement par couches (ChatGPT d’abord, API ensuite).
 
 ### Analyse & implications
-- Impacts sectoriels : accélération des copilotes data (BI conversationnel, automation, préparation de données, support opérations) dans les secteurs déjà “Snowflake-centric”.
-- Opportunités : architectures “agent + data governance” plus standardisées ; time-to-value amélioré si les workflows d’accès aux données, permissions et audit sont nativement intégrés.
-- Risques potentiels : verrouillage fournisseur (data platform + IA) ; amplification du risque d’exfiltration si l’agent a trop de privilèges ; complexité de conformité (journalisation, séparation des rôles).
+- Impacts sectoriels :  
+  - Éditeurs/ESN : revalidation accélérée des parcours utilisateurs et des prompts “ChatGPT-only”.  
+  - Support/formation : mises à jour de documentation et d’acculturation (modèles, comportements, limites).
+- Opportunités :  
+  - Réduction de dette produit pour OpenAI ; incitation à adopter les modèles de dernière génération dans ChatGPT.  
+  - Standardisation des attentes qualité/latence si la gamme se resserre.
+- Risques potentiels :  
+  - Ruptures fonctionnelles (régressions perçues) et confusion entre disponibilité ChatGPT vs API.  
+  - Dépendance accrue à un “slot” de modèle par défaut (moins de contrôle utilisateur).
 
 ### Signaux faibles
-- Montée d’un modèle “agent inside the data platform” (vs agent dans une app) : la bataille se joue sur permissions, lineage, audit, et exécution d’actions.
-- La monétisation se déplace vers des bundles plateforme + consommation (compute/usage) plutôt que “simple API”.
+- La mention “pas de changement côté API à ce stade” laisse entrevoir des vagues de dépréciations futures côté développeurs (préavis, migration tooling, compatibilité).
+
+### Sources
+- "Retiring GPT-4o, GPT-4.1, GPT-4.1 mini, and OpenAI o4-mini in ChatGPT" – https://openai.com/index/retiring-gpt-4o-and-older-models/
+- "Retiring GPT-4o and other ChatGPT models" – https://help.openai.com/articles/20001051
+- "Model Release Notes" – https://help.openai.com/pt-pt/articles/9624314-model-release-notes
+
+---
+
+## [SUJET 2/6] – Open source: après le “DeepSeek Moment”, accélération multimodale et licence permissive (Mistral 3 + lecture écosystème) [BUZZ]
+
+### Résumé
+Mistral publie Mistral 3 (famille multimodale/multilingue, Apache 2.0) incluant des denses (14B/8B/3B) et un MoE (Large 3). En parallèle, Hugging Face analyse un an d’évolution post “DeepSeek Moment” : multiplication d’acteurs, diffusion d’artefacts et trajectoires industrielles en Chine. Ensemble, ces signaux indiquent une course open source moins centrée “poids du modèle” et plus centrée “distribution + intégrabilité + droits d’usage”.
+
+### Points de vue croisés
+**Mistral AI**  
+Positionne une offre open source compétitive (multimodalité, multi-tailles, licence Apache 2.0) et industrialisée (optimisations, entraînement H200).  
+**Hugging Face (série DeepSeek Moment)**  
+Souligne que l’écosystème open source se structure via le partage d’artefacts (modèles, papiers, infra, datasets), et que la dynamique chinoise pèse sur les standards de fait.
+
+### Analyse & implications
+- Impacts sectoriels :  
+  - Entreprises : baisse du coût d’adoption (licence permissive) et davantage d’options “on-prem / souverain”.  
+  - Plateformes (HF-like) : rôle renforcé comme couche de distribution/benchmarking et de confiance.
+- Opportunités :  
+  - Standardisation d’outils (formats, serving, quantization) autour de modèles permissifs.  
+  - Meilleure modularité (petits modèles + MoE) pour déploiements hétérogènes.
+- Risques potentiels :  
+  - Commoditisation : différenciation se déplace vers données, intégration, agents, sécurité.  
+  - Surface d’abus accrue (capacité multimodale + diffusion large), pression sur garde-fous downstream.
+
+### Signaux faibles
+- La convergence “multimodal + permissif” pourrait accélérer la migration vers des stacks hybrides (frontier propriétaire pour certaines tâches, open source pour le reste), pilotées par observabilité/coûts plutôt que par performance brute.
+
+### Sources
+- "Introducing Mistral 3" – https://mistral.ai/news/mistral-3
+- "One Year Since the “DeepSeek Moment”" – https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment
+- "The Future of the Global Open-Source AI Ecosystem: From DeepSeek to AI+" – https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment-blog-3
+
+---
+
+## [SUJET 3/6] – IA “dans le flux de travail” : data enterprise + sciences de la vie + rédaction scientifique (Snowflake x OpenAI, Anthropic, Prism) [BUZZ]
+
+### Résumé
+OpenAI et Snowflake annoncent un partenariat pluriannuel (200 M$) pour amener des modèles frontier au plus près des données d’entreprise (Cortex/Intelligence). Anthropic noue deux partenariats “flagship” (Allen Institute, HHMI) pour accélérer l’analyse en sciences de la vie face au déluge de données bio. OpenAI lance aussi Prism, workspace LaTeX cloud avec GPT‑5.2, visant la production scientifique end-to-end.
+
+### Points de vue croisés
+**OpenAI x Snowflake**  
+Accent sur l’industrialisation (agents et apps sur données gouvernées), avec une promesse “enterprise-ready”.  
+**Anthropic (Allen Institute, HHMI)**  
+Angle “scientific discovery” : réduire le goulot d’étranglement entre données massives et insight exploitable.  
+**OpenAI (Prism)**  
+Cible la chaîne éditoriale scientifique (écriture/révision/collaboration), donc l’aval du pipeline de recherche.
+
+### Analyse & implications
+- Impacts sectoriels :  
+  - Data/BI : les agents deviennent une couche d’orchestration au-dessus des entrepôts (requêtes, actions, reporting).  
+  - Recherche : accélération attendue sur revue de littérature, hypothèses, itérations d’écriture/LaTeX.
+- Opportunités :  
+  - “Time-to-insight” réduit via coupling modèles + gouvernance data.  
+  - Produits verticaux (bio, med, chimie) : avantage aux acteurs capables d’intégrer données propriétaires + contrôle qualité.
+- Risques potentiels :  
+  - Confidentialité et fuites (agents + connecteurs + outils), nécessité de politiques d’accès fines.  
+  - Sur-automatisation de livrables scientifiques (risque d’erreurs “propres” et difficiles à détecter).
+
+### Signaux faibles
+- L’empilement “agents + entrepôt + workspace de publication” suggère une future concurrence sur la traçabilité (citations, provenance, audit), pas seulement sur la génération.
 
 ### Sources
 - "Snowflake and OpenAI partner to bring frontier intelligence to enterprise data" – https://openai.com/index/snowflake-partnership/
-- "Beyond pilots: A proven framework for scaling AI to production" – https://aws.amazon.com/blogs/machine-learning/beyond-pilots-a-proven-framework-for-scaling-ai-to-production/
-
----
-
-## [SUJET 2/6] – Claude en sciences de la vie : partenariats Anthropic × Allen Institute × HHMI
-
-### Résumé
-Anthropic annonce deux partenariats “flagship” avec l’Allen Institute et le Howard Hughes Medical Institute (HHMI) pour appliquer Claude à la synthèse de connaissances, la génération d’hypothèses et l’interprétation expérimentale en biologie. L’ambition est d’attaquer le goulot d’étranglement : transformer des masses de données et de littérature en hypothèses testables et insights validés. Cela positionne l’IA comme couche d’orchestration cognitive en R&D.
-
-### Points de vue croisés
-**Anthropic (annonce partenariats)**
-Narratif “accélération de la découverte” : Claude comme moteur de synthèse et d’assistance à l’analyse scientifique, dans des institutions à forte crédibilité.
-
-**AWS (ML Solutions Lab)**
-AWS pousse une logique voisine côté industrie : mettre des experts au contact des équipes pour identifier des cas d’usage, prototyper et livrer. Différence : Anthropic vise des “flagships” scientifiques ; AWS systématise l’exécution “go-to-production” chez les clients.
-
-### Analyse & implications
-- Impacts sectoriels : biologie computationnelle, découverte de cibles, interprétation multi-omics, revue de littérature assistée, et assistance à la conception expérimentale.
-- Opportunités : réduction du cycle hypothèse→expérience ; meilleure exploitation d’archives et bases de données ; standardisation de la “lecture” et de la synthèse.
-- Risques potentiels : hallucinations et sur-confiance ; biais dans la littérature ; traçabilité des sources et reproductibilité ; questions IP (qui “découvre” quoi).
-
-### Signaux faibles
-- Les “flagships” pourraient devenir un nouveau standard marketing/validation pour les labs IA (preuve sociale + accès données/experts).
-- Tendance vers des assistants scientifiques intégrés aux pipelines (données → hypothèses → protocole → interprétation).
-
-### Sources
 - "Anthropic partners with Allen Institute and Howard Hughes Medical Institute to accelerate scientific discovery" – https://www.anthropic.com/news/anthropic-partners-with-allen-institute-and-howard-hughes-medical-institute
-- "Introducing the Amazon ML Solutions Lab" – https://aws.amazon.com/blogs/machine-learning/introducing-the-amazon-ml-solutions-lab/
+- "Introducing Prism" – https://openai.com/index/introducing-prism/
 
 ---
 
-## [SUJET 3/6] – Europe & éducation : OpenAI intensifie l’adoption (Blueprint 2.0, grants, “Education for Countries”)
+## [SUJET 4/6] – Sécurité agentique : l’URL comme canal d’exfiltration + prompt injection “indirecte” (cas Calendar/Gemini) [TECH]
 
 ### Résumé
-OpenAI annonce un “EU Economic Blueprint 2.0” et des initiatives associées : formation de 20 000 PME, subvention EMEA de 500 000 € sur jeunesse/bien-être, et un pilier “Education for Countries” pour intégrer l’IA dans des systèmes éducatifs via partenariats publics. L’ensemble vise à ancrer l’IA dans les politiques d’adoption (compétences, sécurité, institutions). C’est une stratégie d’écosystème (formation + financement + produits).
+OpenAI décrit un scénario où un agent qui “clique”/ouvre une URL peut se faire piéger par prompt injection et exfiltrer des données, et propose de restreindre la récupération automatique aux URLs déjà vues publiquement par un index web indépendant. The Hacker News rapporte une faille Gemini via invitations Google Calendar : une charge dans la description pouvait pousser Gemini à divulguer des informations de réunions privées. Ensemble, ces cas confirment que l’attaque se déplace vers les surfaces “contexte + outils + contenu externe”.
 
 ### Points de vue croisés
-**OpenAI (EU chapter + grant + éducation)**
-Approche “adoption responsable” : accélérer la diffusion (PME/éducation) tout en finançant des travaux sur les impacts jeunesse et la sécurité.
-
-**The Hacker News (tendances identité / deepfakes)**
-Les prédictions sécurité soulignent une pression croissante sur l’authentification et la gouvernance des identités à mesure que l’IA (et les deepfakes) se généralise — point critique pour l’éducation et les services publics numériques.
-
-### Analyse & implications
-- Impacts sectoriels : edtech, formation pro, services publics, et tissu PME (productivité, support, documentation, automatisation).
-- Opportunités : montée en compétences structurée ; standardisation de pratiques “safe-by-design” dans les usages jeunesse ; partenariats public–privé.
-- Risques potentiels : dépendance à un fournisseur ; débats régulatoires (données, souveraineté) ; sécurité/identité (fraude, usurpation) dans des contextes sensibles.
-
-### Signaux faibles
-- “Grants + formation” deviennent des leviers de positionnement quasi-institutionnels (soft power technologique).
-- L’éducation pourrait devenir un terrain prioritaire de différenciation (produits dédiés, modèles spécifiques, intégrations SI).
-
-### Sources
-- "The next chapter for AI in the EU" – https://openai.com/index/the-next-chapter-for-ai-in-the-eu/
-- "EMEA Youth & Wellbeing Grant" – https://openai.com/index/emea-youth-and-wellbeing-grant/
-- "Introducing OpenAI’s Education for Countries" – https://openai.com/index/edu-for-countries/
-- "9 Identity Security Predictions for 2026" – https://thehackernews.com/expert-insights/2026/02/9-identity-security-predictions-for-2026.html
-
----
-
-## [SUJET 4/6] – Agents en pratique : l’app Codex et la normalisation des workflows multi-agents
-
-### Résumé
-OpenAI lance l’app Codex (macOS) comme interface pour piloter plusieurs agents en parallèle, structurer le travail par projets, et gérer des tâches longues. Le concept de “skills” (instructions/ressources/scripts) vise à rendre les workflows outillés plus reproductibles et partageables. C’est un mouvement vers des environnements d’exécution agentique “packagés”, proches des IDE/PM tools.
-
-### Points de vue croisés
-**OpenAI (Codex app)**
-Accent sur l’orchestration : paralléliser, organiser, connecter des outils et collaborer, avec une interface dédiée plutôt qu’un simple chat.
-
-**AWS (New era building + scaling to prod)**
-AWS pousse l’idée que la valeur vient quand les équipes bâtissent des systèmes complets (outils, sécurité, déploiement). L’app Codex va dans le même sens : rendre l’agent actionnable et intégrable, pas seulement conversationnel.
+**OpenAI (approche défensive)**  
+Propose un mécanisme de allowlist dynamique fondée sur l’observabilité web publique, avec élévation de privilège (demande utilisateur) pour les URLs non reconnues.  
+**The Hacker News (cas Gemini/Calendar)**  
+Illustre l’efficacité d’une injection indirecte via un artefact “de confiance” (invitation calendrier), et le risque d’exfiltration via la sortie du modèle.
 
 ### Analyse & implications
-- Impacts sectoriels : dev software, data engineering, ops, équipes produit (automatisation de tickets, refactors, génération de docs/tests, exécution de runbooks).
-- Opportunités : capitalisation via “skills” (réutilisables) ; meilleure gouvernance des tâches agentiques (projets, historique, artefacts).
-- Risques potentiels : sur-automatisation ; fuite de secrets via outils/scripts ; difficulté de contrôle des actions si l’agent a des accès étendus.
+- Impacts sectoriels :  
+  - Tous produits “agent + navigation + connecteurs” : besoin de modèles de permission explicites et journaux d’action.  
+  - Entreprises : la sécurité IA rejoint la sécurité applicative (SSRF-like, data leakage, policy-as-code).
+- Opportunités :  
+  - Marché pour des “gateways d’agents” (filtrage URL, sandbox navigateur, DLP, provenance).  
+  - Bonnes pratiques : séparation stricte instructions/outils/données, et politiques de récupération.
+- Risques potentiels :  
+  - Faux sentiment de sécurité si “URL publique” est assimilé à “sans risque”.  
+  - Contournements (URLs publiques malveillantes, redirections, contenus polymorphes, tracking).
 
 ### Signaux faibles
-- “Skills” préfigurent un marché de composants agentiques (templates, connecteurs, runbooks) — avec enjeux de sécurité supply-chain.
-- La différenciation se déplace vers UX + orchestration + intégrations, autant que vers le modèle.
-
-### Sources
-- "Introducing the Codex app" – https://openai.com/index/introducing-the-codex-app/
-- "Welcome to a New Era of Building in the Cloud with Generative AI on AWS" – https://aws.amazon.com/blogs/machine-learning/welcome-to-a-new-era-of-building-in-the-cloud-with-generative-ai-on-aws/
-- "Beyond pilots: A proven framework for scaling AI to production" – https://aws.amazon.com/blogs/machine-learning/beyond-pilots-a-proven-framework-for-scaling-ai-to-production/
-
----
-
-## [SUJET 5/6] – Sécurité des agents : exfiltration via URL et prompt injection indirecte (Calendar)
-
-### Résumé
-OpenAI décrit un risque concret : un agent peut exfiltrer des données via les paramètres d’URL (et les redirections), rendant une simple allowlist de domaines insuffisante. En parallèle, des chercheurs rapportent une exfiltration via prompt injection indirecte dans Google Calendar (invitation malveillante contenant un payload) contournant des garde-fous d’autorisation et révélant des données de réunions. Ensemble, ces cas illustrent que la menace se situe dans la chaîne “contenu non fiable → outil → action”.
-
-### Points de vue croisés
-**OpenAI (agent link safety)**
-Approche pragmatique : restreindre le fetching automatique aux URLs déjà présentes dans le contexte de conversation (et traiter les redirections/UX comme surface d’attaque).
-
-**The Hacker News (Gemini + Calendar)**
-Montre la réalité des attaques indirectes via supports “banals” (calendriers, emails, docs) : l’injection ne vient pas d’un prompt utilisateur mais d’un artefact tiers ingéré par l’agent.
-
-### Analyse & implications
-- Impacts sectoriels : assistants intégrés aux suites bureautiques, agents de planification, RPA augmentée, SOC/IT assistants.
-- Opportunités : émergence de patterns de sécurité agentique (validation des paramètres, politiques de redirection, sandbox de navigation, provenance des instructions).
-- Risques potentiels : fuite de secrets (tokens, notes internes) ; escalade via connecteurs ; “confused deputy” (l’agent agit avec les droits de l’utilisateur).
-
-### Signaux faibles
-- Les politiques d’accès devront être “URL-aware” (paramètres, redirections, réputation) et “content-aware” (provenance + classification des instructions).
-- Les tests sécurité devront inclure des scénarios multi-canaux (calendar/email/docs) comme vecteurs d’injection.
+- La notion “index web indépendant” ressemble à une future brique standard (tierce partie de confiance) pour l’agentic browsing, analogue aux listes de réputation en cybersécurité.
 
 ### Sources
 - "Keeping your data safe when an AI agent clicks a link" – https://openai.com/index/ai-agent-link-safety/
@@ -150,106 +141,150 @@ Montre la réalité des attaques indirectes via supports “banals” (calendrie
 
 ---
 
-## [SUJET 6/6] – “Shadow AI infra” : 175 000 serveurs Ollama exposés + hijacks d’endpoints LLM/MCP
+## [SUJET 5/6] – Le “runtime” des agents se formalise : Apps dans ChatGPT (MCP), navigateur Atlas, orchestration locale avec Codex [TECH]
 
 ### Résumé
-Une enquête (SentinelLABS + Censys, relayée par The Hacker News) estime ~175 000 hôtes Ollama exposés publiquement dans 130 pays, souvent sans gouvernance et parfois avec capacités de tool-calling. Dans le même temps, un récap cybersécurité signale des campagnes visant à détourner des endpoints LLM/MCP exposés (monétisation d’accès, exfiltration, mouvement latéral). Le risque principal : une couche d’inférence “non managée” devient un nouvel Internet-facing service à compromettre.
+OpenAI lance les “apps” dans ChatGPT et un Apps SDK (preview) basé sur un standard ouvert construit sur MCP, pour connecter des services/outils de manière plus structurée. En parallèle, ChatGPT Atlas propose un navigateur avec mémoire optionnelle et mode agent, encadré par des contrôles de confidentialité. Enfin, l’app Codex sur macOS industrialise le multi-agent coding (tâches longues, worktrees isolés, diffs propres).
 
 ### Points de vue croisés
-**The Hacker News (Ollama exposé)**
-Met en avant l’ampleur et la distribution géographique : l’inférence locale/DIY se retrouve déployée en prod sans durcissement, créant une cible massive.
-
-**The Hacker News (Weekly recap : hijacks LLM/MCP)**
-Confirme l’industrialisation des attaques : identification d’endpoints mal configurés, prise de contrôle, revente/monétisation et pivot vers le SI.
+**Apps + Apps SDK (MCP)**  
+Traite l’intégration comme un écosystème (partenaires pilotes, règles de partage de données), en cherchant un standard de connexion outils.  
+**Atlas (navigateur + agent)**  
+Déplace l’agent dans le contexte natif du web (navigation), avec des limites explicites et modes de visibilité/incognito.  
+**Codex app (poste de dev)**  
+Priorise l’exécution parallèle, l’isolement et la “reviewability” (diffs), donc la contrôlabilité opérationnelle.
 
 ### Analyse & implications
-- Impacts sectoriels : PME/équipes tech qui auto-hébergent des LLM ; environnements edge/on-prem ; offres “self-hosted” d’agents.
-- Opportunités : marché pour scanners, durcissement, observabilité et “LLM runtime security” (auth, rate limiting, audit, egress control).
-- Risques potentiels : exfiltration de prompts/documents ; détournement de compute ; exécution d’outils via tool-calling ; compromission latérale.
+- Impacts sectoriels :  
+  - Développeurs : montée d’un “app store” conversationnel et d’un standard d’outillage (MCP) qui peut réduire la fragmentation.  
+  - Produits SaaS : pression pour exposer des capacités agent-friendly (permissions, scopes, audit).
+- Opportunités :  
+  - Conception de parcours “conversation → action” traçables (qui a fait quoi, quand, avec quels accès).  
+  - Nouveaux patterns : workspaces isolés, exécution asynchrone, supervision humaine.
+- Risques potentiels :  
+  - Explosion de la surface d’attaque via connecteurs et actions (token abuse, prompt injection, supply chain).  
+  - Verrouillage plateforme si l’écosystème d’apps devient un canal de distribution dominant.
 
 ### Signaux faibles
-- Les “AI runtimes” (Ollama & équivalents) pourraient devenir un enjeu de conformité (inventaire, patching, logs) au même titre que les DB/queues.
-- MCP et autres protocoles d’outillage standardisés augmentent l’interopérabilité… et la surface d’attaque si exposés.
+- Le couplage “standard ouvert (MCP) + distribution dans ChatGPT” peut créer un standard de fait : l’ouverture technique n’empêche pas une centralisation économique.
 
 ### Sources
-- "Researchers Find 175,000 Publicly Exposed Ollama AI Servers Across 130 Countries" – https://thehackernews.com/2026/01/researchers-find-175000-publicly.html
-- "⚡ Weekly Recap: Proxy Botnet, Office Zero-Day, MongoDB Ransoms, AI Hijacks & New Threats" – https://thehackernews.com/2026/02/weekly-recap-proxy-botnet-office-zero.html
+- "Introducing apps in ChatGPT and the new Apps SDK" – https://openai.com/index/introducing-apps-in-chatgpt/
+- "Introducing ChatGPT Atlas" – https://openai.com/index/introducing-chatgpt-atlas/
+- "Introducing the Codex app" – https://openai.com/index/introducing-the-codex-app/
+
+---
+
+## [SUJET 6/6] – Capacité d’inférence et souveraineté industrielle : OpenAI x Cerebras (750 MW) + appel à fabrication domestique US [TECH]
+
+### Résumé
+OpenAI annonce un partenariat avec Cerebras pour ajouter 750 MW de capacité de calcul IA à faible latence, intégrée par phases au stack d’inférence afin d’améliorer la réactivité (agents, code, images). OpenAI publie aussi un RFP pour renforcer la chaîne d’approvisionnement IA via la fabrication domestique et l’infrastructure aux États-Unis. Le message est clair : la performance perçue (latence/fiabilité) devient un avantage produit, et l’accès au compute une stratégie géopolitique/industrielle.
+
+### Points de vue croisés
+**OpenAI x Cerebras**  
+Met l’accent sur la latence et l’expérience utilisateur, en traitant l’inférence comme une “feature” de plateforme.  
+**OpenAI (supply chain / manufacturing)**  
+Cadre la capacité comme contrainte structurante et plaide pour une industrialisation domestique, en lien avec de grands programmes d’infrastructure.
+
+### Analyse & implications
+- Impacts sectoriels :  
+  - Fournisseurs hardware : opportunité pour des architectures alternatives si elles livrent latence/prix/énergie compétitifs.  
+  - Entreprises : risque de volatilité des coûts/quotas, mais gains si latence diminue pour workloads agentiques.
+- Opportunités :  
+  - Différenciation par SLO (latence, disponibilité) et routage intelligent multi-backends.  
+  - Innovation sur “low-latency inference” pour interactions temps réel (browsing, copilots, voice).
+- Risques potentiels :  
+  - Concentration des dépendances (énergie, foncier, supply chain) et arbitrages régulatoires.  
+  - Couplage fort entre roadmap produit et contraintes d’infrastructure.
+
+### Signaux faibles
+- La mise en avant “750 MW” (unité énergétique) signale que les communications produit vont de plus en plus exprimer le compute comme ressource macro (énergie/capex), pas seulement comme métrique technique.
+
+### Sources
+- "OpenAI partners with Cerebras" – https://openai.com/index/cerebras-partnership
+- "Strengthening the US AI supply chain through domestic manufacturing" – https://openai.com/index/strengthening-the-us-ai-supply-chain/
 
 ---
 
 ## Autres sujets
 
+### Researchers Find 175,000 Publicly Exposed Ollama AI Servers Across 130 Countries
+**Thème** : Safety & Alignment  
+**Résumé** : Recensement massif de serveurs Ollama exposés publiquement, certains avec tool-calling, élargissant la surface d’attaque.  
+**Source** : The Hacker News – https://thehackernews.com/2026/01/researchers-find-175000-publicly.html
+
+### EMEA Youth & Wellbeing Grant
+**Thème** : Safety & Alignment  
+**Résumé** : OpenAI lance une subvention de 500 000 € pour sécurité/bien-être des jeunes en EMEA (candidatures fin fév. 2026).  
+**Source** : OpenAI – https://openai.com/index/emea-youth-and-wellbeing-grant/
+
 ### The Sora feed philosophy
 **Thème** : Safety & Alignment  
-**Résumé** : Principes de ranking “steerable”, personnalisation, et arbitrages créativité/sécurité pour le feed Sora.  
+**Résumé** : Principes de recommandation et de modération du feed Sora, tension engagement/créativité/sécurité.  
 **Source** : OpenAI – https://openai.com/index/sora-feed-philosophy/
 
-### Retiring GPT-4o, GPT-4.1, GPT-4.1 mini, and OpenAI o4-mini in ChatGPT
-**Thème** : Nouveaux modèles LLM  
-**Résumé** : Dépréciation planifiée dans ChatGPT au 13/02/2026 (API non concernée annoncée), signal de consolidation de gamme.  
-**Source** : OpenAI – https://openai.com/index/retiring-gpt-4o-and-older-models/
+### Agents Go Shopping, Intelligence Redefined, Better Text in Pictures, Higher Engagement Means Worse Alignment
+**Thème** : Agents & Agentic AI  
+**Résumé** : Revue hebdo (The Batch) incluant agents “shopping” et un point sur compromis engagement vs alignement.  
+**Source** : DeepLearning.AI (The Batch) – https://www.deeplearning.ai/the-batch/
 
-### PVH reimagines the future of fashion with OpenAI
+### Google AI announcements from January
 **Thème** : Industrie & Applications  
-**Résumé** : PVH déploie ChatGPT Enterprise sur design, planif, supply chain, marketing/retail pour gains opérationnels.  
-**Source** : OpenAI – https://openai.com/index/pvh-future-of-fashion/
+**Résumé** : Récap Google : “Personal Intelligence” dans Gemini (opt-in, connexion apps Google), évolutions Search/Chrome, accès Genie 3.  
+**Source** : Google AI Blog – https://blog.google/innovation-and-ai/products/google-ai-updates-january-2026/
 
-### What Matters in AI Right Now
-**Thème** : Industrie & Applications  
-**Résumé** : Revue hebdo (The Batch) : agents, alignement, qualité texte dans images, etc.  
-**Source** : DeepLearning.AI – https://www.deeplearning.ai/the-batch/
-
-### Architectural Choices in China's Open-Source AI Ecosystem: Building Beyond DeepSeek
-**Thème** : Asie  
-**Résumé** : Lecture des choix archi/licences/modalités et montée du hardware chinois dans l’open source IA.  
-**Source** : Hugging Face – https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment-blog-2
-
-### The Future of the Global Open-Source AI Ecosystem: From DeepSeek to AI+
-**Thème** : Open source  
-**Résumé** : Trajectoires possibles post-“DeepSeek Moment” et rôle des artefacts ouverts pour la R&D.  
-**Source** : Hugging Face – https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment-blog-3
-
-### A business that scales with the value of intelligence
-**Thème** : Hardware & Infrastructure  
-**Résumé** : OpenAI détaille la logique économique (abonnements, usage, API) et la contrainte compute (rare, diversifiée).  
-**Source** : OpenAI – https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence/
-
-### Our approach to age prediction
+### VoidLink Linux Malware Framework Built with AI Assistance Reaches 88,000 Lines of Code
 **Thème** : Safety & Alignment  
-**Résumé** : Système d’estimation d’âge (<18) pour appliquer des safeguards supplémentaires sur ChatGPT grand public.  
-**Source** : OpenAI – https://openai.com/index/our-approach-to-age-prediction/
+**Résumé** : Framework malware Linux en Zig, supposément assisté par IA, illustrant industrialisation et scalabilité côté offensif.  
+**Source** : The Hacker News – https://thehackernews.com/2026/01/voidlink-linux-malware-framework-built.html
 
-### Ex-Google Engineer Convicted for Stealing AI Secrets for China Startup
-**Thème** : Asie  
-**Résumé** : Condamnation pour vol de secrets industriels liés à l’infrastructure IA (data centers/supercalcul).  
-**Source** : The Hacker News – https://thehackernews.com/2026/01/ex-google-engineer-convicted-for.html
+### Introducing ChatGPT Go, now available worldwide
+**Thème** : Industrie & Applications  
+**Résumé** : Abonnement “low-cost” étendu mondialement, renforçant la stratégie volume + accessibilité.  
+**Source** : OpenAI – https://openai.com/index/introducing-chatgpt-go/
+
+### Introducing DeepLearning.AI Pro
+**Thème** : Industrie & Applications  
+**Résumé** : Offre d’abonnement donnant accès à cours, contenus et fonctionnalités premium (plateforme).  
+**Source** : DeepLearning.AI (The Batch) – https://www.deeplearning.ai/the-batch/
+
+### Data Points: Readers’ highest hopes for AI in 2026, Part One
+**Thème** : Industrie & Applications  
+**Résumé** : Compilation d’attentes lecteurs (automatisation, vie privée, smart home, bénéfice humain).  
+**Source** : DeepLearning.AI (The Batch) – https://www.deeplearning.ai/the-batch/readers-highest-hopes-for-ai-in-2026-part-one/
+
+### Data Points: Readers’ highest hopes for AI in 2026, Part Two
+**Thème** : Industrie & Applications  
+**Résumé** : Suite : avatars, cybersécurité, accessibilité des agents, assistants, collaboration.  
+**Source** : DeepLearning.AI (The Batch) – https://www.deeplearning.ai/the-batch/readers-highest-hopes-for-ai-in-2026-part-two/
 
 ---
 
 ## Synthèse finale
 
 ### Points clés
-- L’IA d’entreprise se “platformise” : intégration directe dans les stacks data (Snowflake) et industrialisation des déploiements (AWS).
-- L’adoption devient institutionnelle : Europe, éducation, dispositifs de formation et de financement.
-- La sécurité agentique bascule vers des menaces concrètes (URLs, redirections, prompt injection indirecte) et une infra exposée (Ollama/MCP).
+- Les plateformes accélèrent les cycles (dépréciations ChatGPT) et “packagent” l’agentic AI (apps/SDK, navigateur, multi-agent coding).
+- L’intégration IA se déplace vers les lieux où vivent les données (entrepôts, science, rédaction), augmentant le besoin de gouvernance et d’audit.
+- L’open source se renforce via multimodalité + licences permissives + distribution d’artefacts, intensifiant la compétition “produit + écosystème”.
 
 ### Divergences
-- Vision “plateforme intégrée” (data+IA) vs approche “best-of-breed” (outils/agents composables) : arbitrage entre vitesse et dépendance.
-- Sécurité : garde-fous applicatifs vs contrôle structurel (permissions, isolation, provenance, egress).
+- Approches de sécurité : restrictions structurelles (contrôle des URLs) vs surfaces d’attaque réelles via contenus “semi-trusted” (calendriers, docs, emails).
+- Ouverture : standards ouverts (MCP) vs centralisation de la distribution dans un client dominant.
 
 ### Signaux faibles
-- Standardisation de composants agentiques (“skills”, connecteurs) → nouveaux risques supply-chain.
-- MCP/protocoles d’outillage : accélérateurs d’intégration mais aussi multiplicateurs de surface d’attaque.
+- Émergence probable d’une couche standard “agent gateway” (permissions, DLP, réputation URL, sandbox, logs).
+- Les communications “compute” parlent en MW et supply chain, signe d’une convergence produit–infrastructure.
 
 ### Risques
-- Exfiltration et “confused deputy” via agents outillés.
-- Prolifération de serveurs d’inférence non gérés exposés sur Internet.
-- Verrouillage et complexité de conformité dans les bundles plateforme.
+- Exfiltration de données par agents (prompt injection indirecte, navigation, connecteurs).
+- Volatilité fonctionnelle côté utilisateurs (dépréciations rapides) et dette de migration.
+- Industrialisation d’usages offensifs (malware assisté par IA, serveurs LLM exposés).
 
 ### À surveiller
-- Patterns de sécurité “agent-native” (politiques URL, sandbox, provenance d’instructions, audit d’actions).
-- Offres de runtime security/observabilité dédiées à l’inférence self-hosted.
-- Extension des partenariats IA vers des modèles de gouvernance (éducation/Europe) et des “flagships” scientifiques.
+- Calendriers de dépréciation côté API vs ChatGPT et outils de migration.
+- Adoption de MCP et formation d’un écosystème d’apps (modèles de permissions, audits, responsabilité).
+- Évolution des garde-fous pour agentic browsing (indexation, réputation, redirections, contenus dynamiques).
+- Capacité d’inférence low-latency et stratégies multi-backends (Cerebras et autres).
 
 ---
 
