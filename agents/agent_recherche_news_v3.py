@@ -39,10 +39,10 @@ RÉPARTITION:
 - articles NATIONAUX FRANCE (politique, économie, société, justice)
 - articles LOCAUX Bretagne/Pays de Loire (Nantes, Rennes, sports maritimes, économie régionale)
 
-SOURCES À CONSULTER (3 sources par zone):
-International: Presse internationale reconnue (agences, grands médias)
-National: Presse française reconnue (journaux établis, médias nationaux)
-Local: Presse Bretagne/Pays de Loire - Focus: Nantes, Rennes, sports maritimes
+SOURCES À CONSULTER:
+International: site d'information officiel et fiable 3 sources maximum
+National: site d'information officiel, national et fiable 3 sources maximum
+Local: site d'information officiel, locale et fiable 3 sources maximum
 
 CONSIGNES:
 1. Cherche des articles RÉCENTS (7 derniers jours maximum)
