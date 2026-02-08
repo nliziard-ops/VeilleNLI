@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "date_generation": "2026-02-08T11:39:54.481930",
+  "date_generation": "2026-02-08T11:47:15.020364",
   "veilles": {
     "ia": {
       "metadata": {
@@ -8,13 +8,204 @@
         "date": "2026-02-08",
         "categorie": "Veille"
       },
-      "titre": "Veille IA – Aucune actualité disponible",
+      "titre": "Veille IA – Semaine du 2026-02-01 au 2026-02-08",
       "edition": "",
-      "introduction": "",
-      "sujets_importants": [],
-      "sujets_secondaires": [],
-      "points_cles": [],
-      "date_generation": "2026-02-08T11:39:54.482276"
+      "introduction": "La semaine est marquée par une accélération simultanée sur deux axes : (1) la course aux modèles « flagship » (contexte long, agentic coding, multimodal) et (2) l’industrialisation des agents en entreprise (déploiement, gouvernance, fiabilité des sorties, observabilité). Côté écosystème, on observe une tension croissante entre ouverture (modèles Apache 2.0, diffusion d’artefacts) et soutenabilité économique des données/infra (ex. accords Wikimedia). En parallèle, les plateformes cloud poussent des primitives de fiabilisation (structured outputs, IaC pour agents, évaluation LLM-as-judge) qui transforment les POC en produits opérables.",
+      "sujets_importants": [
+        {
+          "titre": "[SUJET 1/6] – Course aux modèles ouverts vs propriétaires : contexte long, multimodal et compression",
+          "resume": "Anthropic annonce Claude Opus 4.6 avec un focus sur le coding agentique, le tool use et une fenêtre de contexte jusqu’à 1M tokens (beta). Mistral publie Mistral 3 (famille multimodale/multilingue) et Mistral Large 3 (MoE) sous Apache 2.0, tandis que la presse souligne des stratégies de distillation en cascade (Ministral) pour obtenir des modèles plus petits mais capables. En Asie, Moonshot met en avant Kimi K2.5 et l’exécution via sous-agents.",
+          "resume_court": "Anthropic annonce Claude Opus 4.6 avec un focus sur le coding agentique, le tool use et une fenêtre de contexte jusqu’à 1M tokens (beta). Mistral publie Mistral 3 (famille multimodale/multilingue) et Mistral Large 3 (MoE) sous Apache 2.0, tandis que...",
+          "resume_complet": "Anthropic annonce Claude Opus 4.6 avec un focus sur le coding agentique, le tool use et une fenêtre de contexte jusqu’à 1M tokens (beta). Mistral publie Mistral 3 (famille multimodale/multilingue) et Mistral Large 3 (MoE) sous Apache 2.0, tandis que la presse souligne des stratégies de distillation en cascade (Ministral) pour obtenir des modèles plus petits mais capables. En Asie, Moonshot met en avant Kimi K2.5 et l’exécution via sous-agents.",
+          "points_de_vue": [],
+          "fiabilite": [
+            "La compétition se déplace vers **l’exécution (agents, tool use, sous-agents)** et **l’opérabilité** plus que vers les seuls benchmarks.",
+            "La **compression structurée** (distillation en cascade) devient un avantage stratégique pour les déploiements « fleet » (apps, devices, entreprises)."
+          ],
+          "sources": [
+            {
+              "titre": "\"Introducing Claude Opus 4.6\"",
+              "url": "https://www.anthropic.com/news/claude-opus-4-6"
+            },
+            {
+              "titre": "\"Introducing Mistral 3\"",
+              "url": "https://mistral.ai/news/mistral-3"
+            },
+            {
+              "titre": "\"Recipe for Smaller, Capable Models: Mistral uses cascade distillation on Mistral 3 to build Ministral family\"",
+              "url": "https://www.deeplearning.ai/the-batch/recipe-for-smaller-capable-models-mistral-uses-cascade-distillation-on-mistral-3-to-build-ministral-family/"
+            },
+            {
+              "titre": "\"Kimi K2.5 Creates Its Own Workforce: Moonshot AI takes the open model crown...\"",
+              "url": "https://www.deeplearning.ai/the-batch/kimi-k2-5-creates-its-own-workforce-moonshot-ai-takes-the-open-model-crown-with-vision-updates-aided-by-subagents/"
+            }
+          ],
+          "contenu_complet": "\n### Résumé\nAnthropic annonce Claude Opus 4.6 avec un focus sur le coding agentique, le tool use et une fenêtre de contexte jusqu’à 1M tokens (beta). Mistral publie Mistral 3 (famille multimodale/multilingue) et Mistral Large 3 (MoE) sous Apache 2.0, tandis que la presse souligne des stratégies de distillation en cascade (Ministral) pour obtenir des modèles plus petits mais capables. En Asie, Moonshot met en avant Kimi K2.5 et l’exécution via sous-agents.\n\n### Points de vue croisés\n**Anthropic (Claude Opus 4.6)**  \nAccent sur performance « agentique » (coding, tool use) et sur le contexte très long comme différenciateur produit/plateforme.\n\n**Mistral AI (Mistral 3 / Large 3, Apache 2.0)**  \nPositionnement pro-open source (licence permissive) + multimodalité, avec une logique d’écosystème (Studio + partenaires) plutôt que verrouillage.\n\n**DeepLearning.AI – The Batch (Ministral, cascade distillation)**  \nNarratif « efficacité » : la compétitivité passe aussi par la compression (pruning + distillation) pour déployer partout, pas seulement par des modèles géants.\n\n**DeepLearning.AI – The Batch (Kimi K2.5, sous-agents)**  \nMise en avant d’architectures d’exécution (subagents) comme levier de performance perçue, au-delà du modèle nu.\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - Logiciel/IT : gain de productivité via agentic coding + tool use plus fiable.\n  - Connaissance/Legal/Finance : le contexte long favorise la revue de corpus (mais augmente les risques de fuites et d’erreurs « diluées »).\n- **Opportunités :**\n  - Stratégie « dual stack » : flagship propriétaire pour tâches critiques + open weights distillés pour edge/on-prem.\n  - Différenciation par orchestration (agents/sous-agents) et non uniquement par taille de modèle.\n- **Risques potentiels :**\n  - Contexte long ≠ exactitude : amplification d’hallucinations sur de grands contextes, plus difficile à auditer.\n  - Ouverture Apache 2.0 : accélère la commoditisation et la réutilisation concurrentielle.\n\n### Signaux faibles\n- La compétition se déplace vers **l’exécution (agents, tool use, sous-agents)** et **l’opérabilité** plus que vers les seuls benchmarks.\n- La **compression structurée** (distillation en cascade) devient un avantage stratégique pour les déploiements « fleet » (apps, devices, entreprises).\n\n### Sources\n- \"Introducing Claude Opus 4.6\" – https://www.anthropic.com/news/claude-opus-4-6  \n- \"Introducing Mistral 3\" – https://mistral.ai/news/mistral-3  \n- \"Recipe for Smaller, Capable Models: Mistral uses cascade distillation on Mistral 3 to build Ministral family\" – https://www.deeplearning.ai/the-batch/recipe-for-smaller-capable-models-mistral-uses-cascade-distillation-on-mistral-3-to-build-ministral-family/  \n- \"Kimi K2.5 Creates Its Own Workforce: Moonshot AI takes the open model crown...\" – https://www.deeplearning.ai/the-batch/kimi-k2-5-creates-its-own-workforce-moonshot-ai-takes-the-open-model-crown-with-vision-updates-aided-by-subagents/  \n\n---\n\n",
+          "icone": "🤖"
+        },
+        {
+          "titre": "[SUJET 2/6] – Rationalisation des gammes : retrait de modèles ChatGPT et continuité via API",
+          "resume": "OpenAI annonce le retrait de plusieurs modèles côté ChatGPT à partir du 2026-02-13 (dont GPT-4o, GPT-4.1, GPT-4.1 mini et o4-mini), tout en indiquant qu’ils restent disponibles via l’API. En parallèle, OpenAI Academy illustre l’usage de ChatGPT comme partenaire de recherche en optimisation mathématique, montrant que la « valeur » dépend fortement de l’itération et du workflow, pas uniquement du nom du modèle.",
+          "resume_court": "OpenAI annonce le retrait de plusieurs modèles côté ChatGPT à partir du 2026-02-13 (dont GPT-4o, GPT-4.1, GPT-4.1 mini et o4-mini), tout en indiquant qu’ils restent disponibles via l’API. En parallèle, OpenAI Academy illustre l’usage de ChatGPT comme partenaire de recherche...",
+          "resume_complet": "OpenAI annonce le retrait de plusieurs modèles côté ChatGPT à partir du 2026-02-13 (dont GPT-4o, GPT-4.1, GPT-4.1 mini et o4-mini), tout en indiquant qu’ils restent disponibles via l’API. En parallèle, OpenAI Academy illustre l’usage de ChatGPT comme partenaire de recherche en optimisation mathématique, montrant que la « valeur » dépend fortement de l’itération et du workflow, pas uniquement du nom du modèle.",
+          "points_de_vue": [],
+          "fiabilite": [
+            "Montée d’une **gestion de cycle de vie des modèles** similaire à la gestion de dépendances logicielles (versioning, compat, EOL).",
+            "La recherche « assistée » met la pression sur des fonctions **d’auditabilité** et de **reproductibilité**."
+          ],
+          "sources": [
+            {
+              "titre": "\"Retiring GPT-4o and other ChatGPT models\"",
+              "url": "https://help.openai.com/articles/20001051"
+            },
+            {
+              "titre": "\"ChatGPT as Research Partner in Mathematical Optimization\"",
+              "url": "https://academy.openai.com/home/blogs/chatgpt-as-research-partner-in-mathematical-optimization-2026-02-02"
+            }
+          ],
+          "contenu_complet": "\n### Résumé\nOpenAI annonce le retrait de plusieurs modèles côté ChatGPT à partir du 2026-02-13 (dont GPT-4o, GPT-4.1, GPT-4.1 mini et o4-mini), tout en indiquant qu’ils restent disponibles via l’API. En parallèle, OpenAI Academy illustre l’usage de ChatGPT comme partenaire de recherche en optimisation mathématique, montrant que la « valeur » dépend fortement de l’itération et du workflow, pas uniquement du nom du modèle.\n\n### Points de vue croisés\n**OpenAI (Retiring GPT-4o and other ChatGPT models)**  \nLogique produit : simplifier l’expérience ChatGPT et gérer des transitions par segments (Business/Enterprise/Edu), tout en préservant l’API pour la compatibilité.\n\n**OpenAI Academy (Research partner en optimisation)**  \nMet en avant la continuité d’usage : les résultats proviennent d’un processus (formulation, tests, contre-exemples), ce qui rend la stabilité des outils et des comportements presque aussi critique que le modèle.\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - Entreprises : besoin de gestion du changement (SOP, validation, ré-étalonnage des prompts/évals) si usage ChatGPT « end-user ».\n  - Éditeurs : intérêt à découpler l’UX du fournisseur (abstraction layer) pour réduire le risque de churn modèle.\n- **Opportunités :**\n  - Mettre en place des **tests de non-régression** et une **matrice modèle↔tâches** (qualité, coût, latence).\n  - Stratégie « API-first » : contrôler versions, routing, fallback.\n- **Risques potentiels :**\n  - Ruptures de comportement en production (même si l’API reste) : dérives d’outputs, coûts, latences, ou politiques.\n  - Dépendance à l’outil ChatGPT pour des processus internes non gouvernés.\n\n### Signaux faibles\n- Montée d’une **gestion de cycle de vie des modèles** similaire à la gestion de dépendances logicielles (versioning, compat, EOL).\n- La recherche « assistée » met la pression sur des fonctions **d’auditabilité** et de **reproductibilité**.\n\n### Sources\n- \"Retiring GPT-4o and other ChatGPT models\" – https://help.openai.com/articles/20001051  \n- \"ChatGPT as Research Partner in Mathematical Optimization\" – https://academy.openai.com/home/blogs/chatgpt-as-research-partner-in-mathematical-optimization-2026-02-02  \n\n---\n\n",
+          "icone": "🤖"
+        },
+        {
+          "titre": "[SUJET 3/6] – Données communes, coûts réels : Wikimedia contractualise avec les acteurs IA",
+          "resume": "La Wikimedia Foundation conclut des accords avec plusieurs entreprises (Amazon, Meta, Microsoft, Mistral AI, Perplexity) autour de l’accès et l’utilisation des contenus Wikipédia, en échange d’un soutien financier. Le mouvement souligne un basculement : les données « publiques » restent accessibles, mais leur exploitation à grande échelle a un coût (bande passante, infra, gouvernance) qui se contractualise.",
+          "resume_court": "La Wikimedia Foundation conclut des accords avec plusieurs entreprises (Amazon, Meta, Microsoft, Mistral AI, Perplexity) autour de l’accès et l’utilisation des contenus Wikipédia, en échange d’un soutien financier. Le mouvement souligne un basculement : les données « publiques » restent...",
+          "resume_complet": "La Wikimedia Foundation conclut des accords avec plusieurs entreprises (Amazon, Meta, Microsoft, Mistral AI, Perplexity) autour de l’accès et l’utilisation des contenus Wikipédia, en échange d’un soutien financier. Le mouvement souligne un basculement : les données « publiques » restent accessibles, mais leur exploitation à grande échelle a un coût (bande passante, infra, gouvernance) qui se contractualise.",
+          "points_de_vue": [],
+          "fiabilite": [
+            "Émergence d’un **marché “Compute + Data deals”** : le coût marginal d’indexation/refresh devient un point de négociation.",
+            "Pression vers des **formats de distribution officiels** (mirrors, dumps premium, API) plutôt que trafic web."
+          ],
+          "sources": [
+            {
+              "titre": "\"AI Giants Share Wikipedia’s Costs: Wikimedia Foundation strikes deals...\"",
+              "url": "https://www.deeplearning.ai/the-batch/ai-giants-share-wikipedias-costs-wikimedia-foundation-strikes-deals-with-amazon-meta-microsoft-mistral-ai-and-perplexity/"
+            },
+            {
+              "titre": "\"The Future of the Global Open-Source AI Ecosystem: From DeepSeek to AI+\"",
+              "url": "https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment-blog-3"
+            }
+          ],
+          "contenu_complet": "\n### Résumé\nLa Wikimedia Foundation conclut des accords avec plusieurs entreprises (Amazon, Meta, Microsoft, Mistral AI, Perplexity) autour de l’accès et l’utilisation des contenus Wikipédia, en échange d’un soutien financier. Le mouvement souligne un basculement : les données « publiques » restent accessibles, mais leur exploitation à grande échelle a un coût (bande passante, infra, gouvernance) qui se contractualise.\n\n### Points de vue croisés\n**DeepLearning.AI – The Batch (accords Wikimedia)**  \nLecture « soutenabilité » : partager les coûts d’infrastructure et encadrer les usages industriels des données.\n\n**Hugging Face (écosystème open source global, post-“DeepSeek moment”)**  \nContexte plus large : diffusion rapide d’artefacts open source et compétition mondiale, ce qui augmente la demande sur les sources de données de référence et rend la gouvernance/financement plus critique.\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - IA générative : augmentation probable des accords de licence/d’accès (au-delà du web crawl).\n  - Plateformes data : opportunité pour des offres « data compliance + provenance + contractualisation ».\n- **Opportunités :**\n  - Formaliser des pipelines de données avec **provenance** et **droits d’usage**.\n  - Développer des partenariats « data commons » plutôt que du scraping adversarial.\n- **Risques potentiels :**\n  - Fragmentation de l’accès (acteurs privilégiés) et asymétrie entre labs/entreprises.\n  - Effet prix : hausse des coûts d’entraînement/refresh des modèles.\n\n### Signaux faibles\n- Émergence d’un **marché “Compute + Data deals”** : le coût marginal d’indexation/refresh devient un point de négociation.\n- Pression vers des **formats de distribution officiels** (mirrors, dumps premium, API) plutôt que trafic web.\n\n### Sources\n- \"AI Giants Share Wikipedia’s Costs: Wikimedia Foundation strikes deals...\" – https://www.deeplearning.ai/the-batch/ai-giants-share-wikipedias-costs-wikimedia-foundation-strikes-deals-with-amazon-meta-microsoft-mistral-ai-and-perplexity/  \n- \"The Future of the Global Open-Source AI Ecosystem: From DeepSeek to AI+\" – https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment-blog-3  \n\n---\n\n",
+          "icone": "📄"
+        },
+        {
+          "titre": "[SUJET 4/6] – Agents en entreprise : passage du hype au run (AgentCore, SDK, IaC)",
+          "resume": "AWS détaille des patterns concrets pour concevoir, déployer et opérer des agents via Amazon Bedrock AgentCore : bonnes pratiques d’architecture, cas client (BGL) et déploiement Infrastructure-as-Code (CloudFormation). En miroir, The Batch appelle à « percer le hype » autour des frameworks d’agents open source : la valeur se joue sur la fiabilité, l’observabilité et l’intégration SI, pas sur des démos.",
+          "resume_court": "AWS détaille des patterns concrets pour concevoir, déployer et opérer des agents via Amazon Bedrock AgentCore : bonnes pratiques d’architecture, cas client (BGL) et déploiement Infrastructure-as-Code (CloudFormation). En miroir, The Batch appelle à « percer le hype » autour des...",
+          "resume_complet": "AWS détaille des patterns concrets pour concevoir, déployer et opérer des agents via Amazon Bedrock AgentCore : bonnes pratiques d’architecture, cas client (BGL) et déploiement Infrastructure-as-Code (CloudFormation). En miroir, The Batch appelle à « percer le hype » autour des frameworks d’agents open source : la valeur se joue sur la fiabilité, l’observabilité et l’intégration SI, pas sur des démos.",
+          "points_de_vue": [],
+          "fiabilite": [
+            "L’IaC devient un mécanisme de **compliance** (revue, audit) pour agents.",
+            "Les entreprises convergent vers des **catalogues d’outils** et des **politiques d’exécution** centralisées."
+          ],
+          "sources": [
+            {
+              "titre": "\"Democratizing business intelligence: BGL’s journey with Claude Agent SDK and Amazon Bedrock AgentCore\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/democratizing-business-intelligence-bgls-journey-with-claude-agent-sdk-and-amazon-bedrock-agentcore/"
+            },
+            {
+              "titre": "\"AI agents in enterprises: Best practices with Amazon Bedrock AgentCore\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/ai-agents-in-enterprises-best-practices-with-amazon-bedrock-agentcore/"
+            },
+            {
+              "titre": "\"Build AI agents with Amazon Bedrock AgentCore using AWS CloudFormation\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/build-ai-agents-with-amazon-bedrock-agentcore-using-aws-cloudformation/"
+            },
+            {
+              "titre": "\"Agents Unleashed: Cutting through the OpenClaw and Moltbook hype\"",
+              "url": "https://www.deeplearning.ai/the-batch/agents-unleashed-cutting-through-the-openclaw-and-moltbook-hype/"
+            }
+          ],
+          "contenu_complet": "\n### Résumé\nAWS détaille des patterns concrets pour concevoir, déployer et opérer des agents via Amazon Bedrock AgentCore : bonnes pratiques d’architecture, cas client (BGL) et déploiement Infrastructure-as-Code (CloudFormation). En miroir, The Batch appelle à « percer le hype » autour des frameworks d’agents open source : la valeur se joue sur la fiabilité, l’observabilité et l’intégration SI, pas sur des démos.\n\n### Points de vue croisés\n**AWS (best practices + cas BGL + CloudFormation)**  \nAngle industrialisation : cadrage, sécurité, déploiement, mémoire/runtime, mise à l’échelle et gouvernance via patterns repeatables.\n\n**DeepLearning.AI – The Batch (hype agents open source)**  \nAngle critique : attention aux promesses; le coût réel est dans l’outillage, les garde-fous, et la robustesse face au monde réel.\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - BI / opérations : agents « front-door » pour requêtes et actions, mais nécessitent contrôle d’accès et traçabilité.\n  - IT/DevOps : IaC pour agents = nouveaux artefacts à versionner (prompts, tools, policies, memory).\n- **Opportunités :**\n  - Standardiser un **Agent SDLC** : tests, staging, observabilité, rollback, routing multi-modèles.\n  - Accélérer avec des plateformes (AgentCore) plutôt que réinventer orchestration + sécurité.\n- **Risques potentiels :**\n  - Dette agentique : accumulation de prompts/outils non gouvernés.\n  - Sur-automatisation : erreurs d’actions (write operations) si garde-fous insuffisants.\n\n### Signaux faibles\n- L’IaC devient un mécanisme de **compliance** (revue, audit) pour agents.\n- Les entreprises convergent vers des **catalogues d’outils** et des **politiques d’exécution** centralisées.\n\n### Sources\n- \"Democratizing business intelligence: BGL’s journey with Claude Agent SDK and Amazon Bedrock AgentCore\" – https://aws.amazon.com/blogs/machine-learning/democratizing-business-intelligence-bgls-journey-with-claude-agent-sdk-and-amazon-bedrock-agentcore/  \n- \"AI agents in enterprises: Best practices with Amazon Bedrock AgentCore\" – https://aws.amazon.com/blogs/machine-learning/ai-agents-in-enterprises-best-practices-with-amazon-bedrock-agentcore/  \n- \"Build AI agents with Amazon Bedrock AgentCore using AWS CloudFormation\" – https://aws.amazon.com/blogs/machine-learning/build-ai-agents-with-amazon-bedrock-agentcore-using-aws-cloudformation/  \n- \"Agents Unleashed: Cutting through the OpenClaw and Moltbook hype\" – https://www.deeplearning.ai/the-batch/agents-unleashed-cutting-through-the-openclaw-and-moltbook-hype/  \n\n---\n\n",
+          "icone": "💼"
+        },
+        {
+          "titre": "[SUJET 5/6] – Recherche multimodale : embeddings dédiés et retrieval “late-interaction”",
+          "resume": "NVIDIA présente Nemotron ColEmbed V2 (3B/4B/8B), des embeddings multimodaux à late-interaction (multi-vecteurs) pour la recherche sur documents visuels (texte, tableaux, figures), avec de très bons résultats sur ViDoRe. AWS publie un guide pratique pour Amazon Nova Multimodal Embeddings, orienté implémentation (recherche d’actifs media, discovery produit, recherche documentaire).",
+          "resume_court": "NVIDIA présente Nemotron ColEmbed V2 (3B/4B/8B), des embeddings multimodaux à late-interaction (multi-vecteurs) pour la recherche sur documents visuels (texte, tableaux, figures), avec de très bons résultats sur ViDoRe. AWS publie un guide pratique pour Amazon Nova Multimodal Embeddings, orienté implémentation...",
+          "resume_complet": "NVIDIA présente Nemotron ColEmbed V2 (3B/4B/8B), des embeddings multimodaux à late-interaction (multi-vecteurs) pour la recherche sur documents visuels (texte, tableaux, figures), avec de très bons résultats sur ViDoRe. AWS publie un guide pratique pour Amazon Nova Multimodal Embeddings, orienté implémentation (recherche d’actifs media, discovery produit, recherche documentaire).",
+          "points_de_vue": [],
+          "fiabilite": [
+            "Déplacement de la différenciation vers **embeddings multimodaux spécialisés** (pas seulement des LLM multimodaux).",
+            "Standardisation probable d’architectures **hybrides** (sparse + dense + multi-vecteurs + rerank)."
+          ],
+          "sources": [
+            {
+              "titre": "\"Nemotron ColEmbed V2: Raising the Bar for Multimodal Retrieval...\"",
+              "url": "https://huggingface.co/blog/nvidia/nemotron-colembed-v2"
+            },
+            {
+              "titre": "\"A practical guide to Amazon Nova Multimodal Embeddings\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/a-practical-guide-to-amazon-nova-multimodal-embeddings/"
+            }
+          ],
+          "contenu_complet": "\n### Résumé\nNVIDIA présente Nemotron ColEmbed V2 (3B/4B/8B), des embeddings multimodaux à late-interaction (multi-vecteurs) pour la recherche sur documents visuels (texte, tableaux, figures), avec de très bons résultats sur ViDoRe. AWS publie un guide pratique pour Amazon Nova Multimodal Embeddings, orienté implémentation (recherche d’actifs media, discovery produit, recherche documentaire).\n\n### Points de vue croisés\n**NVIDIA (Nemotron ColEmbed V2)**  \nApproche « retrieval-first » : late-interaction + multi-vecteurs pour améliorer la correspondance fine sur documents complexes (tableaux/figures).\n\n**AWS (Nova Multimodal Embeddings)**  \nApproche « productisation » : comment intégrer embeddings multimodaux dans des pipelines concrets (indexation, requêtes, intégration applicative).\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - Knowledge management : montée des moteurs de recherche multimodaux (PDF, slides, scans) comme brique prioritaire avant RAG génératif.\n  - Retail/media : recherche cross-modal (image↔texte) pour catalogues et DAM.\n- **Opportunités :**\n  - Gains de qualité via modèles d’embeddings spécialisés vs “LLM-only RAG”.\n  - Combiner late-interaction avec re-ranking pour robustesse sur documents hétérogènes.\n- **Risques potentiels :**\n  - Coût infra (index multi-vecteurs) et complexité d’indexation.\n  - Risques de fuite sémantique si embeddings exposés sans contrôle.\n\n### Signaux faibles\n- Déplacement de la différenciation vers **embeddings multimodaux spécialisés** (pas seulement des LLM multimodaux).\n- Standardisation probable d’architectures **hybrides** (sparse + dense + multi-vecteurs + rerank).\n\n### Sources\n- \"Nemotron ColEmbed V2: Raising the Bar for Multimodal Retrieval...\" – https://huggingface.co/blog/nvidia/nemotron-colembed-v2  \n- \"A practical guide to Amazon Nova Multimodal Embeddings\" – https://aws.amazon.com/blogs/machine-learning/a-practical-guide-to-amazon-nova-multimodal-embeddings/  \n\n---\n\n",
+          "icone": "🔬"
+        },
+        {
+          "titre": "[SUJET 6/6] – Évaluer et diagnostiquer : vers des évals vérifiables + LLM judges + visualisation",
+          "resume": "Hugging Face propose “Community Evals” pour sortir des leaderboards opaques : scores hébergés et versionnés (PR), badges de vérification et traçabilité. AWS décrit une méthodologie d’évaluation via LLM-as-a-judge avec rubric (Nova) sur SageMaker. Enfin, ReasoningLens vise à visualiser et diagnostiquer des traces de raisonnement longues (profiling, détection d’erreurs), utile pour déboguer des comportements agentiques.",
+          "resume_court": "Hugging Face propose “Community Evals” pour sortir des leaderboards opaques : scores hébergés et versionnés (PR), badges de vérification et traçabilité. AWS décrit une méthodologie d’évaluation via LLM-as-a-judge avec rubric (Nova) sur SageMaker. Enfin, ReasoningLens vise à visualiser et diagnostiquer...",
+          "resume_complet": "Hugging Face propose “Community Evals” pour sortir des leaderboards opaques : scores hébergés et versionnés (PR), badges de vérification et traçabilité. AWS décrit une méthodologie d’évaluation via LLM-as-a-judge avec rubric (Nova) sur SageMaker. Enfin, ReasoningLens vise à visualiser et diagnostiquer des traces de raisonnement longues (profiling, détection d’erreurs), utile pour déboguer des comportements agentiques.",
+          "points_de_vue": [],
+          "fiabilite": [
+            "Convergence vers des **supply chains d’évaluation** (artefacts versionnés, badges, CI/CD qualité).",
+            "Demande croissante d’outils de **reasoning observability** pour auditer des décisions agentiques."
+          ],
+          "sources": [
+            {
+              "titre": "\"Community Evals: Because we're done trusting black-box leaderboards...\"",
+              "url": "https://huggingface.co/blog/community-evals"
+            },
+            {
+              "titre": "\"Evaluate generative AI models with an Amazon Nova rubric-based LLM judge...\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/evaluate-generative-ai-models-with-an-amazon-nova-rubric-based-llm-judge-on-amazon-sagemaker-ai-part-2/"
+            },
+            {
+              "titre": "\"Announcing ReasoningLens — Visualizing and Diagnosing LLM Reasoning...\"",
+              "url": "https://huggingface.co/blog/Bowieee/reasoninglens"
+            }
+          ],
+          "contenu_complet": "\n### Résumé\nHugging Face propose “Community Evals” pour sortir des leaderboards opaques : scores hébergés et versionnés (PR), badges de vérification et traçabilité. AWS décrit une méthodologie d’évaluation via LLM-as-a-judge avec rubric (Nova) sur SageMaker. Enfin, ReasoningLens vise à visualiser et diagnostiquer des traces de raisonnement longues (profiling, détection d’erreurs), utile pour déboguer des comportements agentiques.\n\n### Points de vue croisés\n**Hugging Face (Community Evals)**  \nGouvernance communautaire : rendre les résultats reproductibles, auditables, attachés à des artefacts (datasets/modèles).\n\n**AWS (rubric-based LLM judge)**  \nIndustrialisation : standardiser des grilles d’évaluation (rubrics), calibrer et automatiser la comparaison en pipelines.\n\n**Hugging Face (ReasoningLens)**  \nObservabilité qualitative : outiller la lecture des raisonnements longs pour identifier motifs d’échec (planning, contradictions, dérives).\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - Entreprises : passage des démos à des KPI qualité/coût/risque mesurés et suivis.\n  - Recherche : pression vers des résultats plus transparents, moins “benchmark theatre”.\n- **Opportunités :**\n  - Mettre en place un triptyque : **tests automatiques + judge rubric + analyse de traces**.\n  - Réduire le temps de debug sur tâches complexes (agents, tool use, multi-étapes).\n- **Risques potentiels :**\n  - Judges biaisés (préférences stylistiques, vulnérabilité au gaming).\n  - Sur-optimisation sur la métrique au détriment de la robustesse terrain.\n\n### Signaux faibles\n- Convergence vers des **supply chains d’évaluation** (artefacts versionnés, badges, CI/CD qualité).\n- Demande croissante d’outils de **reasoning observability** pour auditer des décisions agentiques.\n\n### Sources\n- \"Community Evals: Because we're done trusting black-box leaderboards...\" – https://huggingface.co/blog/community-evals  \n- \"Evaluate generative AI models with an Amazon Nova rubric-based LLM judge...\" – https://aws.amazon.com/blogs/machine-learning/evaluate-generative-ai-models-with-an-amazon-nova-rubric-based-llm-judge-on-amazon-sagemaker-ai-part-2/  \n- \"Announcing ReasoningLens — Visualizing and Diagnosing LLM Reasoning...\" – https://huggingface.co/blog/Bowieee/reasoninglens  \n\n---\n\n",
+          "icone": "🤖"
+        }
+      ],
+      "sujets_secondaires": [
+        {
+          "titre": "[SUJET 6/6] – Évaluer et diagnostiquer : vers des évals vérifiables + LLM judges + visualisation",
+          "resume": "Hugging Face propose “Community Evals” pour sortir des leaderboards opaques : scores hébergés et versionnés (PR), badges de vérification et traçabilité. AWS décrit une méthodologie d’évaluation via LLM-as-a-judge avec rubric (Nova) sur SageMaker. Enfin, ReasoningLens vise à visualiser et diagnostiquer des traces de raisonnement longues (profiling, détection d’erreurs), utile pour déboguer des comportements agentiques.",
+          "resume_court": "Hugging Face propose “Community Evals” pour sortir des leaderboards opaques : scores hébergés et versionnés (PR), badges de vérification et traçabilité. AWS décrit une méthodologie d’évaluation via LLM-as-a-judge avec rubric (Nova) sur SageMaker. Enfin, ReasoningLens vise à visualiser et diagnostiquer...",
+          "resume_complet": "Hugging Face propose “Community Evals” pour sortir des leaderboards opaques : scores hébergés et versionnés (PR), badges de vérification et traçabilité. AWS décrit une méthodologie d’évaluation via LLM-as-a-judge avec rubric (Nova) sur SageMaker. Enfin, ReasoningLens vise à visualiser et diagnostiquer des traces de raisonnement longues (profiling, détection d’erreurs), utile pour déboguer des comportements agentiques.",
+          "points_de_vue": [],
+          "fiabilite": [
+            "Convergence vers des **supply chains d’évaluation** (artefacts versionnés, badges, CI/CD qualité).",
+            "Demande croissante d’outils de **reasoning observability** pour auditer des décisions agentiques."
+          ],
+          "sources": [
+            {
+              "titre": "\"Community Evals: Because we're done trusting black-box leaderboards...\"",
+              "url": "https://huggingface.co/blog/community-evals"
+            },
+            {
+              "titre": "\"Evaluate generative AI models with an Amazon Nova rubric-based LLM judge...\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/evaluate-generative-ai-models-with-an-amazon-nova-rubric-based-llm-judge-on-amazon-sagemaker-ai-part-2/"
+            },
+            {
+              "titre": "\"Announcing ReasoningLens — Visualizing and Diagnosing LLM Reasoning...\"",
+              "url": "https://huggingface.co/blog/Bowieee/reasoninglens"
+            }
+          ],
+          "contenu_complet": "\n### Résumé\nHugging Face propose “Community Evals” pour sortir des leaderboards opaques : scores hébergés et versionnés (PR), badges de vérification et traçabilité. AWS décrit une méthodologie d’évaluation via LLM-as-a-judge avec rubric (Nova) sur SageMaker. Enfin, ReasoningLens vise à visualiser et diagnostiquer des traces de raisonnement longues (profiling, détection d’erreurs), utile pour déboguer des comportements agentiques.\n\n### Points de vue croisés\n**Hugging Face (Community Evals)**  \nGouvernance communautaire : rendre les résultats reproductibles, auditables, attachés à des artefacts (datasets/modèles).\n\n**AWS (rubric-based LLM judge)**  \nIndustrialisation : standardiser des grilles d’évaluation (rubrics), calibrer et automatiser la comparaison en pipelines.\n\n**Hugging Face (ReasoningLens)**  \nObservabilité qualitative : outiller la lecture des raisonnements longs pour identifier motifs d’échec (planning, contradictions, dérives).\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - Entreprises : passage des démos à des KPI qualité/coût/risque mesurés et suivis.\n  - Recherche : pression vers des résultats plus transparents, moins “benchmark theatre”.\n- **Opportunités :**\n  - Mettre en place un triptyque : **tests automatiques + judge rubric + analyse de traces**.\n  - Réduire le temps de debug sur tâches complexes (agents, tool use, multi-étapes).\n- **Risques potentiels :**\n  - Judges biaisés (préférences stylistiques, vulnérabilité au gaming).\n  - Sur-optimisation sur la métrique au détriment de la robustesse terrain.\n\n### Signaux faibles\n- Convergence vers des **supply chains d’évaluation** (artefacts versionnés, badges, CI/CD qualité).\n- Demande croissante d’outils de **reasoning observability** pour auditer des décisions agentiques.\n\n### Sources\n- \"Community Evals: Because we're done trusting black-box leaderboards...\" – https://huggingface.co/blog/community-evals  \n- \"Evaluate generative AI models with an Amazon Nova rubric-based LLM judge...\" – https://aws.amazon.com/blogs/machine-learning/evaluate-generative-ai-models-with-an-amazon-nova-rubric-based-llm-judge-on-amazon-sagemaker-ai-part-2/  \n- \"Announcing ReasoningLens — Visualizing and Diagnosing LLM Reasoning...\" – https://huggingface.co/blog/Bowieee/reasoninglens  \n\n---\n\n",
+          "icone": "🤖"
+        }
+      ],
+      "points_cles": [
+        "La compétition modèles se joue autant sur **contexte long + agentic tool use** que sur **ouverture (Apache 2.0) + compression**.",
+        "Les agents entrent dans une phase **plateforme/IaC/gouvernance**, avec des patterns de déploiement reproductibles.",
+        "La chaîne qualité se structure : **évals vérifiables**, **LLM judges rubric**, **outils d’observabilité du raisonnement**."
+      ],
+      "date_generation": "2026-02-08T11:47:15.021423"
     },
     "news": {
       "metadata": {
@@ -28,7 +219,7 @@
       "sujets_importants": [],
       "sujets_secondaires": [],
       "points_cles": [],
-      "date_generation": "2026-02-08T11:39:54.482324"
+      "date_generation": "2026-02-08T11:47:15.021465"
     }
   }
 }
