@@ -29,141 +29,53 @@ def collecter_actualites_news() -> Dict[str, Any]:
     date_fin = datetime.now()
     date_debut = date_fin - timedelta(days=7)
     
-    # Prompt de collecte PURE optimisé
-    prompt = f"""ROBOT DE COLLECTE D'ACTUALITÉS GÉNÉRALES - AUCUNE ANALYSE
+    # Prompt de collecte PURE simplifié et optimisé
+    prompt = f"""Tu es un robot de collecte d'actualités. Collecte EXACTEMENT 25 articles d'actualité publiés dans les 7 derniers jours ({date_debut.strftime('%d/%m/%Y')} au {date_fin.strftime('%d/%m/%Y')}).
 
-PÉRIODE: {date_debut.strftime('%d/%m/%Y')} au {date_fin.strftime('%d/%m/%Y')} (7 derniers jours)
+RÉPARTITION STRICTE:
+- 9 articles INTERNATIONAUX (géopolitique, économie mondiale, tech, climat)
+- 9 articles NATIONAUX FRANCE (politique, économie, société, justice)
+- 7 articles LOCAUX Bretagne/Pays de Loire (Nantes, Rennes, sports maritimes, économie régionale)
 
-SOURCES PAR ZONE GÉOGRAPHIQUE:
+SOURCES À CONSULTER:
+International: BBC News, Reuters, The Guardian, Le Monde International, El País
+National: Le Monde, Le Figaro, Libération, Les Échos, France Info
+Local: Ouest-France (Nantes), Presse Océan, Le Télégramme (Bretagne)
 
-INTERNATIONAL (35% = 9 articles):
-- Le Grand Continent: legrandcontinent.eu
-- El País (Espagne): elpais.com
-- BBC News: bbc.com/news
-- Reuters: reuters.com
-- The Guardian: theguardian.com/international
+CONSIGNES:
+1. Cherche des articles RÉCENTS (7 derniers jours maximum)
+2. URLs complètes et valides
+3. Diversifie les sujets (pas que politique/économie)
+4. Pour LOCAL: Nantes, Bretagne, sports maritimes (voile, surf, kitesurf), mer, ports
 
-NATIONAL FRANCE (35% = 9 articles):
-- Le Figaro: lefigaro.fr
-- Le Monde: lemonde.fr
-- Le Monde Diplomatique: monde-diplomatique.fr
-- Libération: liberation.fr
-- Les Échos: lesechos.fr
+CATÉGORIES (choisis LA PLUS pertinente):
+International: Géopolitique | Économie mondiale | Environnement & Climat
+National: Politique nationale | Économie France | Société
+Local: Politique locale | Économie régionale | Sports maritimes | Mer & littoral | Culture Bretagne
 
-LOCAL BRETAGNE/PAYS DE LOIRE (30% = 7 articles):
-- Ouest-France édition Nantes: ouest-france.fr (rechercher Nantes, Loire-Atlantique, Pays de la Loire)
-- Le Télégramme: letelegramme.fr (Bretagne, Finistère, Morbihan, Côtes-d'Armor, Ille-et-Vilaine)
-- Presse Océan: presseocean.fr (Nantes, Loire-Atlantique)
-
-OBJECTIF: Collecter EXACTEMENT 25 articles (9 Int + 9 Nat + 7 Local)
-
-CONSIGNES STRICTES:
-1. Collecte BRUTE uniquement - PAS de sélection qualitative, PAS d'analyse, PAS de synthèse
-2. RESPECTER la répartition 35-35-30 (9-9-7)
-3. Vérifier que chaque URL est valide et accessible
-4. Diversifier les sujets (pas que politique ou économie)
-5. Pour LOCAL: privilégier Nantes, sports maritimes, économie régionale
-
-ZONES GÉOGRAPHIQUES (obligatoire):
-- International: géopolitique, économie mondiale, conflits, climat, tech mondiale
-- National: politique française, économie France, société, culture, justice
-- Local: Nantes, Bretagne, Pays de Loire, sports maritimes, mer, économie régionale
-
-CATÉGORIES (choisir la plus pertinente):
-INTERNATIONAL:
-- Géopolitique (conflits, diplomatie, alliances)
-- Économie mondiale (commerce, finance, énergie)
-- Environnement & Climat (COP, accords, catastrophes)
-
-NATIONAL:
-- Politique nationale (gouvernement, partis, élections)
-- Économie France (industrie, emploi, réformes)
-- Société (éducation, santé, social, justice)
-
-LOCAL:
-- Politique locale (municipalité, région, projets urbains)
-- Économie régionale (entreprises, emploi, innovation)
-- Sports maritimes (voile, Route du Rhum, Vendée Globe, surf, kitesurf, wingfoil)
-- Mer & littoral (ports, pêche, environnement marin, côtes)
-- Culture Bretagne (festivals, patrimoine, langue bretonne)
-
-FORMAT JSON STRICT (sans markdown, sans commentaires):
+FORMAT JSON STRICT (retourne UNIQUEMENT le JSON, pas de texte avant/après):
 {{
   "articles": [
     {{
       "titre": "Titre exact de l'article",
-      "url": "https://source-officielle.com/article-complet",
-      "source": "Nom de la source (ex: Le Monde, BBC)",
+      "url": "https://source.com/article",
+      "source": "Nom source",
       "date_publication": "YYYY-MM-DD",
-      "contenu_brut": "Résumé factuel de 2-3 phrases extrait du contenu réel",
+      "contenu_brut": "Résumé factuel 2-3 phrases",
       "zone_geo": "International OU National OU Local",
-      "categorie_auto": "Catégorie la plus pertinente parmi celles listées"
+      "categorie_auto": "Catégorie pertinente"
     }}
   ],
-  "periode": {{
-    "debut": "{date_debut.strftime('%Y-%m-%d')}", 
-    "fin": "{date_fin.strftime('%Y-%m-%d')}"
-  }},
+  "periode": {{"debut": "{date_debut.strftime('%Y-%m-%d')}", "fin": "{date_fin.strftime('%Y-%m-%d')}"}},
   "nb_articles": 25,
-  "repartition": {{
-    "international": 9,
-    "national": 9,
-    "local": 7
-  }}
+  "repartition": {{"international": 9, "national": 9, "local": 7}}
 }}
 
-EXEMPLES DE RÉSULTATS ATTENDUS:
-
-INTERNATIONAL:
-{{
-  "titre": "La Russie intensifie ses frappes sur l'infrastructure énergétique ukrainienne",
-  "url": "https://www.lemonde.fr/international/article/2026/01/28/...",
-  "source": "Le Monde",
-  "date_publication": "2026-01-28",
-  "contenu_brut": "Moscou a lancé une série de frappes massives visant les centrales électriques et les réseaux de distribution en Ukraine. Ces attaques surviennent avant l'hiver et visent à affaiblir la résistance ukrainienne.",
-  "zone_geo": "International",
-  "categorie_auto": "Géopolitique"
-}}
-
-NATIONAL:
-{{
-  "titre": "Réforme des retraites : nouvelles manifestations prévues dans toute la France",
-  "url": "https://www.lefigaro.fr/actualite-france/2026/01/29/...",
-  "source": "Le Figaro",
-  "date_publication": "2026-01-29",
-  "contenu_brut": "Les syndicats appellent à une journée de mobilisation nationale contre le projet de réforme des retraites. Des perturbations sont attendues dans les transports et les services publics.",
-  "zone_geo": "National",
-  "categorie_auto": "Société"
-}}
-
-LOCAL:
-{{
-  "titre": "Nantes : le nouveau pôle nautique de l'Erdre ouvre ses portes",
-  "url": "https://www.ouest-france.fr/pays-de-la-loire/nantes/...",
-  "source": "Ouest-France",
-  "date_publication": "2026-01-30",
-  "contenu_brut": "La métropole nantaise inaugure un complexe dédié aux sports d'eau avec espaces pour aviron, kayak et voile. Le projet vise à renforcer l'attractivité sportive de la région et à accueillir des compétitions nationales.",
-  "zone_geo": "Local",
-  "categorie_auto": "Sports maritimes"
-}}
-
-FOCUS LOCAL OBLIGATOIRE (7 articles minimum):
-- Nantes : politique municipale, grands projets, économie, culture
-- Sports maritimes : voile (courses, clubs), surf, kitesurf, wingfoil, ports
-- Mer & environnement : littoral, pêche, biodiversité marine
-- Bretagne : initiatives régionales, économie maritime, patrimoine
-
-IMPORTANT:
-- Retourner UNIQUEMENT le JSON (pas de texte avant/après)
-- 25 articles OBLIGATOIRE : 9 Int + 9 Nat + 7 Local
-- URLs complètes et valides
-- Dates au format YYYY-MM-DD
-- Contenu factuel (pas d'opinion)
-- Diversité des sujets au sein de chaque zone"""
+IMPORTANT: 25 articles OBLIGATOIRE (9 Int + 9 Nat + 7 Local). Dates format YYYY-MM-DD."""
 
     print(f"🌐 Lancement GPT-5.2 + web search LIVE...")
-    print(f"📅 Recherche sur 7 jours : {date_debut.strftime('%d/%m')} - {date_fin.strftime('%d/%m')}")
-    print(f"🎯 Répartition : 9 Int | 9 Nat | 7 Local")
+    print(f"📅 Recherche : {date_debut.strftime('%d/%m')} - {date_fin.strftime('%d/%m')}")
+    print(f"🎯 Objectif : 9 Int | 9 Nat | 7 Local")
     
     try:
         response = client.responses.create(
@@ -175,6 +87,11 @@ IMPORTANT:
         tokens_used = response.usage.total_tokens
         print(f"📊 Tokens utilisés : {tokens_used}")
         
+        # DEBUG: Afficher les 1000 premiers caractères de la réponse brute
+        print(f"\n🔍 DEBUG - Réponse brute (1000 premiers chars):")
+        print(response.output_text[:1000])
+        print("...\n")
+        
         # Nettoyage du JSON
         json_text = response.output_text.strip()
         if json_text.startswith('```'):
@@ -183,11 +100,22 @@ IMPORTANT:
             json_text = json_text.replace('```json', '').replace('```', '').strip()
         
         # Parse JSON
-        data = json.loads(json_text)
+        try:
+            data = json.loads(json_text)
+        except json.JSONDecodeError as e:
+            print(f"❌ Erreur parsing JSON : {e}")
+            print(f"🔍 Contenu complet de la réponse:")
+            print(response.output_text)
+            raise
         
         # Validation basique
-        if 'articles' not in data or not isinstance(data['articles'], list):
-            raise ValueError("Format JSON invalide : clé 'articles' manquante")
+        if 'articles' not in data:
+            print(f"⚠️ Clé 'articles' manquante. Clés présentes: {list(data.keys())}")
+            data['articles'] = []
+        
+        if not isinstance(data['articles'], list):
+            print(f"⚠️ 'articles' n'est pas une liste. Type: {type(data['articles'])}")
+            data['articles'] = []
         
         # Enrichissement métadonnées
         data['date_collecte'] = date_fin.strftime('%Y-%m-%d %H:%M:%S')
@@ -220,23 +148,29 @@ IMPORTANT:
         
         data['repartition'] = repartition
         
-        print(f"✅ {data['nb_articles']} articles collectés")
-        print(f"📍 Répartition : {repartition['international']} Int | {repartition['national']} Nat | {repartition['local']} Local")
+        nb_articles = data['nb_articles']
+        print(f"\n{'✅' if nb_articles > 0 else '⚠️'} {nb_articles} articles collectés")
         
-        # Vérification de la répartition
-        if repartition['local'] < 5:
-            print(f"⚠️  Attention : seulement {repartition['local']} articles locaux (objectif: 7)")
-        
-        print(f"📊 Répartition par catégorie :")
-        for cat, count in sorted(categories.items(), key=lambda x: x[1], reverse=True):
-            print(f"   • {cat}: {count}")
+        if nb_articles == 0:
+            print("❌ PROBLÈME: Aucun article collecté !")
+            print("🔍 Vérifier si GPT-5.2 a accès au web search")
+            print("🔍 Vérifier si les sources sont accessibles")
+        else:
+            print(f"📍 Répartition : {repartition['international']} Int | {repartition['national']} Nat | {repartition['local']} Local")
+            
+            if repartition['local'] < 5:
+                print(f"⚠️ Attention : seulement {repartition['local']} articles locaux (objectif: 7)")
+            
+            print(f"📊 Répartition par catégorie :")
+            for cat, count in sorted(categories.items(), key=lambda x: x[1], reverse=True):
+                print(f"   • {cat}: {count}")
         
         return data
     
     except json.JSONDecodeError as e:
         print(f"❌ Erreur JSON : {e}")
-        print(f"Réponse brute (500 premiers chars) :")
-        print(response.output_text[:500])
+        print(f"🔍 Réponse brute complète :")
+        print(response.output_text)
         traceback.print_exc()
         raise
     
@@ -251,7 +185,7 @@ def main():
         print("🤖 AGENT RECHERCHE NEWS v3 - COLLECTE PURE")
         print("=" * 80)
         print(f"📅 Période : 7 derniers jours")
-        print(f"🎯 Objectif : {MAX_ARTICLES} articles EXACTEMENT (9 Int + 9 Nat + 7 Local)")
+        print(f"🎯 Objectif : {MAX_ARTICLES} articles (9 Int + 9 Nat + 7 Local)")
         print(f"🌐 Modèle : {MODEL_RECHERCHE} + web search live")
         print()
         
@@ -264,8 +198,20 @@ def main():
         print()
         print(f"✅ Fichier généré : {OUTPUT_JSON}")
         print(f"📊 {data['nb_articles']} articles • {data['tokens_utilises']} tokens")
+        
+        # Afficher le contenu du fichier pour debug
+        print(f"\n🔍 Contenu du fichier {OUTPUT_JSON} :")
+        with open(OUTPUT_JSON, 'r', encoding='utf-8') as f:
+            print(f.read()[:500])
+        
         print("=" * 80)
-        sys.exit(0)
+        
+        # Exit code selon le nombre d'articles
+        if data['nb_articles'] == 0:
+            print("⚠️ WARNING: Aucun article collecté, mais pas d'erreur bloquante")
+            sys.exit(0)  # Ne pas bloquer le workflow
+        else:
+            sys.exit(0)
     
     except Exception as e:
         print()
