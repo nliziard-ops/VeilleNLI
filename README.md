@@ -1,32 +1,48 @@
 # 🤖 VeilleNLI
 
-Système de veille automatisée quotidienne sur l'IA et l'actualité, propulsé par **OpenAI GPT-5.2**.
+Système de veille automatisée quotidienne sur l'IA et l'actualité générale.
 
 🌐 **Site** : https://nliziard-ops.github.io/VeilleNLI/
 
 ---
 
-## 📋 Description
+## 📋 Qu'est-ce que c'est ?
 
-VeilleNLI génère **quotidiennement à 6h00 (Paris)** deux bulletins de veille :
+VeilleNLI génère **automatiquement tous les jours à 6h00** deux rapports de veille :
 
-- **🤖 Veille IA** : Actualités IA/LLM depuis sources institutionnelles
-- **📰 Veille Actualités** : Presse internationale, nationale, locale (Bretagne)
+- **🤖 Veille IA** : Top 6 actualités IA/LLM (3 buzz + 3 tech)
+- **📰 Veille Actualités** : Top 6 actualités générales (2 internationales + 2 nationales + 2 locales Bretagne)
 
-### Architecture
+---
 
-**4 agents OpenAI en pipeline :**
+## 🏗️ Architecture
+
+**Pipeline 4 agents OpenAI GPT-5.2 :**
 
 ```
-Recherche IA v3 (GPT-5.2) → Synthèse IA v3 (GPT-5.2 Pro)
-Recherche News v3 (GPT-5.2) → Synthèse News v3 (GPT-5.2 Pro)
-           ↓
-  Validation → Sync GitHub → data.json → Site Web
+┌─────────────────────────┐     ┌─────────────────────────┐
+│ Recherche IA v3         │────▶│ Synthèse IA v3          │
+│ GPT-5.2 + web search    │     │ GPT-5.2 Pro             │
+│ Collecte 25 articles    │     │ Sélection Top 6 + Autres│
+└─────────────────────────┘     └─────────────────────────┘
+                                              │
+┌─────────────────────────┐     ┌─────────────────────────┐
+│ Recherche News v3       │────▶│ Synthèse News v3        │
+│ GPT-5.2 + web search    │     │ GPT-5.2 Pro             │
+│ Collecte 25 articles    │     │ Sélection Top 6 + Autres│
+└─────────────────────────┘     └─────────────────────────┘
+              │                               │
+              └───────────┬───────────────────┘
+                          ▼
+           ┌──────────────────────────┐
+           │ Validation + Sync GitHub │
+           │ data.json → GitHub Pages │
+           └──────────────────────────┘
 ```
 
-**Exécution :** GitHub Actions (quotidien, 6h00 Paris)  
-**Durée :** ~4-6 minutes  
-**Coût :** ~0.40€/jour (~12€/mois)
+**Durée** : 4-6 minutes  
+**Coût** : ~0.40€/jour (~12€/mois)  
+**Exécution** : GitHub Actions
 
 ---
 
@@ -38,8 +54,9 @@ Recherche News v3 (GPT-5.2) → Synthèse News v3 (GPT-5.2 Pro)
 
 ### Lancer manuellement
 
-1. [Actions](https://github.com/nliziard-ops/VeilleNLI/actions/workflows/veille-openai-v3.yml)
-2. **"Run workflow"**
+1. Aller sur [Actions](https://github.com/nliziard-ops/VeilleNLI/actions)
+2. Sélectionner "🤖 Veille OpenAI v3"
+3. Cliquer "Run workflow"
 
 ---
 
@@ -47,61 +64,59 @@ Recherche News v3 (GPT-5.2) → Synthèse News v3 (GPT-5.2 Pro)
 
 ```
 VeilleNLI/
+├── agents/                           # 6 agents Python
+│   ├── agent_recherche_ia_v3.py      # Collecte IA (GPT-5.2)
+│   ├── agent_synthese_ia_v3.py       # Analyse IA (GPT-5.2 Pro)
+│   ├── agent_recherche_news_v3.py    # Collecte News (GPT-5.2)
+│   ├── agent_synthese_news_v3.py     # Analyse News (GPT-5.2 Pro)
+│   ├── agent_validateur_markdown.py  # Validation markdown
+│   └── agent_generateur_json.py      # Génération data.json
+│
 ├── .github/workflows/
-│   ├── veille-openai-v3.yml          # Pipeline principal
-│   └── cleanup-repo.yml              # Maintenance
+│   └── veille-openai-v3.yml          # Pipeline automatisé
 │
-├── agents/
-│   ├── agent_recherche_ia_v3.py      # Collecte IA
-│   ├── agent_synthese_ia_v3.py       # Analyse IA
-│   ├── agent_recherche_news_v3.py    # Collecte News
-│   ├── agent_synthese_news_v3.py     # Analyse News
-│   ├── agent_validateur_markdown.py  # Validation
-│   └── agent_generateur_json.py      # data.json
-│
-├── docs/                             # Site GitHub Pages
-│   ├── index.html
-│   ├── data.json
-│   └── markdown/
+├── docs/                             # GitHub Pages
+│   ├── index.html                    # Site React
+│   ├── data.json                     # Données veille
+│   └── markdown/                     # Markdowns source
 │       ├── VeilleIA.md
 │       └── VeilleNews.md
 │
-├── scripts/
-│   ├── cleanup_repository.py         # Nettoyage
-│   └── list_openai_models.py         # Utilitaire
-│
-├── .gitignore
-├── requirements.txt
-└── README.md
+└── requirements.txt                  # Dépendances Python
 ```
 
 ---
 
-## 🛠️ Technologies
+## 🛠️ Stack Technique
 
 - **Backend** : Python 3.11+
-- **LLM** : OpenAI GPT-5.2 / GPT-5.2 Pro
-- **Storage** : Google Drive API
-- **Frontend** : React 18
+- **LLM** : OpenAI GPT-5.2 (recherche) + GPT-5.2 Pro (synthèse)
+- **Web Search** : OpenAI Responses API avec `external_web_access`
+- **Storage** : Google Drive (intermédiaire)
+- **Frontend** : React 18 (single-page)
 - **Hosting** : GitHub Pages
 - **CI/CD** : GitHub Actions
 
 ---
 
-## 🔐 Secrets GitHub
+## 🔐 Configuration
+
+### Secrets GitHub requis
 
 ```
-OPENAI_API_KEY              # API OpenAI
-GOOGLE_DRIVE_CREDENTIALS    # Service account JSON
-GOOGLE_DRIVE_FOLDER_ID      # ID dossier stockage
+OPENAI_API_KEY              # Clé API OpenAI
+GOOGLE_DRIVE_CREDENTIALS    # Service account JSON Google
+GOOGLE_DRIVE_FOLDER_ID      # ID dossier stockage intermédiaire
 ```
 
----
-
-## 🧪 Tests Locaux
+### Installation locale
 
 ```bash
-# Installation
+# Cloner
+git clone https://github.com/nliziard-ops/VeilleNLI.git
+cd VeilleNLI
+
+# Installer dépendances
 pip install -r requirements.txt
 
 # Variables d'environnement
@@ -109,63 +124,66 @@ export OPENAI_API_KEY="sk-..."
 export GOOGLE_DRIVE_CREDENTIALS='{"type":"service_account",...}'
 export GOOGLE_DRIVE_FOLDER_ID="1xxx"
 
-# Test agents
+# Tester un agent
 python agents/agent_recherche_ia_v3.py
-python agents/agent_synthese_ia_v3.py
-
-# Validation JSON
-cat docs/data.json | python -m json.tool
-
-# Serveur local
-cd docs && python -m http.server 8000
 ```
+
+---
+
+## 💰 Coûts
+
+| Agent | Modèle | Tokens moyens | Coût/jour |
+|-------|--------|---------------|-----------|
+| Recherche IA | GPT-5.2 | ~10k | 0.05€ |
+| Synthèse IA | GPT-5.2 Pro | ~8k | 0.15€ |
+| Recherche News | GPT-5.2 | ~21k | 0.10€ |
+| Synthèse News | GPT-5.2 Pro | ~8k | 0.15€ |
+| **TOTAL** | | **~47k** | **~0.45€** |
+
+**Mensuel** : ~13.50€  
+**Budget** : 40€/mois
 
 ---
 
 ## 📊 Monitoring
 
 **Workflow** : [Actions](https://github.com/nliziard-ops/VeilleNLI/actions/workflows/veille-openai-v3.yml)  
-**Schedule** : Quotidien 6h00 Europe/Paris  
-**Durée** : 4-6 minutes  
-**Coût** : ~0.40€/jour
+**Planification** : Tous les jours à 6h00 (Europe/Paris)  
+**Logs** : Disponibles dans GitHub Actions
 
 ---
 
-## 💰 Coûts
+## 🐛 Troubleshooting
 
-| Agent | Modèle | Tokens | Coût/jour |
-|-------|--------|--------|-----------|
-| Recherche IA | GPT-5.2 | 10k | ~0.05€ |
-| Synthèse IA | GPT-5.2 Pro | 8k | ~0.15€ |
-| Recherche News | GPT-5.2 | 10k | ~0.05€ |
-| Synthèse News | GPT-5.2 Pro | 8k | ~0.15€ |
-| **Total** | - | **36k** | **~0.40€** |
+### Recherche News retourne 0 articles
 
-**Par mois** : ~12€  
-**Budget disponible** : 40€/mois
+**Cause** : Blocage robot sur sources spécifiques  
+**Solution** : Prompt utilise des requêtes web search génériques (pas d'accès direct aux sites)
 
----
+### Synthèse News vide sur le site
 
-## 🔧 Maintenance
+**Cause** : Format markdown incompatible avec le parser  
+**Solution** : Prompt strictement aligné sur format IA (séparateurs `---`)
 
-### Nettoyage du repository
+### Erreur IndentationError
 
-```bash
-# Simulation
-python scripts/cleanup_repository.py
-
-# Exécution
-python scripts/cleanup_repository.py --execute --yes
-```
-
-Ou via [workflow](https://github.com/nliziard-ops/VeilleNLI/actions/workflows/cleanup-repo.yml)
+**Cause** : Modification manuelle du prompt avec mauvaise indentation  
+**Solution** : Vérifier que `prompt = f"""` a 4 espaces d'indentation dans la fonction
 
 ---
 
-## 📝 Licence
+## 📝 Documentation
+
+- **README.md** (ce fichier) : Vue d'ensemble
+- **ARCHITECTURE.md** : Détails techniques pipeline
+- Code source : Documentation inline dans chaque agent
+
+---
+
+## 📄 Licence
 
 Tous droits réservés - Nicolas Liziard ([@nliziard-ops](https://github.com/nliziard-ops))
 
 ---
 
-*VeilleNLI - Architecture v3 - Février 2026*
+*VeilleNLI v3 - Février 2026*
