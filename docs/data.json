@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "date_generation": "2026-02-08T11:47:15.020364",
+  "date_generation": "2026-02-08T12:14:10.980692",
   "veilles": {
     "ia": {
       "metadata": {
@@ -10,17 +10,102 @@
       },
       "titre": "Veille IA – Semaine du 2026-02-01 au 2026-02-08",
       "edition": "",
-      "introduction": "La semaine est marquée par une accélération simultanée sur deux axes : (1) la course aux modèles « flagship » (contexte long, agentic coding, multimodal) et (2) l’industrialisation des agents en entreprise (déploiement, gouvernance, fiabilité des sorties, observabilité). Côté écosystème, on observe une tension croissante entre ouverture (modèles Apache 2.0, diffusion d’artefacts) et soutenabilité économique des données/infra (ex. accords Wikimedia). En parallèle, les plateformes cloud poussent des primitives de fiabilisation (structured outputs, IaC pour agents, évaluation LLM-as-judge) qui transforment les POC en produits opérables.",
+      "introduction": "Cette semaine confirme trois dynamiques structurantes : (1) l’accélération de l’IA agentique (plateformes “enterprise”, orchestration, permissions), (2) la course aux modèles orientés “coding + tool use” avec des fenêtres de contexte géantes, et (3) la montée des enjeux économiques autour des données (Wikipedia) et de l’infrastructure (H200, clusters managés, jumeaux numériques). On observe aussi un glissement du débat “capacité brute” vers “industrialisation” : sorties structurées, évaluation systématique par LLM-judge, gouvernance des agents, et rationalisation des catalogues produits (retraits de modèles, positionnement “sans pub”).",
       "sujets_importants": [
         {
-          "titre": "[SUJET 1/6] – Course aux modèles ouverts vs propriétaires : contexte long, multimodal et compression",
-          "resume": "Anthropic annonce Claude Opus 4.6 avec un focus sur le coding agentique, le tool use et une fenêtre de contexte jusqu’à 1M tokens (beta). Mistral publie Mistral 3 (famille multimodale/multilingue) et Mistral Large 3 (MoE) sous Apache 2.0, tandis que la presse souligne des stratégies de distillation en cascade (Ministral) pour obtenir des modèles plus petits mais capables. En Asie, Moonshot met en avant Kimi K2.5 et l’exécution via sous-agents.",
-          "resume_court": "Anthropic annonce Claude Opus 4.6 avec un focus sur le coding agentique, le tool use et une fenêtre de contexte jusqu’à 1M tokens (beta). Mistral publie Mistral 3 (famille multimodale/multilingue) et Mistral Large 3 (MoE) sous Apache 2.0, tandis que...",
-          "resume_complet": "Anthropic annonce Claude Opus 4.6 avec un focus sur le coding agentique, le tool use et une fenêtre de contexte jusqu’à 1M tokens (beta). Mistral publie Mistral 3 (famille multimodale/multilingue) et Mistral Large 3 (MoE) sous Apache 2.0, tandis que la presse souligne des stratégies de distillation en cascade (Ministral) pour obtenir des modèles plus petits mais capables. En Asie, Moonshot met en avant Kimi K2.5 et l’exécution via sous-agents.",
+          "titre": "[SUJET 1/6] – Plateformes d’agents en entreprise : du “computer work” à l’agent gouverné",
+          "resume": "OpenAI formalise une offre “agents en entreprise” (Frontier) orientée déploiement, permissions et intégration SI. AWS pousse une approche d’industrialisation via Bedrock AgentCore (bonnes pratiques + retours terrain) et étend la logique aux “data agents”. NVIDIA met en avant des pipelines agents pour transformer des documents en BI quasi temps réel.",
+          "resume_court": "OpenAI formalise une offre “agents en entreprise” (Frontier) orientée déploiement, permissions et intégration SI. AWS pousse une approche d’industrialisation via Bedrock AgentCore (bonnes pratiques + retours terrain) et étend la logique aux “data agents”. NVIDIA met en avant des pipelines...",
+          "resume_complet": "OpenAI formalise une offre “agents en entreprise” (Frontier) orientée déploiement, permissions et intégration SI. AWS pousse une approche d’industrialisation via Bedrock AgentCore (bonnes pratiques + retours terrain) et étend la logique aux “data agents”. NVIDIA met en avant des pipelines agents pour transformer des documents en BI quasi temps réel.",
           "points_de_vue": [],
           "fiabilite": [
-            "La compétition se déplace vers **l’exécution (agents, tool use, sous-agents)** et **l’opérabilité** plus que vers les seuls benchmarks.",
-            "La **compression structurée** (distillation en cascade) devient un avantage stratégique pour les déploiements « fleet » (apps, devices, entreprises)."
+            "Convergence vers des “plans de contrôle” (permissions, politiques, audit) comme différenciateur produit, pas seulement la performance modèle.",
+            "Les “data agents” deviennent une couche UI/UX au-dessus du stack data (catalogue, accès, requêtes, compute), risquant de rebattre les cartes des outils BI."
+          ],
+          "sources": [
+            {
+              "titre": "\"Introducing OpenAI Frontier\"",
+              "url": "https://openai.com/index/introducing-openai-frontier/"
+            },
+            {
+              "titre": "\"AI agents in enterprises: Best practices with Amazon Bedrock AgentCore\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/ai-agents-in-enterprises-best-practices-with-amazon-bedrock-agentcore/"
+            },
+            {
+              "titre": "\"Democratizing business intelligence: BGL’s journey with Claude Agent SDK and Amazon Bedrock AgentCore\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/democratizing-business-intelligence-bgls-journey-with-claude-agent-sdk-and-amazon-bedrock-agentcore/"
+            },
+            {
+              "titre": "\"Agentic AI for healthcare data analysis with Amazon SageMaker Data Agent\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/agentic-ai-for-healthcare-data-analysis-with-amazon-sagemaker-data-agent/"
+            },
+            {
+              "titre": "\"Nemotron Labs: How AI Agents Are Turning Documents Into Real-Time Business Intelligence\"",
+              "url": "https://blogs.nvidia.com/blog/ai-agents-intelligent-document-processing/"
+            }
+          ],
+          "contenu_complet": "\n### Résumé\nOpenAI formalise une offre “agents en entreprise” (Frontier) orientée déploiement, permissions et intégration SI. AWS pousse une approche d’industrialisation via Bedrock AgentCore (bonnes pratiques + retours terrain) et étend la logique aux “data agents”. NVIDIA met en avant des pipelines agents pour transformer des documents en BI quasi temps réel.\n\n### Points de vue croisés\n**OpenAI (Frontier)**  \nMet l’accent sur des agents capables d’opérer sur ordinateur, avec contexte partagé, feedback/apprentissage et contrôle des permissions, donc un produit plus “plateforme” que “modèle”.\n\n**AWS (AgentCore + cas BGL + Data Agent)**  \nPositionne l’agent comme brique de transformation des organisations (self-service BI, accélération de l’analyse), tout en cadrant l’ingénierie (architecture, itération, gouvernance, passage à l’échelle).\n\n**NVIDIA (Nemotron Labs IDP agents)**  \nCadre l’agent comme orchestrateur de briques (extraction, embeddings, reranking) pour industrialiser l’IDP et alimenter recherche/finance/juridique, avec une tonalité “pipeline + performance”.\n\n### Analyse & implications\n- Impacts sectoriels : data/BI, back-office documentaire, opérations (IT, support), métiers réglementés (traçabilité et permissions).\n- Opportunités : réduction du “temps-to-insight”, standardisation des patterns (agent + outils + politiques), accélération du ROI via cas IDP/analytics.\n- Risques potentiels : dérives d’autonomie (actions non désirées), dette d’orchestration (workflows fragiles), sécurité (permissions, secrets, exfiltration), difficultés de mesure (qualité vs productivité).\n\n### Signaux faibles\n- Convergence vers des “plans de contrôle” (permissions, politiques, audit) comme différenciateur produit, pas seulement la performance modèle.\n- Les “data agents” deviennent une couche UI/UX au-dessus du stack data (catalogue, accès, requêtes, compute), risquant de rebattre les cartes des outils BI.\n\n### Sources\n- \"Introducing OpenAI Frontier\" – https://openai.com/index/introducing-openai-frontier/\n- \"AI agents in enterprises: Best practices with Amazon Bedrock AgentCore\" – https://aws.amazon.com/blogs/machine-learning/ai-agents-in-enterprises-best-practices-with-amazon-bedrock-agentcore/\n- \"Democratizing business intelligence: BGL’s journey with Claude Agent SDK and Amazon Bedrock AgentCore\" – https://aws.amazon.com/blogs/machine-learning/democratizing-business-intelligence-bgls-journey-with-claude-agent-sdk-and-amazon-bedrock-agentcore/\n- \"Agentic AI for healthcare data analysis with Amazon SageMaker Data Agent\" – https://aws.amazon.com/blogs/machine-learning/agentic-ai-for-healthcare-data-analysis-with-amazon-sagemaker-data-agent/\n- \"Nemotron Labs: How AI Agents Are Turning Documents Into Real-Time Business Intelligence\" – https://blogs.nvidia.com/blog/ai-agents-intelligent-document-processing/\n\n---\n\n",
+          "icone": "🔧"
+        },
+        {
+          "titre": "[SUJET 2/6] – “Workforce” de subagents et agents open source : montée en puissance… et montée du hype",
+          "resume": "Moonshot promeut une orchestration par subagents (“workforce”) pour améliorer efficacité et performance (Kimi K2.5). En parallèle, la communauté s’emballe autour d’agents open source (OpenClaw), tandis que certains observateurs appellent à distinguer démos virales et valeur production. Le fil rouge : l’agent devient un produit social (partage de workflows) autant qu’une brique technique.",
+          "resume_court": "Moonshot promeut une orchestration par subagents (“workforce”) pour améliorer efficacité et performance (Kimi K2.5). En parallèle, la communauté s’emballe autour d’agents open source (OpenClaw), tandis que certains observateurs appellent à distinguer démos virales et valeur production. Le fil rouge :...",
+          "resume_complet": "Moonshot promeut une orchestration par subagents (“workforce”) pour améliorer efficacité et performance (Kimi K2.5). En parallèle, la communauté s’emballe autour d’agents open source (OpenClaw), tandis que certains observateurs appellent à distinguer démos virales et valeur production. Le fil rouge : l’agent devient un produit social (partage de workflows) autant qu’une brique technique.",
+          "points_de_vue": [],
+          "fiabilite": [
+            "Émergence d’un “marché des workflows” (recipes, playbooks, subagent packs) qui pourrait devenir un canal de distribution.",
+            "L’avantage compétitif se déplace vers l’orchestration (mémoire, routing, outils, garde-fous) plus que vers un seul modèle."
+          ],
+          "sources": [
+            {
+              "titre": "\"Kimi K2.5 Creates Its Own Workforce: Moonshot AI takes the open model crown with vision updates, aided by subagents\"",
+              "url": "https://www.deeplearning.ai/the-batch/tag/feb-06-2026/"
+            },
+            {
+              "titre": "\"Agents Unleashed: Cutting through the OpenClaw and Moltbook hype\"",
+              "url": "https://www.deeplearning.ai/the-batch/tag/feb-06-2026/"
+            },
+            {
+              "titre": "\"OpenClaw Runs Amok, Kimi’s Open Model, Ministral Distilled, Wikipedia’s Partners\"",
+              "url": "https://www.deeplearning.ai/the-batch/"
+            }
+          ],
+          "contenu_complet": "\n### Résumé\nMoonshot promeut une orchestration par subagents (“workforce”) pour améliorer efficacité et performance (Kimi K2.5). En parallèle, la communauté s’emballe autour d’agents open source (OpenClaw), tandis que certains observateurs appellent à distinguer démos virales et valeur production. Le fil rouge : l’agent devient un produit social (partage de workflows) autant qu’une brique technique.\n\n### Points de vue croisés\n**Moonshot (Kimi K2.5 / subagents)**  \nNarratif “organisation du travail” : déléguer à des sous-agents spécialisés pour paralléliser, planifier et exécuter.\n\n**The Batch (OpenClaw + lecture critique)**  \nMet en avant la viralité des agents open et la nécessité de couper à travers le bruit (fiabilité, sécurité, reproductibilité).\n\n**The Batch (édition multi-sujets open)**  \nSignale une intensification des releases/open agents et un intérêt croissant pour des approches “agent-first” côté open source.\n\n### Analyse & implications\n- Impacts sectoriels : dev tools, RPA modernisée, automatisation des tâches knowledge-worker.\n- Opportunités : accélération par parallélisme, spécialisation outillée (browser, code, data), standardisation de patrons d’orchestration.\n- Risques potentiels : illusions de capacité (agents “fragiles”), surcoûts de coordination (boucles, appels outils), sécurité (exécution d’actions), difficulté d’observabilité.\n\n### Signaux faibles\n- Émergence d’un “marché des workflows” (recipes, playbooks, subagent packs) qui pourrait devenir un canal de distribution.\n- L’avantage compétitif se déplace vers l’orchestration (mémoire, routing, outils, garde-fous) plus que vers un seul modèle.\n\n### Sources\n- \"Kimi K2.5 Creates Its Own Workforce: Moonshot AI takes the open model crown with vision updates, aided by subagents\" – https://www.deeplearning.ai/the-batch/tag/feb-06-2026/\n- \"Agents Unleashed: Cutting through the OpenClaw and Moltbook hype\" – https://www.deeplearning.ai/the-batch/tag/feb-06-2026/\n- \"OpenClaw Runs Amok, Kimi’s Open Model, Ministral Distilled, Wikipedia’s Partners\" – https://www.deeplearning.ai/the-batch/\n\n---\n\n",
+          "icone": "🇨🇳"
+        },
+        {
+          "titre": "[SUJET 3/6] – Données d’entraînement : Wikimedia fait payer (enfin) l’accès “industriel” à Wikipedia",
+          "resume": "La Wikimedia Foundation conclut des accords avec plusieurs acteurs IA pour partager les coûts d’accès/usage des contenus Wikipedia à des fins d’entraînement. Le mouvement s’inscrit dans une tension durable : dépendance des modèles aux corpus ouverts, coûts d’infrastructure côté plateformes, et demande de soutenabilité/équité. En toile de fond, l’écosystème open source cherche des trajectoires “post-DeepSeek”.",
+          "resume_court": "La Wikimedia Foundation conclut des accords avec plusieurs acteurs IA pour partager les coûts d’accès/usage des contenus Wikipedia à des fins d’entraînement. Le mouvement s’inscrit dans une tension durable : dépendance des modèles aux corpus ouverts, coûts d’infrastructure côté plateformes,...",
+          "resume_complet": "La Wikimedia Foundation conclut des accords avec plusieurs acteurs IA pour partager les coûts d’accès/usage des contenus Wikipedia à des fins d’entraînement. Le mouvement s’inscrit dans une tension durable : dépendance des modèles aux corpus ouverts, coûts d’infrastructure côté plateformes, et demande de soutenabilité/équité. En toile de fond, l’écosystème open source cherche des trajectoires “post-DeepSeek”.",
+          "points_de_vue": [],
+          "fiabilite": [
+            "Vers des “contrats de données” standardisés (tarification, attribution, limitations de réutilisation) similaires aux licences logicielles.",
+            "La capacité à prouver la provenance des données (data lineage) devient un avantage commercial et réglementaire."
+          ],
+          "sources": [
+            {
+              "titre": "\"AI Giants Share Wikipedia’s Costs: Wikimedia Foundation strikes deals with Amazon, Meta, Microsoft, Mistral AI, and Perplexity\"",
+              "url": "https://www.deeplearning.ai/the-batch/tag/feb-06-2026/"
+            },
+            {
+              "titre": "\"The Future of the Global Open-Source AI Ecosystem: From DeepSeek to AI+\"",
+              "url": "https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment-blog-3"
+            }
+          ],
+          "contenu_complet": "\n### Résumé\nLa Wikimedia Foundation conclut des accords avec plusieurs acteurs IA pour partager les coûts d’accès/usage des contenus Wikipedia à des fins d’entraînement. Le mouvement s’inscrit dans une tension durable : dépendance des modèles aux corpus ouverts, coûts d’infrastructure côté plateformes, et demande de soutenabilité/équité. En toile de fond, l’écosystème open source cherche des trajectoires “post-DeepSeek”.\n\n### Points de vue croisés\n**The Batch (accords Wikimedia)**  \nPrésente ces deals comme une mutualisation des coûts, et un précédent sur la monétisation/compensation des grands communs numériques.\n\n**Hugging Face (écosystème open)**  \nReplace le sujet dans une compétition mondiale et un rôle central des “artefacts ouverts” (modèles, papers, infra), avec une attention aux conditions d’accès aux données.\n\n### Analyse & implications\n- Impacts sectoriels : entraînement/fine-tuning (coûts), data governance, legal/policy des datasets, négociation plateformes↔communs.\n- Opportunités : financement des communs, accès plus stable/qualifié (API, dumps, SLA), meilleure traçabilité.\n- Risques potentiels : précédent de “paywalls” sur des ressources ouvertes, fragmentation d’accès, asymétrie entre grands labos et petits acteurs.\n\n### Signaux faibles\n- Vers des “contrats de données” standardisés (tarification, attribution, limitations de réutilisation) similaires aux licences logicielles.\n- La capacité à prouver la provenance des données (data lineage) devient un avantage commercial et réglementaire.\n\n### Sources\n- \"AI Giants Share Wikipedia’s Costs: Wikimedia Foundation strikes deals with Amazon, Meta, Microsoft, Mistral AI, and Perplexity\" – https://www.deeplearning.ai/the-batch/tag/feb-06-2026/\n- \"The Future of the Global Open-Source AI Ecosystem: From DeepSeek to AI+\" – https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment-blog-3\n\n---\n\n",
+          "icone": "💼"
+        },
+        {
+          "titre": "[SUJET 4/6] – Coding agentique et contextes géants : Claude Opus 4.6 vs GPT-5.3-Codex",
+          "resume": "Anthropic met à jour son modèle haut de gamme (Claude Opus 4.6) en revendiquant des progrès en codage agentique, tool use et recherche, avec une fenêtre de contexte annoncée à 1M tokens (bêta). OpenAI lance GPT‑5.3‑Codex, focalisé sur les tâches longues mêlant recherche, outils et exécution, avec un gain de vitesse annoncé. La compétition se déplace vers “agentic coding + exécution outillée” plutôt que simple génération de code.",
+          "resume_court": "Anthropic met à jour son modèle haut de gamme (Claude Opus 4.6) en revendiquant des progrès en codage agentique, tool use et recherche, avec une fenêtre de contexte annoncée à 1M tokens (bêta). OpenAI lance GPT‑5.3‑Codex, focalisé sur les tâches...",
+          "resume_complet": "Anthropic met à jour son modèle haut de gamme (Claude Opus 4.6) en revendiquant des progrès en codage agentique, tool use et recherche, avec une fenêtre de contexte annoncée à 1M tokens (bêta). OpenAI lance GPT‑5.3‑Codex, focalisé sur les tâches longues mêlant recherche, outils et exécution, avec un gain de vitesse annoncé. La compétition se déplace vers “agentic coding + exécution outillée” plutôt que simple génération de code.",
+          "points_de_vue": [],
+          "fiabilite": [
+            "Fenêtres 1M tokens : pression sur les architectures de mémoire (coût/latence) et montée des stratégies hybrides (RAG + long-context).",
+            "“Agentic coding” tend à devenir une catégorie produit complète (runner, sandbox, policies, logs), pas un simple modèle."
           ],
           "sources": [
             {
@@ -28,184 +113,99 @@
               "url": "https://www.anthropic.com/news/claude-opus-4-6"
             },
             {
-              "titre": "\"Introducing Mistral 3\"",
-              "url": "https://mistral.ai/news/mistral-3"
-            },
-            {
-              "titre": "\"Recipe for Smaller, Capable Models: Mistral uses cascade distillation on Mistral 3 to build Ministral family\"",
-              "url": "https://www.deeplearning.ai/the-batch/recipe-for-smaller-capable-models-mistral-uses-cascade-distillation-on-mistral-3-to-build-ministral-family/"
-            },
-            {
-              "titre": "\"Kimi K2.5 Creates Its Own Workforce: Moonshot AI takes the open model crown...\"",
-              "url": "https://www.deeplearning.ai/the-batch/kimi-k2-5-creates-its-own-workforce-moonshot-ai-takes-the-open-model-crown-with-vision-updates-aided-by-subagents/"
+              "titre": "\"Introducing GPT-5.3-Codex\"",
+              "url": "https://openai.com/index/introducing-gpt-5-3-codex/"
             }
           ],
-          "contenu_complet": "\n### Résumé\nAnthropic annonce Claude Opus 4.6 avec un focus sur le coding agentique, le tool use et une fenêtre de contexte jusqu’à 1M tokens (beta). Mistral publie Mistral 3 (famille multimodale/multilingue) et Mistral Large 3 (MoE) sous Apache 2.0, tandis que la presse souligne des stratégies de distillation en cascade (Ministral) pour obtenir des modèles plus petits mais capables. En Asie, Moonshot met en avant Kimi K2.5 et l’exécution via sous-agents.\n\n### Points de vue croisés\n**Anthropic (Claude Opus 4.6)**  \nAccent sur performance « agentique » (coding, tool use) et sur le contexte très long comme différenciateur produit/plateforme.\n\n**Mistral AI (Mistral 3 / Large 3, Apache 2.0)**  \nPositionnement pro-open source (licence permissive) + multimodalité, avec une logique d’écosystème (Studio + partenaires) plutôt que verrouillage.\n\n**DeepLearning.AI – The Batch (Ministral, cascade distillation)**  \nNarratif « efficacité » : la compétitivité passe aussi par la compression (pruning + distillation) pour déployer partout, pas seulement par des modèles géants.\n\n**DeepLearning.AI – The Batch (Kimi K2.5, sous-agents)**  \nMise en avant d’architectures d’exécution (subagents) comme levier de performance perçue, au-delà du modèle nu.\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - Logiciel/IT : gain de productivité via agentic coding + tool use plus fiable.\n  - Connaissance/Legal/Finance : le contexte long favorise la revue de corpus (mais augmente les risques de fuites et d’erreurs « diluées »).\n- **Opportunités :**\n  - Stratégie « dual stack » : flagship propriétaire pour tâches critiques + open weights distillés pour edge/on-prem.\n  - Différenciation par orchestration (agents/sous-agents) et non uniquement par taille de modèle.\n- **Risques potentiels :**\n  - Contexte long ≠ exactitude : amplification d’hallucinations sur de grands contextes, plus difficile à auditer.\n  - Ouverture Apache 2.0 : accélère la commoditisation et la réutilisation concurrentielle.\n\n### Signaux faibles\n- La compétition se déplace vers **l’exécution (agents, tool use, sous-agents)** et **l’opérabilité** plus que vers les seuls benchmarks.\n- La **compression structurée** (distillation en cascade) devient un avantage stratégique pour les déploiements « fleet » (apps, devices, entreprises).\n\n### Sources\n- \"Introducing Claude Opus 4.6\" – https://www.anthropic.com/news/claude-opus-4-6  \n- \"Introducing Mistral 3\" – https://mistral.ai/news/mistral-3  \n- \"Recipe for Smaller, Capable Models: Mistral uses cascade distillation on Mistral 3 to build Ministral family\" – https://www.deeplearning.ai/the-batch/recipe-for-smaller-capable-models-mistral-uses-cascade-distillation-on-mistral-3-to-build-ministral-family/  \n- \"Kimi K2.5 Creates Its Own Workforce: Moonshot AI takes the open model crown...\" – https://www.deeplearning.ai/the-batch/kimi-k2-5-creates-its-own-workforce-moonshot-ai-takes-the-open-model-crown-with-vision-updates-aided-by-subagents/  \n\n---\n\n",
-          "icone": "🤖"
-        },
-        {
-          "titre": "[SUJET 2/6] – Rationalisation des gammes : retrait de modèles ChatGPT et continuité via API",
-          "resume": "OpenAI annonce le retrait de plusieurs modèles côté ChatGPT à partir du 2026-02-13 (dont GPT-4o, GPT-4.1, GPT-4.1 mini et o4-mini), tout en indiquant qu’ils restent disponibles via l’API. En parallèle, OpenAI Academy illustre l’usage de ChatGPT comme partenaire de recherche en optimisation mathématique, montrant que la « valeur » dépend fortement de l’itération et du workflow, pas uniquement du nom du modèle.",
-          "resume_court": "OpenAI annonce le retrait de plusieurs modèles côté ChatGPT à partir du 2026-02-13 (dont GPT-4o, GPT-4.1, GPT-4.1 mini et o4-mini), tout en indiquant qu’ils restent disponibles via l’API. En parallèle, OpenAI Academy illustre l’usage de ChatGPT comme partenaire de recherche...",
-          "resume_complet": "OpenAI annonce le retrait de plusieurs modèles côté ChatGPT à partir du 2026-02-13 (dont GPT-4o, GPT-4.1, GPT-4.1 mini et o4-mini), tout en indiquant qu’ils restent disponibles via l’API. En parallèle, OpenAI Academy illustre l’usage de ChatGPT comme partenaire de recherche en optimisation mathématique, montrant que la « valeur » dépend fortement de l’itération et du workflow, pas uniquement du nom du modèle.",
-          "points_de_vue": [],
-          "fiabilite": [
-            "Montée d’une **gestion de cycle de vie des modèles** similaire à la gestion de dépendances logicielles (versioning, compat, EOL).",
-            "La recherche « assistée » met la pression sur des fonctions **d’auditabilité** et de **reproductibilité**."
-          ],
-          "sources": [
-            {
-              "titre": "\"Retiring GPT-4o and other ChatGPT models\"",
-              "url": "https://help.openai.com/articles/20001051"
-            },
-            {
-              "titre": "\"ChatGPT as Research Partner in Mathematical Optimization\"",
-              "url": "https://academy.openai.com/home/blogs/chatgpt-as-research-partner-in-mathematical-optimization-2026-02-02"
-            }
-          ],
-          "contenu_complet": "\n### Résumé\nOpenAI annonce le retrait de plusieurs modèles côté ChatGPT à partir du 2026-02-13 (dont GPT-4o, GPT-4.1, GPT-4.1 mini et o4-mini), tout en indiquant qu’ils restent disponibles via l’API. En parallèle, OpenAI Academy illustre l’usage de ChatGPT comme partenaire de recherche en optimisation mathématique, montrant que la « valeur » dépend fortement de l’itération et du workflow, pas uniquement du nom du modèle.\n\n### Points de vue croisés\n**OpenAI (Retiring GPT-4o and other ChatGPT models)**  \nLogique produit : simplifier l’expérience ChatGPT et gérer des transitions par segments (Business/Enterprise/Edu), tout en préservant l’API pour la compatibilité.\n\n**OpenAI Academy (Research partner en optimisation)**  \nMet en avant la continuité d’usage : les résultats proviennent d’un processus (formulation, tests, contre-exemples), ce qui rend la stabilité des outils et des comportements presque aussi critique que le modèle.\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - Entreprises : besoin de gestion du changement (SOP, validation, ré-étalonnage des prompts/évals) si usage ChatGPT « end-user ».\n  - Éditeurs : intérêt à découpler l’UX du fournisseur (abstraction layer) pour réduire le risque de churn modèle.\n- **Opportunités :**\n  - Mettre en place des **tests de non-régression** et une **matrice modèle↔tâches** (qualité, coût, latence).\n  - Stratégie « API-first » : contrôler versions, routing, fallback.\n- **Risques potentiels :**\n  - Ruptures de comportement en production (même si l’API reste) : dérives d’outputs, coûts, latences, ou politiques.\n  - Dépendance à l’outil ChatGPT pour des processus internes non gouvernés.\n\n### Signaux faibles\n- Montée d’une **gestion de cycle de vie des modèles** similaire à la gestion de dépendances logicielles (versioning, compat, EOL).\n- La recherche « assistée » met la pression sur des fonctions **d’auditabilité** et de **reproductibilité**.\n\n### Sources\n- \"Retiring GPT-4o and other ChatGPT models\" – https://help.openai.com/articles/20001051  \n- \"ChatGPT as Research Partner in Mathematical Optimization\" – https://academy.openai.com/home/blogs/chatgpt-as-research-partner-in-mathematical-optimization-2026-02-02  \n\n---\n\n",
-          "icone": "🤖"
-        },
-        {
-          "titre": "[SUJET 3/6] – Données communes, coûts réels : Wikimedia contractualise avec les acteurs IA",
-          "resume": "La Wikimedia Foundation conclut des accords avec plusieurs entreprises (Amazon, Meta, Microsoft, Mistral AI, Perplexity) autour de l’accès et l’utilisation des contenus Wikipédia, en échange d’un soutien financier. Le mouvement souligne un basculement : les données « publiques » restent accessibles, mais leur exploitation à grande échelle a un coût (bande passante, infra, gouvernance) qui se contractualise.",
-          "resume_court": "La Wikimedia Foundation conclut des accords avec plusieurs entreprises (Amazon, Meta, Microsoft, Mistral AI, Perplexity) autour de l’accès et l’utilisation des contenus Wikipédia, en échange d’un soutien financier. Le mouvement souligne un basculement : les données « publiques » restent...",
-          "resume_complet": "La Wikimedia Foundation conclut des accords avec plusieurs entreprises (Amazon, Meta, Microsoft, Mistral AI, Perplexity) autour de l’accès et l’utilisation des contenus Wikipédia, en échange d’un soutien financier. Le mouvement souligne un basculement : les données « publiques » restent accessibles, mais leur exploitation à grande échelle a un coût (bande passante, infra, gouvernance) qui se contractualise.",
-          "points_de_vue": [],
-          "fiabilite": [
-            "Émergence d’un **marché “Compute + Data deals”** : le coût marginal d’indexation/refresh devient un point de négociation.",
-            "Pression vers des **formats de distribution officiels** (mirrors, dumps premium, API) plutôt que trafic web."
-          ],
-          "sources": [
-            {
-              "titre": "\"AI Giants Share Wikipedia’s Costs: Wikimedia Foundation strikes deals...\"",
-              "url": "https://www.deeplearning.ai/the-batch/ai-giants-share-wikipedias-costs-wikimedia-foundation-strikes-deals-with-amazon-meta-microsoft-mistral-ai-and-perplexity/"
-            },
-            {
-              "titre": "\"The Future of the Global Open-Source AI Ecosystem: From DeepSeek to AI+\"",
-              "url": "https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment-blog-3"
-            }
-          ],
-          "contenu_complet": "\n### Résumé\nLa Wikimedia Foundation conclut des accords avec plusieurs entreprises (Amazon, Meta, Microsoft, Mistral AI, Perplexity) autour de l’accès et l’utilisation des contenus Wikipédia, en échange d’un soutien financier. Le mouvement souligne un basculement : les données « publiques » restent accessibles, mais leur exploitation à grande échelle a un coût (bande passante, infra, gouvernance) qui se contractualise.\n\n### Points de vue croisés\n**DeepLearning.AI – The Batch (accords Wikimedia)**  \nLecture « soutenabilité » : partager les coûts d’infrastructure et encadrer les usages industriels des données.\n\n**Hugging Face (écosystème open source global, post-“DeepSeek moment”)**  \nContexte plus large : diffusion rapide d’artefacts open source et compétition mondiale, ce qui augmente la demande sur les sources de données de référence et rend la gouvernance/financement plus critique.\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - IA générative : augmentation probable des accords de licence/d’accès (au-delà du web crawl).\n  - Plateformes data : opportunité pour des offres « data compliance + provenance + contractualisation ».\n- **Opportunités :**\n  - Formaliser des pipelines de données avec **provenance** et **droits d’usage**.\n  - Développer des partenariats « data commons » plutôt que du scraping adversarial.\n- **Risques potentiels :**\n  - Fragmentation de l’accès (acteurs privilégiés) et asymétrie entre labs/entreprises.\n  - Effet prix : hausse des coûts d’entraînement/refresh des modèles.\n\n### Signaux faibles\n- Émergence d’un **marché “Compute + Data deals”** : le coût marginal d’indexation/refresh devient un point de négociation.\n- Pression vers des **formats de distribution officiels** (mirrors, dumps premium, API) plutôt que trafic web.\n\n### Sources\n- \"AI Giants Share Wikipedia’s Costs: Wikimedia Foundation strikes deals...\" – https://www.deeplearning.ai/the-batch/ai-giants-share-wikipedias-costs-wikimedia-foundation-strikes-deals-with-amazon-meta-microsoft-mistral-ai-and-perplexity/  \n- \"The Future of the Global Open-Source AI Ecosystem: From DeepSeek to AI+\" – https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment-blog-3  \n\n---\n\n",
+          "contenu_complet": "\n### Résumé\nAnthropic met à jour son modèle haut de gamme (Claude Opus 4.6) en revendiquant des progrès en codage agentique, tool use et recherche, avec une fenêtre de contexte annoncée à 1M tokens (bêta). OpenAI lance GPT‑5.3‑Codex, focalisé sur les tâches longues mêlant recherche, outils et exécution, avec un gain de vitesse annoncé. La compétition se déplace vers “agentic coding + exécution outillée” plutôt que simple génération de code.\n\n### Points de vue croisés\n**Anthropic (Opus 4.6)**  \nInsiste sur la capacité à raisonner sur de très longs contextes et à mieux utiliser outils/recherche, ce qui vise des workflows complexes (refactor, audits, migration).\n\n**OpenAI (GPT‑5.3‑Codex)**  \nMet en avant performance sur benchmarks orientés exécution (SWE‑Bench Pro, OSWorld, Terminal‑Bench) et l’efficacité (25% plus rapide) pour des runs longs.\n\n### Analyse & implications\n- Impacts sectoriels : équipes logiciel, QA, SRE, sécurité applicative, modernisation de codebase.\n- Opportunités : agents de maintenance (tests, PRs), automatisation de diagnostics, compréhension de dépôts massifs via contextes longs.\n- Risques potentiels : hallucinations “actionnables” (commandes/PR), dépendance à l’environnement d’exécution, surconfiance dans les métriques de benchmark.\n\n### Signaux faibles\n- Fenêtres 1M tokens : pression sur les architectures de mémoire (coût/latence) et montée des stratégies hybrides (RAG + long-context).\n- “Agentic coding” tend à devenir une catégorie produit complète (runner, sandbox, policies, logs), pas un simple modèle.\n\n### Sources\n- \"Introducing Claude Opus 4.6\" – https://www.anthropic.com/news/claude-opus-4-6\n- \"Introducing GPT-5.3-Codex\" – https://openai.com/index/introducing-gpt-5-3-codex/\n\n---\n\n",
           "icone": "📄"
         },
         {
-          "titre": "[SUJET 4/6] – Agents en entreprise : passage du hype au run (AgentCore, SDK, IaC)",
-          "resume": "AWS détaille des patterns concrets pour concevoir, déployer et opérer des agents via Amazon Bedrock AgentCore : bonnes pratiques d’architecture, cas client (BGL) et déploiement Infrastructure-as-Code (CloudFormation). En miroir, The Batch appelle à « percer le hype » autour des frameworks d’agents open source : la valeur se joue sur la fiabilité, l’observabilité et l’intégration SI, pas sur des démos.",
-          "resume_court": "AWS détaille des patterns concrets pour concevoir, déployer et opérer des agents via Amazon Bedrock AgentCore : bonnes pratiques d’architecture, cas client (BGL) et déploiement Infrastructure-as-Code (CloudFormation). En miroir, The Batch appelle à « percer le hype » autour des...",
-          "resume_complet": "AWS détaille des patterns concrets pour concevoir, déployer et opérer des agents via Amazon Bedrock AgentCore : bonnes pratiques d’architecture, cas client (BGL) et déploiement Infrastructure-as-Code (CloudFormation). En miroir, The Batch appelle à « percer le hype » autour des frameworks d’agents open source : la valeur se joue sur la fiabilité, l’observabilité et l’intégration SI, pas sur des démos.",
+          "titre": "[SUJET 5/6] – Fiabiliser la production : sorties structurées (constrained decoding) + évaluation par LLM-judge",
+          "resume": "AWS introduit sur Bedrock des “structured outputs” garantissant des réponses JSON conformes à un schéma via constrained decoding (et variantes via tool use strict). En parallèle, AWS détaille une approche d’évaluation systématique via un LLM-judge “rubric-based” (Amazon Nova) dans SageMaker AI. Ensemble, ces briques ciblent le point dur de la genAI en production : contrôle du format et mesure de qualité.",
+          "resume_court": "AWS introduit sur Bedrock des “structured outputs” garantissant des réponses JSON conformes à un schéma via constrained decoding (et variantes via tool use strict). En parallèle, AWS détaille une approche d’évaluation systématique via un LLM-judge “rubric-based” (Amazon Nova) dans SageMaker...",
+          "resume_complet": "AWS introduit sur Bedrock des “structured outputs” garantissant des réponses JSON conformes à un schéma via constrained decoding (et variantes via tool use strict). En parallèle, AWS détaille une approche d’évaluation systématique via un LLM-judge “rubric-based” (Amazon Nova) dans SageMaker AI. Ensemble, ces briques ciblent le point dur de la genAI en production : contrôle du format et mesure de qualité.",
           "points_de_vue": [],
           "fiabilite": [
-            "L’IaC devient un mécanisme de **compliance** (revue, audit) pour agents.",
-            "Les entreprises convergent vers des **catalogues d’outils** et des **politiques d’exécution** centralisées."
+            "Standardisation “schema-first” des produits LLM (contrats JSON) analogue à l’ère OpenAPI.",
+            "Émergence d’un métier/stack “EvalOps” (rubrics, jeux d’éval, monitoring sémantique) intégré au CI/CD."
           ],
           "sources": [
             {
-              "titre": "\"Democratizing business intelligence: BGL’s journey with Claude Agent SDK and Amazon Bedrock AgentCore\"",
-              "url": "https://aws.amazon.com/blogs/machine-learning/democratizing-business-intelligence-bgls-journey-with-claude-agent-sdk-and-amazon-bedrock-agentcore/"
+              "titre": "\"Structured outputs on Amazon Bedrock: Schema-compliant AI responses\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/structured-outputs-on-amazon-bedrock-schema-compliant-ai-responses/"
             },
             {
-              "titre": "\"AI agents in enterprises: Best practices with Amazon Bedrock AgentCore\"",
-              "url": "https://aws.amazon.com/blogs/machine-learning/ai-agents-in-enterprises-best-practices-with-amazon-bedrock-agentcore/"
-            },
-            {
-              "titre": "\"Build AI agents with Amazon Bedrock AgentCore using AWS CloudFormation\"",
-              "url": "https://aws.amazon.com/blogs/machine-learning/build-ai-agents-with-amazon-bedrock-agentcore-using-aws-cloudformation/"
-            },
-            {
-              "titre": "\"Agents Unleashed: Cutting through the OpenClaw and Moltbook hype\"",
-              "url": "https://www.deeplearning.ai/the-batch/agents-unleashed-cutting-through-the-openclaw-and-moltbook-hype/"
-            }
-          ],
-          "contenu_complet": "\n### Résumé\nAWS détaille des patterns concrets pour concevoir, déployer et opérer des agents via Amazon Bedrock AgentCore : bonnes pratiques d’architecture, cas client (BGL) et déploiement Infrastructure-as-Code (CloudFormation). En miroir, The Batch appelle à « percer le hype » autour des frameworks d’agents open source : la valeur se joue sur la fiabilité, l’observabilité et l’intégration SI, pas sur des démos.\n\n### Points de vue croisés\n**AWS (best practices + cas BGL + CloudFormation)**  \nAngle industrialisation : cadrage, sécurité, déploiement, mémoire/runtime, mise à l’échelle et gouvernance via patterns repeatables.\n\n**DeepLearning.AI – The Batch (hype agents open source)**  \nAngle critique : attention aux promesses; le coût réel est dans l’outillage, les garde-fous, et la robustesse face au monde réel.\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - BI / opérations : agents « front-door » pour requêtes et actions, mais nécessitent contrôle d’accès et traçabilité.\n  - IT/DevOps : IaC pour agents = nouveaux artefacts à versionner (prompts, tools, policies, memory).\n- **Opportunités :**\n  - Standardiser un **Agent SDLC** : tests, staging, observabilité, rollback, routing multi-modèles.\n  - Accélérer avec des plateformes (AgentCore) plutôt que réinventer orchestration + sécurité.\n- **Risques potentiels :**\n  - Dette agentique : accumulation de prompts/outils non gouvernés.\n  - Sur-automatisation : erreurs d’actions (write operations) si garde-fous insuffisants.\n\n### Signaux faibles\n- L’IaC devient un mécanisme de **compliance** (revue, audit) pour agents.\n- Les entreprises convergent vers des **catalogues d’outils** et des **politiques d’exécution** centralisées.\n\n### Sources\n- \"Democratizing business intelligence: BGL’s journey with Claude Agent SDK and Amazon Bedrock AgentCore\" – https://aws.amazon.com/blogs/machine-learning/democratizing-business-intelligence-bgls-journey-with-claude-agent-sdk-and-amazon-bedrock-agentcore/  \n- \"AI agents in enterprises: Best practices with Amazon Bedrock AgentCore\" – https://aws.amazon.com/blogs/machine-learning/ai-agents-in-enterprises-best-practices-with-amazon-bedrock-agentcore/  \n- \"Build AI agents with Amazon Bedrock AgentCore using AWS CloudFormation\" – https://aws.amazon.com/blogs/machine-learning/build-ai-agents-with-amazon-bedrock-agentcore-using-aws-cloudformation/  \n- \"Agents Unleashed: Cutting through the OpenClaw and Moltbook hype\" – https://www.deeplearning.ai/the-batch/agents-unleashed-cutting-through-the-openclaw-and-moltbook-hype/  \n\n---\n\n",
-          "icone": "💼"
-        },
-        {
-          "titre": "[SUJET 5/6] – Recherche multimodale : embeddings dédiés et retrieval “late-interaction”",
-          "resume": "NVIDIA présente Nemotron ColEmbed V2 (3B/4B/8B), des embeddings multimodaux à late-interaction (multi-vecteurs) pour la recherche sur documents visuels (texte, tableaux, figures), avec de très bons résultats sur ViDoRe. AWS publie un guide pratique pour Amazon Nova Multimodal Embeddings, orienté implémentation (recherche d’actifs media, discovery produit, recherche documentaire).",
-          "resume_court": "NVIDIA présente Nemotron ColEmbed V2 (3B/4B/8B), des embeddings multimodaux à late-interaction (multi-vecteurs) pour la recherche sur documents visuels (texte, tableaux, figures), avec de très bons résultats sur ViDoRe. AWS publie un guide pratique pour Amazon Nova Multimodal Embeddings, orienté implémentation...",
-          "resume_complet": "NVIDIA présente Nemotron ColEmbed V2 (3B/4B/8B), des embeddings multimodaux à late-interaction (multi-vecteurs) pour la recherche sur documents visuels (texte, tableaux, figures), avec de très bons résultats sur ViDoRe. AWS publie un guide pratique pour Amazon Nova Multimodal Embeddings, orienté implémentation (recherche d’actifs media, discovery produit, recherche documentaire).",
-          "points_de_vue": [],
-          "fiabilite": [
-            "Déplacement de la différenciation vers **embeddings multimodaux spécialisés** (pas seulement des LLM multimodaux).",
-            "Standardisation probable d’architectures **hybrides** (sparse + dense + multi-vecteurs + rerank)."
-          ],
-          "sources": [
-            {
-              "titre": "\"Nemotron ColEmbed V2: Raising the Bar for Multimodal Retrieval...\"",
-              "url": "https://huggingface.co/blog/nvidia/nemotron-colembed-v2"
-            },
-            {
-              "titre": "\"A practical guide to Amazon Nova Multimodal Embeddings\"",
-              "url": "https://aws.amazon.com/blogs/machine-learning/a-practical-guide-to-amazon-nova-multimodal-embeddings/"
-            }
-          ],
-          "contenu_complet": "\n### Résumé\nNVIDIA présente Nemotron ColEmbed V2 (3B/4B/8B), des embeddings multimodaux à late-interaction (multi-vecteurs) pour la recherche sur documents visuels (texte, tableaux, figures), avec de très bons résultats sur ViDoRe. AWS publie un guide pratique pour Amazon Nova Multimodal Embeddings, orienté implémentation (recherche d’actifs media, discovery produit, recherche documentaire).\n\n### Points de vue croisés\n**NVIDIA (Nemotron ColEmbed V2)**  \nApproche « retrieval-first » : late-interaction + multi-vecteurs pour améliorer la correspondance fine sur documents complexes (tableaux/figures).\n\n**AWS (Nova Multimodal Embeddings)**  \nApproche « productisation » : comment intégrer embeddings multimodaux dans des pipelines concrets (indexation, requêtes, intégration applicative).\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - Knowledge management : montée des moteurs de recherche multimodaux (PDF, slides, scans) comme brique prioritaire avant RAG génératif.\n  - Retail/media : recherche cross-modal (image↔texte) pour catalogues et DAM.\n- **Opportunités :**\n  - Gains de qualité via modèles d’embeddings spécialisés vs “LLM-only RAG”.\n  - Combiner late-interaction avec re-ranking pour robustesse sur documents hétérogènes.\n- **Risques potentiels :**\n  - Coût infra (index multi-vecteurs) et complexité d’indexation.\n  - Risques de fuite sémantique si embeddings exposés sans contrôle.\n\n### Signaux faibles\n- Déplacement de la différenciation vers **embeddings multimodaux spécialisés** (pas seulement des LLM multimodaux).\n- Standardisation probable d’architectures **hybrides** (sparse + dense + multi-vecteurs + rerank).\n\n### Sources\n- \"Nemotron ColEmbed V2: Raising the Bar for Multimodal Retrieval...\" – https://huggingface.co/blog/nvidia/nemotron-colembed-v2  \n- \"A practical guide to Amazon Nova Multimodal Embeddings\" – https://aws.amazon.com/blogs/machine-learning/a-practical-guide-to-amazon-nova-multimodal-embeddings/  \n\n---\n\n",
-          "icone": "🔬"
-        },
-        {
-          "titre": "[SUJET 6/6] – Évaluer et diagnostiquer : vers des évals vérifiables + LLM judges + visualisation",
-          "resume": "Hugging Face propose “Community Evals” pour sortir des leaderboards opaques : scores hébergés et versionnés (PR), badges de vérification et traçabilité. AWS décrit une méthodologie d’évaluation via LLM-as-a-judge avec rubric (Nova) sur SageMaker. Enfin, ReasoningLens vise à visualiser et diagnostiquer des traces de raisonnement longues (profiling, détection d’erreurs), utile pour déboguer des comportements agentiques.",
-          "resume_court": "Hugging Face propose “Community Evals” pour sortir des leaderboards opaques : scores hébergés et versionnés (PR), badges de vérification et traçabilité. AWS décrit une méthodologie d’évaluation via LLM-as-a-judge avec rubric (Nova) sur SageMaker. Enfin, ReasoningLens vise à visualiser et diagnostiquer...",
-          "resume_complet": "Hugging Face propose “Community Evals” pour sortir des leaderboards opaques : scores hébergés et versionnés (PR), badges de vérification et traçabilité. AWS décrit une méthodologie d’évaluation via LLM-as-a-judge avec rubric (Nova) sur SageMaker. Enfin, ReasoningLens vise à visualiser et diagnostiquer des traces de raisonnement longues (profiling, détection d’erreurs), utile pour déboguer des comportements agentiques.",
-          "points_de_vue": [],
-          "fiabilite": [
-            "Convergence vers des **supply chains d’évaluation** (artefacts versionnés, badges, CI/CD qualité).",
-            "Demande croissante d’outils de **reasoning observability** pour auditer des décisions agentiques."
-          ],
-          "sources": [
-            {
-              "titre": "\"Community Evals: Because we're done trusting black-box leaderboards...\"",
-              "url": "https://huggingface.co/blog/community-evals"
-            },
-            {
-              "titre": "\"Evaluate generative AI models with an Amazon Nova rubric-based LLM judge...\"",
+              "titre": "\"Evaluate generative AI models with an Amazon Nova rubric-based LLM judge on Amazon SageMaker AI (Part 2)\"",
               "url": "https://aws.amazon.com/blogs/machine-learning/evaluate-generative-ai-models-with-an-amazon-nova-rubric-based-llm-judge-on-amazon-sagemaker-ai-part-2/"
-            },
-            {
-              "titre": "\"Announcing ReasoningLens — Visualizing and Diagnosing LLM Reasoning...\"",
-              "url": "https://huggingface.co/blog/Bowieee/reasoninglens"
             }
           ],
-          "contenu_complet": "\n### Résumé\nHugging Face propose “Community Evals” pour sortir des leaderboards opaques : scores hébergés et versionnés (PR), badges de vérification et traçabilité. AWS décrit une méthodologie d’évaluation via LLM-as-a-judge avec rubric (Nova) sur SageMaker. Enfin, ReasoningLens vise à visualiser et diagnostiquer des traces de raisonnement longues (profiling, détection d’erreurs), utile pour déboguer des comportements agentiques.\n\n### Points de vue croisés\n**Hugging Face (Community Evals)**  \nGouvernance communautaire : rendre les résultats reproductibles, auditables, attachés à des artefacts (datasets/modèles).\n\n**AWS (rubric-based LLM judge)**  \nIndustrialisation : standardiser des grilles d’évaluation (rubrics), calibrer et automatiser la comparaison en pipelines.\n\n**Hugging Face (ReasoningLens)**  \nObservabilité qualitative : outiller la lecture des raisonnements longs pour identifier motifs d’échec (planning, contradictions, dérives).\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - Entreprises : passage des démos à des KPI qualité/coût/risque mesurés et suivis.\n  - Recherche : pression vers des résultats plus transparents, moins “benchmark theatre”.\n- **Opportunités :**\n  - Mettre en place un triptyque : **tests automatiques + judge rubric + analyse de traces**.\n  - Réduire le temps de debug sur tâches complexes (agents, tool use, multi-étapes).\n- **Risques potentiels :**\n  - Judges biaisés (préférences stylistiques, vulnérabilité au gaming).\n  - Sur-optimisation sur la métrique au détriment de la robustesse terrain.\n\n### Signaux faibles\n- Convergence vers des **supply chains d’évaluation** (artefacts versionnés, badges, CI/CD qualité).\n- Demande croissante d’outils de **reasoning observability** pour auditer des décisions agentiques.\n\n### Sources\n- \"Community Evals: Because we're done trusting black-box leaderboards...\" – https://huggingface.co/blog/community-evals  \n- \"Evaluate generative AI models with an Amazon Nova rubric-based LLM judge...\" – https://aws.amazon.com/blogs/machine-learning/evaluate-generative-ai-models-with-an-amazon-nova-rubric-based-llm-judge-on-amazon-sagemaker-ai-part-2/  \n- \"Announcing ReasoningLens — Visualizing and Diagnosing LLM Reasoning...\" – https://huggingface.co/blog/Bowieee/reasoninglens  \n\n---\n\n",
+          "contenu_complet": "\n### Résumé\nAWS introduit sur Bedrock des “structured outputs” garantissant des réponses JSON conformes à un schéma via constrained decoding (et variantes via tool use strict). En parallèle, AWS détaille une approche d’évaluation systématique via un LLM-judge “rubric-based” (Amazon Nova) dans SageMaker AI. Ensemble, ces briques ciblent le point dur de la genAI en production : contrôle du format et mesure de qualité.\n\n### Points de vue croisés\n**AWS (Structured outputs / Bedrock)**  \nPriorise la robustesse d’intégration (contrats de données) et la réduction des erreurs de parsing, avec des considérations de performance (compilation, complexité du schéma).\n\n**AWS (Rubric-based LLM judge / SageMaker AI)**  \nCadre l’évaluation comme un processus : définition de rubriques, calibration, répétabilité, pour comparer modèles/systèmes (prompts, RAG, agents).\n\n### Analyse & implications\n- Impacts sectoriels : APIs genAI, backends transactionnels, extraction/ETL, conformité (audit des sorties).\n- Opportunités : baisse des incidents production (JSON invalide), tests automatisés à grande échelle, itérations plus rapides sur prompts/agents.\n- Risques potentiels : faux sentiment de sécurité (format valide ≠ contenu correct), sur-optimisation pour le judge, coût d’évaluation à grande échelle.\n\n### Signaux faibles\n- Standardisation “schema-first” des produits LLM (contrats JSON) analogue à l’ère OpenAPI.\n- Émergence d’un métier/stack “EvalOps” (rubrics, jeux d’éval, monitoring sémantique) intégré au CI/CD.\n\n### Sources\n- \"Structured outputs on Amazon Bedrock: Schema-compliant AI responses\" – https://aws.amazon.com/blogs/machine-learning/structured-outputs-on-amazon-bedrock-schema-compliant-ai-responses/\n- \"Evaluate generative AI models with an Amazon Nova rubric-based LLM judge on Amazon SageMaker AI (Part 2)\" – https://aws.amazon.com/blogs/machine-learning/evaluate-generative-ai-models-with-an-amazon-nova-rubric-based-llm-judge-on-amazon-sagemaker-ai-part-2/\n\n---\n\n",
           "icone": "🤖"
+        },
+        {
+          "titre": "[SUJET 6/6] – Course à l’infrastructure : H200 à grande échelle, clusters managés, et jumeaux numériques industriels",
+          "resume": "Un article d’actualité attribue à Mistral 3 un entraînement massif (jusqu’à 3000 H200) pour un modèle très grand (675B total, 41B actifs). AWS détaille l’exploitation de clusters SageMaker HyperPod via CLI/SDK, visant l’industrialisation du compute ML. NVIDIA, avec Dassault Systèmes, pousse une vision “virtual twin + IA physique” pour l’ingénierie et la fabrication, où l’infra accélérée devient la colonne vertébrale.",
+          "resume_court": "Un article d’actualité attribue à Mistral 3 un entraînement massif (jusqu’à 3000 H200) pour un modèle très grand (675B total, 41B actifs). AWS détaille l’exploitation de clusters SageMaker HyperPod via CLI/SDK, visant l’industrialisation du compute ML. NVIDIA, avec Dassault Systèmes,...",
+          "resume_complet": "Un article d’actualité attribue à Mistral 3 un entraînement massif (jusqu’à 3000 H200) pour un modèle très grand (675B total, 41B actifs). AWS détaille l’exploitation de clusters SageMaker HyperPod via CLI/SDK, visant l’industrialisation du compute ML. NVIDIA, avec Dassault Systèmes, pousse une vision “virtual twin + IA physique” pour l’ingénierie et la fabrication, où l’infra accélérée devient la colonne vertébrale.",
+          "points_de_vue": [],
+          "fiabilite": [
+            "“Active params” (41B actifs) : confirmation que l’efficacité (MoE/activation) compte autant que la taille nominale.",
+            "Le couple “simulation + genAI” devient un marché transversal (aéro, auto, énergie) avec des exigences de traçabilité et validation fortes."
+          ],
+          "sources": [
+            {
+              "titre": "\"Mistral 3 Launches With 675B-Parameter AI Models Trained on 3,000 H200 GPUs\"",
+              "url": "https://aigazine.com/llms/mistral-3-launches-with-675bparameter-ai-models-trained-on-3000-h200-gpus--s"
+            },
+            {
+              "titre": "\"Manage Amazon SageMaker HyperPod clusters using the HyperPod CLI and SDK\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/manage-amazon-sagemaker-hyperpod-clusters-using-the-hyperpod-cli-and-sdk/"
+            },
+            {
+              "titre": "\"Everything Will Be Represented in a Virtual Twin, NVIDIA CEO Jensen Huang Says at 3DEXPERIENCE World\"",
+              "url": "https://blogs.nvidia.com/blog/huang-3dexperience-2026/"
+            }
+          ],
+          "contenu_complet": "\n### Résumé\nUn article d’actualité attribue à Mistral 3 un entraînement massif (jusqu’à 3000 H200) pour un modèle très grand (675B total, 41B actifs). AWS détaille l’exploitation de clusters SageMaker HyperPod via CLI/SDK, visant l’industrialisation du compute ML. NVIDIA, avec Dassault Systèmes, pousse une vision “virtual twin + IA physique” pour l’ingénierie et la fabrication, où l’infra accélérée devient la colonne vertébrale.\n\n### Points de vue croisés\n**Mistral (via article d’actualité)**  \nMise sur l’échelle (GPU H200) et les optimisations d’inférence/déploiement (vLLM, partenaires) comme levier de compétitivité.\n\n**AWS (HyperPod)**  \nMet en avant l’opérationnalisation (création, gestion, paramètres) : le cluster devient un produit pilotable, pas un projet ad hoc.\n\n**NVIDIA (virtual twins)**  \nProjette l’infra accélérée au cœur de l’IA industrielle : simulations, jumeaux numériques, workflows “physics-based AI”.\n\n### Analyse & implications\n- Impacts sectoriels : coûts/approvisionnement GPU, time-to-train, souveraineté infra, industrie (PLM, manufacturing).\n- Opportunités : gains de productivité en ingénierie (simulation + IA), industrialisation MLOps à grande échelle, différenciation via runtime/optimisations.\n- Risques potentiels : concentration (capex), dépendance fournisseurs GPU, volatilité des coûts énergétiques, complexité d’exploitation.\n\n### Signaux faibles\n- “Active params” (41B actifs) : confirmation que l’efficacité (MoE/activation) compte autant que la taille nominale.\n- Le couple “simulation + genAI” devient un marché transversal (aéro, auto, énergie) avec des exigences de traçabilité et validation fortes.\n\n### Sources\n- \"Mistral 3 Launches With 675B-Parameter AI Models Trained on 3,000 H200 GPUs\" – https://aigazine.com/llms/mistral-3-launches-with-675bparameter-ai-models-trained-on-3000-h200-gpus--s\n- \"Manage Amazon SageMaker HyperPod clusters using the HyperPod CLI and SDK\" – https://aws.amazon.com/blogs/machine-learning/manage-amazon-sagemaker-hyperpod-clusters-using-the-hyperpod-cli-and-sdk/\n- \"Everything Will Be Represented in a Virtual Twin, NVIDIA CEO Jensen Huang Says at 3DEXPERIENCE World\" – https://blogs.nvidia.com/blog/huang-3dexperience-2026/\n\n---\n\n",
+          "icone": "💼"
         }
       ],
       "sujets_secondaires": [
         {
-          "titre": "[SUJET 6/6] – Évaluer et diagnostiquer : vers des évals vérifiables + LLM judges + visualisation",
-          "resume": "Hugging Face propose “Community Evals” pour sortir des leaderboards opaques : scores hébergés et versionnés (PR), badges de vérification et traçabilité. AWS décrit une méthodologie d’évaluation via LLM-as-a-judge avec rubric (Nova) sur SageMaker. Enfin, ReasoningLens vise à visualiser et diagnostiquer des traces de raisonnement longues (profiling, détection d’erreurs), utile pour déboguer des comportements agentiques.",
-          "resume_court": "Hugging Face propose “Community Evals” pour sortir des leaderboards opaques : scores hébergés et versionnés (PR), badges de vérification et traçabilité. AWS décrit une méthodologie d’évaluation via LLM-as-a-judge avec rubric (Nova) sur SageMaker. Enfin, ReasoningLens vise à visualiser et diagnostiquer...",
-          "resume_complet": "Hugging Face propose “Community Evals” pour sortir des leaderboards opaques : scores hébergés et versionnés (PR), badges de vérification et traçabilité. AWS décrit une méthodologie d’évaluation via LLM-as-a-judge avec rubric (Nova) sur SageMaker. Enfin, ReasoningLens vise à visualiser et diagnostiquer des traces de raisonnement longues (profiling, détection d’erreurs), utile pour déboguer des comportements agentiques.",
+          "titre": "[SUJET 6/6] – Course à l’infrastructure : H200 à grande échelle, clusters managés, et jumeaux numériques industriels",
+          "resume": "Un article d’actualité attribue à Mistral 3 un entraînement massif (jusqu’à 3000 H200) pour un modèle très grand (675B total, 41B actifs). AWS détaille l’exploitation de clusters SageMaker HyperPod via CLI/SDK, visant l’industrialisation du compute ML. NVIDIA, avec Dassault Systèmes, pousse une vision “virtual twin + IA physique” pour l’ingénierie et la fabrication, où l’infra accélérée devient la colonne vertébrale.",
+          "resume_court": "Un article d’actualité attribue à Mistral 3 un entraînement massif (jusqu’à 3000 H200) pour un modèle très grand (675B total, 41B actifs). AWS détaille l’exploitation de clusters SageMaker HyperPod via CLI/SDK, visant l’industrialisation du compute ML. NVIDIA, avec Dassault Systèmes,...",
+          "resume_complet": "Un article d’actualité attribue à Mistral 3 un entraînement massif (jusqu’à 3000 H200) pour un modèle très grand (675B total, 41B actifs). AWS détaille l’exploitation de clusters SageMaker HyperPod via CLI/SDK, visant l’industrialisation du compute ML. NVIDIA, avec Dassault Systèmes, pousse une vision “virtual twin + IA physique” pour l’ingénierie et la fabrication, où l’infra accélérée devient la colonne vertébrale.",
           "points_de_vue": [],
           "fiabilite": [
-            "Convergence vers des **supply chains d’évaluation** (artefacts versionnés, badges, CI/CD qualité).",
-            "Demande croissante d’outils de **reasoning observability** pour auditer des décisions agentiques."
+            "“Active params” (41B actifs) : confirmation que l’efficacité (MoE/activation) compte autant que la taille nominale.",
+            "Le couple “simulation + genAI” devient un marché transversal (aéro, auto, énergie) avec des exigences de traçabilité et validation fortes."
           ],
           "sources": [
             {
-              "titre": "\"Community Evals: Because we're done trusting black-box leaderboards...\"",
-              "url": "https://huggingface.co/blog/community-evals"
+              "titre": "\"Mistral 3 Launches With 675B-Parameter AI Models Trained on 3,000 H200 GPUs\"",
+              "url": "https://aigazine.com/llms/mistral-3-launches-with-675bparameter-ai-models-trained-on-3000-h200-gpus--s"
             },
             {
-              "titre": "\"Evaluate generative AI models with an Amazon Nova rubric-based LLM judge...\"",
-              "url": "https://aws.amazon.com/blogs/machine-learning/evaluate-generative-ai-models-with-an-amazon-nova-rubric-based-llm-judge-on-amazon-sagemaker-ai-part-2/"
+              "titre": "\"Manage Amazon SageMaker HyperPod clusters using the HyperPod CLI and SDK\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/manage-amazon-sagemaker-hyperpod-clusters-using-the-hyperpod-cli-and-sdk/"
             },
             {
-              "titre": "\"Announcing ReasoningLens — Visualizing and Diagnosing LLM Reasoning...\"",
-              "url": "https://huggingface.co/blog/Bowieee/reasoninglens"
+              "titre": "\"Everything Will Be Represented in a Virtual Twin, NVIDIA CEO Jensen Huang Says at 3DEXPERIENCE World\"",
+              "url": "https://blogs.nvidia.com/blog/huang-3dexperience-2026/"
             }
           ],
-          "contenu_complet": "\n### Résumé\nHugging Face propose “Community Evals” pour sortir des leaderboards opaques : scores hébergés et versionnés (PR), badges de vérification et traçabilité. AWS décrit une méthodologie d’évaluation via LLM-as-a-judge avec rubric (Nova) sur SageMaker. Enfin, ReasoningLens vise à visualiser et diagnostiquer des traces de raisonnement longues (profiling, détection d’erreurs), utile pour déboguer des comportements agentiques.\n\n### Points de vue croisés\n**Hugging Face (Community Evals)**  \nGouvernance communautaire : rendre les résultats reproductibles, auditables, attachés à des artefacts (datasets/modèles).\n\n**AWS (rubric-based LLM judge)**  \nIndustrialisation : standardiser des grilles d’évaluation (rubrics), calibrer et automatiser la comparaison en pipelines.\n\n**Hugging Face (ReasoningLens)**  \nObservabilité qualitative : outiller la lecture des raisonnements longs pour identifier motifs d’échec (planning, contradictions, dérives).\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - Entreprises : passage des démos à des KPI qualité/coût/risque mesurés et suivis.\n  - Recherche : pression vers des résultats plus transparents, moins “benchmark theatre”.\n- **Opportunités :**\n  - Mettre en place un triptyque : **tests automatiques + judge rubric + analyse de traces**.\n  - Réduire le temps de debug sur tâches complexes (agents, tool use, multi-étapes).\n- **Risques potentiels :**\n  - Judges biaisés (préférences stylistiques, vulnérabilité au gaming).\n  - Sur-optimisation sur la métrique au détriment de la robustesse terrain.\n\n### Signaux faibles\n- Convergence vers des **supply chains d’évaluation** (artefacts versionnés, badges, CI/CD qualité).\n- Demande croissante d’outils de **reasoning observability** pour auditer des décisions agentiques.\n\n### Sources\n- \"Community Evals: Because we're done trusting black-box leaderboards...\" – https://huggingface.co/blog/community-evals  \n- \"Evaluate generative AI models with an Amazon Nova rubric-based LLM judge...\" – https://aws.amazon.com/blogs/machine-learning/evaluate-generative-ai-models-with-an-amazon-nova-rubric-based-llm-judge-on-amazon-sagemaker-ai-part-2/  \n- \"Announcing ReasoningLens — Visualizing and Diagnosing LLM Reasoning...\" – https://huggingface.co/blog/Bowieee/reasoninglens  \n\n---\n\n",
-          "icone": "🤖"
+          "contenu_complet": "\n### Résumé\nUn article d’actualité attribue à Mistral 3 un entraînement massif (jusqu’à 3000 H200) pour un modèle très grand (675B total, 41B actifs). AWS détaille l’exploitation de clusters SageMaker HyperPod via CLI/SDK, visant l’industrialisation du compute ML. NVIDIA, avec Dassault Systèmes, pousse une vision “virtual twin + IA physique” pour l’ingénierie et la fabrication, où l’infra accélérée devient la colonne vertébrale.\n\n### Points de vue croisés\n**Mistral (via article d’actualité)**  \nMise sur l’échelle (GPU H200) et les optimisations d’inférence/déploiement (vLLM, partenaires) comme levier de compétitivité.\n\n**AWS (HyperPod)**  \nMet en avant l’opérationnalisation (création, gestion, paramètres) : le cluster devient un produit pilotable, pas un projet ad hoc.\n\n**NVIDIA (virtual twins)**  \nProjette l’infra accélérée au cœur de l’IA industrielle : simulations, jumeaux numériques, workflows “physics-based AI”.\n\n### Analyse & implications\n- Impacts sectoriels : coûts/approvisionnement GPU, time-to-train, souveraineté infra, industrie (PLM, manufacturing).\n- Opportunités : gains de productivité en ingénierie (simulation + IA), industrialisation MLOps à grande échelle, différenciation via runtime/optimisations.\n- Risques potentiels : concentration (capex), dépendance fournisseurs GPU, volatilité des coûts énergétiques, complexité d’exploitation.\n\n### Signaux faibles\n- “Active params” (41B actifs) : confirmation que l’efficacité (MoE/activation) compte autant que la taille nominale.\n- Le couple “simulation + genAI” devient un marché transversal (aéro, auto, énergie) avec des exigences de traçabilité et validation fortes.\n\n### Sources\n- \"Mistral 3 Launches With 675B-Parameter AI Models Trained on 3,000 H200 GPUs\" – https://aigazine.com/llms/mistral-3-launches-with-675bparameter-ai-models-trained-on-3000-h200-gpus--s\n- \"Manage Amazon SageMaker HyperPod clusters using the HyperPod CLI and SDK\" – https://aws.amazon.com/blogs/machine-learning/manage-amazon-sagemaker-hyperpod-clusters-using-the-hyperpod-cli-and-sdk/\n- \"Everything Will Be Represented in a Virtual Twin, NVIDIA CEO Jensen Huang Says at 3DEXPERIENCE World\" – https://blogs.nvidia.com/blog/huang-3dexperience-2026/\n\n---\n\n",
+          "icone": "💼"
         }
       ],
       "points_cles": [
-        "La compétition modèles se joue autant sur **contexte long + agentic tool use** que sur **ouverture (Apache 2.0) + compression**.",
-        "Les agents entrent dans une phase **plateforme/IaC/gouvernance**, avec des patterns de déploiement reproductibles.",
-        "La chaîne qualité se structure : **évals vérifiables**, **LLM judges rubric**, **outils d’observabilité du raisonnement**."
+        "Les agents entrent dans une phase “plateforme” : permissions, intégrations SI, bonnes pratiques et retours production deviennent centraux.",
+        "La bataille des modèles se focalise sur le “coding agentique” outillé et les tâches longues (vitesse, exécution, contextes géants).",
+        "La fiabilisation se structure autour de deux piliers : sorties contraintes (schémas) et évaluation systématique (rubrics + judge)."
       ],
-      "date_generation": "2026-02-08T11:47:15.021423"
+      "date_generation": "2026-02-08T12:14:10.981718"
     },
     "news": {
       "metadata": {
@@ -213,13 +213,13 @@
         "date": "2026-02-08",
         "categorie": "Veille"
       },
-      "titre": "Veille News – Semaine du 2026-02-01 au 2026-02-08",
+      "titre": "Veille News – Aucune actualité disponible",
       "edition": "",
       "introduction": "",
       "sujets_importants": [],
       "sujets_secondaires": [],
       "points_cles": [],
-      "date_generation": "2026-02-08T11:47:15.021465"
+      "date_generation": "2026-02-08T12:14:10.981761"
     }
   }
 }
