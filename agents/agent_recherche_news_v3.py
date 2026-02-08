@@ -30,8 +30,7 @@ def collecter_actualites_news() -> Dict[str, Any]:
     date_debut = date_fin - timedelta(days=7)
     
     # Prompt de collecte PURE - Format strictement aligné sur recherche_ia_v3
-
-prompt = f"""Tu es un robot de collecte d'actualités via web search - AUCUNE ANALYSE
+    prompt = f"""Tu es un robot de collecte d'actualités via web search - AUCUNE ANALYSE
 
 Utilise la fonction web search pour trouver des articles publiés dans les 7 derniers jours ({date_debut.strftime('%d/%m/%Y')} au {date_fin.strftime('%d/%m/%Y')}).
 
@@ -84,8 +83,6 @@ IMPORTANT:
 - URLs complètes et valides
 - Dates au format YYYY-MM-DD
 - Contenu factuel (pas d'opinion)"""
-
-
 
     print(f"🌐 Lancement GPT-5.2 + web search LIVE...")
     print(f"📅 Recherche : {date_debut.strftime('%d/%m')} - {date_fin.strftime('%d/%m')}")
