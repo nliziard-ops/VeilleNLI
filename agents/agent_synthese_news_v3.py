@@ -45,6 +45,7 @@ date: {datetime.now().strftime('%Y-%m-%d')}
     print(f"📊 Analyse de {nb_articles} articles")
     print(f"📍 {repartition.get('international', 0)} Int | {repartition.get('national', 0)} Nat | {repartition.get('local', 0)} Local")
     
+    # Construction contexte concis
     articles_text = ""
     for i, art in enumerate(articles, 1):
         articles_text += f"\n[{i}] {art.get('titre', 'N/A')}\n"
@@ -54,27 +55,143 @@ date: {datetime.now().strftime('%Y-%m-%d')}
     periode_debut = data.get('periode', {}).get('debut', 'N/A')
     periode_fin = data.get('periode', {}).get('fin', 'N/A')
     
-    prompt = f"""Journaliste senior. {nb_articles} articles :
+    prompt = f"""Journaliste senior spécialisé en veille média. {nb_articles} articles couvrant international, national, local Bretagne/Pays de Loire :
 {articles_text}
 
 MISSION:
-1. Sélectionne 6 sujets (2 int + 2 nat + 2 local Bretagne) selon :
-   - Multi-sources
-   - Importance
+1. Sélectionne 6 sujets d'actualité selon cette répartition STRICTE :
+   - 2 INTERNATIONAL (géopolitique, économie mondiale, tech internationale)
+   - 2 NATIONAL (France : politique, économie, société, tech)
+   - 2 LOCAL (Bretagne/Pays de Loire : Nantes, Rennes, sports maritimes - voile, surf, kitesurf, wingfoil)
+   
+   Critères de sélection :
+   - Multi-sources prioritaire
+   - Importance/impact
    - Nouveauté
 
-2. Pour chaque des 6 :
+2. Pour chaque des 6 sujets :
    - Résumé (3-4 lignes)
-   - Points de vue croisés
+   - Points de vue croisés (si multi-sources)
    - Analyse & implications
    - Signaux faibles
-   - Sources
+   - Sources (URLs complètes)
 
-3. Autres : liste compacte
+3. Autres articles : liste compacte (titre, zone, 1 ligne, source+URL)
 
-MARKDOWN STRICT (structure identique à IA mais 2 Int + 2 Nat + 2 Local).
-LOCAL: Nantes, sports maritimes.
-PAS D'EMOJI. CONCIS."""
+MARKDOWN STRICT (respecte EXACTEMENT ce format) :
+---
+agent: Synthèse News v3
+date: {datetime.now().strftime('%Y-%m-%d')}
+---
+
+# Veille News – Semaine du {periode_debut} au {periode_fin}
+
+## Introduction
+[2-3 paragraphes présentant les tendances de la semaine : 2 sujets internationaux, 2 nationaux, 2 locaux Bretagne]
+
+---
+
+## [SUJET 1/6] – [Titre du sujet international]
+
+### Résumé
+[3-4 lignes décrivant les faits principaux]
+
+### Points de vue croisés
+**[Source1]**
+[Analyse du point de vue de la source 1]
+
+**[Source2]** (si multi-sources)
+[Analyse du point de vue de la source 2]
+
+### Analyse & implications
+- Impacts sectoriels : [Analyse]
+- Opportunités : [Analyse]
+- Risques potentiels : [Analyse]
+
+### Signaux faibles
+- [Point d'attention 1]
+- [Point d'attention 2]
+
+### Sources
+- "[Titre article]" – [URL complète]
+- "[Titre article 2]" – [URL complète] (si plusieurs)
+
+---
+
+## [SUJET 2/6] – [Titre du sujet international]
+
+[... même structure que SUJET 1/6 ...]
+
+---
+
+## [SUJET 3/6] – [Titre du sujet national]
+
+[... même structure que SUJET 1/6 ...]
+
+---
+
+## [SUJET 4/6] – [Titre du sujet national]
+
+[... même structure que SUJET 1/6 ...]
+
+---
+
+## [SUJET 5/6] – [Titre du sujet local Bretagne]
+
+[... même structure que SUJET 1/6 ...]
+
+---
+
+## [SUJET 6/6] – [Titre du sujet local Bretagne]
+
+[... même structure que SUJET 1/6 ...]
+
+---
+
+## Autres sujets
+
+### [Titre article 1]
+**Zone** : [International/National/Local]
+**Résumé** : [1 ligne décrivant le sujet]
+**Source** : [Nom source] – [URL]
+
+### [Titre article 2]
+**Zone** : [International/National/Local]
+**Résumé** : [1 ligne décrivant le sujet]
+**Source** : [Nom source] – [URL]
+
+[... autres articles non sélectionnés dans le top 6 ...]
+
+---
+
+## Synthèse finale
+
+### Points clés
+[Liste des 3-4 éléments majeurs de la semaine]
+
+### Divergences
+[Contradictions ou différences d'approche entre sources]
+
+### Signaux faibles
+[Tendances émergentes à surveiller]
+
+### Risques
+[Risques identifiés dans l'actualité]
+
+### À surveiller
+[Dossiers à suivre la semaine prochaine]
+
+---
+
+*Veille générée par Synthèse News v3*
+
+RÈGLES ABSOLUES :
+- PAS D'EMOJI
+- URLs COMPLÈTES et VALIDES
+- CONCIS (pas de blabla)
+- RESPECT STRICT des séparateurs `---`
+- 6 SUJETS EXACTS (2+2+2)
+- LOCAL = Bretagne/Pays de Loire (Nantes, Rennes, sports maritimes)"""
 
     print(f"🤖 Lancement GPT-5.2 Pro...")
     
