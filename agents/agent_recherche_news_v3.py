@@ -30,19 +30,23 @@ def collecter_actualites_news() -> Dict[str, Any]:
     date_debut = date_fin - timedelta(days=7)
     
     # Prompt de collecte PURE - Format strictement aligné sur recherche_ia_v3
-    prompt = f"""Tu es un robot de collecte d'actualités - AUCUNE ANALYSE
 
-Les articles publiés dans les 7 derniers jours ({date_debut.strftime('%d/%m/%Y')} au {date_fin.strftime('%d/%m/%Y')}).
+prompt = f"""Tu es un robot de collecte d'actualités via web search - AUCUNE ANALYSE
+
+Utilise la fonction web search pour trouver des articles publiés dans les 7 derniers jours ({date_debut.strftime('%d/%m/%Y')} au {date_fin.strftime('%d/%m/%Y')}).
 
 RÉPARTITION:
 - articles INTERNATIONAUX (géopolitique, économie mondiale, tech, climat)
 - articles NATIONAUX FRANCE (politique, économie, société, justice)
 - articles LOCAUX Bretagne/Pays de Loire (Nantes, Rennes, sports maritimes, économie régionale)
 
-SOURCES À CONSULTER:
-International: site d'information officiel et fiable 3 sources maximum
-National: site d'information officiel, national et fiable 3 sources maximum
-Local: site d'information officiel, locale et fiable 3 sources maximum
+MÉTHODE DE RECHERCHE:
+1. Utilise des requêtes web search génériques (pas d'accès direct aux sites)
+2. Exemples de requêtes:
+   - "actualités internationales géopolitique février 2026"
+   - "actualités France politique février 2026"
+   - "actualités Bretagne Nantes sports maritimes février 2026"
+3. Récupère les résultats via web search (pas de scraping direct)
 
 CONSIGNES:
 1. Cherche des articles RÉCENTS (7 derniers jours maximum)
@@ -74,11 +78,14 @@ FORMAT JSON STRICT (sans markdown, sans commentaires):
 }}
 
 IMPORTANT:
+- Utilise UNIQUEMENT le web search (pas d'accès direct aux sites)
 - Retourner UNIQUEMENT le JSON (pas de texte avant/après)
 - 25 articles OBLIGATOIRE (ni plus, ni moins)
 - URLs complètes et valides
 - Dates au format YYYY-MM-DD
 - Contenu factuel (pas d'opinion)"""
+
+
 
     print(f"🌐 Lancement GPT-5.2 + web search LIVE...")
     print(f"📅 Recherche : {date_debut.strftime('%d/%m')} - {date_fin.strftime('%d/%m')}")
