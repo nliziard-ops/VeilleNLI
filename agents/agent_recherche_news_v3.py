@@ -29,13 +29,15 @@ def collecter_actualites_news() -> Dict[str, Any]:
     date_fin = datetime.now()
     date_debut = date_fin - timedelta(days=7)
     
-    # Prompt de collecte PURE simplifié et optimisé
-    prompt = f"""Tu es un robot de collecte d'actualités. Collecte EXACTEMENT 25 articles d'actualité publiés dans les 7 derniers jours ({date_debut.strftime('%d/%m/%Y')} au {date_fin.strftime('%d/%m/%Y')}).
+    # Prompt de collecte PURE - Format strictement aligné sur recherche_ia_v3
+    prompt = f"""Tu es un robot de collecte d'actualités - AUCUNE ANALYSE
 
-RÉPARTITION STRICTE:
-- 9 articles INTERNATIONAUX (géopolitique, économie mondiale, tech, climat)
-- 9 articles NATIONAUX FRANCE (politique, économie, société, justice)
-- 7 articles LOCAUX Bretagne/Pays de Loire (Nantes, Rennes, sports maritimes, économie régionale)
+Les articles publiés dans les 7 derniers jours ({date_debut.strftime('%d/%m/%Y')} au {date_fin.strftime('%d/%m/%Y')}).
+
+RÉPARTITION:
+- articles INTERNATIONAUX (géopolitique, économie mondiale, tech, climat)
+- articles NATIONAUX FRANCE (politique, économie, société, justice)
+- articles LOCAUX Bretagne/Pays de Loire (Nantes, Rennes, sports maritimes, économie régionale)
 
 SOURCES À CONSULTER:
 International: BBC News, Reuters, The Guardian, Le Monde International, El País
@@ -53,7 +55,7 @@ International: Géopolitique | Économie mondiale | Environnement & Climat
 National: Politique nationale | Économie France | Société
 Local: Politique locale | Économie régionale | Sports maritimes | Mer & littoral | Culture Bretagne
 
-FORMAT JSON STRICT (retourne UNIQUEMENT le JSON, pas de texte avant/après):
+FORMAT JSON STRICT (sans markdown, sans commentaires):
 {{
   "articles": [
     {{
@@ -71,7 +73,12 @@ FORMAT JSON STRICT (retourne UNIQUEMENT le JSON, pas de texte avant/après):
   "repartition": {{"international": 9, "national": 9, "local": 7}}
 }}
 
-IMPORTANT: 25 articles OBLIGATOIRE (9 Int + 9 Nat + 7 Local). Dates format YYYY-MM-DD."""
+IMPORTANT:
+- Retourner UNIQUEMENT le JSON (pas de texte avant/après)
+- 25 articles OBLIGATOIRE (ni plus, ni moins)
+- URLs complètes et valides
+- Dates au format YYYY-MM-DD
+- Contenu factuel (pas d'opinion)"""
 
     print(f"🌐 Lancement GPT-5.2 + web search LIVE...")
     print(f"📅 Recherche : {date_debut.strftime('%d/%m')} - {date_fin.strftime('%d/%m')}")
