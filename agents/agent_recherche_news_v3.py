@@ -40,9 +40,9 @@ RÉPARTITION:
 - articles LOCAUX Bretagne/Pays de Loire (Nantes, Rennes, sports maritimes, économie régionale)
 
 SOURCES À CONSULTER:
-International: BBC News, Reuters, The Guardian, Le Monde International, El País
-National: Le Monde, Le Figaro, Libération, Les Échos, France Info
-Local: Ouest-France (Nantes), Presse Océan, Le Télégramme (Bretagne)
+International: El País
+National: Le Monde, Le Figaro, Les Échos
+Local: Presse Océan, Le Télégramme 
 
 CONSIGNES:
 1. Cherche des articles RÉCENTS (7 derniers jours maximum)
