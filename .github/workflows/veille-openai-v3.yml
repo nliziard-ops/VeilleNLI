@@ -6,7 +6,7 @@ name: 🤖 Veille OpenAI v3 - Architecture Séparée (Collecte | Synthèse)
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # Tous les jours à 6h00 Paris
+    - cron: '0 6 * * 0,1,3,6'  # Lundi, Mercredi, Samedi, Dimanche à 6h00 Paris
   workflow_dispatch:  # Déclenchement manuel
 
 env:
@@ -398,5 +398,5 @@ jobs:
           echo "🌐 Site mis à jour :"
           echo "  https://nliziard-ops.github.io/VeilleNLI/"
           echo ""
-          echo "⏰ Prochaine exécution : demain 6h00 Paris"
+          echo "⏰ Prochaine exécution : Lundi, Mercredi, Samedi, Dimanche à 6h00 Paris"
           echo "==========================================="
