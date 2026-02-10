@@ -1,31 +1,112 @@
 {
   "version": "2.0",
-  "date_generation": "2026-02-09T08:21:55.984088",
+  "date_generation": "2026-02-10T08:23:53.432167",
   "veilles": {
     "ia": {
       "metadata": {
         "agent": "Synthèse IA v3",
-        "date": "2026-02-09",
+        "date": "2026-02-10",
         "categorie": "Veille"
       },
-      "titre": "Veille IA – Semaine du 2026-02-02 au 2026-02-09",
+      "titre": "Veille IA – Semaine du 2026-02-03 au 2026-02-10",
       "edition": "",
-      "introduction": "Cette semaine confirme le basculement « agents partout » : les éditeurs (ServiceNow) et les hyperscalers (AWS) structurent des offres agentiques industrialisables (plateformes, SDK, bonnes pratiques), tandis que l’écosystème open source oscille entre accélération réelle et effets d’annonce (OpenClaw, “minion agents”). En parallèle, la compétition open-weight s’intensifie : nouveaux modèles multimodaux/multilingues (Mistral 3, Kimi K2.5) et analyse de fond (Hugging Face) sur la trajectoire post-DeepSeek et les contraintes hardware. Enfin, deux tendances « fiabilisation » émergent nettement : (1) sorties structurées/schéma-outillées pour rendre les agents exploitables en prod, (2) pipelines multimodaux plus robustes (embeddings, OCR de nouvelle génération).",
+      "introduction": "La semaine est marquée par un durcissement du débat “agents + marketplaces” : l’écosystème OpenClaw illustre à la fois l’accélération des usages (skills) et l’augmentation rapide de la surface d’attaque (RCE, supply chain, exfiltration). En parallèle, les éditeurs renforcent les garde-fous (scanning VirusTotal, contrôles côté navigateur). Côté “build”, AWS pousse des briques de mise en production agentique (AgentCore, Data Agent), et des primitives de fiabilisation (structured outputs, checks de raisonnement) qui visent à réduire les erreurs, mieux intégrer les workflows, et sécuriser l’exécution. Enfin, la “course à l’open” continue : récits d’écosystèmes open source (notamment Chine) et techniques de distillation/fine-tuning industrialisé confirment que la différenciation se déplace vers l’orchestration, les données, l’évaluation, et la sécurité opérationnelle.",
       "sujets_importants": [
         {
-          "titre": "[SUJET 1/6] – Agents en entreprise : de la démo à la plateforme (et retour de flamme “hype”)",
-          "resume": "Les agents deviennent un produit plateforme (pas une feature) : ServiceNow standardise Claude pour ses agents, AWS formalise AgentCore (bonnes pratiques + retours terrain), tandis que la presse spécialisée tempère l’engouement autour d’agents open source “viraux”. Le mouvement va vers des agents connectés aux SI, gouvernés, et mesurables, plutôt que des assistants généralistes.",
-          "resume_court": "Les agents deviennent un produit plateforme (pas une feature) : ServiceNow standardise Claude pour ses agents, AWS formalise AgentCore (bonnes pratiques + retours terrain), tandis que la presse spécialisée tempère l’engouement autour d’agents open source “viraux”. Le mouvement va vers...",
-          "resume_complet": "Les agents deviennent un produit plateforme (pas une feature) : ServiceNow standardise Claude pour ses agents, AWS formalise AgentCore (bonnes pratiques + retours terrain), tandis que la presse spécialisée tempère l’engouement autour d’agents open source “viraux”. Le mouvement va vers des agents connectés aux SI, gouvernés, et mesurables, plutôt que des assistants généralistes.",
+          "titre": "[SUJET 1/6] – OpenClaw : chaîne d’approvisionnement, RCE et réponse par scanning marketplace (BUZZ)",
+          "resume": "Plusieurs signaux convergent sur des risques critiques autour d’OpenClaw : une vulnérabilité RCE “one-click” via lien malveillant, un audit révélant des centaines de skills malveillants sur le marketplace ClawHub, et une réponse défensive par intégration d’un scanning VirusTotal lors de la publication. Le tout illustre un pattern “app stores d’agents” : forte vélocité, contrôle insuffisant, et durcissement progressif après incidents.",
+          "resume_court": "Plusieurs signaux convergent sur des risques critiques autour d’OpenClaw : une vulnérabilité RCE “one-click” via lien malveillant, un audit révélant des centaines de skills malveillants sur le marketplace ClawHub, et une réponse défensive par intégration d’un scanning VirusTotal lors de...",
+          "resume_complet": "Plusieurs signaux convergent sur des risques critiques autour d’OpenClaw : une vulnérabilité RCE “one-click” via lien malveillant, un audit révélant des centaines de skills malveillants sur le marketplace ClawHub, et une réponse défensive par intégration d’un scanning VirusTotal lors de la publication. Le tout illustre un pattern “app stores d’agents” : forte vélocité, contrôle insuffisant, et durcissement progressif après incidents.",
           "points_de_vue": [],
           "fiabilite": [
-            "Convergence vers des “patterns” communs : tool use strict, sorties structurées, evaluation continue, RBAC/ABAC et auditabilité.",
-            "Les agents open source “viraux” deviennent des benchmarks sociaux, mais pas des standards de prod."
+            "Passage d’une sécurité “publication-time” (scan) vers “runtime-time” (sandbox/permissions) comme standard de marché.",
+            "Montée d’un modèle “permissions + attestations” (type mobile) appliqué aux agents et skills."
           ],
           "sources": [
             {
-              "titre": "\"ServiceNow chooses Claude to power customer apps and increase internal productivity\"",
-              "url": "https://www.anthropic.com/news/servicenow-anthropic-claude"
+              "titre": "\"OpenClaw Bug Enables One-Click Remote Code Execution via Malicious Link\"",
+              "url": "https://thehackernews.com/2026/02/openclaw-bug-enables-one-click-remote.html"
+            },
+            {
+              "titre": "\"Researchers Find 341 Malicious ClawHub Skills Stealing Data from OpenClaw Users\"",
+              "url": "https://thehackernews.com/2026/02/researchers-find-341-malicious-clawhub.html"
+            },
+            {
+              "titre": "\"OpenClaw Integrates VirusTotal Scanning to Detect Malicious ClawHub Skills\"",
+              "url": "https://thehackernews.com/2026/02/openclaw-integrates-virustotal-scanning.html"
+            },
+            {
+              "titre": "\"The Batch: OpenClaw Runs Amok, Kimi’s Open Model, Ministral Distilled, Wikipedia’s Partners\"",
+              "url": "https://www.deeplearning.ai/the-batch/"
+            }
+          ],
+          "contenu_complet": "\n### Résumé\nPlusieurs signaux convergent sur des risques critiques autour d’OpenClaw : une vulnérabilité RCE “one-click” via lien malveillant, un audit révélant des centaines de skills malveillants sur le marketplace ClawHub, et une réponse défensive par intégration d’un scanning VirusTotal lors de la publication. Le tout illustre un pattern “app stores d’agents” : forte vélocité, contrôle insuffisant, et durcissement progressif après incidents.\n\n### Points de vue croisés\n**The Hacker News – RCE (CVE-2026-25253)**\nLe scénario décrit met l’accent sur l’exfiltration de token et la compromission du gateway, rappelant que l’auth et les jetons deviennent des cibles prioritaires dans les stacks agentiques.  \n**The Hacker News – Skills malveillants**\nL’audit Koi Security pointe un risque supply chain structurel : marketplace ouvert + “prérequis” piégés pour installer des stealers/malwares.  \n**The Hacker News – VirusTotal**\nLa réponse (hash SHA-256, lookup, puis upload) montre une professionnalisation du contrôle, mais aussi ses limites (détection post-hoc, dépendance aux signatures/heuristiques).  \n**DeepLearning.AI (The Batch)**\nLa couverture “grand public” entérine le sujet comme un fait marquant de la semaine (au-delà du cercle sécurité).\n\n### Analyse & implications\n- Impacts sectoriels :\n  - Éditeurs de plateformes agentiques : obligation de gouvernance marketplace (review, sandbox, signature, réputation).\n  - Entreprises : risque accru si adoption de skills/plugins non maîtrisés.\n- Opportunités :\n  - Outils “agent security” : scanning CI/CD des skills, SBOM, signatures, exécution en sandbox, politiques d’eBPF/runtime.\n- Risques potentiels :\n  - Exfiltration de secrets (tokens, clés) via skills.\n  - “Toxic dependency” : dépendre de marketplaces sans contrôles d’origine et de comportement à l’exécution.\n\n### Signaux faibles\n- Passage d’une sécurité “publication-time” (scan) vers “runtime-time” (sandbox/permissions) comme standard de marché.\n- Montée d’un modèle “permissions + attestations” (type mobile) appliqué aux agents et skills.\n\n### Sources\n- \"OpenClaw Bug Enables One-Click Remote Code Execution via Malicious Link\" – https://thehackernews.com/2026/02/openclaw-bug-enables-one-click-remote.html  \n- \"Researchers Find 341 Malicious ClawHub Skills Stealing Data from OpenClaw Users\" – https://thehackernews.com/2026/02/researchers-find-341-malicious-clawhub.html  \n- \"OpenClaw Integrates VirusTotal Scanning to Detect Malicious ClawHub Skills\" – https://thehackernews.com/2026/02/openclaw-integrates-virustotal-scanning.html  \n- \"The Batch: OpenClaw Runs Amok, Kimi’s Open Model, Ministral Distilled, Wikipedia’s Partners\" – https://www.deeplearning.ai/the-batch/  \n\n---\n\n",
+          "icone": "📄"
+        },
+        {
+          "titre": "[SUJET 2/6] – IA grand public : personnalisation (Gemini) vs contrôle utilisateur (Firefox) (BUZZ)",
+          "resume": "Google met en avant des fonctionnalités de personnalisation et d’assistance dans Gemini, Gmail et Chrome, avec un accès élargi à des capacités avancées (ex. Genie 3) pour certains abonnés. En miroir, Mozilla introduit un interrupteur unique pour désactiver les fonctionnalités GenAI dans Firefox desktop, incluant les futures. La tension “valeur produit” vs “contrôle/consentement” devient un axe concurrentiel.",
+          "resume_court": "Google met en avant des fonctionnalités de personnalisation et d’assistance dans Gemini, Gmail et Chrome, avec un accès élargi à des capacités avancées (ex. Genie 3) pour certains abonnés. En miroir, Mozilla introduit un interrupteur unique pour désactiver les fonctionnalités...",
+          "resume_complet": "Google met en avant des fonctionnalités de personnalisation et d’assistance dans Gemini, Gmail et Chrome, avec un accès élargi à des capacités avancées (ex. Genie 3) pour certains abonnés. En miroir, Mozilla introduit un interrupteur unique pour désactiver les fonctionnalités GenAI dans Firefox desktop, incluant les futures. La tension “valeur produit” vs “contrôle/consentement” devient un axe concurrentiel.",
+          "points_de_vue": [],
+          "fiabilite": [
+            "“Kill switch” global comme exigence standard (B2C et bientôt B2B via politiques IT).",
+            "Les features IA deviennent un paramètre de gouvernance (au même titre que cookies/extensions)."
+          ],
+          "sources": [
+            {
+              "titre": "\"The latest AI news we announced in January\"",
+              "url": "https://blog.google/innovation-and-ai/products/google-ai-updates-january-2026/"
+            },
+            {
+              "titre": "\"Mozilla Adds One-Click Option to Disable Generative AI Features in Firefox\"",
+              "url": "https://thehackernews.com/2026/02/mozilla-adds-one-click-option-to.html"
+            }
+          ],
+          "contenu_complet": "\n### Résumé\nGoogle met en avant des fonctionnalités de personnalisation et d’assistance dans Gemini, Gmail et Chrome, avec un accès élargi à des capacités avancées (ex. Genie 3) pour certains abonnés. En miroir, Mozilla introduit un interrupteur unique pour désactiver les fonctionnalités GenAI dans Firefox desktop, incluant les futures. La tension “valeur produit” vs “contrôle/consentement” devient un axe concurrentiel.\n\n### Points de vue croisés\n**Google AI Blog**\nLe récit est orienté “productivité + personnalisation”, avec une intégration IA plus profonde dans les outils du quotidien et des offres premium.  \n**The Hacker News (Mozilla)**\nL’angle est “souveraineté utilisateur” : possibilité explicite de bloquer en bloc les “AI enhancements”, signalant une sensibilité accrue au tracking, aux changements de comportement du navigateur, et aux préférences de confidentialité.\n\n### Analyse & implications\n- Impacts sectoriels :\n  - Navigateurs/clients mail : l’IA devient une couche native, avec attentes fortes sur transparence et paramétrage.\n  - Régulation/entreprise : besoin d’options de désactivation centralisée (compliance, risques de fuite).\n- Opportunités :\n  - Différenciation par UX de consentement, modes “local/edge”, et garanties sur les données.\n- Risques potentiels :\n  - Rejet utilisateur si l’IA est perçue comme imposée ou opaque.\n  - Fragmentation : fonctionnalités IA non homogènes selon pays/offres/abonnements.\n\n### Signaux faibles\n- “Kill switch” global comme exigence standard (B2C et bientôt B2B via politiques IT).\n- Les features IA deviennent un paramètre de gouvernance (au même titre que cookies/extensions).\n\n### Sources\n- \"The latest AI news we announced in January\" – https://blog.google/innovation-and-ai/products/google-ai-updates-january-2026/  \n- \"Mozilla Adds One-Click Option to Disable Generative AI Features in Firefox\" – https://thehackernews.com/2026/02/mozilla-adds-one-click-option-to.html  \n\n---\n\n",
+          "icone": "📄"
+        },
+        {
+          "titre": "[SUJET 3/6] – Open source IA : dynamiques Chine + distillation/fine-tuning comme moteur d’adoption (BUZZ)",
+          "resume": "Hugging Face poursuit son analyse “post DeepSeek moment” sur l’évolution de l’écosystème open source en Chine et ses trajectoires probables. En parallèle, l’actualité hebdo (The Batch) met en avant modèles ouverts (Kimi/Moonshot) et distillation (Ministral), tandis qu’AWS détaille l’industrialisation du fine-tuning via Hugging Face + SageMaker. L’ensemble confirme une accélération : réduire les coûts (distillation), augmenter la spécialisation (fine-tuning), et diffuser plus vite.",
+          "resume_court": "Hugging Face poursuit son analyse “post DeepSeek moment” sur l’évolution de l’écosystème open source en Chine et ses trajectoires probables. En parallèle, l’actualité hebdo (The Batch) met en avant modèles ouverts (Kimi/Moonshot) et distillation (Ministral), tandis qu’AWS détaille l’industrialisation du...",
+          "resume_complet": "Hugging Face poursuit son analyse “post DeepSeek moment” sur l’évolution de l’écosystème open source en Chine et ses trajectoires probables. En parallèle, l’actualité hebdo (The Batch) met en avant modèles ouverts (Kimi/Moonshot) et distillation (Ministral), tandis qu’AWS détaille l’industrialisation du fine-tuning via Hugging Face + SageMaker. L’ensemble confirme une accélération : réduire les coûts (distillation), augmenter la spécialisation (fine-tuning), et diffuser plus vite.",
+          "points_de_vue": [],
+          "fiabilite": [
+            "Normalisation du “distill-first” pour le déploiement (petit modèle en prod, grand modèle en teacher/éval).",
+            "Pression accrue sur l’évaluation et la sécurité des modèles open (attestations, provenance des datasets)."
+          ],
+          "sources": [
+            {
+              "titre": "\"The Future of the Global Open-Source AI Ecosystem: From DeepSeek to AI+\"",
+              "url": "https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment-blog-3"
+            },
+            {
+              "titre": "\"The Batch: OpenClaw Runs Amok, Kimi’s Open Model, Ministral Distilled, Wikipedia’s Partners\"",
+              "url": "https://www.deeplearning.ai/the-batch/"
+            },
+            {
+              "titre": "\"Scale LLM fine-tuning with Hugging Face and Amazon SageMaker AI\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/scale-llm-fine-tuning-with-hugging-face-and-amazon-sagemaker-ai/"
+            }
+          ],
+          "contenu_complet": "\n### Résumé\nHugging Face poursuit son analyse “post DeepSeek moment” sur l’évolution de l’écosystème open source en Chine et ses trajectoires probables. En parallèle, l’actualité hebdo (The Batch) met en avant modèles ouverts (Kimi/Moonshot) et distillation (Ministral), tandis qu’AWS détaille l’industrialisation du fine-tuning via Hugging Face + SageMaker. L’ensemble confirme une accélération : réduire les coûts (distillation), augmenter la spécialisation (fine-tuning), et diffuser plus vite.\n\n### Points de vue croisés\n**Hugging Face**\nPerspective macro-écosystème : organisations, stratégies d’ouverture, et implications géopolitiques/industrielles de l’open.  \n**DeepLearning.AI (The Batch)**\nPerspective “signal marché” : distillation et sorties de modèles ouverts sont présentées comme des faits structurants de la semaine.  \n**AWS AI/ML**\nPerspective “industrialisation” : rendre le fine-tuning scalable, reproductible, et optimisé en coûts via une stack outillée.\n\n### Analyse & implications\n- Impacts sectoriels :\n  - Entreprises : arbitrage “open + custom” vs “API fermées” se rationalise (coût, souveraineté, latence).\n  - Éditeurs : la différenciation se déplace vers tooling, intégration, évaluation, sécurité, et données propriétaires.\n- Opportunités :\n  - Modèles plus petits et spécialisés (distillés) déployables sur des contraintes réelles (latence, coût).\n  - Chaînes de fine-tuning gouvernées (datasets, traçabilité, éval).\n- Risques potentiels :\n  - Qualité/alignement inégaux, risques de compliance sur datasets, et dépendance à des artefacts non audités.\n\n### Signaux faibles\n- Normalisation du “distill-first” pour le déploiement (petit modèle en prod, grand modèle en teacher/éval).\n- Pression accrue sur l’évaluation et la sécurité des modèles open (attestations, provenance des datasets).\n\n### Sources\n- \"The Future of the Global Open-Source AI Ecosystem: From DeepSeek to AI+\" – https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment-blog-3  \n- \"The Batch: OpenClaw Runs Amok, Kimi’s Open Model, Ministral Distilled, Wikipedia’s Partners\" – https://www.deeplearning.ai/the-batch/  \n- \"Scale LLM fine-tuning with Hugging Face and Amazon SageMaker AI\" – https://aws.amazon.com/blogs/machine-learning/scale-llm-fine-tuning-with-hugging-face-and-amazon-sagemaker-ai/  \n\n---\n\n",
+          "icone": "🇨🇳"
+        },
+        {
+          "titre": "[SUJET 4/6] – Agents en entreprise : patterns de mise en production avec Bedrock AgentCore + cas d’usage data/BI/santé (TECH)",
+          "resume": "AWS publie un starter template full-stack pour accélérer le développement agentique avec Bedrock AgentCore, des bonnes pratiques “enterprise-ready”, et des retours terrain (BGL text-to-SQL, SageMaker Data Agent pour analyse de données santé). Les messages convergent : séparer préparation des données et exécution, limiter les actions (SELECT-only, scripts contrôlés), et structurer les responsabilités (orchestration, outils, observabilité).",
+          "resume_court": "AWS publie un starter template full-stack pour accélérer le développement agentique avec Bedrock AgentCore, des bonnes pratiques “enterprise-ready”, et des retours terrain (BGL text-to-SQL, SageMaker Data Agent pour analyse de données santé). Les messages convergent : séparer préparation des données...",
+          "resume_complet": "AWS publie un starter template full-stack pour accélérer le développement agentique avec Bedrock AgentCore, des bonnes pratiques “enterprise-ready”, et des retours terrain (BGL text-to-SQL, SageMaker Data Agent pour analyse de données santé). Les messages convergent : séparer préparation des données et exécution, limiter les actions (SELECT-only, scripts contrôlés), et structurer les responsabilités (orchestration, outils, observabilité).",
+          "points_de_vue": [],
+          "fiabilite": [
+            "Convergence vers un “agent platform engineering” (comme MLOps/Platform eng.) avec templates, policies, catalogs d’outils.",
+            "Montée des “semantic contracts” (schémas, tables certifiées) comme prérequis à la BI agentique."
+          ],
+          "sources": [
+            {
+              "titre": "\"Accelerate agentic application development with a full-stack starter template for Amazon Bedrock AgentCore\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/accelerate-agentic-application-development-with-a-full-stack-starter-template-for-amazon-bedrock-agentcore/"
             },
             {
               "titre": "\"AI agents in enterprises: Best practices with Amazon Bedrock AgentCore\"",
@@ -36,80 +117,22 @@
               "url": "https://aws.amazon.com/blogs/machine-learning/democratizing-business-intelligence-bgls-journey-with-claude-agent-sdk-and-amazon-bedrock-agentcore/"
             },
             {
-              "titre": "\"Agents Unleashed: Cutting through the OpenClaw and Moltbook hype\"",
-              "url": "https://www.deeplearning.ai/the-batch/tag/feb-06-2026/"
-            }
-          ],
-          "contenu_complet": "\n### Résumé\nLes agents deviennent un produit plateforme (pas une feature) : ServiceNow standardise Claude pour ses agents, AWS formalise AgentCore (bonnes pratiques + retours terrain), tandis que la presse spécialisée tempère l’engouement autour d’agents open source “viraux”. Le mouvement va vers des agents connectés aux SI, gouvernés, et mesurables, plutôt que des assistants généralistes.\n\n### Points de vue croisés\n**Anthropic / ServiceNow**\nServiceNow choisit Claude comme modèle par défaut pour Build Agent et pour sa plateforme IA, en mettant l’accent sur la productivité interne (vente, ingénierie) et l’intégration workflow (agent “dans le flux de travail”).  \n**AWS**\nAWS pousse AgentCore comme socle de déploiement (design, sécurité, ops, montée en charge organisationnelle) et documente des implémentations “production-ready” (ex. BI).  \n**DeepLearning.AI (The Batch)**\nMise en garde : l’hype agents (OpenClaw, promesses “autonomes”) masque souvent des risques (contrôle, sécurité, fiabilité) et une maturité produit inégale.\n\n### Analyse & implications\n- Impacts sectoriels : ITSM/CRM/ERP (ServiceNow), BI/analytics, support client, opérations internes (sales ops, eng).\n- Opportunités : standardiser l’orchestration (SDK/AgentCore), réduire le coût d’accès à la connaissance (BI self-serve), accélérer l’automatisation “tool-driven”.\n- Risques potentiels : sur-automatisation sans garde-fous (actions irréversibles), dette d’observabilité (traces/outcomes), dépendance modèle/fournisseur, vulnérabilités via outils/connexions.\n\n### Signaux faibles\n- Convergence vers des “patterns” communs : tool use strict, sorties structurées, evaluation continue, RBAC/ABAC et auditabilité.\n- Les agents open source “viraux” deviennent des benchmarks sociaux, mais pas des standards de prod.\n\n### Sources\n- \"ServiceNow chooses Claude to power customer apps and increase internal productivity\" – https://www.anthropic.com/news/servicenow-anthropic-claude  \n- \"AI agents in enterprises: Best practices with Amazon Bedrock AgentCore\" – https://aws.amazon.com/blogs/machine-learning/ai-agents-in-enterprises-best-practices-with-amazon-bedrock-agentcore/  \n- \"Democratizing business intelligence: BGL’s journey with Claude Agent SDK and Amazon Bedrock AgentCore\" – https://aws.amazon.com/blogs/machine-learning/democratizing-business-intelligence-bgls-journey-with-claude-agent-sdk-and-amazon-bedrock-agentcore/  \n- \"Agents Unleashed: Cutting through the OpenClaw and Moltbook hype\" – https://www.deeplearning.ai/the-batch/tag/feb-06-2026/  \n\n---\n\n",
-          "icone": "💼"
-        },
-        {
-          "titre": "[SUJET 2/6] – Open-weight : Mistral 3, Kimi K2.5 et la “phase 2” post-DeepSeek",
-          "resume": "La course open-weight se ré-accélère : Mistral publie une nouvelle génération (dont un Large MoE) sous Apache 2.0, pendant que Moonshot (Kimi K2.5) revendique des gains via sous-agents et mises à jour vision. En toile de fond, Hugging Face analyse l’effet d’entraînement du “DeepSeek Moment” sur l’ouverture (modèles + artefacts) et les choix d’architecture/hardware en Chine.",
-          "resume_court": "La course open-weight se ré-accélère : Mistral publie une nouvelle génération (dont un Large MoE) sous Apache 2.0, pendant que Moonshot (Kimi K2.5) revendique des gains via sous-agents et mises à jour vision. En toile de fond, Hugging Face analyse...",
-          "resume_complet": "La course open-weight se ré-accélère : Mistral publie une nouvelle génération (dont un Large MoE) sous Apache 2.0, pendant que Moonshot (Kimi K2.5) revendique des gains via sous-agents et mises à jour vision. En toile de fond, Hugging Face analyse l’effet d’entraînement du “DeepSeek Moment” sur l’ouverture (modèles + artefacts) et les choix d’architecture/hardware en Chine.",
-          "points_de_vue": [],
-          "fiabilite": [
-            "L’avantage concurrentiel se déplace vers les “assets” : jeux de données, scripts d’entraînement, optimisations d’inférence, harness d’évaluation.",
-            "Montée des modèles “bons-en-vision” open-weight, ce qui réduit un différentiel historique des modèles fermés."
-          ],
-          "sources": [
-            {
-              "titre": "\"Introducing Mistral 3\"",
-              "url": "https://mistral.ai/news/mistral-3"
-            },
-            {
-              "titre": "\"Kimi K2.5 Creates Its Own Workforce: Moonshot AI takes the open model crown...\"",
-              "url": "https://www.deeplearning.ai/the-batch/tag/feb-06-2026/"
-            },
-            {
-              "titre": "\"One Year Since the “DeepSeek Moment”\"",
-              "url": "https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment"
-            },
-            {
-              "titre": "\"Architectural Choices in China's Open-Source AI Ecosystem: Building Beyond DeepSeek\"",
-              "url": "https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment-blog-2"
-            },
-            {
-              "titre": "\"The Future of the Global Open-Source AI Ecosystem: From DeepSeek to AI+\"",
-              "url": "https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment-blog-3"
-            }
-          ],
-          "contenu_complet": "\n### Résumé\nLa course open-weight se ré-accélère : Mistral publie une nouvelle génération (dont un Large MoE) sous Apache 2.0, pendant que Moonshot (Kimi K2.5) revendique des gains via sous-agents et mises à jour vision. En toile de fond, Hugging Face analyse l’effet d’entraînement du “DeepSeek Moment” sur l’ouverture (modèles + artefacts) et les choix d’architecture/hardware en Chine.\n\n### Points de vue croisés\n**Mistral AI**\nMistral 3 renforce l’offre ouverte (multimodal/multilingue, gammes 3B/8B/14B + Large MoE) et normalise des attentes “enterprise-grade” en open-weight (licence permissive).  \n**DeepLearning.AI (The Batch)**\nKimi K2.5 illustre une stratégie combinant modèle + orchestration agentique (sous-agents) pour gagner en vitesse d’exécution perçue et en polyvalence, notamment en vision.  \n**Hugging Face**\nLecture macro : l’ouverture devient la norme compétitive (modèles + code + recettes), avec une forte contrainte d’architecture et de hardware (efficacité, multimodal, agents).\n\n### Analyse & implications\n- Impacts sectoriels : éditeurs logiciels, intégrateurs, secteurs régulés (self-host), écosystèmes européens/asiatiques cherchant souveraineté.\n- Opportunités : alternatives crédibles aux modèles fermés, personnalisation locale, réduction des coûts d’inférence via modèles plus petits/optimisés, innovation “composable” (modèle + agents + toolchain).\n- Risques potentiels : fragmentation (trop de variantes), sécurité (supply chain des weights/artefacts), évaluation difficile des claims, pression compute (coûts d’entraînement/serving).\n\n### Signaux faibles\n- L’avantage concurrentiel se déplace vers les “assets” : jeux de données, scripts d’entraînement, optimisations d’inférence, harness d’évaluation.\n- Montée des modèles “bons-en-vision” open-weight, ce qui réduit un différentiel historique des modèles fermés.\n\n### Sources\n- \"Introducing Mistral 3\" – https://mistral.ai/news/mistral-3  \n- \"Kimi K2.5 Creates Its Own Workforce: Moonshot AI takes the open model crown...\" – https://www.deeplearning.ai/the-batch/tag/feb-06-2026/  \n- \"One Year Since the “DeepSeek Moment”\" – https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment  \n- \"Architectural Choices in China's Open-Source AI Ecosystem: Building Beyond DeepSeek\" – https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment-blog-2  \n- \"The Future of the Global Open-Source AI Ecosystem: From DeepSeek to AI+\" – https://huggingface.co/blog/huggingface/one-year-since-the-deepseek-moment-blog-3  \n\n---\n\n",
-          "icone": "📄"
-        },
-        {
-          "titre": "[SUJET 3/6] – Santé : de l’expérimentation à la conformité (HIPAA) + agents data “assistés”",
-          "resume": "Anthropic positionne “Claude for Healthcare” via des produits prêts pour HIPAA et des connecteurs orientés santé, tandis qu’AWS illustre des agents orientés préparation/analyse de données cliniques (cohort analysis) avec SageMaker Data Agent. Le message commun : la valeur vient de l’intégration aux systèmes et de la conformité, pas seulement du modèle.",
-          "resume_court": "Anthropic positionne “Claude for Healthcare” via des produits prêts pour HIPAA et des connecteurs orientés santé, tandis qu’AWS illustre des agents orientés préparation/analyse de données cliniques (cohort analysis) avec SageMaker Data Agent. Le message commun : la valeur vient de...",
-          "resume_complet": "Anthropic positionne “Claude for Healthcare” via des produits prêts pour HIPAA et des connecteurs orientés santé, tandis qu’AWS illustre des agents orientés préparation/analyse de données cliniques (cohort analysis) avec SageMaker Data Agent. Le message commun : la valeur vient de l’intégration aux systèmes et de la conformité, pas seulement du modèle.",
-          "points_de_vue": [],
-          "fiabilite": [
-            "Déplacement des achats : du “LLM” vers des offres “compliance + connecteurs + logs + gouvernance”.",
-            "Les agents “data-centric” (préparation/SQL/ETL guidés) deviennent une porte d’entrée plus sûre que les agents d’action."
-          ],
-          "sources": [
-            {
-              "titre": "\"Advancing Claude in healthcare and the life sciences\"",
-              "url": "https://www.anthropic.com/news/healthcare-life-sciences"
-            },
-            {
               "titre": "\"Agentic AI for healthcare data analysis with Amazon SageMaker Data Agent\"",
               "url": "https://aws.amazon.com/blogs/machine-learning/agentic-ai-for-healthcare-data-analysis-with-amazon-sagemaker-data-agent/"
             }
           ],
-          "contenu_complet": "\n### Résumé\nAnthropic positionne “Claude for Healthcare” via des produits prêts pour HIPAA et des connecteurs orientés santé, tandis qu’AWS illustre des agents orientés préparation/analyse de données cliniques (cohort analysis) avec SageMaker Data Agent. Le message commun : la valeur vient de l’intégration aux systèmes et de la conformité, pas seulement du modèle.\n\n### Points de vue croisés\n**Anthropic**\nAccent sur packaging produit (HIPAA-ready), connecteurs, et capacités pour life sciences : logique “go-to-market” santé avec garde-fous et intégration.  \n**AWS**\nApproche “agent data” : réduire drastiquement le temps de préparation/itération analytique (épidémiologie, cohortes) en gardant l’humain dans la boucle.\n\n### Analyse & implications\n- Impacts sectoriels : hôpitaux/assureurs, medtech, pharma (RWE/études), équipes data/biostat.\n- Opportunités : accélération analytics (cohortes), documentation/communication clinique, réduction charge administrative, meilleure accessibilité des analyses.\n- Risques potentiels : exposition PHI/PII via outils/connecteurs, hallucinations en contexte clinique, traçabilité insuffisante (audit), dérives de finalité (usage hors périmètre).\n\n### Signaux faibles\n- Déplacement des achats : du “LLM” vers des offres “compliance + connecteurs + logs + gouvernance”.\n- Les agents “data-centric” (préparation/SQL/ETL guidés) deviennent une porte d’entrée plus sûre que les agents d’action.\n\n### Sources\n- \"Advancing Claude in healthcare and the life sciences\" – https://www.anthropic.com/news/healthcare-life-sciences  \n- \"Agentic AI for healthcare data analysis with Amazon SageMaker Data Agent\" – https://aws.amazon.com/blogs/machine-learning/agentic-ai-for-healthcare-data-analysis-with-amazon-sagemaker-data-agent/  \n\n---\n\n",
-          "icone": "📄"
+          "contenu_complet": "\n### Résumé\nAWS publie un starter template full-stack pour accélérer le développement agentique avec Bedrock AgentCore, des bonnes pratiques “enterprise-ready”, et des retours terrain (BGL text-to-SQL, SageMaker Data Agent pour analyse de données santé). Les messages convergent : séparer préparation des données et exécution, limiter les actions (SELECT-only, scripts contrôlés), et structurer les responsabilités (orchestration, outils, observabilité).\n\n### Points de vue croisés\n**AWS – Starter template AgentCore**\nAccent sur l’accélération (bootstrap technique) et une architecture de référence pour prototyper/déployer.  \n**AWS – Best practices AgentCore**\nCadre méthodologique : cadrage, gouvernance, sécurité, montée en charge, monitoring.  \n**AWS – BGL (Claude Agent SDK + AgentCore)**\nPattern concret : tables analytiques préparées (Athena/dbt), génération de requêtes SELECT, exécution Python séparée.  \n**AWS – SageMaker Data Agent (santé)**\nMise en avant du gain de temps en préparation/analyse, mais avec contraintes fortes de domaine (données sensibles, traçabilité).\n\n### Analyse & implications\n- Impacts sectoriels :\n  - BI/analytics : l’agent devient une “UI” sur des assets data gouvernés (semantic layer, tables certifiées).\n  - Santé : accélération possible, mais seulement avec garde-fous (audit, contrôle d’accès, minimisation).\n- Opportunités :\n  - Standardiser des blueprints : tool-calling, sandbox, politiques d’action, observabilité, tests.\n  - Réduire le time-to-insight via agents spécialisés (data prep, cohortes, QA analytique).\n- Risques potentiels :\n  - Sur-automatisation (agents qui agissent trop), fuites via outils/connecteurs, dérives de coûts (boucles d’actions).\n\n### Signaux faibles\n- Convergence vers un “agent platform engineering” (comme MLOps/Platform eng.) avec templates, policies, catalogs d’outils.\n- Montée des “semantic contracts” (schémas, tables certifiées) comme prérequis à la BI agentique.\n\n### Sources\n- \"Accelerate agentic application development with a full-stack starter template for Amazon Bedrock AgentCore\" – https://aws.amazon.com/blogs/machine-learning/accelerate-agentic-application-development-with-a-full-stack-starter-template-for-amazon-bedrock-agentcore/  \n- \"AI agents in enterprises: Best practices with Amazon Bedrock AgentCore\" – https://aws.amazon.com/blogs/machine-learning/ai-agents-in-enterprises-best-practices-with-amazon-bedrock-agentcore/  \n- \"Democratizing business intelligence: BGL’s journey with Claude Agent SDK and Amazon Bedrock AgentCore\" – https://aws.amazon.com/blogs/machine-learning/democratizing-business-intelligence-bgls-journey-with-claude-agent-sdk-and-amazon-bedrock-agentcore/  \n- \"Agentic AI for healthcare data analysis with Amazon SageMaker Data Agent\" – https://aws.amazon.com/blogs/machine-learning/agentic-ai-for-healthcare-data-analysis-with-amazon-sagemaker-data-agent/  \n\n---\n\n",
+          "icone": "💻"
         },
         {
-          "titre": "[SUJET 4/6] – Fiabiliser les agents : sorties structurées, schémas et “strict tool use”",
-          "resume": "AWS généralise des mécanismes de réponses JSON conformes à schéma via constrained decoding et propose un mode “strict tool use”. Cette brique vise à transformer des sorties LLM “texte” en artefacts contractuels (schémas), condition nécessaire à l’industrialisation (pipelines, validations, retries, observabilité).",
-          "resume_court": "AWS généralise des mécanismes de réponses JSON conformes à schéma via constrained decoding et propose un mode “strict tool use”. Cette brique vise à transformer des sorties LLM “texte” en artefacts contractuels (schémas), condition nécessaire à l’industrialisation (pipelines, validations, retries,...",
-          "resume_complet": "AWS généralise des mécanismes de réponses JSON conformes à schéma via constrained decoding et propose un mode “strict tool use”. Cette brique vise à transformer des sorties LLM “texte” en artefacts contractuels (schémas), condition nécessaire à l’industrialisation (pipelines, validations, retries, observabilité).",
+          "titre": "[SUJET 5/6] – Fiabiliser les sorties LLM : structured outputs (JSON schema) + checks de raisonnement automatisés (TECH)",
+          "resume": "AWS introduit les structured outputs sur Bedrock pour produire des réponses JSON conformes à un schéma via constrained decoding, avec deux modes (JSON Schema, ou usage strict d’outils). En parallèle, un chatbot de référence est “réécrit” pour intégrer des Automated Reasoning checks, visant à vérifier/contraindre certains raisonnements. Ensemble, ces approches adressent le même point : réduire la variabilité et augmenter la vérifiabilité en production.",
+          "resume_court": "AWS introduit les structured outputs sur Bedrock pour produire des réponses JSON conformes à un schéma via constrained decoding, avec deux modes (JSON Schema, ou usage strict d’outils). En parallèle, un chatbot de référence est “réécrit” pour intégrer des Automated...",
+          "resume_complet": "AWS introduit les structured outputs sur Bedrock pour produire des réponses JSON conformes à un schéma via constrained decoding, avec deux modes (JSON Schema, ou usage strict d’outils). En parallèle, un chatbot de référence est “réécrit” pour intégrer des Automated Reasoning checks, visant à vérifier/contraindre certains raisonnements. Ensemble, ces approches adressent le même point : réduire la variabilité et augmenter la vérifiabilité en production.",
           "points_de_vue": [],
           "fiabilite": [
-            "Émergence d’un rôle “API/Schema Engineer for AI” (contrats, versioning, compatibilité).",
-            "Standardisation à venir des contrats d’outils (OpenAPI + JSON Schema) comme interface universelle agent↔SI."
+            "Émergence d’un “compiler mindset” pour LLM : contraintes de décodage + validations + exécution outillée.",
+            "Demande croissante pour des frameworks de “policy-as-code” appliqués aux sorties LLM."
           ],
           "sources": [
             {
@@ -117,22 +140,22 @@
               "url": "https://aws.amazon.com/blogs/machine-learning/structured-outputs-on-amazon-bedrock-schema-compliant-ai-responses/"
             },
             {
-              "titre": "\"AI agents in enterprises: Best practices with Amazon Bedrock AgentCore\"",
-              "url": "https://aws.amazon.com/blogs/machine-learning/ai-agents-in-enterprises-best-practices-with-amazon-bedrock-agentcore/"
+              "titre": "\"Automated Reasoning checks rewriting chatbot reference implementation\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/automated-reasoning-checks-rewriting-chatbot-reference-implementation/"
             }
           ],
-          "contenu_complet": "\n### Résumé\nAWS généralise des mécanismes de réponses JSON conformes à schéma via constrained decoding et propose un mode “strict tool use”. Cette brique vise à transformer des sorties LLM “texte” en artefacts contractuels (schémas), condition nécessaire à l’industrialisation (pipelines, validations, retries, observabilité).\n\n### Points de vue croisés\n**AWS (Structured Outputs)**\nDeux voies : JSON Schema (contrat de sortie) et “strict tool use” (forcer l’appel d’outil plutôt que du texte), avec recommandations pour l’extraction structurée et l’automatisation.  \n**AWS (AgentCore best practices)**\nLes bonnes pratiques agentiques convergent vers des workflows outillés, contrôlables et testables—les sorties structurées deviennent un levier central de robustesse.\n\n### Analyse & implications\n- Impacts sectoriels : RPA/automatisation, traitement documentaire, service client, “AI copilots” internes connectés à des APIs.\n- Opportunités : baisse des erreurs d’intégration, validation automatique, meilleure testabilité, réduction du “prompt glue”.\n- Risques potentiels : faux sentiment de sécurité (schéma valide ≠ contenu correct), complexité de versioning des schémas, contournement par sorties “valide mais trompeuse”.\n\n### Signaux faibles\n- Émergence d’un rôle “API/Schema Engineer for AI” (contrats, versioning, compatibilité).\n- Standardisation à venir des contrats d’outils (OpenAPI + JSON Schema) comme interface universelle agent↔SI.\n\n### Sources\n- \"Structured outputs on Amazon Bedrock: Schema-compliant AI responses\" – https://aws.amazon.com/blogs/machine-learning/structured-outputs-on-amazon-bedrock-schema-compliant-ai-responses/  \n- \"AI agents in enterprises: Best practices with Amazon Bedrock AgentCore\" – https://aws.amazon.com/blogs/machine-learning/ai-agents-in-enterprises-best-practices-with-amazon-bedrock-agentcore/  \n\n---\n\n",
-          "icone": "📄"
+          "contenu_complet": "\n### Résumé\nAWS introduit les structured outputs sur Bedrock pour produire des réponses JSON conformes à un schéma via constrained decoding, avec deux modes (JSON Schema, ou usage strict d’outils). En parallèle, un chatbot de référence est “réécrit” pour intégrer des Automated Reasoning checks, visant à vérifier/contraindre certains raisonnements. Ensemble, ces approches adressent le même point : réduire la variabilité et augmenter la vérifiabilité en production.\n\n### Points de vue croisés\n**AWS – Structured outputs (Bedrock)**\nVision “contrat d’interface” : forcer un format valide pour l’intégration applicative (parsing, workflows, validations).  \n**AWS – Automated Reasoning checks**\nVision “contrat logique” : ajouter une couche de vérification sur le contenu/raisonnement (au-delà du simple format).\n\n### Analyse & implications\n- Impacts sectoriels :\n  - Apps transactionnelles : baisse des erreurs de parsing, meilleure robustesse des pipelines, intégration plus sûre avec outils.\n  - Regulated industries : facilitation d’audit (sorties structurées), prérequis à la traçabilité.\n- Opportunités :\n  - Standardiser des “schemas produits” (ex. commande, ticket, KYC) et automatiser la validation.\n  - Combiner : schema + policies + reasoning checks + tests (goldens) pour réduire l’incidentologie.\n- Risques potentiels :\n  - Faux sentiment de sécurité : JSON valide ≠ vérité métier.\n  - Contournement : si la logique métier n’est pas dans les validations, l’erreur se déplace.\n\n### Signaux faibles\n- Émergence d’un “compiler mindset” pour LLM : contraintes de décodage + validations + exécution outillée.\n- Demande croissante pour des frameworks de “policy-as-code” appliqués aux sorties LLM.\n\n### Sources\n- \"Structured outputs on Amazon Bedrock: Schema-compliant AI responses\" – https://aws.amazon.com/blogs/machine-learning/structured-outputs-on-amazon-bedrock-schema-compliant-ai-responses/  \n- \"Automated Reasoning checks rewriting chatbot reference implementation\" – https://aws.amazon.com/blogs/machine-learning/automated-reasoning-checks-rewriting-chatbot-reference-implementation/  \n\n---\n\n",
+          "icone": "🤖"
         },
         {
-          "titre": "[SUJET 5/6] – Multimodal en production : embeddings à grande échelle + OCR repensé (ordre causal)",
-          "resume": "AWS publie un guide pratique pour Nova Multimodal Embeddings (recherche média, discovery produit, retrieval doc), pendant que DeepSeek-OCR 2 propose une avancée de recherche : réordonner dynamiquement les tokens visuels selon la sémantique plutôt qu’un balayage raster. Ensemble, ces signaux pointent vers des pipelines multimodaux plus précis : indexation/retrieval robustes + compréhension fine des documents/images.",
-          "resume_court": "AWS publie un guide pratique pour Nova Multimodal Embeddings (recherche média, discovery produit, retrieval doc), pendant que DeepSeek-OCR 2 propose une avancée de recherche : réordonner dynamiquement les tokens visuels selon la sémantique plutôt qu’un balayage raster. Ensemble, ces signaux...",
-          "resume_complet": "AWS publie un guide pratique pour Nova Multimodal Embeddings (recherche média, discovery produit, retrieval doc), pendant que DeepSeek-OCR 2 propose une avancée de recherche : réordonner dynamiquement les tokens visuels selon la sémantique plutôt qu’un balayage raster. Ensemble, ces signaux pointent vers des pipelines multimodaux plus précis : indexation/retrieval robustes + compréhension fine des documents/images.",
+          "titre": "[SUJET 6/6] – Multimodal en production : embeddings cross-modaux + génération d’images guidée par références historiques (TECH)",
+          "resume": "AWS détaille un guide pratique pour Amazon Nova Multimodal Embeddings (recherche d’actifs média, découverte produit, recherche dans documents), visant des systèmes de retrieval multimodal. En parallèle, un billet montre comment générer des images marketing cohérentes avec une marque en réutilisant des références de campagnes historiques via Bedrock + Lambda + OpenSearch Serverless. Les deux forment une chaîne logique : indexer/chercher des références multimodales, puis générer en restant “brand-consistent”.",
+          "resume_court": "AWS détaille un guide pratique pour Amazon Nova Multimodal Embeddings (recherche d’actifs média, découverte produit, recherche dans documents), visant des systèmes de retrieval multimodal. En parallèle, un billet montre comment générer des images marketing cohérentes avec une marque en réutilisant...",
+          "resume_complet": "AWS détaille un guide pratique pour Amazon Nova Multimodal Embeddings (recherche d’actifs média, découverte produit, recherche dans documents), visant des systèmes de retrieval multimodal. En parallèle, un billet montre comment générer des images marketing cohérentes avec une marque en réutilisant des références de campagnes historiques via Bedrock + Lambda + OpenSearch Serverless. Les deux forment une chaîne logique : indexer/chercher des références multimodales, puis générer en restant “brand-consistent”.",
           "points_de_vue": [],
           "fiabilite": [
-            "Montée de “document AI” multimodal comme composant standard (embeddings + OCR + extraction structurée).",
-            "Les gains ne viennent plus seulement du LLM, mais de l’ordre des tokens, du retrieval et de l’index."
+            "Les entreprises vont traiter les “guidelines de marque” comme des artefacts machine-readables (schemas + embeddings + policies).",
+            "Montée d’architectures “search-first, generate-second” pour maîtriser la cohérence et l’auditabilité."
           ],
           "sources": [
             {
@@ -140,73 +163,51 @@
               "url": "https://aws.amazon.com/blogs/machine-learning/a-practical-guide-to-amazon-nova-multimodal-embeddings/"
             },
             {
-              "titre": "\"DeepSeek-OCR 2: Visual Causal Flow\"",
-              "url": "https://arxiv.org/abs/2601.20552"
+              "titre": "\"Accelerating your marketing ideation with generative AI",
+              "url": "Part 2: Generate custom marketing images from historical references\" – https://aws.amazon.com/blogs/machine-learning/accelerating-your-marketing-ideation-with-generative-ai-part-2-generate-custom-marketing-images-from-historical-references/"
             }
           ],
-          "contenu_complet": "\n### Résumé\nAWS publie un guide pratique pour Nova Multimodal Embeddings (recherche média, discovery produit, retrieval doc), pendant que DeepSeek-OCR 2 propose une avancée de recherche : réordonner dynamiquement les tokens visuels selon la sémantique plutôt qu’un balayage raster. Ensemble, ces signaux pointent vers des pipelines multimodaux plus précis : indexation/retrieval robustes + compréhension fine des documents/images.\n\n### Points de vue croisés\n**AWS**\nVision “industrialisation” : embeddings multimodaux pour recherche et similarité (image↔texte↔doc), avec étapes de déploiement et cas d’usage concrets.  \n**arXiv (DeepSeek-OCR 2)**\nVision “architecture” : améliorer OCR/understanding via un ordre de tokens visuels guidé par la sémantique (structures causales 1D en cascade), potentiellement plus robuste sur documents complexes.\n\n### Analyse & implications\n- Impacts sectoriels : gestion documentaire, assurance/banque (pièces justificatives), e-commerce (catalogues), médias (DAM), industrie (qualité visuelle).\n- Opportunités : meilleure recherche cross-modal, OCR plus fiable sur mises en page complexes, réduction du coût humain de contrôle, nouveaux UX (search “naturel” sur images/PDF).\n- Risques potentiels : dérives de confidentialité (indexation d’images sensibles), biais de retrieval, attaques par contenu injecté dans documents/images.\n\n### Signaux faibles\n- Montée de “document AI” multimodal comme composant standard (embeddings + OCR + extraction structurée).\n- Les gains ne viennent plus seulement du LLM, mais de l’ordre des tokens, du retrieval et de l’index.\n\n### Sources\n- \"A practical guide to Amazon Nova Multimodal Embeddings\" – https://aws.amazon.com/blogs/machine-learning/a-practical-guide-to-amazon-nova-multimodal-embeddings/  \n- \"DeepSeek-OCR 2: Visual Causal Flow\" – https://arxiv.org/abs/2601.20552  \n\n---\n\n",
+          "contenu_complet": "\n### Résumé\nAWS détaille un guide pratique pour Amazon Nova Multimodal Embeddings (recherche d’actifs média, découverte produit, recherche dans documents), visant des systèmes de retrieval multimodal. En parallèle, un billet montre comment générer des images marketing cohérentes avec une marque en réutilisant des références de campagnes historiques via Bedrock + Lambda + OpenSearch Serverless. Les deux forment une chaîne logique : indexer/chercher des références multimodales, puis générer en restant “brand-consistent”.\n\n### Points de vue croisés\n**AWS – Nova Multimodal Embeddings**\nCentrée sur la mise en œuvre : configuration, recommandations d’intégration retrieval, cas d’usage concrets.  \n**AWS – Génération d’images depuis références historiques**\nCentrée sur le workflow marketing : réutilisation d’assets existants comme garde-fou stylistique et accélérateur créatif, avec architecture orientée production.\n\n### Analyse & implications\n- Impacts sectoriels :\n  - Marketing/brand : accélération de la production créative, mais nécessité d’un contrôle de style et de droits (assets historiques).\n  - Retail/media : recherche multimodale devient un socle (catalogues, DAM, knowledge bases).\n- Opportunités :\n  - “RAG multimodal” : retrieval d’images/vidéos + prompts guidés pour réduire la dérive stylistique.\n  - Gouvernance : catalogues d’assets certifiés + traçabilité des références utilisées.\n- Risques potentiels :\n  - Propriété intellectuelle et conformité des assets de référence (licences, territoires, acteurs).\n  - Biais de style : sur-apprentissage de l’historique (frein à l’innovation créative).\n\n### Signaux faibles\n- Les entreprises vont traiter les “guidelines de marque” comme des artefacts machine-readables (schemas + embeddings + policies).\n- Montée d’architectures “search-first, generate-second” pour maîtriser la cohérence et l’auditabilité.\n\n### Sources\n- \"A practical guide to Amazon Nova Multimodal Embeddings\" – https://aws.amazon.com/blogs/machine-learning/a-practical-guide-to-amazon-nova-multimodal-embeddings/  \n- \"Accelerating your marketing ideation with generative AI – Part 2: Generate custom marketing images from historical references\" – https://aws.amazon.com/blogs/machine-learning/accelerating-your-marketing-ideation-with-generative-ai-part-2-generate-custom-marketing-images-from-historical-references/  \n\n---\n\n",
           "icone": "📄"
-        },
-        {
-          "titre": "[SUJET 6/6] – LLMs comme partenaires de recherche : multi-agents scientifiques et “math copilots”",
-          "resume": "Anthropic annonce des partenariats avec l’Allen Institute et HHMI pour accélérer la découverte en biologie via des systèmes multi-agents et des agents spécialisés intégrés aux workflows de labo. En parallèle, OpenAI Academy documente l’usage de ChatGPT par un chercheur en optimisation mathématique, illustrant un pattern reproductible : exploration, formulation, itération, puis résultats exploitables.",
-          "resume_court": "Anthropic annonce des partenariats avec l’Allen Institute et HHMI pour accélérer la découverte en biologie via des systèmes multi-agents et des agents spécialisés intégrés aux workflows de labo. En parallèle, OpenAI Academy documente l’usage de ChatGPT par un chercheur en...",
-          "resume_complet": "Anthropic annonce des partenariats avec l’Allen Institute et HHMI pour accélérer la découverte en biologie via des systèmes multi-agents et des agents spécialisés intégrés aux workflows de labo. En parallèle, OpenAI Academy documente l’usage de ChatGPT par un chercheur en optimisation mathématique, illustrant un pattern reproductible : exploration, formulation, itération, puis résultats exploitables.",
-          "points_de_vue": [],
-          "fiabilite": [
-            "Déplacement du “copilot” vers des “workflows scientifiques” outillés (agents + pipelines + traçabilité).",
-            "Les laboratoires deviennent un terrain d’adoption de l’agentic AI, avec exigences fortes (audit, versioning, validation)."
-          ],
-          "sources": [
-            {
-              "titre": "\"Anthropic partners with Allen Institute and Howard Hughes Medical Institute to accelerate scientific discovery\"",
-              "url": "https://www.anthropic.com/news/anthropic-partners-with-allen-institute-and-howard-hughes-medical-institute"
-            },
-            {
-              "titre": "\"ChatGPT as Research Partner in Mathematical Optimization\"",
-              "url": "https://academy.openai.com/public/blogs/chatgpt-as-research-partner-in-mathematical-optimization-2026-02-02"
-            }
-          ],
-          "contenu_complet": "\n### Résumé\nAnthropic annonce des partenariats avec l’Allen Institute et HHMI pour accélérer la découverte en biologie via des systèmes multi-agents et des agents spécialisés intégrés aux workflows de labo. En parallèle, OpenAI Academy documente l’usage de ChatGPT par un chercheur en optimisation mathématique, illustrant un pattern reproductible : exploration, formulation, itération, puis résultats exploitables.\n\n### Points de vue croisés\n**Anthropic**\nAngle “infrastructure de recherche” : agents spécialisés + intégration aux workflows expérimentaux (lab), avec une promesse d’accélération et de mise à l’échelle de la recherche.  \n**OpenAI Academy**\nAngle “productivité scientifique individuelle” : ChatGPT comme partenaire pour transformer des intuitions en formulations testables et en pistes de solution en optimisation.\n\n### Analyse & implications\n- Impacts sectoriels : biologie computationnelle, pharma, recherche académique, R&D industrielle, math/OR.\n- Opportunités : réduction du cycle hypothèse→test, assistance à la formalisation (math), meilleure exploitation de données/littérature, orchestration multi-agents pour tâches longues.\n- Risques potentiels : reproductibilité (provenance), erreurs subtiles (math/biologie), dépendance aux outils propriétaires, questions IP et validation expérimentale.\n\n### Signaux faibles\n- Déplacement du “copilot” vers des “workflows scientifiques” outillés (agents + pipelines + traçabilité).\n- Les laboratoires deviennent un terrain d’adoption de l’agentic AI, avec exigences fortes (audit, versioning, validation).\n\n### Sources\n- \"Anthropic partners with Allen Institute and Howard Hughes Medical Institute to accelerate scientific discovery\" – https://www.anthropic.com/news/anthropic-partners-with-allen-institute-and-howard-hughes-medical-institute  \n- \"ChatGPT as Research Partner in Mathematical Optimization\" – https://academy.openai.com/public/blogs/chatgpt-as-research-partner-in-mathematical-optimization-2026-02-02  \n\n---\n\n",
-          "icone": "🤖"
         }
       ],
       "sujets_secondaires": [
         {
-          "titre": "[SUJET 6/6] – LLMs comme partenaires de recherche : multi-agents scientifiques et “math copilots”",
-          "resume": "Anthropic annonce des partenariats avec l’Allen Institute et HHMI pour accélérer la découverte en biologie via des systèmes multi-agents et des agents spécialisés intégrés aux workflows de labo. En parallèle, OpenAI Academy documente l’usage de ChatGPT par un chercheur en optimisation mathématique, illustrant un pattern reproductible : exploration, formulation, itération, puis résultats exploitables.",
-          "resume_court": "Anthropic annonce des partenariats avec l’Allen Institute et HHMI pour accélérer la découverte en biologie via des systèmes multi-agents et des agents spécialisés intégrés aux workflows de labo. En parallèle, OpenAI Academy documente l’usage de ChatGPT par un chercheur en...",
-          "resume_complet": "Anthropic annonce des partenariats avec l’Allen Institute et HHMI pour accélérer la découverte en biologie via des systèmes multi-agents et des agents spécialisés intégrés aux workflows de labo. En parallèle, OpenAI Academy documente l’usage de ChatGPT par un chercheur en optimisation mathématique, illustrant un pattern reproductible : exploration, formulation, itération, puis résultats exploitables.",
+          "titre": "[SUJET 6/6] – Multimodal en production : embeddings cross-modaux + génération d’images guidée par références historiques (TECH)",
+          "resume": "AWS détaille un guide pratique pour Amazon Nova Multimodal Embeddings (recherche d’actifs média, découverte produit, recherche dans documents), visant des systèmes de retrieval multimodal. En parallèle, un billet montre comment générer des images marketing cohérentes avec une marque en réutilisant des références de campagnes historiques via Bedrock + Lambda + OpenSearch Serverless. Les deux forment une chaîne logique : indexer/chercher des références multimodales, puis générer en restant “brand-consistent”.",
+          "resume_court": "AWS détaille un guide pratique pour Amazon Nova Multimodal Embeddings (recherche d’actifs média, découverte produit, recherche dans documents), visant des systèmes de retrieval multimodal. En parallèle, un billet montre comment générer des images marketing cohérentes avec une marque en réutilisant...",
+          "resume_complet": "AWS détaille un guide pratique pour Amazon Nova Multimodal Embeddings (recherche d’actifs média, découverte produit, recherche dans documents), visant des systèmes de retrieval multimodal. En parallèle, un billet montre comment générer des images marketing cohérentes avec une marque en réutilisant des références de campagnes historiques via Bedrock + Lambda + OpenSearch Serverless. Les deux forment une chaîne logique : indexer/chercher des références multimodales, puis générer en restant “brand-consistent”.",
           "points_de_vue": [],
           "fiabilite": [
-            "Déplacement du “copilot” vers des “workflows scientifiques” outillés (agents + pipelines + traçabilité).",
-            "Les laboratoires deviennent un terrain d’adoption de l’agentic AI, avec exigences fortes (audit, versioning, validation)."
+            "Les entreprises vont traiter les “guidelines de marque” comme des artefacts machine-readables (schemas + embeddings + policies).",
+            "Montée d’architectures “search-first, generate-second” pour maîtriser la cohérence et l’auditabilité."
           ],
           "sources": [
             {
-              "titre": "\"Anthropic partners with Allen Institute and Howard Hughes Medical Institute to accelerate scientific discovery\"",
-              "url": "https://www.anthropic.com/news/anthropic-partners-with-allen-institute-and-howard-hughes-medical-institute"
+              "titre": "\"A practical guide to Amazon Nova Multimodal Embeddings\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/a-practical-guide-to-amazon-nova-multimodal-embeddings/"
             },
             {
-              "titre": "\"ChatGPT as Research Partner in Mathematical Optimization\"",
-              "url": "https://academy.openai.com/public/blogs/chatgpt-as-research-partner-in-mathematical-optimization-2026-02-02"
+              "titre": "\"Accelerating your marketing ideation with generative AI",
+              "url": "Part 2: Generate custom marketing images from historical references\" – https://aws.amazon.com/blogs/machine-learning/accelerating-your-marketing-ideation-with-generative-ai-part-2-generate-custom-marketing-images-from-historical-references/"
             }
           ],
-          "contenu_complet": "\n### Résumé\nAnthropic annonce des partenariats avec l’Allen Institute et HHMI pour accélérer la découverte en biologie via des systèmes multi-agents et des agents spécialisés intégrés aux workflows de labo. En parallèle, OpenAI Academy documente l’usage de ChatGPT par un chercheur en optimisation mathématique, illustrant un pattern reproductible : exploration, formulation, itération, puis résultats exploitables.\n\n### Points de vue croisés\n**Anthropic**\nAngle “infrastructure de recherche” : agents spécialisés + intégration aux workflows expérimentaux (lab), avec une promesse d’accélération et de mise à l’échelle de la recherche.  \n**OpenAI Academy**\nAngle “productivité scientifique individuelle” : ChatGPT comme partenaire pour transformer des intuitions en formulations testables et en pistes de solution en optimisation.\n\n### Analyse & implications\n- Impacts sectoriels : biologie computationnelle, pharma, recherche académique, R&D industrielle, math/OR.\n- Opportunités : réduction du cycle hypothèse→test, assistance à la formalisation (math), meilleure exploitation de données/littérature, orchestration multi-agents pour tâches longues.\n- Risques potentiels : reproductibilité (provenance), erreurs subtiles (math/biologie), dépendance aux outils propriétaires, questions IP et validation expérimentale.\n\n### Signaux faibles\n- Déplacement du “copilot” vers des “workflows scientifiques” outillés (agents + pipelines + traçabilité).\n- Les laboratoires deviennent un terrain d’adoption de l’agentic AI, avec exigences fortes (audit, versioning, validation).\n\n### Sources\n- \"Anthropic partners with Allen Institute and Howard Hughes Medical Institute to accelerate scientific discovery\" – https://www.anthropic.com/news/anthropic-partners-with-allen-institute-and-howard-hughes-medical-institute  \n- \"ChatGPT as Research Partner in Mathematical Optimization\" – https://academy.openai.com/public/blogs/chatgpt-as-research-partner-in-mathematical-optimization-2026-02-02  \n\n---\n\n",
-          "icone": "🤖"
+          "contenu_complet": "\n### Résumé\nAWS détaille un guide pratique pour Amazon Nova Multimodal Embeddings (recherche d’actifs média, découverte produit, recherche dans documents), visant des systèmes de retrieval multimodal. En parallèle, un billet montre comment générer des images marketing cohérentes avec une marque en réutilisant des références de campagnes historiques via Bedrock + Lambda + OpenSearch Serverless. Les deux forment une chaîne logique : indexer/chercher des références multimodales, puis générer en restant “brand-consistent”.\n\n### Points de vue croisés\n**AWS – Nova Multimodal Embeddings**\nCentrée sur la mise en œuvre : configuration, recommandations d’intégration retrieval, cas d’usage concrets.  \n**AWS – Génération d’images depuis références historiques**\nCentrée sur le workflow marketing : réutilisation d’assets existants comme garde-fou stylistique et accélérateur créatif, avec architecture orientée production.\n\n### Analyse & implications\n- Impacts sectoriels :\n  - Marketing/brand : accélération de la production créative, mais nécessité d’un contrôle de style et de droits (assets historiques).\n  - Retail/media : recherche multimodale devient un socle (catalogues, DAM, knowledge bases).\n- Opportunités :\n  - “RAG multimodal” : retrieval d’images/vidéos + prompts guidés pour réduire la dérive stylistique.\n  - Gouvernance : catalogues d’assets certifiés + traçabilité des références utilisées.\n- Risques potentiels :\n  - Propriété intellectuelle et conformité des assets de référence (licences, territoires, acteurs).\n  - Biais de style : sur-apprentissage de l’historique (frein à l’innovation créative).\n\n### Signaux faibles\n- Les entreprises vont traiter les “guidelines de marque” comme des artefacts machine-readables (schemas + embeddings + policies).\n- Montée d’architectures “search-first, generate-second” pour maîtriser la cohérence et l’auditabilité.\n\n### Sources\n- \"A practical guide to Amazon Nova Multimodal Embeddings\" – https://aws.amazon.com/blogs/machine-learning/a-practical-guide-to-amazon-nova-multimodal-embeddings/  \n- \"Accelerating your marketing ideation with generative AI – Part 2: Generate custom marketing images from historical references\" – https://aws.amazon.com/blogs/machine-learning/accelerating-your-marketing-ideation-with-generative-ai-part-2-generate-custom-marketing-images-from-historical-references/  \n\n---\n\n",
+          "icone": "📄"
         }
       ],
       "points_cles": [
-        "Les agents entrent en phase plateforme : outillage, déploiement, gouvernance et intégration SI deviennent différenciants.",
-        "L’open-weight accélère (modèles + multimodal + agents) et s’accompagne d’une course aux artefacts (recettes, evals, optimisations).",
-        "La fiabilisation passe par des contrats machine (JSON Schema, tool use strict) et des pipelines multimodaux mieux conçus."
+        "Les marketplaces de skills/agents deviennent un enjeu de cybersécurité prioritaire (supply chain + RCE + exfiltration).",
+        "En entreprise, l’agentic AI se structure autour de patterns de production (templates, best practices, séparation data/outils).",
+        "La fiabilité progresse via des “contrats” : outputs structurés + vérifications de raisonnement.",
+        "Le multimodal s’industrialise : embeddings pour retrouver, références pour guider et contrôler la génération."
       ],
-      "date_generation": "2026-02-09T08:21:55.985113"
+      "date_generation": "2026-02-10T08:23:53.433308"
     },
     "news": {
       "metadata": {
         "agent": "Synthèse News v3",
-        "date": "2026-02-09",
+        "date": "2026-02-10",
         "categorie": "Veille"
       },
       "titre": "Veille News – Aucune actualité disponible",
@@ -215,7 +216,7 @@
       "sujets_importants": [],
       "sujets_secondaires": [],
       "points_cles": [],
-      "date_generation": "2026-02-09T08:21:55.985156"
+      "date_generation": "2026-02-10T08:23:53.433352"
     }
   }
 }
