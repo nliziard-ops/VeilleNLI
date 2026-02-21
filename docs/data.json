@@ -1,228 +1,209 @@
 {
   "version": "2.0",
-  "date_generation": "2026-02-18T08:07:51.111912",
+  "date_generation": "2026-02-21T07:48:08.716468",
   "veilles": {
     "ia": {
       "metadata": {
         "agent": "Synthèse IA v3",
-        "date": "2026-02-18",
+        "date": "2026-02-21",
         "categorie": "Veille"
       },
-      "titre": "Veille IA – Semaine du 2026-02-11 au 2026-02-18",
+      "titre": "Veille IA – Semaine du 2026-02-14 au 2026-02-21",
       "edition": "",
-      "introduction": "La semaine confirme une accélération “industrie + infrastructure” : d’un côté, les acteurs modèles (Anthropic, OpenAI, Mistral) poussent fort sur la montée en capacité (contexte long, multimodal, open-weights) et sur la consolidation de leur position de marché (financement, partenariats, gouvernance). De l’autre, la chaîne de valeur “tokenomics” (GPU, fournisseurs d’inférence, stacks logicielles) devient un levier stratégique pour rendre l’agentic AI économiquement viable. En parallèle, le risque cyber lié à l’IA franchit un cap “opérationnel” (leurres plus crédibles, campagnes mieux industrialisées), ce qui tire la demande vers des approches de résilience : robustesse des services, contrôles d’outils, et gouvernance (y compris financière) plus stricte.",
+      "introduction": "La semaine est marquée par une consolidation produit côté OpenAI (rationalisation des modèles dans ChatGPT + montée en qualité sur “deep research” et Voice), signe d’une phase d’industrialisation et de standardisation de l’expérience utilisateur, sans annoncer de changement API. En parallèle, la compétition se joue sur deux axes : (1) l’extension géographique et les partenariats publics/entreprises (Inde, Rwanda, Singapour) et (2) l’accélération “agentique” (déploiements en secteurs régulés + méthodes d’évaluation) et l’outillage d’entraînement/fine-tuning plus accessible. Enfin, la dynamique “modèles” reste intense : sorties closed et open-source (MoE, multimodal, large context) qui poussent à reconsidérer les choix build vs buy, les coûts d’inférence, et les architectures d’attention.",
       "sujets_importants": [
         {
-          "titre": "[SUJET 1/6] – Anthropic : hypercroissance (financement, produit, partenariats) et industrialisation des agents",
-          "resume": "Anthropic annonce une levée de fonds exceptionnelle (30 Md$) et accélère sur plusieurs fronts : nouveau modèle (Claude Sonnet 4.6), expansion géographique (Inde), partenariats éducation (CodePath) et industrie régulée (Infosys), ainsi qu’un MOU sectoriel (Rwanda). Le tout dessine une stratégie “plateforme + agents” orientée déploiements entreprise à grande échelle.",
-          "resume_court": "Anthropic annonce une levée de fonds exceptionnelle (30 Md$) et accélère sur plusieurs fronts : nouveau modèle (Claude Sonnet 4.6), expansion géographique (Inde), partenariats éducation (CodePath) et industrie régulée (Infosys), ainsi qu’un MOU sectoriel (Rwanda). Le tout dessine une stratégie...",
-          "resume_complet": "Anthropic annonce une levée de fonds exceptionnelle (30 Md$) et accélère sur plusieurs fronts : nouveau modèle (Claude Sonnet 4.6), expansion géographique (Inde), partenariats éducation (CodePath) et industrie régulée (Infosys), ainsi qu’un MOU sectoriel (Rwanda). Le tout dessine une stratégie “plateforme + agents” orientée déploiements entreprise à grande échelle.",
+          "titre": "[SUJET 1/6] – OpenAI rationalise ChatGPT : retraits de modèles + focus “deep research” et Voice",
+          "resume": "OpenAI retire de ChatGPT plusieurs modèles historiques (GPT‑4o, GPT‑4.1, GPT‑4.1 mini, o4‑mini, etc.) au 2026‑02‑13, tout en indiquant que l’API n’est pas concernée. En parallèle, ChatGPT “deep research” est mis à jour pour produire des rapports plus précis/crédibles et offrir davantage de contrôle. Une mise à jour Voice vise une meilleure exécution d’instructions et une meilleure utilisation d’outils (notamment la recherche web).",
+          "resume_court": "OpenAI retire de ChatGPT plusieurs modèles historiques (GPT‑4o, GPT‑4.1, GPT‑4.1 mini, o4‑mini, etc.) au 2026‑02‑13, tout en indiquant que l’API n’est pas concernée. En parallèle, ChatGPT “deep research” est mis à jour pour produire des rapports plus précis/crédibles et offrir...",
+          "resume_complet": "OpenAI retire de ChatGPT plusieurs modèles historiques (GPT‑4o, GPT‑4.1, GPT‑4.1 mini, o4‑mini, etc.) au 2026‑02‑13, tout en indiquant que l’API n’est pas concernée. En parallèle, ChatGPT “deep research” est mis à jour pour produire des rapports plus précis/crédibles et offrir davantage de contrôle. Une mise à jour Voice vise une meilleure exécution d’instructions et une meilleure utilisation d’outils (notamment la recherche web).",
           "points_de_vue": [],
           "fiabilite": [
-            "Convergence “modèle + intégrateurs + secteurs régulés” : l’avantage compétitif se joue autant sur l’intégration que sur le modèle.",
-            "Le 1M tokens (bêta) suggère des architectures orientées “mémoire documentaire” et usage intensif d’outils (RAG, systèmes)."
+            "La mise en avant répétée de la “crédibilité” et du “contrôle” sur deep research suggère une pression croissante (entreprise/régulateurs) sur traçabilité et qualité des sorties.",
+            "La séparation explicite ChatGPT vs API laisse anticiper des politiques de cycle de vie produit distinctes (et potentiellement plus rapides) côté app."
           ],
           "sources": [
             {
-              "titre": "\"Anthropic raises $30 billion in Series G funding at $380 billion post-money valuation\"",
-              "url": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation"
+              "titre": "\"Retiring GPT‑4o, GPT‑4.1, GPT‑4.1 mini, and OpenAI o4-mini in ChatGPT\"",
+              "url": "https://openai.com/index/retiring-gpt-4o-and-older-models/"
             },
+            {
+              "titre": "\"Retiring GPT-4o and other ChatGPT models (Help Center)\"",
+              "url": "https://help.openai.com/en/articles/20001051"
+            },
+            {
+              "titre": "\"ChatGPT — Release Notes (February 10, 2026: Updates to deep research)\"",
+              "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notesbr%20/"
+            },
+            {
+              "titre": "\"ChatGPT — Release Notes (February 12, 2026: ChatGPT Voice Update)\"",
+              "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notesbr%20/"
+            }
+          ],
+          "contenu_complet": "\n### Résumé\nOpenAI retire de ChatGPT plusieurs modèles historiques (GPT‑4o, GPT‑4.1, GPT‑4.1 mini, o4‑mini, etc.) au 2026‑02‑13, tout en indiquant que l’API n’est pas concernée. En parallèle, ChatGPT “deep research” est mis à jour pour produire des rapports plus précis/crédibles et offrir davantage de contrôle. Une mise à jour Voice vise une meilleure exécution d’instructions et une meilleure utilisation d’outils (notamment la recherche web).\n\n### Points de vue croisés\n**OpenAI (blog produit)**\nLa retraite des anciens modèles est présentée comme une simplification de l’offre ChatGPT et une intégration des apprentissages utilisateurs (personnalité/créativité, personnalisation) dans GPT‑5.1/5.2.  \n**OpenAI (Help Center + release notes)**\nLe Help Center précise le périmètre exact (incluant aussi des retraits de variantes “Instant/Thinking”), et les release notes cadrent l’effort sur la fiabilité (deep research) et l’obéissance aux consignes/outils (Voice).\n\n### Analyse & implications\n- Impacts sectoriels : support client et équipes knowledge-work (moins de choix de modèles, mais attentes plus élevées sur la qualité “research”).\n- Opportunités : réduire la dette produit (UX, routing), mieux standardiser des workflows (recherche, synthèse, voix).\n- Risques potentiels : incompréhension côté utilisateurs (changement de comportement/performance), dépendance accrue au modèle “par défaut”, et divergences ChatGPT vs API à gérer en gouvernance.\n\n### Signaux faibles\n- La mise en avant répétée de la “crédibilité” et du “contrôle” sur deep research suggère une pression croissante (entreprise/régulateurs) sur traçabilité et qualité des sorties.\n- La séparation explicite ChatGPT vs API laisse anticiper des politiques de cycle de vie produit distinctes (et potentiellement plus rapides) côté app.\n\n### Sources\n- \"Retiring GPT‑4o, GPT‑4.1, GPT‑4.1 mini, and OpenAI o4-mini in ChatGPT\" – https://openai.com/index/retiring-gpt-4o-and-older-models/\n- \"Retiring GPT-4o and other ChatGPT models (Help Center)\" – https://help.openai.com/en/articles/20001051\n- \"ChatGPT — Release Notes (February 10, 2026: Updates to deep research)\" – https://help.openai.com/en/articles/6825453-chatgpt-release-notesbr%20/\n- \"ChatGPT — Release Notes (February 12, 2026: ChatGPT Voice Update)\" – https://help.openai.com/en/articles/6825453-chatgpt-release-notesbr%20/\n\n---\n\n",
+          "icone": "🤖"
+        },
+        {
+          "titre": "[SUJET 2/6] – Accélération des déploiements “terrain” : partenariats publics et expansion géographique (Afrique, Inde, Singapour)",
+          "resume": "Anthropic signe un MOU de 3 ans avec le Rwanda (éducation, santé, secteur public) incluant accès à Claude/Claude Code, formation et crédits API. L’entreprise ouvre aussi un bureau à Bengaluru et annonce de nouveaux partenariats en Inde pour renforcer sa présence régionale. Google annonce des investissements IA à Singapour (R&D, compétences, innovation entreprises, sécurité en ligne) et récapitule des intégrations produits (Gemini, Search AI Mode, Gmail).",
+          "resume_court": "Anthropic signe un MOU de 3 ans avec le Rwanda (éducation, santé, secteur public) incluant accès à Claude/Claude Code, formation et crédits API. L’entreprise ouvre aussi un bureau à Bengaluru et annonce de nouveaux partenariats en Inde pour renforcer sa...",
+          "resume_complet": "Anthropic signe un MOU de 3 ans avec le Rwanda (éducation, santé, secteur public) incluant accès à Claude/Claude Code, formation et crédits API. L’entreprise ouvre aussi un bureau à Bengaluru et annonce de nouveaux partenariats en Inde pour renforcer sa présence régionale. Google annonce des investissements IA à Singapour (R&D, compétences, innovation entreprises, sécurité en ligne) et récapitule des intégrations produits (Gemini, Search AI Mode, Gmail).",
+          "points_de_vue": [],
+          "fiabilite": [
+            "La combinaison “crédits API + formation” devient un pattern d’adoption : l’enjeu n’est plus seulement l’accès au modèle, mais la capacité d’exécution (skills + intégration).",
+            "L’Asie du Sud et l’Asie du Sud-Est se confirment comme zones prioritaires (talent, marchés, régulation)."
+          ],
+          "sources": [
+            {
+              "titre": "\"Anthropic and the Government of Rwanda sign MOU for AI in health and education\"",
+              "url": "https://www.anthropic.com/news/anthropic-rwanda-mou"
+            },
+            {
+              "titre": "\"Anthropic opens Bengaluru office and announces new partnerships across India\"",
+              "url": "https://www.anthropic.com/news/bengaluru-office-partnerships-across-india"
+            },
+            {
+              "titre": "\"Expanding our AI investments in Singapore\"",
+              "url": "https://blog.google/company-news/inside-google/around-the-globe/google-asia/google-singapore-2026/"
+            },
+            {
+              "titre": "\"The latest AI news we announced in January\"",
+              "url": "https://blog.google/innovation-and-ai/products/google-ai-updates-january-2026/"
+            }
+          ],
+          "contenu_complet": "\n### Résumé\nAnthropic signe un MOU de 3 ans avec le Rwanda (éducation, santé, secteur public) incluant accès à Claude/Claude Code, formation et crédits API. L’entreprise ouvre aussi un bureau à Bengaluru et annonce de nouveaux partenariats en Inde pour renforcer sa présence régionale. Google annonce des investissements IA à Singapour (R&D, compétences, innovation entreprises, sécurité en ligne) et récapitule des intégrations produits (Gemini, Search AI Mode, Gmail).\n\n### Points de vue croisés\n**Anthropic (Rwanda, Inde)**\nPositionnement “capabilities + enablement” : accès aux modèles, accompagnement et montée en compétences pour des cas d’usage sectoriels (santé/éducation) et un écosystème local (Inde).  \n**Google (Singapour, produits)**\nApproche “infrastructure + productisation” : renforcer le tissu local (talents, R&D, sécurité) tout en poussant l’intégration IA dans les produits grand public/pro.\n\n### Analyse & implications\n- Impacts sectoriels : administrations, santé/éducation (assistants, support décisionnel), mais aussi écosystèmes IT locaux (services, intégration, formation).\n- Opportunités : création de références nationales (Rwanda) et hubs régionaux (Inde/Singapour) pour accélérer adoption et partenariats.\n- Risques potentiels : souveraineté des données, dépendance fournisseurs, exigences de conformité (santé/secteur public) et alignement des objectifs (ROI vs politiques publiques).\n\n### Signaux faibles\n- La combinaison “crédits API + formation” devient un pattern d’adoption : l’enjeu n’est plus seulement l’accès au modèle, mais la capacité d’exécution (skills + intégration).\n- L’Asie du Sud et l’Asie du Sud-Est se confirment comme zones prioritaires (talent, marchés, régulation).\n\n### Sources\n- \"Anthropic and the Government of Rwanda sign MOU for AI in health and education\" – https://www.anthropic.com/news/anthropic-rwanda-mou\n- \"Anthropic opens Bengaluru office and announces new partnerships across India\" – https://www.anthropic.com/news/bengaluru-office-partnerships-across-india\n- \"Expanding our AI investments in Singapore\" – https://blog.google/company-news/inside-google/around-the-globe/google-asia/google-singapore-2026/\n- \"The latest AI news we announced in January\" – https://blog.google/innovation-and-ai/products/google-ai-updates-january-2026/\n\n---\n\n",
+          "icone": "📄"
+        },
+        {
+          "titre": "[SUJET 3/6] – Outillage sécurité : Anthropic lance Claude Code Security (preview recherche) pour aider les défenseurs",
+          "resume": "Anthropic annonce Claude Code Security (preview de recherche), intégré à Claude Code web, pour scanner des codebases, détecter des vulnérabilités et proposer des correctifs ciblés soumis à validation humaine. Le service met en avant une vérification multi-étapes et des scores (sévérité, confiance). L’orientation est explicitement “assistive” : recommandations actionnables, mais décision finale côté humain.",
+          "resume_court": "Anthropic annonce Claude Code Security (preview de recherche), intégré à Claude Code web, pour scanner des codebases, détecter des vulnérabilités et proposer des correctifs ciblés soumis à validation humaine. Le service met en avant une vérification multi-étapes et des scores...",
+          "resume_complet": "Anthropic annonce Claude Code Security (preview de recherche), intégré à Claude Code web, pour scanner des codebases, détecter des vulnérabilités et proposer des correctifs ciblés soumis à validation humaine. Le service met en avant une vérification multi-étapes et des scores (sévérité, confiance). L’orientation est explicitement “assistive” : recommandations actionnables, mais décision finale côté humain.",
+          "points_de_vue": [],
+          "fiabilite": [
+            "Le “scoring confiance + vérification multi-étapes” préfigure des standards d’outillage IA en sécurité : expliquer, estimer l’incertitude, et imposer un human-in-the-loop.",
+            "La frontière entre “assistant de code” et “scanner de vulnérabilités” se brouille : convergence IDE/CI/CD/LLM."
+          ],
+          "sources": [
+            {
+              "titre": "\"Making frontier cybersecurity capabilities available to defenders\"",
+              "url": "https://www.anthropic.com/news/claude-code-security"
+            }
+          ],
+          "contenu_complet": "\n### Résumé\nAnthropic annonce Claude Code Security (preview de recherche), intégré à Claude Code web, pour scanner des codebases, détecter des vulnérabilités et proposer des correctifs ciblés soumis à validation humaine. Le service met en avant une vérification multi-étapes et des scores (sévérité, confiance). L’orientation est explicitement “assistive” : recommandations actionnables, mais décision finale côté humain.\n\n### Points de vue croisés\n**Anthropic**\nAccent sur la réduction du risque opérationnel : multi-étapes, scoring et validation humaine pour limiter les hallucinations et les patchs dangereux en production.\n\n### Analyse & implications\n- Impacts sectoriels : équipes AppSec, audit, DevSecOps (triage, remédiation, priorisation) avec potentiel gain de vitesse sur la correction.\n- Opportunités : intégrer la sécurité au cycle de dev via des suggestions contextualisées (codebase-aware) et des métriques de confiance.\n- Risques potentiels : sur-confiance dans les scores, dette de sécurité si l’outil devient un substitut au review, et exposition de code sensible (modèle/outil hébergé, politiques de rétention).\n\n### Signaux faibles\n- Le “scoring confiance + vérification multi-étapes” préfigure des standards d’outillage IA en sécurité : expliquer, estimer l’incertitude, et imposer un human-in-the-loop.\n- La frontière entre “assistant de code” et “scanner de vulnérabilités” se brouille : convergence IDE/CI/CD/LLM.\n\n### Sources\n- \"Making frontier cybersecurity capabilities available to defenders\" – https://www.anthropic.com/news/claude-code-security\n\n---\n\n",
+          "icone": "🔬"
+        },
+        {
+          "titre": "[SUJET 4/6] – Course aux modèles : Claude Sonnet 4.6, Mistral 3 (Apache 2.0) et Qwen3.5 (MoE, contexte étendu)",
+          "resume": "Anthropic présente Claude Sonnet 4.6 en mettant l’accent sur code, agents et usages professionnels à grande échelle. Mistral annonce Mistral 3 (Ministral 14B/8B/3B) et Mistral Large 3 (MoE 41B actifs / 675B total) sous licence Apache 2.0, avec multimodal/multilingue et optimisations d’inférence. Côté écosystème, Qwen3.5 est décrit comme un MoE (397B total, 17B actifs) avec éléments annoncés côté API (fenêtre 1M, tool use) et des choix d’architecture d’attention “hybride”.",
+          "resume_court": "Anthropic présente Claude Sonnet 4.6 en mettant l’accent sur code, agents et usages professionnels à grande échelle. Mistral annonce Mistral 3 (Ministral 14B/8B/3B) et Mistral Large 3 (MoE 41B actifs / 675B total) sous licence Apache 2.0, avec multimodal/multilingue et...",
+          "resume_complet": "Anthropic présente Claude Sonnet 4.6 en mettant l’accent sur code, agents et usages professionnels à grande échelle. Mistral annonce Mistral 3 (Ministral 14B/8B/3B) et Mistral Large 3 (MoE 41B actifs / 675B total) sous licence Apache 2.0, avec multimodal/multilingue et optimisations d’inférence. Côté écosystème, Qwen3.5 est décrit comme un MoE (397B total, 17B actifs) avec éléments annoncés côté API (fenêtre 1M, tool use) et des choix d’architecture d’attention “hybride”.",
+          "points_de_vue": [],
+          "fiabilite": [
+            "L’attention “hybride” et les contextes 1M indiquent un pivot : la différenciation se joue autant sur le runtime/mémoire et le tool use que sur la qualité brute.",
+            "Les licences permissives (Apache 2.0) renforcent la pression concurrentielle sur les offres propriétaires dans certains segments (on-prem, régulé)."
+          ],
+          "sources": [
             {
               "titre": "\"Introducing Claude Sonnet 4.6\"",
               "url": "https://www.anthropic.com/news/claude-sonnet-4-6"
             },
             {
-              "titre": "\"Anthropic and Infosys collaborate to build AI agents...\"",
-              "url": "https://www.anthropic.com/news/anthropic-infosys"
-            },
-            {
-              "titre": "\"Anthropic opens Bengaluru office...\"",
-              "url": "https://www.anthropic.com/news/bengaluru-office-partnerships-across-india"
-            },
-            {
-              "titre": "\"Anthropic partners with CodePath...\"",
-              "url": "https://www.anthropic.com/news/anthropic-codepath-partnership"
-            },
-            {
-              "titre": "\"Anthropic and the Government of Rwanda sign MOU...\"",
-              "url": "https://www.anthropic.com/news/anthropic-rwanda-mou"
-            },
-            {
-              "titre": "\"Chris Liddell appointed to Anthropic’s board...\"",
-              "url": "https://www.anthropic.com/news/chris-liddell-appointed-anthropic-board"
-            }
-          ],
-          "contenu_complet": "\n### Résumé\nAnthropic annonce une levée de fonds exceptionnelle (30 Md$) et accélère sur plusieurs fronts : nouveau modèle (Claude Sonnet 4.6), expansion géographique (Inde), partenariats éducation (CodePath) et industrie régulée (Infosys), ainsi qu’un MOU sectoriel (Rwanda). Le tout dessine une stratégie “plateforme + agents” orientée déploiements entreprise à grande échelle.\n\n### Points de vue croisés\n**Anthropic (financement)**\nLa Series G vise explicitement la recherche “frontier”, le produit et l’infrastructure, signal d’une course à la capacité de calcul et à la distribution.  \n**Anthropic (produit)**\nClaude Sonnet 4.6 met l’accent sur le codage, la planification agentique et le long contexte (jusqu’à 1M tokens en bêta), donc sur des usages “workflow” plus que conversationnels.  \n**Anthropic (go-to-market)**\nPartenariats (Infosys, CodePath), MOU public (Rwanda) et implantation à Bengaluru : la diffusion devient prioritaire, notamment dans des environnements régulés.\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - Entreprises régulées (télécom, secteur public) : montée des agents “conformes” via intégrateurs (ex. Infosys).\n  - Éducation : normalisation de Claude comme outil d’apprentissage et de productivité en CS.\n- **Opportunités :**\n  - Plateformisation : contexte long + agentic planning → assistants “process-aware” (tickets, opérations, conformité).\n  - Expansion Inde : accès à un écosystème d’intégration/outsourcing pour déploiements massifs.\n- **Risques potentiels :**\n  - Coûts d’infrastructure et dépendance GPU : pression sur marges si la “token economics” ne suit pas.\n  - Sur-promesses agentiques : complexité d’orchestration/contrôle en production (qualité, sécurité, auditabilité).\n\n### Signaux faibles\n- Convergence “modèle + intégrateurs + secteurs régulés” : l’avantage compétitif se joue autant sur l’intégration que sur le modèle.\n- Le 1M tokens (bêta) suggère des architectures orientées “mémoire documentaire” et usage intensif d’outils (RAG, systèmes).\n\n### Sources\n- \"Anthropic raises $30 billion in Series G funding at $380 billion post-money valuation\" – https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation  \n- \"Introducing Claude Sonnet 4.6\" – https://www.anthropic.com/news/claude-sonnet-4-6  \n- \"Anthropic and Infosys collaborate to build AI agents...\" – https://www.anthropic.com/news/anthropic-infosys  \n- \"Anthropic opens Bengaluru office...\" – https://www.anthropic.com/news/bengaluru-office-partnerships-across-india  \n- \"Anthropic partners with CodePath...\" – https://www.anthropic.com/news/anthropic-codepath-partnership  \n- \"Anthropic and the Government of Rwanda sign MOU...\" – https://www.anthropic.com/news/anthropic-rwanda-mou  \n- \"Chris Liddell appointed to Anthropic’s board...\" – https://www.anthropic.com/news/chris-liddell-appointed-anthropic-board  \n\n---\n\n",
-          "icone": "📄"
-        },
-        {
-          "titre": "[SUJET 2/6] – OpenAI : refonte de l’expérience ChatGPT (Voice) et rotation accélérée des modèles",
-          "resume": "OpenAI met à jour ChatGPT Voice pour mieux suivre les instructions et mieux exploiter des outils (ex. recherche web). En parallèle, l’éditeur annonce le retrait de plusieurs modèles “legacy” dans ChatGPT (dont GPT‑4o et autres variantes), sans changement API immédiat. Cela confirme une gestion plus dynamique du portefeuille modèles côté produit.",
-          "resume_court": "OpenAI met à jour ChatGPT Voice pour mieux suivre les instructions et mieux exploiter des outils (ex. recherche web). En parallèle, l’éditeur annonce le retrait de plusieurs modèles “legacy” dans ChatGPT (dont GPT‑4o et autres variantes), sans changement API immédiat....",
-          "resume_complet": "OpenAI met à jour ChatGPT Voice pour mieux suivre les instructions et mieux exploiter des outils (ex. recherche web). En parallèle, l’éditeur annonce le retrait de plusieurs modèles “legacy” dans ChatGPT (dont GPT‑4o et autres variantes), sans changement API immédiat. Cela confirme une gestion plus dynamique du portefeuille modèles côté produit.",
-          "points_de_vue": [],
-          "fiabilite": [
-            "La frontière “assistant” vs “agent” se déplace vers l’interface (Voice) via un meilleur contrôle d’outils.",
-            "Dissociation ChatGPT vs API : OpenAI semble protéger l’écosystème développeurs d’une volatilité trop forte côté consumer."
-          ],
-          "sources": [
-            {
-              "titre": "\"ChatGPT Voice Update\"",
-              "url": "https://help.openai.com/en/articles/6825453-openai-privacy-policy"
-            },
-            {
-              "titre": "\"Retiring GPT-4o and other legacy models\"",
-              "url": "https://help.openai.com/en/articles/6825453-openai-privacy-policy"
-            }
-          ],
-          "contenu_complet": "\n### Résumé\nOpenAI met à jour ChatGPT Voice pour mieux suivre les instructions et mieux exploiter des outils (ex. recherche web). En parallèle, l’éditeur annonce le retrait de plusieurs modèles “legacy” dans ChatGPT (dont GPT‑4o et autres variantes), sans changement API immédiat. Cela confirme une gestion plus dynamique du portefeuille modèles côté produit.\n\n### Points de vue croisés\n**OpenAI (produit – Voice)**\nAccent sur l’exécution d’instructions et l’appel d’outils : Voice devient un “front-end agentique” plutôt qu’un simple mode vocal.  \n**OpenAI (plateforme – retrait modèles ChatGPT)**\nRotation des modèles pour réduire la fragmentation et pousser des modèles plus récents/alignés aux usages actuels, tout en limitant l’impact côté API (à court terme).\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - Utilisateurs finaux : adaptation aux changements de comportements/qualité selon le modèle par défaut.\n  - Éditeurs SaaS : incitation à tester régulièrement la régression fonctionnelle (prompts, outils, latence).\n- **Opportunités :**\n  - Voice + outils : cas d’usage mains-libres (recherche, checklists, support) plus fiables si l’orchestration progresse.\n- **Risques potentiels :**\n  - “Model churn” : stabilité perçue en baisse, besoin de contractualiser des garanties (versioning, QoS) pour l’entreprise.\n  - Observabilité : nécessité d’auditer l’usage d’outils (web) pour conformité et traçabilité.\n\n### Signaux faibles\n- La frontière “assistant” vs “agent” se déplace vers l’interface (Voice) via un meilleur contrôle d’outils.\n- Dissociation ChatGPT vs API : OpenAI semble protéger l’écosystème développeurs d’une volatilité trop forte côté consumer.\n\n### Sources\n- \"ChatGPT Voice Update\" – https://help.openai.com/en/articles/6825453-openai-privacy-policy  \n- \"Retiring GPT-4o and other legacy models\" – https://help.openai.com/en/articles/6825453-openai-privacy-policy  \n\n---\n\n",
-          "icone": "🤖"
-        },
-        {
-          "titre": "[SUJET 3/6] – Sécurité : campagnes APT dopées à l’IA et réponse “résilience” au niveau géopolitique",
-          "resume": "The Hacker News rapporte une campagne attribuée à un acteur nord-coréen (UNC1069) s’appuyant sur des leurres plus crédibles, avec usage rapporté de contenus générés par IA (ex. vidéo) pour l’ingénierie sociale contre des organisations crypto. Google, à la Munich Security Conference 2026, met en avant la “résilience” et la cybersécurité face à des menaces multi-fronts amplifiées par l’IA.",
-          "resume_court": "The Hacker News rapporte une campagne attribuée à un acteur nord-coréen (UNC1069) s’appuyant sur des leurres plus crédibles, avec usage rapporté de contenus générés par IA (ex. vidéo) pour l’ingénierie sociale contre des organisations crypto. Google, à la Munich Security...",
-          "resume_complet": "The Hacker News rapporte une campagne attribuée à un acteur nord-coréen (UNC1069) s’appuyant sur des leurres plus crédibles, avec usage rapporté de contenus générés par IA (ex. vidéo) pour l’ingénierie sociale contre des organisations crypto. Google, à la Munich Security Conference 2026, met en avant la “résilience” et la cybersécurité face à des menaces multi-fronts amplifiées par l’IA.",
-          "points_de_vue": [],
-          "fiabilite": [
-            "“Calendly/Telegram + contenu IA” devient un playbook reproductible : le vecteur meeting est une nouvelle surface d’attaque majeure.",
-            "Probable demande de standards de preuve d’identité (watermarking, attestations d’origine) mais adoption hétérogène."
-          ],
-          "sources": [
-            {
-              "titre": "\"North Korea-Linked UNC1069 Uses AI Lures...\"",
-              "url": "https://thehackernews.com/2026/02/north-korea-linked-unc1069-uses-ai.html"
-            },
-            {
-              "titre": "\"Resilience in the AI era: Google at MSC 2026\"",
-              "url": "https://blog.google/innovation-and-ai/technology/safety-security/resilience-in-the-ai-era-google-at-msc-2026/"
-            }
-          ],
-          "contenu_complet": "\n### Résumé\nThe Hacker News rapporte une campagne attribuée à un acteur nord-coréen (UNC1069) s’appuyant sur des leurres plus crédibles, avec usage rapporté de contenus générés par IA (ex. vidéo) pour l’ingénierie sociale contre des organisations crypto. Google, à la Munich Security Conference 2026, met en avant la “résilience” et la cybersécurité face à des menaces multi-fronts amplifiées par l’IA.\n\n### Points de vue croisés\n**The Hacker News (terrain offensif)**\nL’IA renforce la persuasion (leurres, rendez-vous, prétextes) et accélère la mise à l’échelle des attaques, surtout dans des secteurs à forte valeur (crypto).  \n**Google (posture défensive)**\nMise en avant d’une réponse systémique : résilience, coordination, défense dans un environnement fragmenté où les menaces IA s’industrialiseront.\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - Crypto/finance : hausse du risque d’intrusion via employés/dirigeants (deepfakes, social engineering).\n  - Entreprises : durcissement attendu des politiques d’authentification, de vérification d’identité et de procédures hors-bande.\n- **Opportunités :**\n  - Marché en hausse pour détection de fraude multimodale (voix/vidéo), contrôle des invitations et “meeting hygiene”.\n- **Risques potentiels :**\n  - Délitement de la confiance : coût opérationnel de la vérification (temps, friction) + faux positifs.\n  - Accélération des attaques : cycles plus courts, meilleure personnalisation à grande échelle.\n\n### Signaux faibles\n- “Calendly/Telegram + contenu IA” devient un playbook reproductible : le vecteur meeting est une nouvelle surface d’attaque majeure.\n- Probable demande de standards de preuve d’identité (watermarking, attestations d’origine) mais adoption hétérogène.\n\n### Sources\n- \"North Korea-Linked UNC1069 Uses AI Lures...\" – https://thehackernews.com/2026/02/north-korea-linked-unc1069-uses-ai.html  \n- \"Resilience in the AI era: Google at MSC 2026\" – https://blog.google/innovation-and-ai/technology/safety-security/resilience-in-the-ai-era-google-at-msc-2026/  \n\n---\n\n",
-          "icone": "🔒"
-        },
-        {
-          "titre": "[SUJET 4/6] – Tokenomics & infra : Blackwell/Blackwell Ultra pour rendre l’agentic AI rentable (jusqu’à 10x–35x selon annonces)",
-          "resume": "NVIDIA et l’écosystème d’inférence mettent en avant des réductions fortes du coût par token via l’optimisation open source + matériel Blackwell, et des gains additionnels avec Blackwell Ultra sur des workloads “agentic AI” (latence, tool-use, multi-appels). En parallèle, NVIDIA pousse des déploiements agents en entreprise (notamment en Inde) et des formats “on-prem” (DGX Spark) pour répondre aux contraintes de données.",
-          "resume_court": "NVIDIA et l’écosystème d’inférence mettent en avant des réductions fortes du coût par token via l’optimisation open source + matériel Blackwell, et des gains additionnels avec Blackwell Ultra sur des workloads “agentic AI” (latence, tool-use, multi-appels). En parallèle, NVIDIA pousse...",
-          "resume_complet": "NVIDIA et l’écosystème d’inférence mettent en avant des réductions fortes du coût par token via l’optimisation open source + matériel Blackwell, et des gains additionnels avec Blackwell Ultra sur des workloads “agentic AI” (latence, tool-use, multi-appels). En parallèle, NVIDIA pousse des déploiements agents en entreprise (notamment en Inde) et des formats “on-prem” (DGX Spark) pour répondre aux contraintes de données.",
-          "points_de_vue": [],
-          "fiabilite": [
-            "Les workloads “agentic” deviennent un segment matériel distinct (latence + pics de requêtes + tool-use), potentiellement nouveau standard de benchmark.",
-            "Expansion “agents en Inde” via intégrateurs : modèle de diffusion similaire aux vagues ERP/BPO."
-          ],
-          "sources": [
-            {
-              "titre": "\"Leading Inference Providers Cut AI Costs...\"",
-              "url": "https://blogs.nvidia.com/blog/inference-open-source-models-blackwell-reduce-cost-per-token/"
-            },
-            {
-              "titre": "\"SemiAnalysis InferenceX Data Shows NVIDIA Blackwell Ultra...\"",
-              "url": "https://blogs.nvidia.com/blog/data-blackwell-ultra-performance-lower-cost-agentic-ai/"
-            },
-            {
-              "titre": "\"NVIDIA DGX Spark Powers Big Projects...\"",
-              "url": "https://blogs.nvidia.com/blog/dgx-spark-higher-education/"
-            },
-            {
-              "titre": "\"India’s Global Systems Integrators Build Next Wave...\"",
-              "url": "https://blogs.nvidia.com/blog/india-enterprise-ai-agents/"
-            }
-          ],
-          "contenu_complet": "\n### Résumé\nNVIDIA et l’écosystème d’inférence mettent en avant des réductions fortes du coût par token via l’optimisation open source + matériel Blackwell, et des gains additionnels avec Blackwell Ultra sur des workloads “agentic AI” (latence, tool-use, multi-appels). En parallèle, NVIDIA pousse des déploiements agents en entreprise (notamment en Inde) et des formats “on-prem” (DGX Spark) pour répondre aux contraintes de données.\n\n### Points de vue croisés\n**NVIDIA (plateforme)**\nNarratif centré sur la performance et le coût pour l’agentic AI (faible latence, orchestration), avec références à des mesures SemiAnalysis InferenceX.  \n**Fournisseurs d’inférence (Baseten, Together, etc.)**\nFocus sur la “tokenomics” via des modèles open source et une stack optimisée : la compétitivité devient un problème d’ingénierie système.  \n**NVIDIA (go-to-market entreprise)**\nMise en avant d’intégrateurs (Inde) et d’offres enterprise pour industrialiser les agents dans le back-office et le support.\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - Fournisseurs d’inférence : consolidation probable autour de ceux capables d’optimiser (kernels, serving, batching, KV-cache, etc.).\n  - Entreprises : baisse du TCO → plus de cas d’usage “agents” rentables (support, ITSM, opérations).\n- **Opportunités :**\n  - Arbitrage build vs buy : plus d’entreprises pourront internaliser une partie de l’inférence (DGX Spark / on-prem).\n  - Modèles open source : forte traction si le coût/token devient décisif.\n- **Risques potentiels :**\n  - Dépendance à un fournisseur matériel dominant et à ses cycles de renouvellement.\n  - Mesures marketing vs réalité terrain : nécessité de benchmarks reproductibles (workloads agentiques réels).\n\n### Signaux faibles\n- Les workloads “agentic” deviennent un segment matériel distinct (latence + pics de requêtes + tool-use), potentiellement nouveau standard de benchmark.\n- Expansion “agents en Inde” via intégrateurs : modèle de diffusion similaire aux vagues ERP/BPO.\n\n### Sources\n- \"Leading Inference Providers Cut AI Costs...\" – https://blogs.nvidia.com/blog/inference-open-source-models-blackwell-reduce-cost-per-token/  \n- \"SemiAnalysis InferenceX Data Shows NVIDIA Blackwell Ultra...\" – https://blogs.nvidia.com/blog/data-blackwell-ultra-performance-lower-cost-agentic-ai/  \n- \"NVIDIA DGX Spark Powers Big Projects...\" – https://blogs.nvidia.com/blog/dgx-spark-higher-education/  \n- \"India’s Global Systems Integrators Build Next Wave...\" – https://blogs.nvidia.com/blog/india-enterprise-ai-agents/  \n\n---\n\n",
-          "icone": "📄"
-        },
-        {
-          "titre": "[SUJET 5/6] – Open-weights multimodal : Mistral accélère (LLM + STT), NVIDIA localise (japonais), l’écosystème outillage suit",
-          "resume": "Mistral publie Mistral 3 (famille multimodale/multilingue) et Voxtral Transcribe 2 (STT temps réel avec option open-weights). NVIDIA pousse un Nemotron Nano 9B spécialisé japonais, positionné “souverain” et orienté capacités agentiques. En parallèle, Hugging Face met en avant de nouveaux outils/workflows (SyGra Studio), signe d’un écosystème qui se structure autour du déploiement rapide de modèles ouverts.",
-          "resume_court": "Mistral publie Mistral 3 (famille multimodale/multilingue) et Voxtral Transcribe 2 (STT temps réel avec option open-weights). NVIDIA pousse un Nemotron Nano 9B spécialisé japonais, positionné “souverain” et orienté capacités agentiques. En parallèle, Hugging Face met en avant de nouveaux outils/workflows...",
-          "resume_complet": "Mistral publie Mistral 3 (famille multimodale/multilingue) et Voxtral Transcribe 2 (STT temps réel avec option open-weights). NVIDIA pousse un Nemotron Nano 9B spécialisé japonais, positionné “souverain” et orienté capacités agentiques. En parallèle, Hugging Face met en avant de nouveaux outils/workflows (SyGra Studio), signe d’un écosystème qui se structure autour du déploiement rapide de modèles ouverts.",
-          "points_de_vue": [],
-          "fiabilite": [
-            "“STT temps réel open-weights” abaisse fortement la barrière d’entrée pour des agents vocaux on-prem.",
-            "La “souveraineté” se matérialise via langue + déploiement + contrôle des données, pas فقط via l’origine du modèle."
-          ],
-          "sources": [
-            {
               "titre": "\"Introducing Mistral 3\"",
               "url": "https://mistral.ai/news/mistral-3"
             },
             {
-              "titre": "\"Voxtral transcribes at the speed of sound.\"",
-              "url": "https://mistral.ai/news/voxtral-transcribe-2"
-            },
-            {
-              "titre": "\"NVIDIA Nemotron 2 Nano 9B Japanese...\"",
-              "url": "https://huggingface.co/blog/nvidia/nemotron-nano-9b-v2-japanese-ja"
-            },
-            {
-              "titre": "\"Introducing SyGra Studio\"",
-              "url": "https://huggingface.co/blog/sygra-studio"
+              "titre": "\"Qwen3.5: Nobody Agrees on Attention Anymore\"",
+              "url": "https://huggingface.co/blog/mlabonne/qwen35"
             }
           ],
-          "contenu_complet": "\n### Résumé\nMistral publie Mistral 3 (famille multimodale/multilingue) et Voxtral Transcribe 2 (STT temps réel avec option open-weights). NVIDIA pousse un Nemotron Nano 9B spécialisé japonais, positionné “souverain” et orienté capacités agentiques. En parallèle, Hugging Face met en avant de nouveaux outils/workflows (SyGra Studio), signe d’un écosystème qui se structure autour du déploiement rapide de modèles ouverts.\n\n### Points de vue croisés\n**Mistral (open-weights & multimodal)**\nLicences Apache 2.0, focus performance et intégration serving (vLLM, partenaires) : stratégie d’adoption maximale.  \n**NVIDIA (modèles localisés)**\nModèle japonais + pipeline d’adaptation : la différenciation passe par la langue, les personas et des capacités agentiques sur petits modèles.  \n**Hugging Face (tooling)**\nRenforcement des workflows : l’outillage devient clé pour transformer des poids ouverts en produits.\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - Acteurs “souverains” (États, grandes entreprises) : plus de choix pour déployer en local, avec des modèles adaptés langue/domaine.\n  - Contact centers / médias : STT temps réel open-weights → réduction coûts et meilleure maîtrise des données.\n- **Opportunités :**\n  - Stack ouverte de bout en bout (LLM + voix) : assistants vocaux privés, analytics audio, conformité renforcée.\n  - Petits modèles spécialisés : latence/coût favorables pour agents embarqués.\n- **Risques potentiels :**\n  - Fragmentation : multiplication des variantes et complexité MLOps (évals, sécurité, mises à jour).\n  - Usages abusifs : modèles multimodaux + voix temps réel peuvent faciliter l’industrialisation de fraude.\n\n### Signaux faibles\n- “STT temps réel open-weights” abaisse fortement la barrière d’entrée pour des agents vocaux on-prem.\n- La “souveraineté” se matérialise via langue + déploiement + contrôle des données, pas فقط via l’origine du modèle.\n\n### Sources\n- \"Introducing Mistral 3\" – https://mistral.ai/news/mistral-3  \n- \"Voxtral transcribes at the speed of sound.\" – https://mistral.ai/news/voxtral-transcribe-2  \n- \"NVIDIA Nemotron 2 Nano 9B Japanese...\" – https://huggingface.co/blog/nvidia/nemotron-nano-9b-v2-japanese-ja  \n- \"Introducing SyGra Studio\" – https://huggingface.co/blog/sygra-studio  \n\n---\n\n",
+          "contenu_complet": "\n### Résumé\nAnthropic présente Claude Sonnet 4.6 en mettant l’accent sur code, agents et usages professionnels à grande échelle. Mistral annonce Mistral 3 (Ministral 14B/8B/3B) et Mistral Large 3 (MoE 41B actifs / 675B total) sous licence Apache 2.0, avec multimodal/multilingue et optimisations d’inférence. Côté écosystème, Qwen3.5 est décrit comme un MoE (397B total, 17B actifs) avec éléments annoncés côté API (fenêtre 1M, tool use) et des choix d’architecture d’attention “hybride”.\n\n### Points de vue croisés\n**Anthropic (closed frontier, productivité)**\nCentrée sur la performance en code/agents et l’intégration dans des workflows.  \n**Mistral (open-source, déploiement flexible)**\nLicence Apache 2.0 + formats compressés et compatibilité runtimes (vLLM/TensorRT‑LLM/SGLang) pour maximiser la réutilisation industrielle.  \n**Hugging Face (lecture écosystème Qwen)**\nMet en avant la fragmentation des choix d’attention/architectures et l’escalade des fenêtres de contexte + tool use comme différenciateurs.\n\n### Analyse & implications\n- Impacts sectoriels : DSI/plateformes ML (choix de stack), éditeurs (embeddability), et équipes data (context windows, outillage).\n- Opportunités : arbitrer “frontier closed” vs “open Apache” selon contraintes (coût, souveraineté, intégration, auditabilité).\n- Risques potentiels : comparaisons difficiles (benchmarks hétérogènes), coûts d’inférence MoE, et dette d’intégration (tool use, long context, safety).\n\n### Signaux faibles\n- L’attention “hybride” et les contextes 1M indiquent un pivot : la différenciation se joue autant sur le runtime/mémoire et le tool use que sur la qualité brute.\n- Les licences permissives (Apache 2.0) renforcent la pression concurrentielle sur les offres propriétaires dans certains segments (on-prem, régulé).\n\n### Sources\n- \"Introducing Claude Sonnet 4.6\" – https://www.anthropic.com/news/claude-sonnet-4-6\n- \"Introducing Mistral 3\" – https://mistral.ai/news/mistral-3\n- \"Qwen3.5: Nobody Agrees on Attention Anymore\" – https://huggingface.co/blog/mlabonne/qwen35\n\n---\n\n",
           "icone": "🤖"
         },
         {
-          "titre": "[SUJET 6/6] – Industrialiser des applications agentiques sur Amazon Bedrock : résilience (throttling) + architecture multi-agents “Devil’s Advocate”",
-          "resume": "AWS publie un guide détaillé pour gérer throttling et disponibilité sur Amazon Bedrock (stratégies de retry, backoff, quotas, patterns de robustesse). En parallèle, un cas d’usage multi-agents (LinqAlpha) montre comment un agent “Devil’s Advocate” peut challenger des thèses d’investissement, en s’appuyant sur Bedrock et des briques AWS (OpenSearch, Textract). Ensemble, ces contenus cadrent le passage du PoC agentique au produit robuste.",
-          "resume_court": "AWS publie un guide détaillé pour gérer throttling et disponibilité sur Amazon Bedrock (stratégies de retry, backoff, quotas, patterns de robustesse). En parallèle, un cas d’usage multi-agents (LinqAlpha) montre comment un agent “Devil’s Advocate” peut challenger des thèses d’investissement, en...",
-          "resume_complet": "AWS publie un guide détaillé pour gérer throttling et disponibilité sur Amazon Bedrock (stratégies de retry, backoff, quotas, patterns de robustesse). En parallèle, un cas d’usage multi-agents (LinqAlpha) montre comment un agent “Devil’s Advocate” peut challenger des thèses d’investissement, en s’appuyant sur Bedrock et des briques AWS (OpenSearch, Textract). Ensemble, ces contenus cadrent le passage du PoC agentique au produit robuste.",
+          "titre": "[SUJET 5/6] – Agents en production : gouvernance et évaluation (AWS) + déploiement en secteurs régulés (Anthropic/Infosys)",
+          "resume": "Anthropic et Infosys annoncent une collaboration pour développer des agents IA pour les télécoms et d’autres industries régulées, avec un accent sur intégration entreprise, gouvernance et conformité. AWS publie un retour d’expérience sur l’évaluation d’agents : workflow générique, bibliothèque de métriques, et intégration à Amazon Bedrock AgentCore Evaluations. Ensemble, ces annonces soulignent que l’obstacle principal devient la fiabilité mesurable (outils, mémoire, robustesse) plutôt que la simple capacité du modèle.",
+          "resume_court": "Anthropic et Infosys annoncent une collaboration pour développer des agents IA pour les télécoms et d’autres industries régulées, avec un accent sur intégration entreprise, gouvernance et conformité. AWS publie un retour d’expérience sur l’évaluation d’agents : workflow générique, bibliothèque de...",
+          "resume_complet": "Anthropic et Infosys annoncent une collaboration pour développer des agents IA pour les télécoms et d’autres industries régulées, avec un accent sur intégration entreprise, gouvernance et conformité. AWS publie un retour d’expérience sur l’évaluation d’agents : workflow générique, bibliothèque de métriques, et intégration à Amazon Bedrock AgentCore Evaluations. Ensemble, ces annonces soulignent que l’obstacle principal devient la fiabilité mesurable (outils, mémoire, robustesse) plutôt que la simple capacité du modèle.",
           "points_de_vue": [],
           "fiabilite": [
-            "Montée en puissance des “agents de contrôle” (Devil’s Advocate, reviewer) comme pattern d’entreprise.",
-            "La fiabilité LLM se déplace vers l’ingénierie (quotas, fallbacks, observabilité) plus que vers le prompt."
+            "L’évaluation devient un produit (pas seulement une pratique) : intégration native dans plateformes (Bedrock AgentCore) et potentiels “benchmarks internes” propriétaires.",
+            "Le terme “régulé” revient comme moteur d’industrialisation : audit, traçabilité, et politiques d’exécution outillée."
           ],
           "sources": [
             {
-              "titre": "\"Mastering Amazon Bedrock throttling and service availability...\"",
-              "url": "https://aws.amazon.com/blogs/machine-learning/mastering-amazon-bedrock-throttling-and-service-availability-a-comprehensive-guide/"
+              "titre": "\"Anthropic and Infosys collaborate to build AI agents for telecommunications and other regulated industries\"",
+              "url": "https://www.anthropic.com/news/anthropic-infosys"
             },
             {
-              "titre": "\"How LinqAlpha assesses investment theses using Devil’s Advocate on Amazon Bedrock\"",
-              "url": "https://aws.amazon.com/blogs/machine-learning/how-linqalpha-assesses-investment-theses-using-devils-advocate-on-amazon-bedrock/"
+              "titre": "\"Evaluating AI agents: Real-world lessons from building agentic systems at Amazon\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/evaluating-ai-agents-real-world-lessons-from-building-agentic-systems-at-amazon/"
             }
           ],
-          "contenu_complet": "\n### Résumé\nAWS publie un guide détaillé pour gérer throttling et disponibilité sur Amazon Bedrock (stratégies de retry, backoff, quotas, patterns de robustesse). En parallèle, un cas d’usage multi-agents (LinqAlpha) montre comment un agent “Devil’s Advocate” peut challenger des thèses d’investissement, en s’appuyant sur Bedrock et des briques AWS (OpenSearch, Textract). Ensemble, ces contenus cadrent le passage du PoC agentique au produit robuste.\n\n### Points de vue croisés\n**AWS (SRE/fiabilité)**\nLa qualité d’expérience dépend autant de la gestion d’erreurs (throttling, timeouts) que du modèle : la résilience est une feature.  \n**AWS (architecture agentique appliquée)**\nLe multi-agent peut structurer des “contre-analyses” et réduire certains biais opérationnels, mais augmente l’orchestration (états, coûts, latence).\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - Fintech/analystes : agents “critique interne” pour due diligence et réduction du risque de confirmation.\n  - Éditeurs SaaS sur LLM : nécessité de traiter quotas/erreurs comme des scénarios normaux (et non exceptions).\n- **Opportunités :**\n  - Patterns standardisables (circuit breakers, caching, fallback modèles) → accélération du time-to-prod.\n  - Multi-agents spécialisés → meilleure qualité sur tâches complexes (argumentation, revue, audit).\n- **Risques potentiels :**\n  - Explosion des coûts (multi-appels) et de la latence si la boucle agentique n’est pas maîtrisée.\n  - Risque d’illusion de robustesse : une meilleure résilience système ne corrige pas les erreurs sémantiques du modèle.\n\n### Signaux faibles\n- Montée en puissance des “agents de contrôle” (Devil’s Advocate, reviewer) comme pattern d’entreprise.\n- La fiabilité LLM se déplace vers l’ingénierie (quotas, fallbacks, observabilité) plus que vers le prompt.\n\n### Sources\n- \"Mastering Amazon Bedrock throttling and service availability...\" – https://aws.amazon.com/blogs/machine-learning/mastering-amazon-bedrock-throttling-and-service-availability-a-comprehensive-guide/  \n- \"How LinqAlpha assesses investment theses using Devil’s Advocate on Amazon Bedrock\" – https://aws.amazon.com/blogs/machine-learning/how-linqalpha-assesses-investment-theses-using-devils-advocate-on-amazon-bedrock/  \n\n---\n\n",
-          "icone": "💻"
+          "contenu_complet": "\n### Résumé\nAnthropic et Infosys annoncent une collaboration pour développer des agents IA pour les télécoms et d’autres industries régulées, avec un accent sur intégration entreprise, gouvernance et conformité. AWS publie un retour d’expérience sur l’évaluation d’agents : workflow générique, bibliothèque de métriques, et intégration à Amazon Bedrock AgentCore Evaluations. Ensemble, ces annonces soulignent que l’obstacle principal devient la fiabilité mesurable (outils, mémoire, robustesse) plutôt que la simple capacité du modèle.\n\n### Points de vue croisés\n**Anthropic + Infosys**\nAngle “déploiement régulé” : intégration SI, contrôle, conformité et adaptation métier.  \n**AWS**\nAngle “mesure & observabilité” : un cadre d’évaluation pour tester sélection d’outils, raisonnement multi-étapes, mémoire, robustesse avant mise en production.\n\n### Analyse & implications\n- Impacts sectoriels : télécoms, finance, services publics (agents orchestrant outils/process), intégrateurs (Infosys) et plateformes cloud.\n- Opportunités : standardiser des batteries de tests d’agents, contractualiser des SLA “agentiques” (taux de succès outil, stabilité, coût/latence).\n- Risques potentiels : comportements non déterministes, dérives via outils externes, attaques par prompt/tool injection, et difficulté à couvrir les cas extrêmes.\n\n### Signaux faibles\n- L’évaluation devient un produit (pas seulement une pratique) : intégration native dans plateformes (Bedrock AgentCore) et potentiels “benchmarks internes” propriétaires.\n- Le terme “régulé” revient comme moteur d’industrialisation : audit, traçabilité, et politiques d’exécution outillée.\n\n### Sources\n- \"Anthropic and Infosys collaborate to build AI agents for telecommunications and other regulated industries\" – https://www.anthropic.com/news/anthropic-infosys\n- \"Evaluating AI agents: Real-world lessons from building agentic systems at Amazon\" – https://aws.amazon.com/blogs/machine-learning/evaluating-ai-agents-real-world-lessons-from-building-agentic-systems-at-amazon/\n\n---\n\n",
+          "icone": "⚖️"
+        },
+        {
+          "titre": "[SUJET 6/6] – Fine-tuning : industrialisation cloud (SageMaker + Hugging Face) et itérations low-cost (Unsloth + HF Jobs)",
+          "resume": "AWS décrit comment scaler le fine-tuning de LLM via une intégration Hugging Face + Amazon SageMaker AI, pour rendre l’entraînement plus rationalisé et industriel (composants SageMaker, orchestration). Hugging Face met en avant un workflow gratuit avec Unsloth + Hugging Face Jobs, annonçant ~2× plus rapide et ~60% de VRAM économisée pour fine-tuner des “small LLMs”. Le message commun : démocratiser l’expérimentation tout en préparant la mise à l’échelle.",
+          "resume_court": "AWS décrit comment scaler le fine-tuning de LLM via une intégration Hugging Face + Amazon SageMaker AI, pour rendre l’entraînement plus rationalisé et industriel (composants SageMaker, orchestration). Hugging Face met en avant un workflow gratuit avec Unsloth + Hugging Face...",
+          "resume_complet": "AWS décrit comment scaler le fine-tuning de LLM via une intégration Hugging Face + Amazon SageMaker AI, pour rendre l’entraînement plus rationalisé et industriel (composants SageMaker, orchestration). Hugging Face met en avant un workflow gratuit avec Unsloth + Hugging Face Jobs, annonçant ~2× plus rapide et ~60% de VRAM économisée pour fine-tuner des “small LLMs”. Le message commun : démocratiser l’expérimentation tout en préparant la mise à l’échelle.",
+          "points_de_vue": [],
+          "fiabilite": [
+            "Le “FREE” (Jobs) et les gains VRAM marquent une bataille sur le coût marginal d’expérimentation (nouvelle unité de compétitivité).",
+            "Les intégrations cloud/outil suggèrent que le différenciateur se déplace vers l’expérience développeur (DX) et l’automatisation bout-en-bout."
+          ],
+          "sources": [
+            {
+              "titre": "\"Scale LLM fine-tuning with Hugging Face and Amazon SageMaker AI\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/scale-llm-fine-tuning-with-hugging-face-and-amazon-sagemaker-ai/"
+            },
+            {
+              "titre": "\"Train AI models with Unsloth and Hugging Face Jobs for FREE\"",
+              "url": "https://huggingface.co/blog/unsloth-jobs"
+            }
+          ],
+          "contenu_complet": "\n### Résumé\nAWS décrit comment scaler le fine-tuning de LLM via une intégration Hugging Face + Amazon SageMaker AI, pour rendre l’entraînement plus rationalisé et industriel (composants SageMaker, orchestration). Hugging Face met en avant un workflow gratuit avec Unsloth + Hugging Face Jobs, annonçant ~2× plus rapide et ~60% de VRAM économisée pour fine-tuner des “small LLMs”. Le message commun : démocratiser l’expérimentation tout en préparant la mise à l’échelle.\n\n### Points de vue croisés\n**AWS**\nPriorité à l’industrialisation : processus reproductibles, scalables, intégrés à la plateforme (ops, perf, gestion d’infra).  \n**Hugging Face**\nPriorité à la vélocité et au coût : itérations rapides sur petits modèles, efficacité mémoire, accessibilité via Jobs.\n\n### Analyse & implications\n- Impacts sectoriels : équipes ML/plateforme (MLOps), startups (itérer vite), grandes orgs (standardiser pipelines).\n- Opportunités : stratégie “small models first” (prototyper) puis montée en charge ; meilleure maîtrise coûts/VRAM ; outillage plus intégré.\n- Risques potentiels : sur-optimisation sur des petits modèles non représentatifs, dette d’évaluation (qualité/safety), et verrouillage plateforme si pipelines trop spécifiques.\n\n### Signaux faibles\n- Le “FREE” (Jobs) et les gains VRAM marquent une bataille sur le coût marginal d’expérimentation (nouvelle unité de compétitivité).\n- Les intégrations cloud/outil suggèrent que le différenciateur se déplace vers l’expérience développeur (DX) et l’automatisation bout-en-bout.\n\n### Sources\n- \"Scale LLM fine-tuning with Hugging Face and Amazon SageMaker AI\" – https://aws.amazon.com/blogs/machine-learning/scale-llm-fine-tuning-with-hugging-face-and-amazon-sagemaker-ai/\n- \"Train AI models with Unsloth and Hugging Face Jobs for FREE\" – https://huggingface.co/blog/unsloth-jobs\n\n---\n\n",
+          "icone": "📄"
         }
       ],
       "sujets_secondaires": [
         {
-          "titre": "[SUJET 6/6] – Industrialiser des applications agentiques sur Amazon Bedrock : résilience (throttling) + architecture multi-agents “Devil’s Advocate”",
-          "resume": "AWS publie un guide détaillé pour gérer throttling et disponibilité sur Amazon Bedrock (stratégies de retry, backoff, quotas, patterns de robustesse). En parallèle, un cas d’usage multi-agents (LinqAlpha) montre comment un agent “Devil’s Advocate” peut challenger des thèses d’investissement, en s’appuyant sur Bedrock et des briques AWS (OpenSearch, Textract). Ensemble, ces contenus cadrent le passage du PoC agentique au produit robuste.",
-          "resume_court": "AWS publie un guide détaillé pour gérer throttling et disponibilité sur Amazon Bedrock (stratégies de retry, backoff, quotas, patterns de robustesse). En parallèle, un cas d’usage multi-agents (LinqAlpha) montre comment un agent “Devil’s Advocate” peut challenger des thèses d’investissement, en...",
-          "resume_complet": "AWS publie un guide détaillé pour gérer throttling et disponibilité sur Amazon Bedrock (stratégies de retry, backoff, quotas, patterns de robustesse). En parallèle, un cas d’usage multi-agents (LinqAlpha) montre comment un agent “Devil’s Advocate” peut challenger des thèses d’investissement, en s’appuyant sur Bedrock et des briques AWS (OpenSearch, Textract). Ensemble, ces contenus cadrent le passage du PoC agentique au produit robuste.",
+          "titre": "[SUJET 6/6] – Fine-tuning : industrialisation cloud (SageMaker + Hugging Face) et itérations low-cost (Unsloth + HF Jobs)",
+          "resume": "AWS décrit comment scaler le fine-tuning de LLM via une intégration Hugging Face + Amazon SageMaker AI, pour rendre l’entraînement plus rationalisé et industriel (composants SageMaker, orchestration). Hugging Face met en avant un workflow gratuit avec Unsloth + Hugging Face Jobs, annonçant ~2× plus rapide et ~60% de VRAM économisée pour fine-tuner des “small LLMs”. Le message commun : démocratiser l’expérimentation tout en préparant la mise à l’échelle.",
+          "resume_court": "AWS décrit comment scaler le fine-tuning de LLM via une intégration Hugging Face + Amazon SageMaker AI, pour rendre l’entraînement plus rationalisé et industriel (composants SageMaker, orchestration). Hugging Face met en avant un workflow gratuit avec Unsloth + Hugging Face...",
+          "resume_complet": "AWS décrit comment scaler le fine-tuning de LLM via une intégration Hugging Face + Amazon SageMaker AI, pour rendre l’entraînement plus rationalisé et industriel (composants SageMaker, orchestration). Hugging Face met en avant un workflow gratuit avec Unsloth + Hugging Face Jobs, annonçant ~2× plus rapide et ~60% de VRAM économisée pour fine-tuner des “small LLMs”. Le message commun : démocratiser l’expérimentation tout en préparant la mise à l’échelle.",
           "points_de_vue": [],
           "fiabilite": [
-            "Montée en puissance des “agents de contrôle” (Devil’s Advocate, reviewer) comme pattern d’entreprise.",
-            "La fiabilité LLM se déplace vers l’ingénierie (quotas, fallbacks, observabilité) plus que vers le prompt."
+            "Le “FREE” (Jobs) et les gains VRAM marquent une bataille sur le coût marginal d’expérimentation (nouvelle unité de compétitivité).",
+            "Les intégrations cloud/outil suggèrent que le différenciateur se déplace vers l’expérience développeur (DX) et l’automatisation bout-en-bout."
           ],
           "sources": [
             {
-              "titre": "\"Mastering Amazon Bedrock throttling and service availability...\"",
-              "url": "https://aws.amazon.com/blogs/machine-learning/mastering-amazon-bedrock-throttling-and-service-availability-a-comprehensive-guide/"
+              "titre": "\"Scale LLM fine-tuning with Hugging Face and Amazon SageMaker AI\"",
+              "url": "https://aws.amazon.com/blogs/machine-learning/scale-llm-fine-tuning-with-hugging-face-and-amazon-sagemaker-ai/"
             },
             {
-              "titre": "\"How LinqAlpha assesses investment theses using Devil’s Advocate on Amazon Bedrock\"",
-              "url": "https://aws.amazon.com/blogs/machine-learning/how-linqalpha-assesses-investment-theses-using-devils-advocate-on-amazon-bedrock/"
+              "titre": "\"Train AI models with Unsloth and Hugging Face Jobs for FREE\"",
+              "url": "https://huggingface.co/blog/unsloth-jobs"
             }
           ],
-          "contenu_complet": "\n### Résumé\nAWS publie un guide détaillé pour gérer throttling et disponibilité sur Amazon Bedrock (stratégies de retry, backoff, quotas, patterns de robustesse). En parallèle, un cas d’usage multi-agents (LinqAlpha) montre comment un agent “Devil’s Advocate” peut challenger des thèses d’investissement, en s’appuyant sur Bedrock et des briques AWS (OpenSearch, Textract). Ensemble, ces contenus cadrent le passage du PoC agentique au produit robuste.\n\n### Points de vue croisés\n**AWS (SRE/fiabilité)**\nLa qualité d’expérience dépend autant de la gestion d’erreurs (throttling, timeouts) que du modèle : la résilience est une feature.  \n**AWS (architecture agentique appliquée)**\nLe multi-agent peut structurer des “contre-analyses” et réduire certains biais opérationnels, mais augmente l’orchestration (états, coûts, latence).\n\n### Analyse & implications\n- **Impacts sectoriels :**\n  - Fintech/analystes : agents “critique interne” pour due diligence et réduction du risque de confirmation.\n  - Éditeurs SaaS sur LLM : nécessité de traiter quotas/erreurs comme des scénarios normaux (et non exceptions).\n- **Opportunités :**\n  - Patterns standardisables (circuit breakers, caching, fallback modèles) → accélération du time-to-prod.\n  - Multi-agents spécialisés → meilleure qualité sur tâches complexes (argumentation, revue, audit).\n- **Risques potentiels :**\n  - Explosion des coûts (multi-appels) et de la latence si la boucle agentique n’est pas maîtrisée.\n  - Risque d’illusion de robustesse : une meilleure résilience système ne corrige pas les erreurs sémantiques du modèle.\n\n### Signaux faibles\n- Montée en puissance des “agents de contrôle” (Devil’s Advocate, reviewer) comme pattern d’entreprise.\n- La fiabilité LLM se déplace vers l’ingénierie (quotas, fallbacks, observabilité) plus que vers le prompt.\n\n### Sources\n- \"Mastering Amazon Bedrock throttling and service availability...\" – https://aws.amazon.com/blogs/machine-learning/mastering-amazon-bedrock-throttling-and-service-availability-a-comprehensive-guide/  \n- \"How LinqAlpha assesses investment theses using Devil’s Advocate on Amazon Bedrock\" – https://aws.amazon.com/blogs/machine-learning/how-linqalpha-assesses-investment-theses-using-devils-advocate-on-amazon-bedrock/  \n\n---\n\n",
-          "icone": "💻"
+          "contenu_complet": "\n### Résumé\nAWS décrit comment scaler le fine-tuning de LLM via une intégration Hugging Face + Amazon SageMaker AI, pour rendre l’entraînement plus rationalisé et industriel (composants SageMaker, orchestration). Hugging Face met en avant un workflow gratuit avec Unsloth + Hugging Face Jobs, annonçant ~2× plus rapide et ~60% de VRAM économisée pour fine-tuner des “small LLMs”. Le message commun : démocratiser l’expérimentation tout en préparant la mise à l’échelle.\n\n### Points de vue croisés\n**AWS**\nPriorité à l’industrialisation : processus reproductibles, scalables, intégrés à la plateforme (ops, perf, gestion d’infra).  \n**Hugging Face**\nPriorité à la vélocité et au coût : itérations rapides sur petits modèles, efficacité mémoire, accessibilité via Jobs.\n\n### Analyse & implications\n- Impacts sectoriels : équipes ML/plateforme (MLOps), startups (itérer vite), grandes orgs (standardiser pipelines).\n- Opportunités : stratégie “small models first” (prototyper) puis montée en charge ; meilleure maîtrise coûts/VRAM ; outillage plus intégré.\n- Risques potentiels : sur-optimisation sur des petits modèles non représentatifs, dette d’évaluation (qualité/safety), et verrouillage plateforme si pipelines trop spécifiques.\n\n### Signaux faibles\n- Le “FREE” (Jobs) et les gains VRAM marquent une bataille sur le coût marginal d’expérimentation (nouvelle unité de compétitivité).\n- Les intégrations cloud/outil suggèrent que le différenciateur se déplace vers l’expérience développeur (DX) et l’automatisation bout-en-bout.\n\n### Sources\n- \"Scale LLM fine-tuning with Hugging Face and Amazon SageMaker AI\" – https://aws.amazon.com/blogs/machine-learning/scale-llm-fine-tuning-with-hugging-face-and-amazon-sagemaker-ai/\n- \"Train AI models with Unsloth and Hugging Face Jobs for FREE\" – https://huggingface.co/blog/unsloth-jobs\n\n---\n\n",
+          "icone": "📄"
         }
       ],
       "points_cles": [
-        "L’agentic AI se “verrouille” par le triptyque modèle (capacité) + infra (coût/token) + intégration (entreprise/régulé).",
-        "Les open-weights progressent sur la multimodalité (voix) et la localisation, accélérant les déploiements souverains/on-prem.",
-        "La surface d’attaque IA (social engineering crédible) s’élargit, poussant la résilience au rang de priorité stratégique."
+        "Simplification des offres ChatGPT et montée en exigence sur fiabilité (deep research) et exécution (Voice).",
+        "Les déploiements “terrain” se structurent via partenariats publics/éducation/santé et expansion de hubs (Inde, Singapour).",
+        "L’agentique entre en phase d’industrialisation : évaluation, gouvernance, conformité (notamment secteurs régulés).",
+        "Le fine-tuning devient plus accessible (optimisations VRAM/Jobs) tout en se standardisant sur des stacks cloud intégrées."
       ],
-      "date_generation": "2026-02-18T08:07:51.112972"
+      "date_generation": "2026-02-21T07:48:08.717609"
     },
     "news": {
       "metadata": {
         "agent": "Synthèse News v3",
-        "date": "2026-02-18",
+        "date": "2026-02-21",
         "categorie": "Veille"
       },
       "titre": "Veille News – Aucune actualité disponible",
@@ -231,7 +212,7 @@
       "sujets_importants": [],
       "sujets_secondaires": [],
       "points_cles": [],
-      "date_generation": "2026-02-18T08:07:51.113013"
+      "date_generation": "2026-02-21T07:48:08.717662"
     }
   }
 }
